@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local market data
+data/market/*
+!data/market/.gitkeep
+
+# Processed/generated data
+data/processed/*
+
+# Vector database
+knowledge/vector_db/
+
+# Model files
+*.pkl
+*.joblib
+*.pt
+*.pth
+*.onnx
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
