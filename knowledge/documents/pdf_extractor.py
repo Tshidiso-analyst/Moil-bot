@@ -6,16 +6,6 @@ import fitz
 def extract_pdf_text(pdf_path: str) -> str:
     """
     Extract text from all pages of a PDF document.
-
-    Args:
-        pdf_path: Path to the PDF file.
-
-    Returns:
-        The extracted text as a single string.
-
-    Raises:
-        FileNotFoundError: If the PDF does not exist.
-        ValueError: If the supplied file is not a PDF.
     """
     path = Path(pdf_path)
 

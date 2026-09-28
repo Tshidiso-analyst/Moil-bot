@@ -1,0 +1,37 @@
+[
+  {
+    "source_id": "smc-market-structure",
+    "title": "Smart Money Concepts — Market Structure",
+    "source_type": "reference",
+    "location": "",
+    "description": "Reference material covering market structure concepts."
+  },
+  {
+    "source_id": "smc-liquidity",
+    "title": "Smart Money Concepts — Liquidity",
+    "source_type": "reference",
+    "location": "",
+    "description": "Reference material covering liquidity concepts."
+  },
+  {
+    "source_id": "smc-order-blocks",
+    "title": "Smart Money Concepts — Order Blocks",
+    "source_type": "reference",
+    "location": "",
+    "description": "Reference material covering order block concepts."
+  },
+  {
+    "source_id": "smc-fair-value-gaps",
+    "title": "Smart Money Concepts — Fair Value Gaps",
+    "source_type": "reference",
+    "location": "",
+    "description": "Reference material covering imbalance and fair value gap concepts."
+  },
+  {
+    "source_id": "risk-management",
+    "title": "Trading Risk Management",
+    "source_type": "reference",
+    "location": "",
+    "description": "Reference material covering risk, stop loss and position sizing."
+  }
+]
