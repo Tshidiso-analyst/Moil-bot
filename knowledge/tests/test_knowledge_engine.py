@@ -148,3 +148,61 @@ def test_url_reader_rejects_invalid_url():
         assert False
     except ValueError:
         assert True
+
+
+
+def test_ict_aliases_and_specific_concepts():
+    text = (
+        "BSL and SSL liquidity, a liquidity sweep, "
+        "an FVG, BOS, CHoCH, an order block, "
+        "displacement, and an OTE setup."
+    )
+
+    concepts = extract_concepts(text)
+
+    expected = {
+        "liquidity",
+        "liquidity sweep",
+        "fair value gap",
+        "break of structure",
+        "change of character",
+        "order block",
+        "displacement",
+        "optimal trade entry",
+    }
+
+    assert expected.issubset(set(concepts))
+
+
+def test_concept_extraction_is_case_insensitive():
+    concepts = extract_concepts(
+        "FAIR VALUE GAP, fair value gaps, and LIQUIDITY SWEEP."
+    )
+
+    assert "fair value gap" in concepts
+    assert "liquidity sweep" in concepts
+
+
+def test_empty_concept_text():
+    assert extract_concepts("") == []
+    assert extract_concepts(None) == []
+
+def test_bsl_ssl_aliases_map_to_liquidity():
+    concepts = extract_concepts("Price targets BSL before reaching SSL.")
+    assert "liquidity" in concepts
+
+
+def test_ordinary_abbreviations_do_not_create_false_positives():
+    concepts = extract_concepts(
+        "SL was down and TP was discussed in the meeting; OBS data was missing."
+    )
+    assert "stop loss" not in concepts
+    assert "take profit" not in concepts
+    assert "order block" not in concepts
+
+
+def test_sessions_alone_do_not_mean_kill_zone():
+    concepts = extract_concepts(
+        "The London session starts before the New York session."
+    )
+    assert "kill zone" not in concepts
