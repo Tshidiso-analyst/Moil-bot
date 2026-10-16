@@ -46,4 +46,5 @@ knowledge/vector_db/
 
 # Temporary files
 tmp/
-temp/
+knowledge/videos/innercircletrader_catalog.json
+knowledge/videos/processed_knowledge.json

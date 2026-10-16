@@ -5,7 +5,7 @@ from auth.models import Session, User
 
 
 class UserRepository:
-    """MySQL repository for Moil Bot users and sessions."""
+    """PostgreSQL repository for Moil Bot users and sessions."""
 
     def create_user(
         self,
@@ -28,6 +28,7 @@ class UserRepository:
                     password_hash
                 )
                 VALUES (%s, %s, %s, %s)
+                RETURNING id
                 """,
                 (
                     full_name,
@@ -37,7 +38,7 @@ class UserRepository:
                 ),
             )
 
-            user_id = cursor.lastrowid
+            user_id = cursor.fetchone()[0]
 
             cursor.execute(
                 """
@@ -168,6 +169,7 @@ class UserRepository:
                     expires_at
                 )
                 VALUES (%s, %s, %s)
+                RETURNING id
                 """,
                 (
                     user_id,
@@ -176,7 +178,7 @@ class UserRepository:
                 ),
             )
 
-            session_id = cursor.lastrowid
+            session_id = cursor.fetchone()[0]
             connection.commit()
 
             cursor.execute(
@@ -235,7 +237,7 @@ class UserRepository:
                     last_seen_at
                 FROM user_sessions
                 WHERE session_token_hash = %s
-                  AND expires_at > UTC_TIMESTAMP()
+                  AND expires_at > CURRENT_TIMESTAMP
                 LIMIT 1
                 """,
                 (session_token_hash,),
