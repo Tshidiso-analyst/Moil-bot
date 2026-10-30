@@ -16,6 +16,21 @@ class NotificationDelivery:
     message: str
 
 
+@dataclass(frozen=True)
+class Notification:
+    """Compatibility model for notification messages."""
+
+    title: str
+    details: str
+    channel: str = "dashboard"
+    destination: str = "dashboard"
+    message: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.message:
+            object.__setattr__(self, "message", f"{self.title}: {self.details}".strip())
+
+
 class NotificationService:
     """Simple notification service for user updates and bot status messages."""
 
@@ -109,6 +124,7 @@ notification_service = NotificationService()
 
 __all__ = [
     "ContactPreferences",
+    "Notification",
     "NotificationDelivery",
     "NotificationService",
     "notification_service",
