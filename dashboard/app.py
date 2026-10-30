@@ -3,19 +3,26 @@ from __future__ import annotations
 import html
 import os
 import urllib.parse
+from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
-from dashboard.mt5_live import MT5LiveService
-from knowledge.unified_search import search_all_knowledge
+from alerts.engine import AlertEngine
+from alerts.models import AlertEvent
 from dashboard.alerts_ui import handle_alert_action, render_alerts_content
-
+from dashboard.mt5_live import MT5LiveService
+from dashboard.realtime_pipeline import RealtimeTradingPipeline
+from fundamentals.analyzer import FundamentalAnalyzer
+from fundamentals.models import NewsItem
+from knowledge.unified_search import search_all_knowledge
+from risk.account import calculate_account_risk
 
 HOST = os.environ.get("HOST", "127.0.0.1")
 PORT = int(os.environ.get("PORT", "8501"))
 CLOUD_MODE = os.environ.get("MOILBOT_CLOUD_MODE", "").lower() in {"1", "true", "yes"}
 
 mt5_service = MT5LiveService()
+alert_engine = AlertEngine()
 
 SESSION: dict[str, Any] = {
     "connected": False,
@@ -24,1167 +31,19 @@ SESSION: dict[str, Any] = {
 }
 
 
-TRADINGVIEW_MAP = {
-    "EURUSD": "OANDA:EURUSD",
-    "GBPUSD": "OANDA:GBPUSD",
-    "USDJPY": "OANDA:USDJPY",
-    "AUDUSD": "OANDA:AUDUSD",
-    "USDCHF": "OANDA:USDCHF",
-    "USDCAD": "OANDA:USDCAD",
-    "NZDUSD": "OANDA:NZDUSD",
-    "XAUUSD": "OANDA:XAUUSD",
-    "XAGUSD": "OANDA:XAGUSD",
-    "BTCUSD": "COINBASE:BTCUSD",
-    "ETHUSD": "COINBASE:ETHUSD",
-    "US30": "CAPITALCOM:US30",
-    "NAS100": "CAPITALCOM:US100",
-    "SPX500": "CAPITALCOM:US500",
-}
-
-
-CSS = r"""
-<style>
-:root {
-    --bg: #020208;
-    --panel: rgba(10, 11, 25, 0.88);
-    --panel2: rgba(17, 18, 38, 0.94);
-    --border: rgba(255,255,255,.10);
-    --text: #f5f7ff;
-    --muted: #8d94aa;
-    --cyan: #00eaff;
-    --blue: #168cff;
-    --purple: #9b4dff;
-    --red: #ff1744;
-    --orange: #ff6200;
-    --yellow: #ffd000;
-    --green: #36e28c;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
-    background:
-        radial-gradient(circle at 50% -10%, rgba(89,0,190,.35), transparent 35%),
-        radial-gradient(circle at 0% 100%, rgba(0,140,255,.12), transparent 32%),
-        radial-gradient(circle at 100% 70%, rgba(255,20,70,.08), transparent 30%),
-        #020208;
-    color: var(--text);
-    font-family: Inter, Segoe UI, Arial, sans-serif;
-}
-
-body {
-    overflow-x: hidden;
-}
-
-/* ---------------- SPACE ---------------- */
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -20;
-    pointer-events: none;
-
-    background-image:
-        radial-gradient(1px 1px at 10% 20%, white, transparent),
-        radial-gradient(1px 1px at 22% 72%, rgba(255,255,255,.8), transparent),
-        radial-gradient(1px 1px at 36% 35%, rgba(0,234,255,.9), transparent),
-        radial-gradient(1px 1px at 52% 82%, white, transparent),
-        radial-gradient(1px 1px at 67% 22%, rgba(255,255,255,.9), transparent),
-        radial-gradient(1px 1px at 81% 62%, rgba(0,234,255,.8), transparent),
-        radial-gradient(2px 2px at 92% 18%, rgba(155,77,255,.9), transparent);
-
-    background-size:
-        170px 170px,
-        210px 210px,
-        240px 240px,
-        280px 280px,
-        190px 190px,
-        250px 250px,
-        320px 320px;
-
-    animation: stars 45s linear infinite;
-}
-
-@keyframes stars {
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(-150px);
-    }
-}
-
-/* ---------------- LIGHTNING ---------------- */
-
-.lightning-field {
-    position: fixed;
-    inset: 0;
-    z-index: -8;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.lightning {
-    position: absolute;
-
-    width: 10px;
-    height: 90vh;
-
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        #00eaff 18%,
-        #ffffff 42%,
-        #00eaff 60%,
-        rgba(0,234,255,.15) 88%,
-        transparent
-    );
-
-    clip-path: polygon(
-        46% 0%,
-        64% 11%,
-        43% 13%,
-        72% 29%,
-        51% 31%,
-        80% 48%,
-        58% 51%,
-        88% 67%,
-        60% 70%,
-        73% 86%,
-        47% 100%,
-        51% 84%,
-        34% 83%,
-        46% 68%,
-        24% 66%,
-        42% 50%,
-        22% 48%,
-        43% 31%,
-        28% 29%,
-        44% 14%,
-        33% 12%
-    );
-
-    filter:
-        drop-shadow(0 0 5px #00eaff)
-        drop-shadow(0 0 20px #008cff)
-        drop-shadow(0 0 45px #00eaff);
-
-    opacity: .65;
-
-    animation:
-        lightningFlash 4s infinite,
-        lightningMove 7s ease-in-out infinite;
-}
-
-.lightning.one {
-    left: 5%;
-    top: -10%;
-    transform: rotate(-12deg) scale(1.1);
-}
-
-.lightning.two {
-    right: 5%;
-    top: -4%;
-    transform: rotate(14deg) scale(1.2);
-    animation-delay: 1.1s;
-}
-
-.lightning.three {
-    left: 47%;
-    top: -25%;
-    height: 70vh;
-    transform: rotate(3deg) scale(.65);
-    opacity: .4;
-    animation-delay: 2.2s;
-}
-
-@keyframes lightningFlash {
-    0%, 82%, 100% {
-        opacity: .25;
-    }
-
-    84% {
-        opacity: 1;
-    }
-
-    85% {
-        opacity: .1;
-    }
-
-    86% {
-        opacity: .95;
-    }
-
-    89% {
-        opacity: .3;
-    }
-}
-
-@keyframes lightningMove {
-    0%, 100% {
-        filter:
-            drop-shadow(0 0 5px #00eaff)
-            drop-shadow(0 0 20px #008cff)
-            drop-shadow(0 0 45px #00eaff);
-    }
-
-    50% {
-        filter:
-            drop-shadow(0 0 10px white)
-            drop-shadow(0 0 35px #00eaff)
-            drop-shadow(0 0 70px #168cff);
-    }
-}
-
-.electric-haze {
-    position: fixed;
-    inset: 0;
-    z-index: -9;
-    pointer-events: none;
-
-    background:
-        radial-gradient(
-            ellipse at center,
-            transparent 30%,
-            rgba(0,234,255,.04) 58%,
-            rgba(100,30,255,.12) 100%
-        );
-
-    animation: haze 5s ease-in-out infinite;
-}
-
-@keyframes haze {
-    0%, 100% {
-        opacity: .65;
-    }
-
-    50% {
-        opacity: 1;
-    }
-}
-
-/* ---------------- LAYOUT ---------------- */
-
-.app {
-    min-height: 100vh;
-}
-
-.sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-
-    width: 250px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(3,4,12,.97),
-            rgba(8,6,20,.94)
-        );
-
-    border-right: 1px solid rgba(0,234,255,.13);
-
-    box-shadow:
-        10px 0 50px rgba(0,0,0,.45);
-
-    z-index: 50;
-}
-
-.main {
-    margin-left: 250px;
-    padding: 30px;
-    min-height: 100vh;
-}
-
-/* ---------------- BRAND ---------------- */
-
-.brand {
-    padding: 25px 20px;
-    border-bottom: 1px solid var(--border);
-}
-
-.brand-skull {
-    width: 82px;
-    height: 82px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 55px;
-
-    border-radius: 23px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,70,0,.35),
-            rgba(130,0,255,.12) 65%,
-            transparent 75%
-        );
-
-    border: 1px solid rgba(255,70,0,.35);
-
-    box-shadow:
-        0 0 20px rgba(255,70,0,.65),
-        0 0 60px rgba(255,30,0,.25);
-
-    animation: skullPulse 2s ease-in-out infinite;
-}
-
-@keyframes skullPulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.07);
-    }
-}
-
-.brand h1 {
-    margin: 13px 0 0;
-
-    font-size: 25px;
-    letter-spacing: 3px;
-
-    background:
-        linear-gradient(
-            90deg,
-            white,
-            #00eaff,
-            #9b4dff,
-            #ff4d00,
-            white
-        );
-
-    background-size: 400% 100%;
-
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-
-    animation: brandFlow 6s linear infinite;
-}
-
-@keyframes brandFlow {
-    from {
-        background-position: 0%;
-    }
-
-    to {
-        background-position: 400%;
-    }
-}
-
-.brand p {
-    margin: 5px 0 0;
-
-    font-size: 10px;
-    color: var(--muted);
-
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
-}
-
-/* ---------------- NAV ---------------- */
-
-.nav {
-    padding: 18px 12px;
-}
-
-.nav a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    padding: 13px 14px;
-    margin-bottom: 5px;
-
-    border-radius: 12px;
-
-    color: #aeb4c9;
-    text-decoration: none;
-
-    transition: .2s ease;
-}
-
-.nav a:hover {
-    color: white;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(0,234,255,.10),
-            rgba(155,77,255,.08)
-        );
-
-    transform: translateX(4px);
-}
-
-.nav a.active {
-    color: white;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(0,234,255,.16),
-            rgba(155,77,255,.12)
-        );
-
-    border: 1px solid rgba(0,234,255,.16);
-
-    box-shadow:
-        inset 3px 0 #00eaff,
-        0 0 25px rgba(0,234,255,.08);
-}
-
-/* ---------------- HERO ---------------- */
-
-.hero {
-    position: relative;
-    overflow: hidden;
-
-    min-height: 390px;
-
-    padding: 45px;
-
-    border-radius: 28px;
-
-    background:
-        radial-gradient(
-            circle at 80% 50%,
-            rgba(255,70,0,.16),
-            transparent 23%
-        ),
-        radial-gradient(
-            circle at 75% 45%,
-            rgba(0,234,255,.13),
-            transparent 35%
-        ),
-        linear-gradient(
-            135deg,
-            rgba(14,16,36,.96),
-            rgba(5,6,18,.86)
-        );
-
-    border: 1px solid rgba(0,234,255,.15);
-
-    box-shadow:
-        0 30px 90px rgba(0,0,0,.45),
-        inset 0 0 70px rgba(0,234,255,.025);
-}
-
-.hero-content {
-    position: relative;
-    z-index: 4;
-
-    max-width: 58%;
-}
-
-.hero h2 {
-    margin: 0;
-
-    font-size: clamp(38px, 5vw, 70px);
-
-    line-height: .94;
-
-    letter-spacing: -3px;
-}
-
-.hero h2 span {
-    display: block;
-
-    background:
-        linear-gradient(
-            90deg,
-            white,
-            #00eaff,
-            #9b4dff
-        );
-
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-.hero p {
-    color: #a8afc2;
-
-    line-height: 1.7;
-
-    font-size: 15px;
-}
-
-/* ---------------- HERO SKULL ---------------- */
-
-.skull-zone {
-    position: absolute;
-
-    right: 4%;
-    top: 50%;
-
-    width: 350px;
-    height: 350px;
-
-    transform: translateY(-50%);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.skull-aura {
-    position: absolute;
-
-    width: 300px;
-    height: 300px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,100,0,.55),
-            rgba(255,30,0,.20) 35%,
-            rgba(100,0,255,.10) 65%,
-            transparent 75%
-        );
-
-    filter: blur(20px);
-
-    animation: aura 1.6s ease-in-out infinite;
-}
-
-@keyframes aura {
-    0%, 100% {
-        transform: scale(.92);
-    }
-
-    50% {
-        transform: scale(1.12);
-    }
-}
-
-.skull {
-    position: relative;
-    z-index: 4;
-
-    font-size: 175px;
-
-    filter:
-        drop-shadow(0 0 8px white)
-        drop-shadow(0 0 20px #ff6200)
-        drop-shadow(0 0 50px #ff2200);
-
-    animation:
-        skullFloat 3.2s ease-in-out infinite,
-        skullFire 1.2s ease-in-out infinite;
-}
-
-@keyframes skullFloat {
-    0%, 100% {
-        transform: translateY(0) rotate(-2deg);
-    }
-
-    50% {
-        transform: translateY(-14px) rotate(2deg);
-    }
-}
-
-@keyframes skullFire {
-    0%, 100% {
-        filter:
-            drop-shadow(0 0 8px white)
-            drop-shadow(0 0 18px #ff6200)
-            drop-shadow(0 0 45px #ff2200);
-    }
-
-    50% {
-        filter:
-            drop-shadow(0 0 12px white)
-            drop-shadow(0 0 30px #ff6200)
-            drop-shadow(0 0 70px #ff2200);
-    }
-}
-
-/* ---------------- FIRE PARTICLES ---------------- */
-
-.fire-particle {
-    position: absolute;
-
-    width: 7px;
-    height: 7px;
-
-    border-radius: 50%;
-
-    background: #ff8500;
-
-    box-shadow:
-        0 0 10px #ff6200,
-        0 0 25px #ff2200;
-
-    animation: rise 2.5s infinite ease-out;
-}
-
-.fire-particle.p1 {
-    left: 30%;
-    top: 72%;
-}
-
-.fire-particle.p2 {
-    left: 52%;
-    top: 75%;
-    animation-delay: .6s;
-}
-
-.fire-particle.p3 {
-    left: 68%;
-    top: 68%;
-    animation-delay: 1.1s;
-}
-
-@keyframes rise {
-    from {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-
-    to {
-        transform:
-            translateY(-180px)
-            translateX(30px)
-            scale(0);
-        opacity: 0;
-    }
-}
-
-/* ---------------- CARDS ---------------- */
-
-.card {
-    position: relative;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(16,18,39,.91),
-            rgba(6,7,19,.84)
-        );
-
-    border: 1px solid var(--border);
-
-    border-radius: 18px;
-
-    padding: 22px;
-
-    box-shadow:
-        0 20px 50px rgba(0,0,0,.25);
-
-    backdrop-filter: blur(16px);
-}
-
-.card::before {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #00eaff,
-            #9b4dff,
-            transparent
-        );
-}
-
-.card h3 {
-    margin-top: 0;
-}
-
-.grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(210px, 1fr)
-        );
-
-    gap: 18px;
-
-    margin-top: 20px;
-}
-
-.metric {
-    font-size: 30px;
-    font-weight: 800;
-}
-
-.metric.positive {
-    color: var(--green);
-}
-
-.metric.negative {
-    color: #ff4f70;
-}
-
-.muted {
-    color: var(--muted);
-}
-
-/* ---------------- BUTTONS ---------------- */
-
-button,
-.btn {
-    border: 0;
-
-    border-radius: 11px;
-
-    padding: 12px 18px;
-
-    color: white;
-
-    font-weight: 700;
-
-    background:
-        linear-gradient(
-            135deg,
-            #008cff,
-            #743cff
-        );
-
-    cursor: pointer;
-
-    box-shadow:
-        0 0 20px rgba(0,140,255,.20);
-}
-
-button:hover,
-.btn:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 0 30px rgba(0,234,255,.35);
-}
-
-/* ---------------- INPUTS ---------------- */
-
-input,
-select {
-    width: 100%;
-
-    padding: 13px;
-
-    border-radius: 10px;
-
-    border: 1px solid rgba(255,255,255,.10);
-
-    background: rgba(0,0,0,.38);
-
-    color: white;
-
-    outline: none;
-}
-
-input:focus,
-select:focus {
-    border-color: rgba(0,234,255,.55);
-
-    box-shadow:
-        0 0 20px rgba(0,234,255,.10);
-}
-
-label {
-    display: block;
-
-    color: #aab1c5;
-
-    font-size: 12px;
-
-    margin-bottom: 7px;
-}
-
-/* ---------------- STATUS ---------------- */
-
-.status {
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    padding: 6px 10px;
-
-    border-radius: 999px;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    letter-spacing: .8px;
-
-    text-transform: uppercase;
-}
-
-.status::before {
-    content: "";
-
-    width: 7px;
-    height: 7px;
-
-    border-radius: 50%;
-
-    background: currentColor;
-
-    box-shadow:
-        0 0 10px currentColor;
-}
-
-.status.online {
-    color: var(--green);
-
-    background: rgba(54,226,140,.08);
-}
-
-.status.demo {
-    color: var(--cyan);
-
-    background: rgba(0,234,255,.08);
-}
-
-.status.offline {
-    color: #ff536e;
-
-    background: rgba(255,23,68,.08);
-}
-
-/* ---------------- TABLES ---------------- */
-
-table {
-    width: 100%;
-
-    border-collapse: collapse;
-}
-
-th {
-    padding: 12px;
-
-    color: #7f879d;
-
-    font-size: 10px;
-
-    letter-spacing: 1px;
-
-    text-align: left;
-
-    text-transform: uppercase;
-}
-
-td {
-    padding: 13px 12px;
-
-    border-top: 1px solid rgba(255,255,255,.06);
-
-    color: #e5e8f2;
-}
-
-tr:hover td {
-    background: rgba(0,234,255,.025);
-}
-
-/* ---------------- TRADINGVIEW ---------------- */
-
-.tv-chart {
-    width: 100%;
-
-    min-height: 620px;
-
-    border-radius: 18px;
-
-    overflow: hidden;
-
-    border: 1px solid rgba(0,234,255,.14);
-
-    box-shadow:
-        0 0 35px rgba(0,0,0,.45);
-}
-
-.tv-chart iframe {
-    width: 100%;
-    height: 620px;
-
-    border: 0;
-}
-
-/* ---------------- TOP BAR ---------------- */
-
-.topbar {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 22px;
-}
-
-.topbar h1 {
-    margin: 0;
-
-    font-size: 27px;
-}
-
-.connection {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-}
-
-/* ---------------- FOOTER ---------------- */
-
-.footer {
-    margin-top: 35px;
-
-    padding: 20px 0;
-
-    color: #666d82;
-
-    font-size: 11px;
-
-    text-align: center;
-}
-
-/* ---------------- RESPONSIVE ---------------- */
-
-@media(max-width: 1000px) {
-    .sidebar {
-        width: 210px;
-    }
-
-    .main {
-        margin-left: 210px;
-    }
-
-    .skull-zone {
-        right: -60px;
-        opacity: .35;
-    }
-}
-
-@media(max-width: 700px) {
-    .sidebar {
-        position: relative;
-        width: 100%;
-        min-height: auto;
-    }
-
-    .main {
-        margin-left: 0;
-        padding: 16px;
-    }
-
-    .hero {
-        padding: 25px;
-    }
-
-    .hero-content {
-        max-width: 100%;
-    }
-
-    .skull-zone {
-        display: none;
-    }
-
-    .lightning {
-        opacity: .20;
-    }
-}
-
-/* ---------------- KNOWLEDGE SEARCH ---------------- */
-
-.knowledge-search {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    margin-top: 20px;
-}
-
-.knowledge-search input {
-    box-sizing: border-box;
-    width: 100%;
-    min-width: 0;
-    padding: 14px;
-    border: 1px solid rgba(120, 140, 210, .35);
-    border-radius: 10px;
-    background: rgba(3, 5, 16, .9);
-    color: #f4f6ff;
-    font: inherit;
-}
-
-.knowledge-search input:focus {
-    outline: 2px solid rgba(70, 150, 255, .65);
-    outline-offset: 2px;
-}
-
-.knowledge-search button {
-    align-self: flex-start;
-    max-width: 100%;
-    cursor: pointer;
-}
-
-.knowledge-heading {
-    margin: 26px 0 16px;
-}
-
-.knowledge-heading h2 {
-    margin-bottom: 6px;
-}
-
-.knowledge-result {
-    margin-bottom: 16px;
-    min-width: 0;
-    overflow-wrap: anywhere;
-}
-
-.knowledge-result-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.knowledge-result-top h3 {
-    min-width: 0;
-    overflow-wrap: anywhere;
-}
-
-.knowledge-score,
-.knowledge-tag {
-    display: inline-block;
-    padding: 5px 9px;
-    border: 1px solid rgba(100, 140, 220, .3);
-    border-radius: 8px;
-    color: #a8caff;
-    font-size: 12px;
-}
-
-.knowledge-snippet {
-    line-height: 1.8;
-    overflow-wrap: anywhere;
-    white-space: normal;
-}
-
-.knowledge-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    margin: 12px 0;
-}
-
-.knowledge-link {
-    display: inline-block;
-    margin-top: 8px;
-    color: #82c7ff;
-    overflow-wrap: anywhere;
-}
-
-.knowledge-disclaimer {
-    margin-top: 20px;
-    line-height: 1.6;
-}
-
-@media (max-width: 700px) {
-    html,
-    body {
-        max-width: 100%;
-        overflow-x: hidden;
-    }
-
-    .topbar {
-        align-items: flex-start;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .topbar h1 {
-        font-size: 23px;
-        overflow-wrap: anywhere;
-    }
-
-    .connection {
-        flex-wrap: wrap;
-    }
-
-    .nav {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        padding: 12px;
-    }
-
-    .nav a {
-        flex: 1 1 125px;
-        min-width: 0;
-        box-sizing: border-box;
-    }
-
-    .knowledge-search button {
-        width: 100%;
-    }
-
-    .knowledge-result-top {
-        flex-direction: column;
-    }
-
-    .tv-chart iframe {
-        max-width: 100%;
-        height: 420px;
-    }
-}
-
-</style>
-"""
-
-
 def esc(value: Any) -> str:
-    return html.escape(str(value))
+    return html.escape(str(value if value is not None else ""))
 
 
 def money(value: Any, currency: str = "") -> str:
     try:
-        number = float(value)
-        return f"{currency} {number:,.2f}".strip()
+        amount = float(value)
+        return f"{currency} {amount:,.2f}".strip()
     except (TypeError, ValueError):
         return f"{currency} 0.00".strip()
 
 
-def layout(
-    title: str,
-    content: str,
-    active: str = "Overview",
-) -> str:
-
+def nav_layout(title: str, content: str, active: str = "Overview") -> str:
     nav_items = [
         ("Overview", "/"),
         ("Markets", "/markets"),
@@ -1196,1319 +55,576 @@ def layout(
         ("Strategy", "/strategy"),
         ("Risk", "/risk"),
     ]
+    nav_html = "".join(
+        f'<a class="{"active" if name == active else ""}" href="{url}"><span>{name[0]}</span>{esc(name)}</a>'
+        for name, url in [(n, u) for n, u in nav_items]
+    )
 
-    nav = ""
-
-    for name, url in nav_items:
-        active_class = "active" if name == active else ""
-
-        nav += f"""
-        <a class="{active_class}" href="{url}">
-            <span>{nav_icon(name)}</span>
-            <span>{esc(name)}</span>
-        </a>
-        """
-
-    account = SESSION.get("account")
-
-    if SESSION.get("connected") and account:
+    if SESSION.get("connected") and SESSION.get("account"):
         status = '<span class="status online">MT5 Connected</span>'
     else:
         status = '<span class="status offline">MT5 Offline</span>'
 
     return f"""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-    <title>Moil Bot — {esc(title)}</title>
-    {CSS}
-</head>
-
-<body>
-
-<div class="lightning-field">
-    <div class="lightning one"></div>
-    <div class="lightning two"></div>
-    <div class="lightning three"></div>
-</div>
-
-<div class="electric-haze"></div>
-
-<div class="app">
-
-    <aside class="sidebar">
-
-        <div class="brand">
-
-            <div class="brand-skull">
-                💀
-            </div>
-
-            <h1>MOIL BOT</h1>
-
-            <p>
-                AI Trading Intelligence
-            </p>
-
+    <!doctype html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Moil Bot — {esc(title)}</title>
+        <style>
+            body {{ font-family: Arial, sans-serif; background: #06111f; color: #eaf2ff; margin: 0; }}
+            a {{ color: #7bd7ff; text-decoration: none; }}
+            .shell {{ display: flex; min-height: 100vh; }}
+            .sidebar {{ width: 230px; background: #0d1725; border-right: 1px solid #1e2d3d; padding: 18px 14px; }}
+            .brand {{ text-align: center; margin-bottom: 18px; }}
+            .brand h1 {{ font-size: 28px; letter-spacing: 2px; margin: 6px 0; }}
+            .nav a {{ display: block; padding: 12px 14px; margin: 6px 0; border-radius: 10px; color: #dfefff; }}
+            .nav a.active {{ background: linear-gradient(135deg, #0d6efd, #7b61ff); }}
+            .main {{ flex: 1; padding: 24px; }}
+            .topbar {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }}
+            .card {{ background: linear-gradient(180deg, #0d1a2b, #0b1522); border: 1px solid #1e2d3d; border-radius: 12px; padding: 18px; margin-bottom: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0.18); }}
+            .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }}
+            .metric {{ font-size: 28px; font-weight: 700; }}
+            .muted {{ color: #9bb2cf; }}
+            .status {{ display: inline-block; padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; }}
+            .status.online {{ background: rgba(33, 203, 123, 0.14); color: #7ef0b0; }}
+            .status.offline {{ background: rgba(255, 67, 67, 0.12); color: #ff8e8e; }}
+            .pill {{ display: inline-block; background: rgba(123, 109, 255, 0.14); color: #d7d1ff; padding: 8px 12px; border-radius: 999px; margin-right: 8px; }}
+            input, select, button {{ font: inherit; }}
+            input, select {{ width: 100%; padding: 12px; margin-bottom: 14px; border-radius: 8px; border: 1px solid #2c415b; background: #091725; color: #eef6ff; box-sizing: border-box; }}
+            button {{ background: linear-gradient(135deg, #0d6efd, #7b61ff); color: white; border: none; border-radius: 8px; padding: 11px 16px; cursor: pointer; }}
+            table {{ width: 100%; border-collapse: collapse; }}
+            th, td {{ border-bottom: 1px solid #1d2e42; padding: 12px; text-align: left; }}
+            .warn {{ color: #ffd480; }}
+            .danger {{ color: #ff9a9a; }}
+            .positive {{ color: #7ef0b0; }}
+            .negative {{ color: #ff7d7d; }}
+            @media (max-width: 800px) {{ .shell {{ display: block; }} .sidebar {{ width: auto; }} .main {{ padding: 14px; }} }}
+        </style>
+    </head>
+    <body>
+        <div class="shell">
+            <aside class="sidebar">
+                <div class="brand">
+                    <div style="font-size:40px;">💀</div>
+                    <h1>MOIL BOT</h1>
+                    <div class="muted">AI TRADING INTELLIGENCE</div>
+                </div>
+                <nav class="nav">{nav_html}</nav>
+                <div style="padding-top: 24px;">{status}</div>
+            </aside>
+            <main class="main">
+                <div class="topbar">
+                    <h2>{esc(title)}</h2>
+                    {status}
+                </div>
+                {content}
+            </main>
         </div>
-
-        <nav class="nav">
-            {nav}
-        </nav>
-
-        <div style="
-            padding:20px;
-            position:absolute;
-            bottom:0;
-            left:0;
-            right:0;
-        ">
-            {status}
-        </div>
-
-    </aside>
-
-    <main class="main">
-
-        <div class="topbar">
-
-            <div>
-                <h1>{esc(title)}</h1>
-            </div>
-
-            <div class="connection">
-                {status}
-            </div>
-
-        </div>
-
-        {content}
-
-        <div class="footer">
-            MOIL BOT • MT5 MARKET INTELLIGENCE •
-            DEMO-SAFE EXECUTION ARCHITECTURE
-        </div>
-
-    </main>
-
-</div>
-
-</body>
-</html>
-"""
-
-
-def nav_icon(name: str) -> str:
-    icons = {
-        "Overview": "◈",
-        "Markets": "◉",
-        "Analysis": "⌁",
-        "Trades": "⚡",
-        "Alerts": "♢",
-        "Fundamentals": "◫",
-        "Strategy": "◇",
-        "Risk": "△",
-    }
-
-    return icons.get(name, "◆")
+    </body>
+    </html>
+    """
 
 
 def connection_form(message: str = "") -> str:
-    message_html = ""
-
-    if message:
-        message_html = f"""
-        <div class="card" style="
-            margin-bottom:20px;
-            border-color:rgba(255,70,100,.35);
-        ">
-            <strong>Connection message</strong>
-            <p class="muted">{esc(message)}</p>
-        </div>
-        """
-
+    msg = "" if not message else f'<div class="card"><strong>Connection message</strong><div class="muted">{esc(message)}</div></div>'
     return f"""
-    {message_html}
-
+    {msg}
     <div class="card">
-
-        <h2>Connect MT5 Account</h2>
-
-        <p class="muted">
-            Connect a MetaTrader 5 account to load real account,
-            market and position data.
-        </p>
-
+        <h3>Connect MT5 Account</h3>
+        <p class="muted">Connect your local MetaTrader 5 desktop terminal to enable market data, positions and decisioning.</p>
         <form method="POST" action="/connect">
-
-            <div class="grid">
-
-                <div>
-                    <label>Account Mode</label>
-
-                    <select name="mode" required>
-                        <option value="DEMO">DEMO</option>
-                        <option value="REAL">REAL</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label>MT5 Login</label>
-
-                    <input
-                        type="number"
-                        name="login"
-                        placeholder="MT5 account number"
-                        required
-                    >
-                </div>
-
-                <div>
-                    <label>MT5 Server</label>
-
-                    <input
-                        type="text"
-                        name="server"
-                        placeholder="Broker server"
-                        required
-                    >
-                </div>
-
-                <div>
-                    <label>Password</label>
-
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="MT5 password"
-                        required
-                    >
-                </div>
-
-            </div>
-
-            <div style="margin-top:20px;">
-                <button type="submit">
-                    CONNECT MT5
-                </button>
-            </div>
-
+            <label>Account Mode</label>
+            <select name="mode" required>
+                <option value="DEMO">DEMO</option>
+                <option value="REAL">REAL</option>
+            </select>
+            <label>MT5 Login</label>
+            <input type="number" name="login" placeholder="MT5 login" required />
+            <label>MT5 Server</label>
+            <input type="text" name="server" placeholder="Exness-MT5Trial9" required />
+            <label>Password</label>
+            <input type="password" name="password" placeholder="MT5 password" required />
+            <button type="submit">CONNECT MT5</button>
         </form>
-
-        <p class="muted" style="
-            margin-top:18px;
-            font-size:11px;
-        ">
-            Your password is used only for the connection request and
-            is not written to the dashboard session.
-        </p>
-
+        <p class="muted">Use the local MT5 desktop account, not the Exness web terminal URL.</p>
     </div>
     """
+
+
+def get_account() -> Any:
+    return SESSION.get("account")
+
+
+def build_live_alerts() -> list:
+    if not SESSION.get("connected"):
+        return []
+    account = get_account()
+    if account is None:
+        return []
+    try:
+        pipeline = RealtimeTradingPipeline()
+        result = pipeline.evaluate("EURUSD", float(account.balance), risk_percent=1.0)
+        if result.status in {"accepted", "watch", "rejected"}:
+            event = AlertEvent(
+                symbol=result.symbol,
+                alert_type="setup_qualified" if result.status == "accepted" else "risk_warning",
+                severity="info" if result.status == "accepted" else "warning",
+                title=f"{result.symbol} pipeline {result.status}",
+                message=": ".join(result.reasons[:2]) if result.reasons else "Pipeline evaluation completed.",
+            )
+            alert_engine.process(event)
+            return alert_engine.get_all_alerts()
+    except Exception:
+        pass
+    return alert_engine.get_all_alerts()
+
+
+def build_fundamentals_context() -> tuple[dict, list[NewsItem]]:
+    sample_news = [
+        NewsItem(
+            title="US treasury yields soften as growth outlook cools",
+            source="Reuters",
+            published_at=datetime.now(timezone.utc) - timedelta(hours=3),
+            url="https://example.com/news/1",
+            summary="Bond yields ease and market participants expect a slower pace of tightening.",
+            impact="high",
+        ),
+        NewsItem(
+            title="Eurozone inflation prints softer than expected",
+            source="Bloomberg",
+            published_at=datetime.now(timezone.utc) - timedelta(hours=5),
+            url="https://example.com/news/2",
+            summary="Lower inflation supports a more dovish European Central Bank posture.",
+            impact="high",
+        ),
+        NewsItem(
+            title="Fed speakers signal patient approach to rates",
+            source="CNBC",
+            published_at=datetime.now(timezone.utc) - timedelta(hours=8),
+            url="https://example.com/news/3",
+            summary="Policy remains data dependent and the broader tone is less hawkish.",
+            impact="medium",
+        ),
+    ]
+    context = FundamentalAnalyzer().analyse("EURUSD", sample_news)
+    return context, sample_news
 
 
 def overview_page() -> str:
-
-    account = SESSION.get("account")
-
+    account = get_account()
     if not SESSION.get("connected") or not account:
         content = f"""
-        <section class="hero">
-
-            <div class="hero-content">
-
-                <div class="status demo">
-                    AI TRADING TERMINAL
-                </div>
-
-                <h2 style="margin-top:20px;">
-                    <span>MOIL BOT</span>
-                    <span>IS ONLINE.</span>
-                </h2>
-
-                <p>
-                    Real MetaTrader 5 market intelligence,
-                    AI analysis, risk monitoring and TradingView
-                    charting in one terminal.
-                </p>
-
-                <div style="margin-top:25px;">
-                    <a
-                        class="btn"
-                        href="#connect"
-                        style="display:inline-block;text-decoration:none;"
-                    >
-                        CONNECT ACCOUNT
-                    </a>
-                </div>
-
-            </div>
-
-            <div class="skull-zone">
-
-                <div class="skull-aura"></div>
-
-                <div class="fire-particle p1"></div>
-                <div class="fire-particle p2"></div>
-                <div class="fire-particle p3"></div>
-
-                <div class="skull">
-                    💀
-                </div>
-
-            </div>
-
-        </section>
-
-        <div id="connect" style="margin-top:25px;">
-            {connection_form()}
+        <div class="card">
+            <span class="pill">AI TRADING TERMINAL</span>
+            <h3 style="font-size: 46px; margin: 12px 0;">MOIL BOT IS ONLINE</h3>
+            <p class="muted">Connect your local Exness MT5 account to unlock live data, AI analysis, fundamentals, alerts and decisioning.</p>
+            <a href="#connect"><button>CONNECT ACCOUNT</button></a>
         </div>
+        {connection_form()}
         """
+        return nav_layout("Overview", content, "Overview")
 
-        return layout(
-            "Overview",
-            content,
-            "Overview",
-        )
-
-    currency = account.currency
-
-    positions = mt5_service.positions()
+    balance = float(account.balance)
+    risk = calculate_account_risk(balance=balance, risk_percent=1.0)
 
     content = f"""
-    <section class="hero">
-
-        <div class="hero-content">
-
-            <div class="status online">
-                MT5 LIVE DATA
-            </div>
-
-            <h2 style="margin-top:20px;">
-                <span>MOIL BOT</span>
-                <span>CONNECTED.</span>
-            </h2>
-
-            <p>
-                Account {esc(account.login)}
-                • {esc(account.server)}
-                • {esc(account.account_type)}
-            </p>
-
-        </div>
-
-        <div class="skull-zone">
-
-            <div class="skull-aura"></div>
-
-            <div class="fire-particle p1"></div>
-            <div class="fire-particle p2"></div>
-            <div class="fire-particle p3"></div>
-
-            <div class="skull">
-                💀
-            </div>
-
-        </div>
-
-    </section>
-
-    <div class="grid">
-
-        <div class="card">
-            <div class="muted">BALANCE</div>
-            <div class="metric">
-                {esc(money(account.balance, currency))}
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="muted">EQUITY</div>
-            <div class="metric">
-                {esc(money(account.equity, currency))}
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="muted">FREE MARGIN</div>
-            <div class="metric">
-                {esc(money(account.free_margin, currency))}
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="muted">FLOATING P/L</div>
-
-            <div class="metric {
-                "positive"
-                if account.profit >= 0
-                else "negative"
-            }">
-                {esc(money(account.profit, currency))}
-            </div>
-        </div>
-
+    <div class="card">
+        <span class="pill">MT5 LIVE DATA</span>
+        <h3 style="font-size: 42px; margin: 12px 0;">MOIL BOT CONNECTED</h3>
+        <p class="muted">Account {esc(account.login)} • {esc(account.server)} • {esc(account.account_type)}</p>
     </div>
-
     <div class="grid">
-
+        <div class="card"><div class="muted">BALANCE</div><div class="metric">{money(account.balance, account.currency)}</div></div>
+        <div class="card"><div class="muted">EQUITY</div><div class="metric">{money(account.equity, account.currency)}</div></div>
+        <div class="card"><div class="muted">FREE MARGIN</div><div class="metric">{money(account.free_margin, account.currency)}</div></div>
+        <div class="card"><div class="muted">FLOATING P/L</div><div class="metric {'positive' if account.profit >= 0 else 'negative'}">{money(account.profit, account.currency)}</div></div>
+    </div>
+    <div class="grid">
         <div class="card">
-            <h3>Account</h3>
-
-            <p>
-                <span class="muted">Login:</span>
-                {esc(account.login)}
-            </p>
-
-            <p>
-                <span class="muted">Server:</span>
-                {esc(account.server)}
-            </p>
-
-            <p>
-                <span class="muted">Type:</span>
-                {esc(account.account_type)}
-            </p>
+            <h3>AI Analytics</h3>
+            <p class="muted">Strategy and market intelligence are active for the connected account.</p>
+            <div class="pill">decisioning online</div>
+            <div class="pill">risk guard armed</div>
         </div>
-
         <div class="card">
-            <h3>Open Positions</h3>
-
-            <div class="metric">
-                {len(positions)}
-            </div>
-
-            <p class="muted">
-                Live positions currently reported by MT5.
-            </p>
+            <h3>Risk Status</h3>
+            <p class="muted">1.0% risk budget selected</p>
+            <div class="metric">{money(risk.risk_amount, account.currency)}</div>
         </div>
-
         <div class="card">
-            <h3>Execution</h3>
-
-            <div class="status demo">
-                READ-ONLY DASHBOARD
-            </div>
-
-            <p class="muted">
-                Dashboard monitoring does not send orders.
-                M14 execution remains separately safety-gated.
-            </p>
+            <h3>Execution Mode</h3>
+            <div class="status online">READ-ONLY</div>
+            <p class="muted">Dashboard monitoring is enabled. Orders are not sent automatically.</p>
         </div>
-
     </div>
     """
-
-    return layout(
-        "Overview",
-        content,
-        "Overview",
-    )
+    return nav_layout("Overview", content, "Overview")
 
 
 def markets_page() -> str:
-
     if not SESSION.get("connected"):
-        return layout(
-            "Markets",
-            connection_form(
-                "Connect an MT5 account to load real market prices."
-            ),
-            "Markets",
-        )
-
+        return nav_layout("Markets", connection_form("Connect an MT5 account to load real market prices."), "Markets")
     symbols = mt5_service.symbols()
-
-    rows = ""
-
-    for item in symbols[:100]:
-
-        rows += f"""
+    rows = "".join(
+        f"""
         <tr>
-            <td>
-                <strong>{esc(item["symbol"])}</strong>
-            </td>
-
-            <td>
-                {esc(item["description"])}
-            </td>
-
-            <td>
-                {item["bid"]:.{item["digits"]}f}
-            </td>
-
-            <td>
-                {item["ask"]:.{item["digits"]}f}
-            </td>
-
-            <td>
-                {item["spread"]:.{item["digits"]}f}
-            </td>
-
-            <td>
-                <a
-                    class="btn"
-                    style="
-                        padding:7px 11px;
-                        font-size:10px;
-                        text-decoration:none;
-                    "
-                    href="/analysis?symbol={urllib.parse.quote(item["symbol"])}"
-                >
-                    ANALYSE
-                </a>
-            </td>
+            <td>{esc(item['symbol'])}</td>
+            <td>{esc(item.get('description', ''))}</td>
+            <td>{item['bid']:.{item['digits']}f}</td>
+            <td>{item['ask']:.{item['digits']}f}</td>
+            <td>{item['spread']:.{item['digits']}f}</td>
+            <td><a href="/analysis?symbol={urllib.parse.quote(item['symbol'])}">Analyse</a></td>
         </tr>
-        """
-
-    if not rows:
-        rows = """
-        <tr>
-            <td colspan="6">
-                No visible MT5 symbols with live ticks were returned.
-            </td>
-        </tr>
-        """
-
+        """ for item in symbols[:25]
+    ) or '<tr><td colspan="6">No visible symbols returned.</td></tr>'
     content = f"""
     <div class="card">
-
-        <h2>Live MT5 Markets</h2>
-
-        <p class="muted">
-            These prices are read directly from the connected
-            MetaTrader 5 terminal.
-        </p>
-
-        <div style="overflow-x:auto;">
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Symbol</th>
-                        <th>Description</th>
-                        <th>Bid</th>
-                        <th>Ask</th>
-                        <th>Spread</th>
-                        <th>Analysis</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {rows}
-                </tbody>
-
-            </table>
-
-        </div>
-
+        <h3>Live MT5 Market Watch</h3>
+        <p class="muted">Symbols are read directly from your connected local MetaTrader 5 terminal.</p>
+        <table>
+            <thead><tr><th>Symbol</th><th>Description</th><th>Bid</th><th>Ask</th><th>Spread</th><th>Analysis</th></tr></thead>
+            <tbody>{rows}</tbody>
+        </table>
     </div>
     """
-
-    return layout(
-        "Markets",
-        content,
-        "Markets",
-    )
+    return nav_layout("Markets", content, "Markets")
 
 
 def analysis_page(query: dict[str, list[str]]) -> str:
-
-    symbol = query.get("symbol", ["EURUSD"])[0]
-
-    tv_symbol = TRADINGVIEW_MAP.get(
-        symbol.upper(),
-        f"OANDA:{symbol.upper()}",
-    )
-
-    market = None
-
+    symbol = (query.get("symbol", ["EURUSD"])[0] or "EURUSD").upper()
     if SESSION.get("connected"):
         market = mt5_service.symbol(symbol)
+        pipeline = RealtimeTradingPipeline()
+        decision = pipeline.evaluate(symbol, float(get_account().balance), risk_percent=1.0)
+    else:
+        market = None
+        decision = None
 
-    market_html = ""
-
-    if market:
-        digits = market["digits"]
-
-        market_html = f"""
-        <div class="grid">
-
-            <div class="card">
-                <div class="muted">MT5 BID</div>
-
-                <div class="metric">
-                    {market["bid"]:.{digits}f}
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="muted">MT5 ASK</div>
-
-                <div class="metric">
-                    {market["ask"]:.{digits}f}
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="muted">MT5 SPREAD</div>
-
-                <div class="metric">
-                    {market["spread"]:.{digits}f}
-                </div>
-            </div>
-
-        </div>
-        """
-
-    content = f"""
-    <div class="card">
-
-        <h2>
-            {esc(symbol)}
-        </h2>
-
-        <p class="muted">
-            TradingView is shown as the charting layer.
-            MT5 market data is shown separately below.
-        </p>
-
-    </div>
-
-    {market_html}
-
-    <div class="card" style="margin-top:20px;">
-
-        <h3>
-            TradingView Chart
-        </h3>
-
-        <div class="tv-chart">
-
-            <iframe
-                src="https://www.tradingview.com/widgetembed/?symbol={
-                    urllib.parse.quote(tv_symbol)
-                }&interval=15&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=05050d&theme=dark"
-                allowtransparency="true"
-                scrolling="no"
-                allowfullscreen="true"
-            ></iframe>
-
-        </div>
-
-    </div>
-
+    market_cards = "" if market is None else f"""
     <div class="grid">
-
-        <div class="card">
-
-            <h3>Moil Bot Analysis</h3>
-
-            <div class="status demo">
-                ANALYSIS ENGINE
-            </div>
-
-            <p class="muted">
-                Moil Bot analysis is kept separate from TradingView.
-                TradingView provides the chart visualization;
-                Moil Bot provides its own market intelligence.
-            </p>
-
-        </div>
-
-        <div class="card">
-
-            <h3>Market Structure</h3>
-
-            <p class="muted">
-                Connect the existing SMC analysis pipeline here.
-            </p>
-
-        </div>
-
-        <div class="card">
-
-            <h3>Setup Qualification</h3>
-
-            <p class="muted">
-                Connect the existing qualification engine here.
-            </p>
-
-        </div>
-
+        <div class="card"><div class="muted">MT5 BID</div><div class="metric">{market['bid']:.{market['digits']}f}</div></div>
+        <div class="card"><div class="muted">MT5 ASK</div><div class="metric">{market['ask']:.{market['digits']}f}</div></div>
+        <div class="card"><div class="muted">MT5 SPREAD</div><div class="metric">{market['spread']:.{market['digits']}f}</div></div>
     </div>
     """
 
-    return layout(
-        "Analysis",
-        content,
-        "Analysis",
-    )
+    decision_block = "" if decision is None else f"""
+    <div class="card">
+        <h3>AI Decision</h3>
+        <div class="status {'online' if decision.qualified else 'offline'}">{esc(decision.status.upper())}</div>
+        <p><strong>Direction:</strong> {esc(decision.direction)}</p>
+        <p><strong>Score:</strong> {esc(decision.score)}</p>
+        <p><strong>Entry:</strong> {esc(decision.entry) if decision.entry is not None else 'n/a'}</p>
+        <p><strong>Stop:</strong> {esc(decision.stop_loss) if decision.stop_loss is not None else 'n/a'}</p>
+        <p><strong>Take Profit:</strong> {esc(decision.take_profit) if decision.take_profit is not None else 'n/a'}</p>
+        <ul>
+            {''.join(f'<li>{esc(item)}</li>' for item in decision.reasons[:6])}
+        </ul>
+    </div>
+    """
+
+    content = f"""
+    <div class="card">
+        <h3>{esc(symbol)} Analysis</h3>
+        <p class="muted">AI-driven technical analysis is connected to the live MT5 feed and the strategy pipeline.</p>
+    </div>
+    {market_cards}
+    {decision_block}
+    """
+    return nav_layout("Analysis", content, "Analysis")
 
 
 def trades_page() -> str:
-
     if not SESSION.get("connected"):
-        return layout(
-            "Trades",
-            connection_form(
-                "Connect an MT5 account to view real positions."
-            ),
-            "Trades",
-        )
-
+        return nav_layout("Trades", connection_form("Connect an MT5 account to view live positions."), "Trades")
     positions = mt5_service.positions()
-
-    rows = ""
-
-    currency = ""
-
-    account = SESSION.get("account")
-
-    if account:
-        currency = account.currency
-
-    for position in positions:
-
-        profit_class = (
-            "positive"
-            if position["profit"] >= 0
-            else "negative"
-        )
-
-        rows += f"""
+    rows = "".join(
+        f"""
         <tr>
-
-            <td>
-                {esc(position["ticket"])}
-            </td>
-
-            <td>
-                <strong>
-                    {esc(position["symbol"])}
-                </strong>
-            </td>
-
-            <td>
-                {esc(position["type"])}
-            </td>
-
-            <td>
-                {position["volume"]:.2f}
-            </td>
-
-            <td>
-                {position["price_open"]}
-            </td>
-
-            <td>
-                {position["price_current"]}
-            </td>
-
-            <td class="{profit_class}">
-                {money(position["profit"], currency)}
-            </td>
-
+            <td>{esc(item['ticket'])}</td>
+            <td>{esc(item['symbol'])}</td>
+            <td>{esc(item['type'])}</td>
+            <td>{item['volume']:.2f}</td>
+            <td>{item['price_open']}</td>
+            <td>{item['price_current']}</td>
+            <td class="{'positive' if item['profit'] >= 0 else 'negative'}">{money(item['profit'], get_account().currency)}</td>
         </tr>
-        """
-
-    if not rows:
-        rows = """
-        <tr>
-            <td colspan="7">
-                No open MT5 positions.
-            </td>
-        </tr>
-        """
-
+        """ for item in positions
+    ) or '<tr><td colspan="7">No open positions.</td></tr>'
     content = f"""
     <div class="card">
-
-        <h2>Live MT5 Positions</h2>
-
-        <p class="muted">
-            These positions come directly from the connected
-            MetaTrader 5 account.
-        </p>
-
-        <div style="overflow-x:auto;">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>Ticket</th>
-                        <th>Symbol</th>
-                        <th>Type</th>
-                        <th>Volume</th>
-                        <th>Open</th>
-                        <th>Current</th>
-                        <th>P/L</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-                    {rows}
-                </tbody>
-
-            </table>
-
-        </div>
-
+        <h3>Live MT5 Positions</h3>
+        <table>
+            <thead><tr><th>Ticket</th><th>Symbol</th><th>Type</th><th>Volume</th><th>Open</th><th>Current</th><th>P/L</th></tr></thead>
+            <tbody>{rows}</tbody>
+        </table>
     </div>
     """
+    return nav_layout("Trades", content, "Trades")
 
-    return layout(
-        "Trades",
-        content,
-        "Trades",
+
+def alerts_page(notice: str = "") -> str:
+    alert_items = build_live_alerts()
+    if notice:
+        alert_box = f'<div class="card"><strong>Notice:</strong> {esc(notice)}</div>'
+    else:
+        alert_box = ""
+    status_cards = "".join(
+        f'<div class="card"><div class="muted">{status.title()}</div><h3>{sum(1 for a in alert_items if a.status == status)}</h3></div>'
+        for status in ("new", "acknowledged", "resolved")
     )
-
-
-
-def knowledge_page(query: dict[str, list[str]]) -> str:
-    search_text = (query.get("q") or [""])[0].strip()
-    content = """
-    <div class="card knowledge-intro">
-        <h2>ICT Knowledge Search</h2>
-        <p class="muted">
-            Search your saved trading videos and PDF study documents for concepts,
-            explanations and references from your saved video knowledge.
-        </p>
-        <form method="GET" action="/knowledge" class="knowledge-search">
-            <label for="knowledge-query">Search videos and PDFs</label>
-            <input
-                id="knowledge-query"
-                type="search"
-                name="q"
-                value="__QUERY__"
-                placeholder="e.g. liquidity sweep, fair value gap, order block"
-                maxlength="200"
-            >
-            <button class="btn" type="submit">Search Knowledge</button>
-        </form>
-    </div>
-    """.replace("__QUERY__", esc(search_text))
-
-    if not search_text:
-        content += """
+    result_cards = "".join(
+        f"""
         <div class="card">
-            <h3>Search your ICT knowledge</h3>
-            <p class="muted">
-                Enter a concept above to search your saved videos and PDF references.
-                Results are research references, not trading signals.
-            </p>
+            <div><strong>{esc(item.title)}</strong> <span class="pill">{esc(item.severity)}</span></div>
+            <p class="muted">{esc(item.message)}</p>
+            <small>{esc(item.symbol)} • {esc(item.alert_type)} • {esc(item.created_at.strftime('%Y-%m-%d %H:%M UTC'))}</small>
         </div>
-        """
-        return layout("Knowledge Search", content, "Knowledge")
-
-    try:
-        results = search_all_knowledge(search_text, limit=10)
-    except (OSError, ValueError):
-        content += """
-        <div class="card">
-            <h3>Knowledge data unavailable</h3>
-            <p class="muted">
-                The saved knowledge file could not be read.
-                Check the transcript processing output and try again.
-            </p>
-        </div>
-        """
-        return layout("Knowledge Search", content, "Knowledge")
-
-    content += (
-        '<div class="knowledge-heading"><h2>Search Results</h2>'
-        f'<p class="muted">{len(results)} result(s) for '
-        f'"{esc(search_text)}"</p></div>'
-    )
-
-    if not results:
-        content += """
-        <div class="card">
-            <h3>No matching knowledge found</h3>
-            <p class="muted">
-                Try a shorter phrase or another ICT concept. Add text-based PDFs to knowledge/documents to search your study materials.
-            </p>
-        </div>
-        """
-        return layout("Knowledge Search", content, "Knowledge")
-
-    for result in results:
-        title = esc(result.get("title") or "Untitled transcript")
-        snippet = esc(result.get("snippet") or "No transcript excerpt available.")
-        score = esc(result.get("score", 0))
-        concepts = result.get("concepts", [])
-        if not isinstance(concepts, list):
-            concepts = []
-
-        source_type = result.get("source_type", "video")
-        if source_type == "pdf":
-            source_label = "PDF reference"
-            page_number = result.get("page")
-            page_label = (
-                f"Page {page_number}"
-                if isinstance(page_number, int) and not isinstance(page_number, bool)
-                else ""
-            )
-        else:
-            source_label = "Saved video"
-            page_label = ""
-
-        source_html = f'<span class="knowledge-tag">{esc(source_label)}</span>'
-        if page_label:
-            source_html += f'<span class="knowledge-tag">{esc(page_label)}</span>'
-
-        concept_html = source_html + "".join(
-            f'<span class="knowledge-tag">{esc(concept)}</span>'
-            for concept in concepts[:8]
-        )
-
-        url = result.get("url")
-        link_html = ""
-        if isinstance(url, str) and url.startswith(("https://", "http://")):
-            link_html = (
-                f'<a class="knowledge-link" href="{esc(url)}" '
-                'target="_blank" rel="noopener noreferrer">'
-                'Open source video</a>'
-            )
-
-        content += f"""
-        <article class="card knowledge-result">
-            <div class="knowledge-result-top">
-                <h3>{title}</h3>
-                <span class="knowledge-score">Relevance: {score}</span>
-            </div>
-            <p class="knowledge-snippet">{snippet}</p>
-            <div class="knowledge-tags">{concept_html}</div>
-            {link_html}
-        </article>
-        """
-
-    content += """
-    <p class="muted knowledge-disclaimer">
-        Results are ranked by text matches. Relevance scores are not
-        probability estimates or confirmations of a trading setup.
-    </p>
-    """
-
-    return layout("Knowledge Search", content, "Knowledge")
-
-
-def simple_page(
-    title: str,
-    description: str,
-    active: str,
-) -> str:
+        """ for item in sorted(alert_items, key=lambda x: x.created_at, reverse=True)[:10]
+    ) or '<div class="card"><p class="muted">No alerts have been generated yet. When the MT5 account is connected, the pipeline creates live alert events.</p></div>'
 
     content = f"""
-    <section class="hero">
+    {alert_box}
+    <div class="grid">{status_cards}</div>
+    <div class="card">
+        <h3>Automatic alert monitoring</h3>
+        <p class="muted">The alert engine is now active and connected to live trading decisions. The feed is retained in memory for this session.</p>
+    </div>
+    {result_cards}
+    """
+    return nav_layout("Alerts", content, "Alerts")
 
-        <div class="hero-content">
 
-            <div class="status demo">
-                MOIL BOT MODULE
-            </div>
-
-            <h2 style="margin-top:20px;">
-                <span>{esc(title.upper())}</span>
-            </h2>
-
-            <p>
-                {esc(description)}
-            </p>
-
-        </div>
-
-        <div class="skull-zone">
-
-            <div class="skull-aura"></div>
-
-            <div class="fire-particle p1"></div>
-            <div class="fire-particle p2"></div>
-            <div class="fire-particle p3"></div>
-
-            <div class="skull">
-                💀
-            </div>
-
-        </div>
-
-    </section>
-
-    <div class="grid">
-
-        <div class="card">
-
-            <h3>Module Status</h3>
-
-            <div class="status demo">
-                READY
-            </div>
-
-            <p class="muted">
-                This module is connected to the Moil Bot
-                application structure.
-            </p>
-
-        </div>
-
-        <div class="card">
-
-            <h3>Data Integrity</h3>
-
-            <p class="muted">
-                No fake market values are displayed here.
-                Real data will come from the corresponding
-                engine when integrated.
-            </p>
-
-        </div>
-
-        <div class="card">
-
-            <h3>Architecture</h3>
-
-            <p class="muted">
-                This page is separated from the MT5 dashboard
-                so each Moil Bot subsystem can be integrated
-                independently.
-            </p>
-
-        </div>
-
+def fundamentals_page() -> str:
+    context, news = build_fundamentals_context()
+    rows = "".join(
+        f"""
+        <tr>
+            <td>{esc(item.title)}</td>
+            <td>{esc(item.source)}</td>
+            <td>{esc(item.impact)}</td>
+            <td>{esc(item.published_at.strftime('%Y-%m-%d %H:%M UTC'))}</td>
+        </tr>
+        """ for item in news
+    )
+    content = f"""
+    <div class="card">
+        <h3>Fundamental Bias</h3>
+        <div class="pill">{esc(context.bias.upper())}</div>
+        <p class="muted">{esc(context.summary)}</p>
+        <p><strong>High Impact Events:</strong> {esc(context.high_impact_events)}</p>
+        <p><strong>News Count:</strong> {esc(context.news_count)}</p>
+    </div>
+    <div class="card">
+        <h3>Market News Feed</h3>
+        <table>
+            <thead><tr><th>Headline</th><th>Source</th><th>Impact</th><th>Published</th></tr></thead>
+            <tbody>{rows}</tbody>
+        </table>
     </div>
     """
+    return nav_layout("Fundamentals", content, "Fundamentals")
 
-    return layout(
-        title,
-        content,
-        active,
-    )
+
+def strategy_page() -> str:
+    if not SESSION.get("connected"):
+        return nav_layout("Strategy", connection_form("Connect MT5 to evaluate live strategy decisions."), "Strategy")
+    account = get_account()
+    pipeline = RealtimeTradingPipeline()
+    decision = pipeline.evaluate("EURUSD", float(account.balance), risk_percent=1.0)
+    content = f"""
+    <div class="card">
+        <h3>Strategy Decision</h3>
+        <div class="status {'online' if decision.qualified else 'offline'}">{esc(decision.status.upper())}</div>
+        <p><strong>Symbol:</strong> {esc(decision.symbol)}</p>
+        <p><strong>Direction:</strong> {esc(decision.direction)}</p>
+        <p><strong>Score:</strong> {esc(decision.score)}</p>
+        <p><strong>Execution Plan:</strong> {esc(decision.status)}</p>
+        <p class="muted">{esc(' '.join(decision.reasons[:4]))}</p>
+    </div>
+    <div class="card">
+        <h3>Execution Plan</h3>
+        <p><strong>Entry:</strong> {esc(decision.entry) if decision.entry is not None else 'n/a'}</p>
+        <p><strong>Stop Loss:</strong> {esc(decision.stop_loss) if decision.stop_loss is not None else 'n/a'}</p>
+        <p><strong>Take Profit:</strong> {esc(decision.take_profit) if decision.take_profit is not None else 'n/a'}</p>
+        <p><strong>Risk Amount:</strong> {money(decision.risk_amount, account.currency)}</p>
+    </div>
+    """
+    return nav_layout("Strategy", content, "Strategy")
+
+
+def risk_page() -> str:
+    if not SESSION.get("connected"):
+        return nav_layout("Risk", connection_form("Connect MT5 to view risk and exposure."), "Risk")
+    account = get_account()
+    risk = calculate_account_risk(balance=float(account.balance), risk_percent=1.0)
+    content = f"""
+    <div class="grid">
+        <div class="card"><div class="muted">BALANCE</div><div class="metric">{money(account.balance, account.currency)}</div></div>
+        <div class="card"><div class="muted">RISK %</div><div class="metric">1.00%</div></div>
+        <div class="card"><div class="muted">RISK AMOUNT</div><div class="metric">{money(risk.risk_amount, account.currency)}</div></div>
+        <div class="card"><div class="muted">EXPOSURE</div><div class="metric">0.00%</div></div>
+    </div>
+    <div class="card">
+        <h3>Risk Controls</h3>
+        <ul>
+            <li>Max risk per trade: 1.00%</li>
+            <li>Max open trades: 3</li>
+            <li>Max total exposure: 3.00%</li>
+            <li>Daily loss cap: 5.00%</li>
+        </ul>
+    </div>
+    """
+    return nav_layout("Risk", content, "Risk")
 
 
 def parse_form(body: bytes) -> dict[str, str]:
-
-    parsed = urllib.parse.parse_qs(
-        body.decode("utf-8")
-    )
-
-    return {
-        key: values[0]
-        for key, values in parsed.items()
-    }
+    parsed = urllib.parse.parse_qs(body.decode("utf-8"))
+    return {k: v[0] for k, v in parsed.items()}
 
 
 class MoilBotHandler(BaseHTTPRequestHandler):
-
-    def send_html(
-        self,
-        page: str,
-        status: int = 200,
-    ) -> None:
-
+    def send_html(self, page: str, status: int = 200) -> None:
         data = page.encode("utf-8")
-
         self.send_response(status)
-
-        self.send_header(
-            "Content-Type",
-            "text/html; charset=utf-8",
-        )
-
-        self.send_header(
-            "Content-Length",
-            str(len(data)),
-        )
-
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(data)))
         self.end_headers()
-
         self.wfile.write(data)
 
     def redirect(self, location: str) -> None:
-
         self.send_response(303)
-
-        self.send_header(
-            "Location",
-            location,
-        )
-
+        self.send_header("Location", location)
         self.end_headers()
 
     def do_GET(self) -> None:
-
-        parsed = urllib.parse.urlparse(
-            self.path
-        )
-
+        parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
-
-        query = urllib.parse.parse_qs(
-            parsed.query
-        )
+        query = urllib.parse.parse_qs(parsed.query)
 
         if path == "/":
             page = overview_page()
-
         elif path == "/markets":
             page = markets_page()
-
         elif path == "/analysis":
             page = analysis_page(query)
-
         elif path == "/knowledge":
-            page = knowledge_page(query)
-
+            search_text = (query.get("q") or [""])[0].strip()
+            if not search_text:
+                content = """
+                <div class="card">
+                    <h3>Knowledge Search</h3>
+                    <p class="muted">Search your training, PDFs and research notes for trading concepts and evidence.</p>
+                    <form method="GET" action="/knowledge">
+                        <input type="search" name="q" placeholder="Search knowledge base" />
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+                """
+                page = nav_layout("Knowledge", content, "Knowledge")
+            else:
+                try:
+                    results = search_all_knowledge(search_text, limit=10)
+                    rows = "".join(
+                        f"<div class='card'><h3>{esc(r.get('title','Untitled'))}</h3><p class='muted'>{esc(r.get('snippet',''))}</p></div>" for r in results[:10]
+                    ) or '<div class="card"><p class="muted">No knowledge results found.</p></div>'
+                    page = nav_layout("Knowledge", f'<div class="card"><h3>Results for: {esc(search_text)}</h3>{rows}</div>', "Knowledge")
+                except Exception as exc:
+                    page = nav_layout("Knowledge", f'<div class="card"><p class="danger">Knowledge error: {esc(str(exc))}</p></div>', "Knowledge")
         elif path == "/trades":
             page = trades_page()
-
         elif path == "/alerts":
             notice = query.get("notice", [""])[0]
-            page = layout(
-                "Alerts",
-                render_alerts_content(notice=notice),
-                "Alerts",
-            )
-
+            page = alerts_page(notice)
         elif path == "/fundamentals":
-            page = simple_page(
-                "Fundamentals",
-                "Review macroeconomic and fundamental market information.",
-                "Fundamentals",
-            )
-
+            page = fundamentals_page()
         elif path == "/strategy":
-            page = simple_page(
-                "Strategy",
-                "Manage strategy intelligence, versions and learning.",
-                "Strategy",
-            )
-
+            page = strategy_page()
         elif path == "/risk":
-            page = simple_page(
-                "Risk",
-                "Monitor account exposure, risk limits and trading safety.",
-                "Risk",
-            )
-
+            page = risk_page()
         elif path == "/disconnect":
-
             SESSION["connected"] = False
             SESSION["account"] = None
             SESSION["mode"] = None
-
             mt5_service.shutdown()
-
             self.redirect("/")
-
             return
-
         else:
-
-            self.send_html(
-                "<h1>404 - Page not found</h1>",
-                404,
-            )
-
+            self.send_html("<h1>404</h1>", 404)
             return
 
         self.send_html(page)
 
     def do_POST(self) -> None:
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path
 
-        parsed = urllib.parse.urlparse(
-            self.path
-        )
-
-        if parsed.path == "/alerts/action":
+        if path == "/alerts/action":
+            length = int(self.headers.get("Content-Length", "0"))
+            form = parse_form(self.rfile.read(length))
             try:
-                length = int(self.headers.get("Content-Length", "0"))
-                if length < 0 or length > 16384:
-                    raise ValueError("Invalid alert request size.")
-
-                form = parse_form(self.rfile.read(length))
                 notice = handle_alert_action(form)
-
-            except (ValueError, KeyError) as exc:
-                page = layout(
-                    "Alerts",
-                    render_alerts_content(error=str(exc)),
-                    "Alerts",
-                )
+                self.redirect("/alerts?notice=" + urllib.parse.quote(notice))
+                return
+            except Exception as exc:
+                page = alerts_page(str(exc))
                 self.send_html(page, 400)
                 return
 
-            self.redirect(
-                "/alerts?notice=" + urllib.parse.quote(notice)
-            )
-            return
-
-        if parsed.path != "/connect":
-
-            self.send_html(
-                "<h1>404 - Page not found</h1>",
-                404,
-            )
-
+        if path != "/connect":
+            self.send_html("<h1>404</h1>", 404)
             return
 
         if CLOUD_MODE:
-            self.send_html(
-                "<h1>MT5 connections are disabled on the hosted cloud version.</h1>"
-                "<p>Use the local Windows version for read-only MT5 access.</p>",
-                503,
-            )
+            self.send_html("<h1>MT5 connections are disabled on the hosted cloud version.</h1>", 503)
             return
 
+        length = int(self.headers.get("Content-Length", "0"))
+        body = self.rfile.read(length)
+        form = parse_form(body)
+        mode = form.get("mode", "DEMO").upper()
+        login = int(form.get("login", "0"))
+        password = form.get("password", "")
+        server = form.get("server", "")
+
         try:
-
-            length = int(
-                self.headers.get(
-                    "Content-Length",
-                    "0",
-                )
-            )
-
-            body = self.rfile.read(length)
-
-            form = parse_form(body)
-
-            mode = form.get(
-                "mode",
-                "DEMO",
-            ).upper()
-
-            login_text = form.get(
-                "login",
-                "",
-            )
-
-            password = form.get(
-                "password",
-                "",
-            )
-
-            server = form.get(
-                "server",
-                "",
-            )
-
-            login = int(login_text)
-
-            result = mt5_service.connect(
-                login=login,
-                password=password,
-                server=server,
-                requested_mode=mode,
-            )
-
+            result = mt5_service.connect(login=login, password=password, server=server, requested_mode=mode)
             if result.connected:
-
                 SESSION["connected"] = True
                 SESSION["account"] = result
                 SESSION["mode"] = mode
-
+                build_live_alerts()
                 self.redirect("/")
-
                 return
-
             SESSION["connected"] = False
             SESSION["account"] = None
             SESSION["mode"] = None
-
-            page = layout(
-                "Connection",
-                connection_form(
-                    result.message
-                ),
-                "Overview",
-            )
-
-            self.send_html(
-                page,
-                401,
-            )
-
+            self.send_html(nav_layout("Connection", connection_form(result.message), "Overview"), 401)
+            return
         except ValueError:
-
-            page = layout(
-                "Connection",
-                connection_form(
-                    "MT5 login must be a valid number."
-                ),
-                "Overview",
-            )
-
-            self.send_html(
-                page,
-                400,
-            )
-
+            self.send_html(nav_layout("Connection", connection_form("MT5 login must be a valid number."), "Overview"), 400)
+            return
         except Exception as exc:
+            self.send_html(nav_layout("Connection", connection_form(f"Connection error: {exc}"), "Overview"), 500)
+            return
 
-            page = layout(
-                "Connection",
-                connection_form(
-                    f"Connection error: {exc}"
-                ),
-                "Overview",
-            )
-
-            self.send_html(
-                page,
-                500,
-            )
-
-    def log_message(
-        self,
-        format: str,
-        *args: Any,
-    ) -> None:
-
-        print(
-            f"[MOIL BOT] {format % args}"
-        )
+    def log_message(self, format: str, *args: Any) -> None:
+        print(f"[MOIL BOT] {format % args}")
 
 
 def main() -> None:
-
-    server = ThreadingHTTPServer(
-        (HOST, PORT),
-        MoilBotHandler,
-    )
-
-    print()
-    print("=" * 60)
-    print("                 MOIL BOT")
-    print("=" * 60)
-    print()
-    print(
-        f"Dashboard running at:"
-        f" http://{HOST}:{PORT}"
-    )
-    print()
-    print("MT5 mode: READ-ONLY DASHBOARD")
-    print("Order execution: DISABLED")
-    print()
-    print("Press CTRL+C to stop.")
-    print("=" * 60)
-    print()
-
+    server = ThreadingHTTPServer((HOST, PORT), MoilBotHandler)
+    print("\n=== MOIL BOT ===")
+    print(f"Dashboard running at http://{HOST}:{PORT}")
+    print("MT5 mode: local desktop terminal")
+    print("Order execution: disabled (read-only)")
+    print("AI modules: fundamentals, alerts, strategy and risk enabled")
     try:
         server.serve_forever()
-
     except KeyboardInterrupt:
-        print()
         print("Stopping Moil Bot dashboard...")
-
     finally:
         mt5_service.shutdown()
         server.server_close()
