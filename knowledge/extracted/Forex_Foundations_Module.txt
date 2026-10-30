@@ -1,0 +1,1925 @@
+--- Page 1 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 1 
+FOREX MARKET ANALYSIS 
+Complete Study Program 
+ 
+MODULE 1 
+Forex Foundations 
+Beginner Level  |  All Instruments  |  Study Notes + Exercises + Quiz 
+Forex Majors 
+Minors & Exotics 
+Commodities 
+Sessions & Pips 
+ 
+Topics Covered in This Module 
+What is Forex  •  Market Participants  •  Trading Sessions  •  Currency Pairs 
+Commodities (XAU, XAG, USOIL, Copper)  •  Pips & Lots  •  Leverage & Margin 
+Spread, Swap & Commission  •  Order Types  •  Sample Trade Setup  •  Checklist  •  Quiz
+
+--- Page 2 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 2 
+Table of Contents 
+Table of Contents ....................................................................................................................... 2 
+1. What Is the Forex Market? ..................................................................................................... 4 
+1.1  Why Trade Forex? ........................................................................................................... 4 
+1.2  Forex vs. Other Markets .................................................................................................. 4 
+2. Market Participants ................................................................................................................ 5 
+2.1  Participant Hierarchy ....................................................................................................... 5 
+2.2  Central Banks: The Most Powerful Players ...................................................................... 5 
+3. Global Trading Sessions ........................................................................................................ 7 
+3.1  Session Overview ............................................................................................................ 7 
+3.2  Session Overlaps: Peak Liquidity Windows ..................................................................... 7 
+3.3  Session Characteristics by Asset ..................................................................................... 8 
+4. Currency Pairs ....................................................................................................................... 9 
+4.1  Major Pairs ...................................................................................................................... 9 
+4.2  Minor Pairs (Cross Pairs) ................................................................................................10 
+4.3  Exotic Pairs ....................................................................................................................11 
+5. USD-Denominated Commodities ..........................................................................................13 
+5.1  Gold: XAU/USD ..............................................................................................................13 
+5.2  Silver: XAG/USD ............................................................................................................14 
+5.3  WTI Crude Oil: USOIL ....................................................................................................15 
+5.4  Copper: HG/USD (XCU/USD) .........................................................................................15 
+5.5  Commodity Correlations Summary .................................................................................16 
+6. Pips, Lots, Leverage & Margin ..............................................................................................17 
+6.1  What Is a Pip? ................................................................................................................17 
+6.2  Lot Sizes .........................................................................................................................17 
+6.3  Leverage & Margin .........................................................................................................18 
+6.4  Margin Terminology ........................................................................................................19 
+7. Trading Costs: Spread, Swap & Commission ........................................................................20 
+7.1  The Spread .....................................................................................................................20 
+7.2  The Swap (Overnight Financing / Rollover) ....................................................................20 
+7.3  Commission ....................................................................................................................21 
+8. Order Types ..........................................................................................................................22 
+9. Sample Trade Setup: EUR/USD Long...................................................................................23 
+10. Pre-Trade Checklist ............................................................................................................25 
+11. Practice Exercises ...............................................................................................................26 
+Exercise 1: Identify the Pair ...................................................................................................26
+
+--- Page 3 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 3 
+Exercise 2: Pip Value Calculations ........................................................................................26 
+Exercise 3: Session Matching ................................................................................................26 
+Exercise 4: Trade Documentation ..........................................................................................27 
+12. Module 1 Quiz: 15 Questions ..............................................................................................28 
+Quiz Answer Key ......................................................................................................................31
+
+--- Page 4 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 4 
+  SECTION 1    What Is Forex? 
+1. What Is the Forex Market? 
+ 
+The Foreign Exchange market, commonly called Forex or FX, is the world's largest and most 
+liquid financial market. It operates as a decentralised, over-the-counter (OTC) market where 
+currencies are bought and sold against one another. Unlike stock exchanges, there is no single 
+physical location; trading occurs electronically across a global network of banks, brokers, 
+institutions, and individual traders. 
+ 
+KEY FACT: Info 
+Daily Forex turnover exceeds $7.5 trillion USD (BIS Triennial Survey, 2022). 
+The Forex market operates 24 hours a day, 5 days a week, from Sunday 5:00 PM EST (Sydney open) 
+to Friday 5:00 PM EST (New York close). 
+No central exchange: all transactions occur between parties directly (OTC). 
+ 
+1.1  Why Trade Forex? 
+• 
+Highest liquidity of any market: tight spreads, fast execution 
+• 
+24-hour market gives flexibility to traders across all time zones 
+• 
+Low barriers to entry: micro accounts and fractional lot sizes available 
+• 
+Opportunities in both rising and falling markets (long and short) 
+• 
+Leverage allows controlling large positions with smaller capital 
+• 
+Exposure to global macro events: interest rates, GDP, geopolitics 
+ 
+1.2  Forex vs. Other Markets 
+Feature 
+Forex 
+Stocks 
+Futures 
+Crypto 
+Trading Hours 
+24h/5d 
+Exchange hrs 
+Exchange hrs 
+24/7 
+Liquidity 
+Extremely High 
+High 
+Moderate 
+Variable 
+Leverage (typical) 
+Up to 500:1 
+(offshore); 1:30 
+regulated 
+(EU/UK/AU) 
+Up to 2:1 
+Up to 20:1 
+Up to 100:1 
+Commission 
+Spread-based 
+Per trade 
+Per contract 
+Spread-based 
+Central Exchange 
+No (OTC) 
+Yes 
+Yes 
+No (mostly) 
+Volatility 
+Moderate 
+Moderate 
+Moderate-High 
+Very High
+
+--- Page 5 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 5 
+  SECTION 2    Market Participants 
+2. Market Participants 
+ 
+The Forex market is not a level playing field; participants range from global central banks 
+moving billions of dollars to retail traders executing micro-lots. Understanding who trades, why 
+they trade, and how they influence price is foundational to becoming a better trader. 
+ 
+2.1  Participant Hierarchy 
+Tier 
+Participant 
+Volume Share 
+Primary Purpose 
+Tier 1 
+Central Banks (Fed, 
+ECB, BoJ, BoE) 
+~20% 
+Monetary policy, FX reserves, 
+currency intervention 
+Tier 1 
+Commercial Banks (JP 
+Morgan, Citi, Deutsche) 
+~40% 
+Interbank dealing, client orders, 
+proprietary trading 
+Tier 2 
+Hedge Funds & 
+Institutional Investors 
+~15% 
+Speculation, carry trades, macro 
+positioning 
+Tier 2 
+Multinational 
+Corporations 
+~10% 
+Hedging FX risk on international 
+revenues 
+Tier 3 
+Retail Brokers & Market 
+Makers 
+~5% 
+Provide access to retail traders, 
+earn spread 
+Tier 4 
+Retail Traders (You) 
+~5% 
+Speculation, income, portfolio 
+diversification 
+ 
+CAUTION: Gold 
+Retail traders operate at the bottom of the liquidity pyramid. The largest participants (banks, hedge 
+funds) have information advantages, faster execution, and can influence price direction. 
+As a retail trader, your edge must come from discipline, strategy, and risk management, not speed or 
+information. 
+ 
+2.2  Central Banks: The Most Powerful Players 
+Central banks are the most powerful force in Forex. Their decisions on interest rates, 
+quantitative easing, and direct market intervention can move currency pairs by hundreds of pips 
+in seconds. Key central banks to monitor:
+
+--- Page 6 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 6 
+Central Bank 
+Country / Zone 
+Currency 
+Key Policy Tool 
+Federal Reserve 
+(Fed) 
+United States 
+USD 
+Federal Funds Rate, FOMC Meetings, 
+Dot Plot 
+European Central 
+Bank (ECB) 
+Eurozone 
+EUR 
+Main Refinancing Rate, PEPP, Press 
+Conferences 
+Bank of England 
+(BoE) 
+United Kingdom 
+GBP 
+Bank Rate, MPC Minutes, Inflation Report 
+Bank of Japan (BoJ) 
+Japan 
+JPY 
+YCC (Yield Curve Control), Negative 
+Rates 
+Swiss National Bank 
+(SNB) 
+Switzerland 
+CHF 
+Policy Rate, FX Interventions 
+Reserve Bank of 
+Australia (RBA) 
+Australia 
+AUD 
+Cash Rate Target, Quarterly Statement 
+Bank of Canada 
+(BoC) 
+Canada 
+CAD 
+Overnight Rate, MPR (Monetary Policy 
+Report) 
+Reserve Bank of New 
+Zealand (RBNZ) 
+New Zealand 
+NZD 
+OCR (Official Cash Rate), MPS
+
+--- Page 7 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 7 
+  SECTION 3    Trading Sessions 
+3. Global Trading Sessions 
+ 
+The Forex market is divided into four major trading sessions, each associated with a major 
+financial hub. Each session has distinct characteristics in terms of liquidity, volatility, and the 
+instruments that are most active. Understanding sessions is critical for timing entries and exits 
+effectively. 
+ 
+3.1  Session Overview 
+Session 
+Open (UTC) 
+Close (UTC) 
+Open (EST) 
+Most Active Pairs 
+Sydney 
+22:00 Sun 
+07:00 Mon 
+5 PM Sun 
+AUD/USD, NZD/USD, 
+USD/JPY, AUD/JPY 
+Tokyo 
+00:00 
+09:00 
+7 PM 
+USD/JPY, EUR/JPY, 
+GBP/JPY, AUD/JPY 
+London 
+08:00 
+17:00 
+3 AM 
+EUR/USD, GBP/USD, 
+EUR/GBP, USD/CHF 
+New York 
+13:00 
+22:00 
+8 AM 
+EUR/USD, GBP/USD, 
+USD/CAD, USD/MXN 
+ 
+NOTE: Info 
+Times shift by 1 hour during daylight saving time (DST) adjustments in the US and Europe, which do 
+not always coincide. 
+Most brokers display charts in their server time, always know your broker's UTC offset. 
+ 
+3.2  Session Overlaps: Peak Liquidity Windows 
+Overlap periods combine the liquidity and volume of two sessions simultaneously, producing the 
+highest volatility and tightest spreads of the trading day. 
+ 
+Overlap 
+UTC Window 
+EST Window 
+Characteristics 
+Tokyo / London 
+08:00 – 09:00 
+3 AM – 4 AM 
+Moderate volume, EUR/JPY often 
+active, signals London intent 
+London / New York 
+13:00 – 17:00 
+8 AM – 12 PM 
+HIGHEST volume of day, tightest 
+spreads, major breakouts occur here 
+Sydney / Tokyo 
+00:00 – 02:00 
+7 PM – 9 PM 
+Lower overall volume, AUD and NZD 
+pairs most active
+
+--- Page 8 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 8 
+BEST PRACTICE: Green 
+The London/New York overlap (8 AM – 12 PM EST) is considered the Golden Window for day traders. 
+Approximately 70% of daily Forex volume occurs during the combined London and New York 
+sessions. 
+For swing traders, session opens often produce false breakouts before the true directional move. Wait 
+for a session's first 30 minutes before committing. 
+ 
+3.3  Session Characteristics by Asset 
+Instrument 
+Best Session 
+Reason 
+Avg Daily 
+Range 
+Avoid 
+EUR/USD 
+London / NY 
+Overlap 
+Highest EUR 
+liquidity + USD 
+news 
+80–120 pips 
+Asian session 
+GBP/USD 
+London Open 
+UK macro data at 8 
+AM UTC 
+100–160 pips 
+Late NY 
+session 
+USD/JPY 
+Tokyo / London 
+Open 
+JPY active in Asia, 
+USD in NY 
+60–100 pips 
+Sydney session 
+AUD/USD 
+Sydney / Tokyo 
+RBA policy, China 
+data during Asia 
+60–80 pips 
+London close 
+XAU/USD (Gold) 
+London Open + NY 
+Liquidity surge, 
+USD inversely 
+correlated 
+20–40 USD 
+Asian Sundays 
+USOIL (WTI) 
+NY Open + Midday 
+EIA Inventory 
+(Weds, 10:30 AM 
+EST) 
+1–3 USD 
+Sunday open
+
+--- Page 9 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 9 
+  SECTION 4    Currency Pairs: Majors, Minors, Exotics 
+4. Currency Pairs 
+ 
+In Forex, all trades involve simultaneously buying one currency and selling another. A currency 
+pair is always expressed as BASE / QUOTE. The base currency is the one being bought or 
+sold; the quote currency is what you pay or receive. For example, in EUR/USD = 1.0850, buying 
+1 Euro costs 1.0850 US Dollars. 
+ 
+KEY CONCEPT: Info 
+Base Currency (left): The currency you are buying or selling. 
+Quote Currency (right): The currency used to price the base. 
+Exchange Rate: How much of the quote currency buys 1 unit of the base. 
+Example: GBP/USD = 1.2650 means 1 GBP = 1.2650 USD. 
+ 
+4.1  Major Pairs 
+Major pairs all include the US Dollar (USD) on one side. They are the most traded pairs globally 
+and offer the tightest spreads and deepest liquidity. There are 7 recognised Forex majors: 
+ 
+Pair 
+Base 
+Quote 
+Nickname 
+Avg 
+Spread 
+Daily 
+Range 
+Notes 
+EUR/USD 
+EUR 
+USD 
+Fiber 
+0.1–0.8 
+pips 
+80–120 
+pips 
+Most traded pair in the 
+world (~22% daily 
+volume) 
+GBP/USD 
+GBP 
+USD 
+Cable 
+0.3–1.2 
+pips 
+100–160 
+pips 
+High volatility; sensitive to 
+UK data and BoE 
+USD/JPY 
+USD 
+JPY 
+Gopher / 
+Ninja 
+0.2–0.8 
+pips 
+60–100 
+pips 
+Safe-haven JPY; BoJ 
+intervention risk 
+USD/CHF 
+USD 
+CHF 
+Swissy 
+0.3–1.0 
+pips 
+60–90 
+pips 
+CHF is a safe-haven 
+currency; inversely 
+correlated to EUR/USD 
+AUD/USD 
+AUD 
+USD 
+Aussie 
+0.2–0.8 
+pips 
+60–80 
+pips 
+Commodity-linked (iron 
+ore, coal); China-sensitive 
+USD/CAD 
+USD 
+CAD 
+Loonie 
+0.3–1.0 
+pips 
+70–100 
+pips 
+Oil-correlated (Canada = 
+major oil exporter); 
+inverse with WTI 
+NZD/USD 
+NZD 
+USD 
+Kiwi 
+0.3–1.2 
+pips 
+55–80 
+pips 
+Commodity-linked (dairy); 
+RBNZ OCR sensitive
+
+--- Page 10 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 10 
+4.2  Minor Pairs (Cross Pairs) 
+Minor pairs do not include the US Dollar. They are formed by pairing two of the other major 
+currencies. While spreads are slightly wider than majors, many minors offer excellent trading 
+opportunities, especially during their regional sessions. 
+ 
+Pair 
+Nickname 
+Avg 
+Spread 
+Daily 
+Range 
+Key Driver / Notes 
+EUR Crosses 
+EUR/GBP 
+Chunnel 
+0.5–2.0 
+pips 
+50–70 
+pips 
+Reflects UK vs Eurozone economic divergence; 
+slow mover 
+EUR/JPY 
+Yuppy 
+0.5–1.5 
+pips 
+90–130 
+pips 
+Risk-on/risk-off indicator; high volatility 
+EUR/CHF 
+Euro-
+Swissy 
+0.8–2.0 
+pips 
+50–80 
+pips 
+Often range-bound; SNB peg history (2011–
+2015) 
+EUR/AUD 
+- 
+1.0–2.5 
+pips 
+100–140 
+pips 
+Wide range; AUD commodity link vs EUR rate 
+differential 
+EUR/CAD 
+- 
+1.2–2.5 
+pips 
+90–130 
+pips 
+Oil exposure through CAD; ECB/BoC policy 
+divergence 
+EUR/NZD 
+- 
+1.5–3.0 
+pips 
+110–160 
+pips 
+Large swings; less liquidity, use wider stops 
+GBP Crosses 
+GBP/JPY 
+Geppy / 
+Dragon 
+0.8–2.0 
+pips 
+130–200 
+pips 
+One of the most volatile pairs; popular with 
+experienced traders 
+GBP/AUD 
+- 
+1.0–2.5 
+pips 
+120–170 
+pips 
+High volatility; UK vs Australian rate differential 
+GBP/CAD 
+- 
+1.5–3.0 
+pips 
+110–160 
+pips 
+Oil + UK data combo; less liquidity than majors 
+GBP/CHF 
+- 
+1.0–2.5 
+pips 
+90–130 
+pips 
+Safe-haven CHF vs high-beta GBP; trend-
+friendly 
+GBP/NZD 
+- 
+2.0–4.0 
+pips 
+150–220 
+pips 
+Extremely volatile; not recommended for 
+beginners 
+JPY, AUD, NZD, CAD Crosses 
+AUD/JPY 
+Aussie-
+Yen 
+0.5–1.5 
+pips 
+70–100 
+pips 
+Risk-on proxy; rises when global risk appetite is 
+high 
+NZD/JPY 
+- 
+0.8–2.0 
+pips 
+65–90 
+pips 
+Similar to AUD/JPY; dairy + RBNZ rates vs BoJ 
+CAD/JPY 
+- 
+0.8–2.0 
+pips 
+65–90 
+pips 
+Oil price proxy through CAD; risk-on/off via JPY 
+CHF/JPY 
+- 
+1.0–2.5 
+pips 
+80–110 
+pips 
+Double safe-haven pair; moves on global risk 
+events 
+AUD/NZD 
+- 
+1.0–2.5 
+pips 
+50–70 
+pips 
+Two commodity currencies; slow mover, range-
+bound
+
+--- Page 11 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 11 
+Pair 
+Nickname 
+Avg 
+Spread 
+Daily 
+Range 
+Key Driver / Notes 
+AUD/CAD 
+- 
+1.2–2.5 
+pips 
+55–75 
+pips 
+Two commodity-linked currencies; oil vs metals 
+divergence 
+NZD/CAD 
+- 
+1.5–3.0 
+pips 
+55–80 
+pips 
+Dairy vs oil fundamentals; moderate volatility 
+NZD/CHF 
+- 
+1.5–3.0 
+pips 
+60–85 
+pips 
+Less common; RBNZ OCR vs SNB negative rate 
+dynamics 
+ 
+WARNING: Red 
+Pairs like GBP/NZD, EUR/NZD, and GBP/AUD carry very wide spreads and can move 150–250 pips 
+per day. Never trade these with a tight stop loss, you risk being stopped out by normal price noise. 
+ 
+4.3  Exotic Pairs 
+Exotic pairs combine a major currency with the currency of an emerging or smaller economy. 
+They are characterised by wide spreads, lower liquidity, and higher geopolitical/economic risk. 
+They are not recommended for beginners. 
+ 
+Pair 
+Region 
+Avg 
+Spread 
+Risk 
+Level 
+Notes 
+USD-Denominated Exotics 
+USD/MXN 
+Latin 
+America 
+30–100 
+pips 
+High 
+Mexican Peso; oil & US trade sensitive; high 
+swap rates 
+USD/TRY 
+Middle East 
+100–400 
+pips 
+Very High 
+Turkish Lira; political risk, extreme inflation, 
+lira devaluation trend 
+USD/ZAR 
+Africa 
+80–200 
+pips 
+Very High 
+South African Rand; gold-mining exposure, 
+political risk 
+USD/BRL 
+Latin 
+America 
+80–200 
+pips 
+High 
+Brazilian Real; agricultural commodity 
+exposure 
+USD/SGD 
+Asia-Pacific 
+20–60 pips 
+Moderate 
+Singapore Dollar; MAS-managed currency; 
+stable but wide spread 
+USD/HKD 
+Asia-Pacific 
+10–30 pips 
+Low-
+Moderate 
+Pegged to USD at 7.75–7.85; very limited 
+movement 
+USD/SEK 
+Scandinavia 
+20–80 pips 
+Moderate 
+Swedish Krona; Riksbank rate decisions key 
+driver 
+USD/NOK 
+Scandinavia 
+20–80 pips 
+Moderate 
+Norwegian Krone; heavily correlated with 
+Brent Crude oil prices 
+USD/DKK 
+Scandinavia 
+15–50 pips 
+Low-
+Moderate 
+Danish Krone; pegged to EUR; limited 
+directional movement 
+USD/PLN 
+Eastern 
+Europe 
+40–120 
+pips 
+Moderate-
+High 
+Polish Zloty; EU accession dynamics, NBP 
+rate decisions
+
+--- Page 12 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 12 
+Pair 
+Region 
+Avg 
+Spread 
+Risk 
+Level 
+Notes 
+USD/HUF 
+Eastern 
+Europe 
+60–200 
+pips 
+High 
+Hungarian Forint; inflation volatility, political 
+risk 
+USD/CZK 
+Eastern 
+Europe 
+30–100 
+pips 
+Moderate 
+Czech Koruna; CNB rate policy; stable 
+relative to HUF/PLN 
+EUR & GBP Exotics 
+EUR/TRY 
+Middle East 
+150–500 
+pips 
+Extreme 
+Extremely wide spread; primarily used by 
+institutional hedgers 
+EUR/PLN 
+Eastern 
+Europe 
+40–130 
+pips 
+Moderate-
+High 
+ECB + NBP policy divergence; EU structural 
+funds driver 
+GBP/PLN 
+Eastern 
+Europe 
+60–160 
+pips 
+High 
+Post-Brexit UK–Poland trade dynamics + 
+rate differentials 
+Asian Exotics 
+USD/INR 
+South Asia 
+30–80 pips 
+Moderate 
+Indian Rupee; RBI interventions; seasonal 
+capital flows 
+USD/CNH 
+East Asia 
+20–60 pips 
+Moderate 
+Offshore Chinese Yuan (not onshore CNY); 
+PBoC policy-driven 
+USD/THB 
+Southeast 
+Asia 
+30–100 
+pips 
+Moderate 
+Thai Baht; tourism-sensitive, BoT 
+interventions 
+USD/IDR 
+Southeast 
+Asia 
+100–300 
+pips 
+High 
+Indonesian Rupiah; commodity (coal, palm 
+oil) exposure, BI interventions 
+ 
+CAUTION: Gold 
+Exotic pairs should only be traded by experienced traders with a deep understanding of the country's 
+political and economic environment. 
+Swap costs (overnight financing) on exotic pairs can be extremely high, making them unsuitable for 
+swing or position trading without careful cost calculation.
+
+--- Page 13 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 13 
+  SECTION 5    USD-Denominated Commodities 
+5. USD-Denominated Commodities 
+ 
+Commodities are raw materials or primary agricultural products traded on global markets. In 
+Forex, the most common commodities are priced in US Dollars, meaning they trade like 
+currency pairs where the quote side is always USD. Commodity prices are influenced by 
+supply/demand fundamentals, geopolitical events, currency strength (especially USD), and 
+macroeconomic cycles. 
+ 
+KEY CONCEPT: Info 
+When the US Dollar strengthens (DXY rises), USD-priced commodities typically fall; it takes fewer 
+USD to buy the same amount of the commodity. 
+When the US Dollar weakens (DXY falls), commodity prices typically rise. 
+This inverse correlation is not perfect but is one of the most reliable macro relationships in the 
+markets. 
+ 
+5.1  Gold: XAU/USD 
+Gold is the most widely traded commodity in the Forex world. It is simultaneously a currency, a 
+safe-haven asset, an inflation hedge, and a store of value. Gold trades virtually 24/5 and is 
+deeply influenced by real interest rates (US 10-Year TIPS yields), the US Dollar Index (DXY), 
+and global risk sentiment. 
+ 
+Attribute 
+Details 
+Symbol 
+XAU/USD 
+Quote 
+USD per troy ounce (oz) 
+Standard Contract 
+100 troy ounces (1 standard lot) 
+Mini Contract 
+50 oz (0.5 lot) | Micro: 10 oz (0.1 lot) 
+Pip Size 
+$0.01 per oz = $1.00 per standard lot 
+Typical Spread 
+0.20 – 1.50 USD 
+Average Daily Range 
+$20 – $40 (can spike to $80+ on macro events) 
+Key Drivers 
+Real US yields (TIPS), DXY, Fed policy, geopolitical risk, inflation 
+expectations, ETF flows (GLD) 
+Safe-Haven Status 
+Yes: rises on uncertainty, war, financial crises, recession fears 
+Inverse Correlation 
+Strong inverse correlation with DXY and US 10yr real yields 
+Trading Hours 
+23:00 Sun – 22:00 Fri UTC (with short daily breaks on some platforms) 
+Best Trading Sessions 
+London Open, NY Open, London/NY Overlap
+
+--- Page 14 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 14 
+Attribute 
+Details 
+Key Resistance Levels 
+Round numbers ($1,900, $2,000, $2,100, $2,500) act as psychological 
+S/R 
+ 
+GOOD PRACTICE: Green 
+Monitor the US 10-Year TIPS yield and DXY alongside gold price. When real yields fall, gold typically 
+rises, and vice versa. 
+Central bank gold buying (especially by BRICS nations) is a major long-term driver of gold demand. 
+Watch quarterly central bank gold reserve reports. 
+ 
+5.2  Silver: XAG/USD 
+Silver is often called 'Gold's Volatile Sibling'. It shares gold's safe-haven properties but also has 
+significant industrial demand (solar panels, electronics, EV batteries), making it more sensitive 
+to economic cycles than gold. 
+ 
+Attribute 
+Details 
+Symbol 
+XAG/USD 
+Quote 
+USD per troy ounce 
+Standard Contract 
+5,000 troy ounces (1 standard lot) 
+Pip Size 
+$0.001 per oz = $5.00 per standard lot 
+Typical Spread 
+0.02 – 0.05 USD 
+Average Daily Range 
+$0.40 – $0.80 (much higher % than gold) 
+Key Drivers 
+Gold price, industrial demand (EV, solar), DXY, manufacturing PMI, 
+supply (Mexico, Peru) 
+Gold/Silver Ratio 
+Compares gold price to silver price. Historical avg ~55:1. High ratio = 
+silver undervalued vs gold 
+Volatility vs Gold 
+Silver is typically 2–3x more volatile than gold, bigger swings both up 
+and down 
+Best Sessions 
+NY Open, London/NY Overlap (follows gold timing) 
+ 
+CAUTION: Gold 
+Because of silver's high volatility relative to its price, position sizing must be carefully adjusted. A 1% 
+move in silver can have a larger dollar impact than the same % move in gold, depending on your lot 
+size.
+
+--- Page 15 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 15 
+5.3  WTI Crude Oil: USOIL 
+West Texas Intermediate (WTI) Crude Oil is the US benchmark for crude oil and one of the 
+most traded commodities in the world. It is highly sensitive to OPEC+ production decisions, US 
+weekly inventory data (EIA report), and global economic growth expectations. 
+ 
+Attribute 
+Details 
+Symbol 
+USOIL / WTI / CL (broker-dependent) 
+Quote 
+USD per barrel (bbl) 
+Standard Contract 
+1,000 barrels (1 standard lot on most CFD platforms) 
+Pip / Tick Size 
+$0.01 per barrel = $10.00 per standard lot 
+Typical Spread 
+$0.03 – $0.08 per barrel 
+Average Daily Range 
+$1.00 – $3.00 (up to $10+ on major events) 
+Key Drivers 
+OPEC+ decisions, EIA weekly inventory, US Rig Count (Baker 
+Hughes), geopolitics, DXY 
+Weekly High-Impact Events 
+EIA Crude Inventories (Wednesday 10:30 AM EST), API Report 
+(Tuesday 4:30 PM EST) 
+USD Correlation 
+Inverse with USD: weaker USD = more expensive oil in USD terms 
+Currency Correlations 
+CAD/USD positive (Canada exports oil), NOK positive, MXN positive 
+Contango / Backwardation 
+Futures curve shape affects CFD rollover costs; watch for expiry gaps 
+Best Session 
+NY Open (8 AM EST) especially on EIA Wednesday; London/NY 
+overlap 
+ 
+WARNING: Red 
+Crude oil can gap significantly at the Sunday open following OPEC weekend announcements. Always 
+check the news calendar before leaving oil positions open over the weekend. 
+WTI CFDs have rollover/expiry costs. Some brokers charge a significant spread at contract rollover, 
+understand your broker's policy. 
+ 
+5.4  Copper: HG/USD (XCU/USD) 
+Copper is known as 'Dr. Copper' in financial markets because of its track record as an economic 
+indicator. Its widespread use in construction, electrical infrastructure, and manufacturing means 
+copper prices tend to rise in economic expansions and fall in contractions. 
+ 
+Attribute 
+Details 
+Symbol 
+COPPER / XCU/USD / HG (broker-dependent) 
+Quote 
+USD per pound (lb) on CME; some brokers use USD per metric tonne 
+Standard Lot (CME) 
+25,000 lbs per futures contract
+
+--- Page 16 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 16 
+Attribute 
+Details 
+Pip Size (per lb) 
+$0.0001 per lb = $2.50 per lot (CME standard) 
+Typical Spread 
+0.002 – 0.010 USD per lb (varies widely by broker) 
+Average Daily Range 
+$0.03 – $0.08 per lb 
+Key Drivers 
+China PMI, Global manufacturing PMI, LME warehouse inventory, 
+supply disruptions (Chile, Peru), EV demand 
+Economic Indicator Role 
+Rising copper = global economic expansion; falling copper = 
+contraction warning signal 
+China Correlation 
+China consumes ~55% of global copper; Chinese data dominates 
+copper direction 
+Currency Correlations 
+AUD/USD positive (Australia = major copper exporter); CLP/USD 
+positive 
+Best Session 
+Asian session open (China data), NY session (CME futures open at 8 
+AM EST) 
+Related Instruments 
+AUD/USD, AUD/JPY, USD/CLP, DXY (inverse) 
+ 
+5.5  Commodity Correlations Summary 
+Commodity 
+DXY 
+Equities 
+Key Currency 
+Macro Theme 
+XAU/USD 
+(Gold) 
+Inverse (-) 
+Mixed / Inverse 
+USD 
+Risk-off, inflation hedge, real 
+yield inverse 
+XAG/USD 
+(Silver) 
+Inverse (-) 
+Mixed / 
+Positive 
+USD 
+Dual: safe-haven + industrial 
+(EV, solar) 
+USOIL (WTI) 
+Inverse (-) 
+Positive (+) 
+CAD, NOK 
+Growth, OPEC+ supply, 
+geopolitics 
+Copper (HG) 
+Inverse (-) 
+Strong Positive 
+(+) 
+AUD 
+Global growth, China PMI, 
+infrastructure spend
+
+--- Page 17 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 17 
+  SECTION 6    Pips, Lots, Leverage & Margin 
+6. Pips, Lots, Leverage & Margin 
+ 
+6.1  What Is a Pip? 
+A pip (Percentage In Point) is the smallest standard unit of price movement in a Forex pair. For 
+most pairs, a pip is the 4th decimal place (0.0001). For JPY pairs, a pip is the 2nd decimal place 
+(0.01). A pipette (or fractional pip) is 1/10th of a pip, represented at the 5th decimal (or 3rd for 
+JPY). 
+ 
+Pair Type 
+Example 
+Pip Position 
+Pip Value 
+Pipette Position 
+Standard Forex 
+EUR/USD = 
+1.10854 
+4th decimal 
+(0.0001) 
+$10 per lot 
+5th decimal (0.00001) 
+JPY Pairs 
+USD/JPY = 
+149.854 
+2nd decimal 
+(0.01) 
+~$6.69 per lot* 
+3rd decimal (0.001) 
+Gold (XAU/USD) 
+XAU/USD = 
+2,341.50 
+2nd decimal 
+($0.01) 
+$1 per lot (100 
+oz) 
+N/A 
+Silver 
+(XAG/USD) 
+XAG/USD = 
+29.435 
+3rd decimal 
+($0.001) 
+$5 per lot 
+(5,000 oz) 
+N/A 
+WTI Crude 
+USOIL = 
+78.340 
+3rd decimal 
+($0.001) 
+$1 per 0.1 lot 
+(~100 bbl) 
+N/A 
+Copper 
+COPPER = 
+4.0540 
+4th decimal 
+($0.0001) 
+Varies by 
+contract size 
+N/A 
+ 
+*JPY pip value depends on current exchange rate. Formula: Pip Value = (0.01 / Exchange Rate) 
+× Lot Size. 
+ 
+6.2  Lot Sizes 
+A lot is the standard unit of trade size in Forex. Trading in different lot sizes allows precise 
+control of risk exposure. 
+ 
+Lot Type 
+Units (EUR/USD) 
+Pip Value 
+(EUR/USD) 
+Min Margin 
+(1:100) 
+Suitable For 
+Standard (1.0) 
+100,000 units 
+$10.00 per pip 
+~$1,000 
+Experienced 
+traders, larger 
+accounts 
+Mini (0.1) 
+10,000 units 
+$1.00 per pip 
+~$100 
+Intermediate 
+traders
+
+--- Page 18 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 18 
+Lot Type 
+Units (EUR/USD) 
+Pip Value 
+(EUR/USD) 
+Min Margin 
+(1:100) 
+Suitable For 
+Micro (0.01) 
+1,000 units 
+$0.10 per pip 
+~$10 
+Beginners, 
+strategy testing 
+Nano (0.001) 
+100 units 
+$0.01 per pip 
+~$1 
+Demo/prop firm 
+micro accounts 
+ 
+FORMULA: Info 
+Pip Value (standard pairs) = (0.0001 / Quote Price) × Lot Size × 100,000 
+For EUR/USD at 1.0850 with 1 standard lot: (0.0001 / 1.0850) × 100,000 = $9.22 per pip (quoted in 
+USD) 
+For most USD-quoted pairs, pip value ≈ $10 per standard lot (slight variation due to exchange rate). 
+ 
+6.3  Leverage & Margin 
+Leverage allows you to control a large position with a small amount of capital. Margin is the 
+collateral required by your broker to open and maintain a leveraged position. 
+ 
+Leverage 
+Ratio 
+Margin % 
+Margin for $100K 
+trade 
+Control per $1,000 
+Risk Level 
+1:10 
+10% 
+$10,000 
+$10,000 position 
+Very Low 
+1:50 
+2% 
+$2,000 
+$50,000 position 
+Low-Moderate 
+1:100 
+1% 
+$1,000 
+$100,000 position 
+Moderate 
+1:200 
+0.5% 
+$500 
+$200,000 position 
+High 
+1:500 
+0.2% 
+$200 
+$500,000 position 
+Very High 
+ 
+WARNING: Red 
+Leverage amplifies BOTH profits AND losses equally. A 1:100 leverage means a 1% move against 
+you wipes out your entire margin for that trade. 
+Regulators in the EU, UK, and Australia cap retail leverage at 1:30 for major Forex pairs and 1:20 for 
+gold. Offshore brokers may offer higher leverage; this is not an advantage; it is additional risk. 
+Never use maximum available leverage. Most professional traders use effective leverage of 5:1 to 
+15:1 on any single trade.
+
+--- Page 19 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 19 
+6.4  Margin Terminology 
+Term 
+Definition 
+Required Margin 
+The amount of capital locked as collateral for an open trade 
+Used Margin 
+Total margin currently locked across all open positions 
+Free Margin 
+Account Balance + Unrealised P&L – Used Margin. Available for new trades 
+Equity 
+Current account value including unrealised P&L (Equity = Balance ± Open 
+P&L) 
+Margin Level % 
+Equity / Used Margin × 100. Broker triggers Margin Call if this falls below 
+threshold (e.g., 100%) 
+Margin Call 
+Broker alert when Margin Level drops below required threshold. You must 
+deposit or close positions 
+Stop Out Level 
+If Margin Level falls below Stop Out % (e.g., 50%), broker auto-closes 
+positions to protect margin
+
+--- Page 20 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 20 
+  SECTION 7    Spread, Swap & Commission 
+7. Trading Costs: Spread, Swap & Commission 
+ 
+7.1  The Spread 
+The spread is the difference between the bid price (what the market will buy from you) and the 
+ask price (what the market will sell to you). It is the primary cost of trading and represents 
+immediate profit for the broker/market maker. 
+ 
+Spread Type 
+Example 
+When Applied 
+Best For 
+Fixed Spread 
+EUR/USD always 2 pips 
+Guaranteed, always 
+same width 
+News traders who need 
+certainty about costs 
+Variable Spread 
+EUR/USD 0.1–3.0 pips 
+Widens during low 
+liquidity/news events 
+Day traders during active 
+sessions (tight spreads) 
+Commission + 
+Raw Spread 
+0.0 spread + 
+$3.50/lot/side 
+Flat fee per round trip 
+lot 
+High-frequency traders and 
+scalpers 
+ 
+KEY CONCEPT: Info 
+Always calculate spread cost as part of your risk/reward ratio. 
+Example: EUR/USD spread = 1.2 pips, standard lot = $10/pip. Entering and exiting costs 2 × 1.2 × 
+$10 = $24 round-trip. 
+For a $100 target (10 pip), $24 spread cost = 24% of your potential profit eaten by spread alone. 
+This is why scalping very tight setups with wide spreads is a losing proposition. 
+ 
+7.2  The Swap (Overnight Financing / Rollover) 
+When you hold a Forex position overnight (past 5 PM EST, the New York close), your broker 
+applies a swap charge or credit. The swap is based on the interest rate differential between the 
+two currencies in the pair. Holding a high-interest currency and selling a low-interest one earns 
+a positive swap; the reverse is a negative swap. 
+ 
+Pair 
+Long Swap 
+(typical) 
+Short Swap 
+(typical) 
+Notes 
+USD/JPY 
++$2.50 to 
++$5.00/lot/day 
+-$1.50 to -
+$3.00/lot/day 
+USD higher rates than JPY; long 
+USD earns swap 
+EUR/USD 
+-$1.50 to -
+$3.00/lot/day 
++$0.50 to 
++$1.50/lot/day 
+EUR lower rates; short EUR 
+benefits 
+AUD/USD 
++$0.50 to 
++$2.50/lot/day 
+-$2.00 to -
+$4.00/lot/day 
+AUD rates vary; RBA decisions 
+affect this regularly
+
+--- Page 21 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 21 
+Pair 
+Long Swap 
+(typical) 
+Short Swap 
+(typical) 
+Notes 
+USD/TRY 
+Extremely Negative 
+Extremely Positive 
+TRY high inflation = extreme 
+negative swap for TRY longs 
+XAU/USD (Gold) 
+-$3.00 to -
+$8.00/lot/day 
++$1.00 to 
++$3.00/lot/day 
+Gold has no yield; long gold incurs 
+financing cost 
+USOIL (WTI) 
+Negative (varies) 
+Positive (varies) 
+CFD oil incurs financing based on 
+base rate + markup 
+ 
+CAUTION: Gold 
+On Wednesdays, brokers apply a TRIPLE SWAP to account for the weekend (Saturday + Sunday 
+settlement days). This means Wednesday overnight is 3× the normal swap charge or credit. 
+For swing traders holding positions 3–7 days, swap costs can significantly erode P&L. Always 
+calculate expected swap cost before entering a multi-day trade. 
+ 
+7.3  Commission 
+ECN/STP brokers with raw spreads charge a fixed commission per lot traded. This is typically 
+expressed per 'round turn' (open + close) or per 'side' (open only). 
+ 
+Commission Structure 
+Typical Range 
+Notes 
+Per lot per side 
+$2.50 – $5.00 
+You pay on open AND on close separately 
+Per lot round turn 
+$4.00 – $10.00 
+Single charge covers both open and close of 
+trade 
+Percentage-based 
+0.01% – 0.03% of 
+notional 
+Common with institutional accounts; rare in retail 
+Forex 
+No commission 
+(spread-only) 
+$0 
+Broker profits from spread markup instead; often 
+wider spreads
+
+--- Page 22 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 22 
+  SECTION 8    Order Types 
+8. Order Types 
+ 
+Understanding order types is fundamental to trade execution. Using the correct order type for 
+your strategy reduces slippage, manages risk, and ensures you enter/exit at your intended 
+price, or only when specific conditions are met. 
+ 
+Order Type 
+Execution 
+Use Case 
+Key Considerations 
+Entry Orders 
+Market Order 
+Immediate at 
+current price 
+Enter/exit immediately 
+when signal fires 
+Susceptible to slippage during 
+news events; guaranteed fill 
+Limit Order (Buy 
+Limit) 
+At or below 
+specified price 
+Buy at a pullback to a 
+lower price (retracement 
+entry) 
+Will only fill if price reaches the 
+level; may not fill at all 
+Limit Order (Sell 
+Limit) 
+At or above 
+specified price 
+Sell at a rally to a higher 
+price (distribution zone) 
+Set above current price; waits for 
+price to reach target area 
+Stop Order (Buy 
+Stop) 
+At or above 
+specified price 
+Enter long on breakout 
+above resistance 
+Triggers when price moves up to 
+your level; can gap over it 
+Stop Order (Sell 
+Stop) 
+At or below 
+specified price 
+Enter short on 
+breakdown below 
+support 
+Triggers when price falls to your 
+level; confirms bearish break 
+Risk Management Orders 
+Stop Loss (SL) 
+Market order 
+when SL level hit 
+Limit maximum loss on 
+a trade 
+Always use a stop loss: non-
+negotiable risk management rule 
+Take Profit (TP) 
+Limit order at 
+target price 
+Automatically close 
+trade at profit target 
+Set TP at logical price structure 
+(S/R, swing high/low, Fib) 
+Trailing Stop 
+Stop moves with 
+price in P&L 
+direction 
+Lock in profits while 
+letting winners run 
+Set in pips or %; stops adjust 
+automatically as price moves 
+Conditional / Advanced Orders 
+OCO (One 
+Cancels Other) 
+Two orders; one 
+execution 
+cancels the other 
+Place both a buy stop 
+and sell stop around 
+consolidation 
+Useful for breakout trading without 
+directional bias 
+GTC (Good Till 
+Cancelled) 
+Order remains 
+active until filled 
+or cancelled 
+Pending order left at a 
+level for days/weeks 
+Ensure you monitor it; old pending 
+orders at irrelevant levels 
+GTD (Good Till 
+Date) 
+Cancels 
+automatically at 
+specified 
+date/time 
+Orders timed around 
+specific events or 
+sessions 
+Useful before high-impact news; 
+auto-cancels if not triggered
+
+--- Page 23 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 23 
+  SECTION 9    Sample Trade Setup 
+9. Sample Trade Setup: EUR/USD Long 
+ 
+Below is a structured example of a complete, documented trade setup for a beginner. Every 
+trade, regardless of strategy, should follow this documentation format to build discipline and 
+create a record for review. 
+ 
+Trade Element 
+Details 
+Instrument 
+EUR/USD 
+Bias / Direction 
+LONG (Buy) 
+Timeframe 
+H4 (4-hour chart) for setup; H1 for entry refinement 
+Session 
+London Open: entering between 08:00-10:00 UTC 
+Reason for Setup 
+Price pulled back to 1.0750 support zone (previous weekly resistance 
+flipped support). Daily close above 200 EMA. RSI divergence on H4 
+showing bullish momentum shift. 
+Entry Price 
+1.07620 (Buy Limit placed at demand zone) 
+Stop Loss 
+1.07230 (below swing low at 1.0730, with 7 pip buffer) = 39 pips 
+Take Profit 1 
+1.08020 (previous minor resistance) = 40 pips (1:1 RR) 
+Take Profit 2 
+1.08640 (weekly resistance zone) = 102 pips (2.6:1 RR) 
+Risk/Reward Ratio 
+TP1 = 1.03:1 | TP2 = 2.62:1 
+Account Size 
+$5,000 USD 
+Risk Per Trade 
+1% = $50 
+Position Size Calc 
+$50 risk ÷ (39 pips × $10/pip) = 0.13 lots (micro: 0.1 lot for simplicity) 
+Lot Size 
+0.1 lot (Mini lot) 
+Actual $ Risk 
+39 pips × $1/pip (0.1 lot) = $39 
+Trade Management 
+At TP1: close 50% of position, move SL to breakeven. Let remainder run 
+to TP2. 
+Invalidation Condition 
+4H candle close below 1.07300 (structural break). Cancel if NFP or CPI is 
+this week without clear plan. 
+News Check 
+No red-folder news in next 24 hrs. ECB minutes on Thursday; plan to 
+close before. 
+Spread Cost 
+1.2 pip × $1 = $1.20 (open) + $1.20 (close) = $2.40 round trip 
+Expected Profit (TP2) 
+102 pips × $1/pip = $102 gross, $99.60 net after spread
+
+--- Page 24 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 24 
+GOOD PRACTICE: Green 
+Always calculate position size BEFORE entering a trade; never adjust it to make a trade seem better. 
+The invalidation condition is as important as the entry. If the market proves your thesis wrong (by 
+closing below a key structure), exit, even if the trade is still within your stop loss range. 
+Moving your stop to breakeven after TP1 is hit is a conservative but effective way to secure a risk-free 
+trade.
+
+--- Page 25 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 25 
+  SECTION 10    Pre-Trade Checklist 
+10. Pre-Trade Checklist 
+ 
+Use this checklist before every trade. A disciplined approach to pre-trade review eliminates 
+emotional, impulsive entries and ensures every trade has a documented rationale. 
+ 
+PRE-TRADE CHECKLIST: Module 1 Level 
+1. Market Context 
+[ ] 
+I have identified the current session (Sydney / Tokyo / London / New York) 
+[ ] 
+I have checked the economic calendar for high-impact events in the next 24 hours 
+[ ] 
+I know the higher-timeframe (Daily/Weekly) trend direction for this pair 
+[ ] 
+I have identified key support and resistance levels on the daily chart 
+2. Instrument Selection 
+[ ] 
+This instrument is appropriate for the current session (e.g., not trading AUD/USD during London 
+late session) 
+[ ] 
+If trading a commodity, I have checked DXY direction and relevant reports (EIA for oil, Gold ETF 
+flows) 
+[ ] 
+If trading an exotic pair, I have reviewed current spread and swap costs; they are acceptable 
+3. Trade Setup & Levels 
+[ ] 
+I have a clear entry price with a logical reason (support zone, pattern completion, signal 
+confluence) 
+[ ] 
+My stop loss is placed at a logical market structure level (not arbitrarily chosen) 
+[ ] 
+My take profit is at a logical target (resistance, 1:2+ RR minimum) 
+[ ] 
+Risk/reward ratio is at least 1:1.5 (ideally 1:2 or better) 
+4. Position Sizing & Risk 
+[ ] 
+I have calculated my position size based on my defined risk per trade (e.g., 1% of account) 
+[ ] 
+I know exactly how much money I will lose if stopped out, and I am comfortable with that amount 
+[ ] 
+This trade does not push my total open risk beyond 3–5% of account equity 
+5. Execution Readiness 
+[ ] 
+Order type selected is appropriate (limit, stop, market) and entry is pre-set where possible 
+[ ] 
+Stop loss and take profit orders are ready to place the moment the trade is triggered 
+[ ] 
+I have identified the condition under which this trade is invalidated (structural break level) 
+6. Psychology Check 
+[ ] 
+I am not entering this trade to recover a previous loss (revenge trading) 
+[ ] 
+I am following my documented strategy, not chasing price or reacting to someone else's signal 
+[ ] 
+I am willing to miss this trade rather than enter with less than full confluence
+
+--- Page 26 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 26 
+  SECTION 11    Exercises 
+11. Practice Exercises 
+ 
+Exercise 1: Identify the Pair 
+For each description below, write the currency pair or commodity symbol: 
+ 
+1. The most traded Forex pair in the world, nicknamed 'Fiber': ___________ 
+2. The JPY cross that involves the British Pound, nicknamed the 'Dragon': ___________ 
+3. Gold, quoted against the US Dollar: ___________ 
+4. The USD pair strongly correlated with WTI crude oil prices: ___________ 
+5. The exotic pair representing the Indonesian Rupiah vs USD: ___________ 
+6. The NZD pair against the USD, nicknamed the 'Kiwi': ___________ 
+7. Silver, quoted against the US Dollar: ___________ 
+ 
+Exercise 2: Pip Value Calculations 
+Calculate the pip value and total dollar risk for each scenario. Use $10/pip for standard lots. 
+ 
+1. Trade: Buy EUR/USD, 0.5 lots. Your stop is 40 pips away. What is your dollar risk? 
+◦ 
+Pip value: 0.5 lots × $10/pip = $_____ per pip 
+◦ 
+Dollar risk: $_____ × 40 pips = $_____ 
+2. Trade: Sell GBP/USD, 0.1 lots. Stop loss is 55 pips. What is your dollar risk? 
+◦ 
+Answer: $_____ 
+3. Account: $2,000. Risk per trade: 2%. Stop: 30 pips (EUR/USD). What lot size should you 
+trade? 
+◦ 
+Max risk: $2,000 × 2% = $_____ | Lot size = $_____ ÷ (30 × $10) = _____ lots 
+ 
+Exercise 3: Session Matching 
+Match each instrument/event to its most appropriate trading session: 
+1. USD/JPY: Tokyo data release; most liquid session = ___________ 
+2. EUR/USD breakout trade: best session = ___________ 
+3. WTI Crude: EIA inventory report (Wednesday 10:30 AM EST); best session = 
+___________ 
+4. AUD/USD: RBA rate decision announced at 02:30 UTC; best session = ___________ 
+5. XAU/USD scalp trade: preferred sessions = ___________
+
+--- Page 27 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 27 
+Exercise 4: Trade Documentation 
+Using the sample trade setup in Section 9 as a template, document a hypothetical trade on 
+GBP/USD. Include: Direction, Timeframe, Entry, Stop Loss (in pips), Take Profit (in pips), RR 
+Ratio, Account size $3,000, 1% risk, lot size calculation, and your invalidation condition. 
+ 
+Direction: _______  |  Timeframe: _______  |  Session: _______ 
+Entry: _______  |  SL: _______ pips  |  TP: _______ pips 
+RR: _______  |  $ Risk: _______  |  Lot Size: _______ 
+Invalidation: ___________________________________________
+
+--- Page 28 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 28 
+  SECTION 12    Module Quiz 
+12. Module 1 Quiz: 15 Questions 
+ 
+Circle or write the correct answer. Answers are provided on the final page. 
+ 
+Q1. What is a pip in most standard Forex pairs? 
+A) The 2nd decimal place (0.01) 
+B) The 4th decimal place (0.0001) 
+C) The 5th decimal place (0.00001) 
+D) The 1st decimal place (0.1) 
+Q2. Which session is known for the highest daily Forex trading volume? 
+A) Sydney Session 
+B) Tokyo Session 
+C) London/New York Overlap 
+D) New York Session alone 
+Q3. EUR/USD = 1.0850. If you BUY 1 standard lot and the price moves up 25 pips, what is 
+your approximate profit? 
+A) $25 
+B) $250 
+C) $2,500 
+D) $25,000 
+Q4. Which commodity is nicknamed 'Dr. Copper' due to its role as an economic 
+indicator? 
+A) Crude Oil (WTI) 
+B) Silver (XAG/USD) 
+C) Gold (XAU/USD) 
+D) Copper (HG/XCU) 
+Q5. A 'Sell Limit' order is placed: 
+A) Below the current market price 
+B) Above the current market price 
+C) At the current market price immediately 
+D) At the stop loss level 
+Q6. What does 'Free Margin' represent? 
+A) Total account balance only 
+B) Capital locked in open trades 
+C) Equity minus used margin: available for new trades 
+D) Only unrealised profit on open trades
+
+--- Page 29 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 29 
+Q7. The USD/CAD pair is sometimes called 'Loonie'. Which commodity most strongly 
+affects its direction? 
+A) Gold (XAU) 
+B) Copper (HG) 
+C) WTI Crude Oil 
+D) Natural Gas 
+Q8. On which day does a broker typically charge TRIPLE SWAP? 
+A) Monday 
+B) Tuesday 
+C) Wednesday 
+D) Friday 
+Q9. Which of the following is a JPY cross pair (does NOT contain USD)? 
+A) USD/JPY 
+B) GBP/JPY 
+C) AUD/USD 
+D) NZD/USD 
+Q10. You have a $10,000 account and risk 1% per trade. Your stop loss is 50 pips. What 
+is the correct position size for EUR/USD? 
+A) 0.02 lots 
+B) 0.20 lots 
+C) 2.00 lots 
+D) 0.50 lots 
+Q11. The US Dollar Index (DXY) rises sharply. What is the most likely impact on Gold 
+(XAU/USD)? 
+A) Gold price rises 
+B) Gold price falls 
+C) No relationship 
+D) Gold becomes more volatile but no direction 
+Q12. Which pair is considered the most volatile among the common GBP crosses? 
+A) GBP/EUR 
+B) GBP/CHF 
+C) GBP/NZD 
+D) GBP/AUD 
+Q13. Which central bank controls monetary policy for the Australian Dollar (AUD)? 
+A) Reserve Bank of New Zealand (RBNZ) 
+B) Reserve Bank of Australia (RBA) 
+C) Australian Securities Exchange (ASX) 
+D) Bank of Australia (BoA)
+
+--- Page 30 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 30 
+Q14. What does a 'Margin Call' mean? 
+A) Your trade has hit take profit 
+B) Your broker automatically opens a new hedged position 
+C) Your Margin Level has fallen below the required threshold; deposit more or close 
+positions 
+D) Your leverage ratio has been increased by the broker 
+Q15. WTI Crude Oil is most affected by which weekly report released on Wednesdays at 
+10:30 AM EST? 
+A) Baker Hughes Rig Count 
+B) API Crude Inventory (American Petroleum Institute) 
+C) EIA Crude Oil Inventory (Energy Information Administration) 
+D) OPEC Monthly Oil Market Report (MOMR)
+
+--- Page 31 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 1: Forex Foundations 
+© Forex Study Program  |  Module 1 — Forex Foundations 
+Page 31 
+Quiz Answer Key 
+ 
+Q 
+Answer 
+Explanation 
+Q1 
+B 
+Most Forex pairs use 4 decimal places. The pip is 0.0001. JPY pairs use 0.01 
+(2nd decimal). 
+Q2 
+C 
+The London/New York overlap (8 AM–12 PM EST) generates ~70% of total 
+daily volume. 
+Q3 
+B 
+1 standard lot EUR/USD = $10/pip. 25 pips × $10 = $250 profit. 
+Q4 
+D 
+Copper is nicknamed Dr. Copper for its role as a leading economic health 
+indicator. 
+Q5 
+B 
+A Sell Limit is placed above current price, anticipating price will rise to that level 
+before reversing down. 
+Q6 
+C 
+Free Margin = Equity – Used Margin. This is the capital available to open new 
+trades. 
+Q7 
+C 
+Canada is a major oil exporter. When WTI falls, USD/CAD typically rises (CAD 
+weakens). 
+Q8 
+C 
+Triple swap on Wednesday accounts for Saturday and Sunday settlement = 3 
+days' financing in one charge. 
+Q9 
+B 
+GBP/JPY is a cross pair (no USD). USD/JPY contains USD; AUD/USD and 
+NZD/USD also contain USD. 
+Q10 
+B 
+$10,000 × 1% = $100 risk. $100 ÷ (50 pips × $10/pip) = $100 ÷ $500 = 0.20 lots. 
+Q11 
+B 
+Gold has an inverse relationship with the USD. A rising DXY typically pushes 
+XAU/USD lower. 
+Q12 
+C 
+GBP/NZD is the most volatile GBP cross, average daily range of 150–220 pips. 
+Q13 
+B 
+The Reserve Bank of Australia (RBA) sets the Cash Rate Target that governs 
+AUD monetary policy. 
+Q14 
+C 
+Margin Call is a broker alert/action when Margin Level falls below the required 
+threshold. 
+Q15 
+C 
+The EIA Weekly Crude Oil Inventory report (Wednesday 10:30 AM EST) is the 
+most market-moving oil data point. 
+ 
+MODULE COMPLETION 
+Congratulations on completing Module 1: Forex Foundations! 
+Score 12/15 or higher before proceeding to Module 2: Price Action & Candlesticks. 
+Review any topics where you answered incorrectly before moving on. 
+If you scored below 10/15, re-read sections 3–8 and redo the exercises. 
+ 
+Next: Module 2: Price Action & Candlesticks 
+Forex Market Analysis: Complete Study Program  |  Module 1 of 7

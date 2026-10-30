@@ -1,4 +1,5 @@
 import math
+from decimal import Decimal, ROUND_FLOOR
 
 from risk.models import (
     InstrumentRisk,
@@ -10,33 +11,36 @@ def _round_volume(
     volume: float,
     instrument: InstrumentRisk,
 ) -> float:
-    step = instrument.volume_step
+    step = Decimal(str(instrument.volume_step))
+    minimum = Decimal(str(instrument.volume_min))
+    maximum = Decimal(str(instrument.volume_max))
 
     if step <= 0:
+        raise ValueError("Volume step must be greater than zero.")
+
+    if minimum <= 0 or maximum < minimum:
+        raise ValueError("Broker volume limits are invalid.")
+
+    if not math.isfinite(volume) or volume <= 0:
+        raise ValueError("Calculated volume must be finite and positive.")
+
+    # Round down to a valid lot step. Never force a small position
+    # upward to the broker minimum, because that can exceed the risk budget.
+    requested = Decimal(str(volume))
+    units = (requested / step).to_integral_value(rounding=ROUND_FLOOR)
+    rounded = units * step
+
+    max_units = (maximum / step).to_integral_value(rounding=ROUND_FLOOR)
+    rounded = min(rounded, max_units * step)
+
+    if rounded < minimum:
         raise ValueError(
-            "Volume step must be greater than zero."
+            "Required position size is below the broker minimum; "
+            "trade rejected to protect the risk limit."
         )
 
-    volume = math.floor(volume / step) * step
-
-    volume = max(
-        instrument.volume_min,
-        volume,
-    )
-
-    volume = min(
-        instrument.volume_max,
-        volume,
-    )
-
-    decimals = max(
-        0,
-        len(
-            str(step).rstrip("0").split(".")[-1]
-        ),
-    )
-
-    return round(volume, decimals)
+    decimals = max(0, -step.normalize().as_tuple().exponent)
+    return round(float(rounded), decimals)
 
 
 def calculate_position_size(

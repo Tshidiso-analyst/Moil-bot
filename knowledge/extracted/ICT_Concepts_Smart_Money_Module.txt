@@ -1,0 +1,2454 @@
+--- Page 1 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 1 
+FOREX MARKET ANALYSIS 
+Complete Study Program 
+ 
+MODULE 4 
+ICT Concepts 
+Inner Circle Trader Methodology: Complete Framework 
+Advanced / Deep Focus  |  GBP/USD · EUR/USD · USD/JPY · XAU/USD  |  15 Sections  |  20 
+Diagrams 
+Liquidity & Order 
+Blocks 
+Fair Value Gaps & 
+Kill Zones 
+Market Maker 
+Models 
+SMT Divergence 
+ 
+Topics Covered in This Module 
+ICT Market Structure  •  Premium/Discount  •  BSL/SSL  •  EQH/EQL  •  Liquidity Sweeps  •  Inducement 
+Order Blocks  •  Breaker Blocks  •  Fair Value Gaps  •  CE  •  IFVG  •  BPR  •  Kill Zones 
+Power of 3 / AMD  •  Judas Swing  •  MMBM  •  MMSM  •  OTE  •  PD Arrays  •  NYMO 
+SMT Divergence (Deep Focus)  •  Silver Bullet  •  Time and Price Theory  •  ICT by Instrument  •  Trade 
+Framework
+
+--- Page 2 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 2 
+Table of Contents 
+Table of Contents ....................................................................................................................... 2 
+1. ICT Market Structure .............................................................................................................. 5 
+1.1  Internal vs External Market Structure ............................................................................... 5 
+1.2  Break of Structure (BOS): ICT Definition .......................................................................... 6 
+1.3  Change of Character (CHoCH): ICT Definition................................................................. 6 
+1.4  Premium vs Discount Pricing Zones ................................................................................ 6 
+2. Liquidity .................................................................................................................................. 8 
+2.1  Buy-Side Liquidity (BSL) and Sell-Side Liquidity (SSL) .................................................... 8 
+2.2  Equal Highs (EQH) and Equal Lows (EQL) ...................................................................... 8 
+2.3  Liquidity Sweeps: The Stop Hunt Anatomy ...................................................................... 9 
+2.4  Inducement (IDM) ...........................................................................................................10 
+3. Order Blocks (OB) .................................................................................................................12 
+3.1  Bullish vs Bearish Order Block ........................................................................................12 
+3.2  Order Block Quality Factors ............................................................................................12 
+3.3  Mitigation: The Entry Opportunity....................................................................................13 
+3.4  Breaker Blocks ...............................................................................................................14 
+3.5  Rejection Blocks .............................................................................................................14 
+3.6  Order Block vs Supply/Demand Zone: Key Differences ..................................................14 
+4. Fair Value Gaps (FVG) .........................................................................................................16 
+4.1  The Three-Candle Structure ...........................................................................................16 
+4.2  Consequent Encroachment (CE): The 50% of the FVG ..................................................17 
+4.3  Inversion FVG (IFVG) .....................................................................................................17 
+4.4  Balanced Price Range (BPR) .........................................................................................17 
+4.5  FVG as Entry Zone vs FVG as Target ............................................................................18 
+5. ICT Kill Zones .......................................................................................................................19 
+5.1  Kill Zone Summary Table ...............................................................................................19 
+5.2  Asian Session Range (8:00 PM – 12:00 AM EST) ..........................................................20 
+5.3  London Kill Zone (2:00 AM – 5:00 AM EST) ...................................................................20 
+5.4  New York Kill Zone (7:00 AM – 10:00 AM EST) ..............................................................20 
+6. Power of 3: Accumulation, Manipulation, Distribution ............................................................21 
+6.1  Daily Candle PO3 ...........................................................................................................21 
+6.2  Weekly PO3 ...................................................................................................................22 
+7. Judas Swing..........................................................................................................................23 
+7.1  How the Judas Swing Forms: Step by Step ....................................................................23 
+7.2  Identifying the Judas Swing in Real Time .......................................................................23 
+7.3  Judas Swing by Instrument .............................................................................................24
+
+--- Page 3 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 3 
+8. Market Maker Models: MMBM and MMSM ...........................................................................25 
+8.1  Market Maker Buy Model (MMBM): Full Bullish Cycle .....................................................25 
+Phase 1: SSL Sweep (Accumulation) .................................................................................25 
+Phase 2: Manipulation (Fake Bearish Move / Judas Swing) ...............................................25 
+Phase 3: Bullish CHoCH ....................................................................................................25 
+Phase 4: Retracement into OB/FVG (Entry Zone) ..............................................................25 
+Phase 5: Bullish Expansion (Distribution) ...........................................................................25 
+Phase 6: Rebalancing (Top of the Move) ...........................................................................25 
+8.2  Market Maker Sell Model (MMSM): Full Bearish Cycle ...................................................26 
+Phase 1: BSL Sweep (Distribution Setup) ..........................................................................26 
+Phase 2: Manipulation (Fake Bullish Move / Judas Swing) ................................................26 
+Phase 3: Bearish CHoCH ..................................................................................................27 
+Phase 4: Retracement into Bearish OB/FVG (Entry Zone) .................................................27 
+Phase 5: Bearish Expansion (Distribution) .........................................................................27 
+Phase 6: Rebalancing (Bottom of the Move) ......................................................................27 
+8.3  MMBM vs MMSM: Comparison Table ............................................................................28 
+9. Optimal Trade Entry (OTE) ...................................................................................................29 
+9.1  The OTE Fibonacci Zone: 62% to 79% ...........................................................................29 
+9.2  How to Draw and Use the OTE .......................................................................................29 
+10. Dealing Ranges and PD Arrays ...........................................................................................31 
+10.1  Key Reference Levels ...................................................................................................31 
+10.2  New York Midnight Open (NYMO) ................................................................................31 
+11. Smart Money Technique (SMT) Divergence ........................................................................33 
+11.1  The Core Principle: Why Correlations Matter ................................................................33 
+11.2  Correlation Pairs Within Our Instruments ......................................................................33 
+EUR/USD and GBP/USD: Primary SMT Pair .....................................................................33 
+USD/JPY and XAU/USD: Inverse SMT Pair .......................................................................34 
+11.3  The Four SMT Scenarios: Step by Step........................................................................34 
+Scenario 1: Bullish EUR/USD vs GBP/USD .......................................................................34 
+Scenario 2: Bearish EUR/USD vs GBP/USD .....................................................................35 
+Scenario 3: Bullish Gold (XAU/USD vs USD/JPY) .............................................................35 
+Scenario 4: Bearish Gold (XAU/USD vs USD/JPY) ............................................................35 
+11.4  SMT Real-Time Checklist .............................................................................................36 
+11.5  SMT Common Pitfalls ...................................................................................................36 
+11.6  Why SMT Works: The Institutional Logic ......................................................................36 
+12. Silver Bullet Strategy ...........................................................................................................38 
+12.1  The Three Silver Bullet Windows ..................................................................................38 
+12.2  Setup Rules: Applicable to All Three Windows .............................................................38
+
+--- Page 4 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 4 
+13. Time and Price Theory ........................................................................................................40 
+13.1  The Core Proposition ....................................................................................................40 
+13.2  Practical Applications of Time and Price Theory ...........................................................40 
+14. ICT Concepts by Instrument ................................................................................................42 
+14.1  EUR/USD: The Benchmark ICT Pair ............................................................................42 
+14.2  GBP/USD: High-Volatility ICT .......................................................................................42 
+14.3  USD/JPY: Session-Specific ICT ...................................................................................42 
+14.4  XAU/USD (Gold): Aggressive ICT .................................................................................43 
+15. Full ICT Trade Framework: Top-Down Analysis to Execution ..............................................44 
+15.1  Top-Down Analysis: Five Timeframe Process ...............................................................44 
+15.2  Sample ICT Trade: EUR/USD Long ..............................................................................45 
+15.3  ICT Confluence Scoring: Minimum 5/8 Required ..........................................................45 
+ICT Glossary: Complete Reference ...........................................................................................47 
+ICT Pre-Trade Checklist ............................................................................................................49 
+Module 4 Quiz: 20 Questions ....................................................................................................51 
+Quiz Answer Key ......................................................................................................................55
+
+--- Page 5 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 5 
+  SECTION 1    ICT Market Structure 
+1. ICT Market Structure 
+ 
+ICT builds on standard market structure concepts but introduces critical refinements that change 
+how you read highs, lows, breaks, and trend phases. The most important distinction is ICT's 
+separation of internal and external market structure: two layers operating simultaneously on 
+every chart. 
+ 
+1.1  Internal vs External Market Structure 
+Layer 
+External Structure 
+Internal Structure 
+Definition 
+Major swing highs and lows visible on 
+the working timeframe 
+Minor swing highs and lows within 
+each leg of the larger move 
+Function 
+Defines the macro trend direction and 
+overall bias 
+Signals local momentum shifts; used 
+for entry precision only 
+Break significance 
+Major trend phase change when 
+broken 
+Short-term momentum shift; does 
+NOT override HTF bias 
+Timeframe 
+Daily / H4 (higher timeframe) 
+H1 / M15 (entry timeframe) 
+ 
+ 
+Fig 1.1: Break of Structure (BOS) vs Change of Character (CHoCH): Internal and External Structure 
+ 
+PRACTICAL RULE 
+Always identify external structure on your higher timeframe first (Daily or H4). This defines your bias. 
+Then drop to a lower timeframe (H1 or M15) to read internal structure for entry precision. Never let an 
+internal structure break override an external structure bias.
+
+--- Page 6 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 6 
+ 
+1.2  Break of Structure (BOS): ICT Definition 
+In ICT, a Break of Structure (BOS) occurs when price closes beyond a confirmed swing high 
+(bullish BOS) or swing low (bearish BOS). A BOS confirms continuation of the current trend: it is 
+NOT a reversal signal. 
+• 
+Bullish BOS: Price closes above the most recent confirmed swing high. Uptrend intact; 
+the next target is the next higher liquidity pool. 
+• 
+Bearish BOS: Price closes below the most recent confirmed swing low. Downtrend 
+intact; next target is the next lower liquidity pool. 
+• 
+CRITICAL: A BOS must be a candle BODY close beyond the level: wicks alone do not 
+constitute a BOS in the ICT framework. 
+ 
+ICT NOTE 
+BOS = continuation confirmation. The entry comes on the retracement back into an OB or FVG that 
+forms after the BOS: never at the BOS itself. Many traders mistake a BOS as an entry signal: it is not. 
+ 
+1.3  Change of Character (CHoCH): ICT Definition 
+ICT's CHoCH is declared when price breaks a swing point that was previously protected by the 
+trend. Unlike a generic structure break, the ICT CHoCH requires a specific three-step sequence: 
+• 
+Liquidity sweep: Price runs above a previous swing high (in downtrend) or below a swing 
+low (in uptrend)end): hunting stop losses 
+• 
+Sharp reversal: Price aggressively reverses away from the sweep; smart money has 
+filled its position 
+• 
+CHoCH confirmed: Price closes beyond the most recent protective swing point, 
+confirming the character shifter of the market has changed 
+ 
+1.4  Premium vs Discount Pricing Zones 
+Every dealing range has a 50% equilibrium level. Price above 50% is in a Premium; price below 
+50% is in a Discount. This is one of ICT's most fundamental filters. 
+Zone 
+Price Position 
+Smart Money Action 
+Retail Mistake 
+Premium (75–100%) 
+Upper quartile of 
+range 
+Distributing (selling) 
+positions 
+Buying breakouts at the 
+highs 
+Equilibrium (50%) 
+Midpoint of range 
+Neutral: watching 
+direction 
+Treating the midpoint as 
+a target 
+Discount (0–25%) 
+Lower quartile of 
+range 
+Accumulating (buying) 
+positions 
+Selling breakdowns at 
+the lows
+
+--- Page 7 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 7 
+ 
+Fig 1.2: Premium and Discount Pricing Zones with NYMO Reference 
+FUNDAMENTAL RULE 
+Only buy in Discount zones. Only sell in Premium zones. Locate the 50% level of your current dealing 
+range before entering any position. The NY Midnight Open (NYMO) serves as the primary daily 
+reference for premium/discount classification.
+
+--- Page 8 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 8 
+  SECTION 2    Liquidity 
+2. Liquidity 
+ 
+Liquidity is the single most important concept in the ICT framework. Price does not move 
+randomly; it moves to locations where large orders can be filled. These locations are where 
+retail trader stop losses cluster in predictable patterns, and smart money engineers price to 
+reach them before reversing. 
+ 
+KEY CONCEPT 
+In ICT, liquidity is always the OBJECTIVE of the next price move before a reversal. Ask yourself 
+before every trade: 'Where is the liquidity above or below current price that smart money is targeting?' 
+Price will typically reach that liquidity before making the move you are anticipating. 
+ 
+2.1  Buy-Side Liquidity (BSL) and Sell-Side Liquidity (SSL) 
+Aspect 
+Buy-Side Liquidity (BSL) 
+Sell-Side Liquidity (SSL) 
+Location 
+ABOVE price: above swing highs, 
+EQH, PDH, PWH, trendline highs 
+BELOW price: below swing lows, EQL, 
+PDL, PWL, trendline lows 
+Order composition 
+Stop losses of short sellers + breakout 
+buy orders 
+Stop losses of long holders + breakout 
+sell orders 
+Smart money 
+action 
+SELLS into BSL: distributing short 
+positions into the spike 
+BUYS into SSL: accumulating long 
+positions into the dip 
+Expected reversal 
+after sweep 
+DOWNWARD: bears take control after 
+sweep 
+UPWARD: bulls take control after 
+sweep 
+Example: 
+EUR/USD 
+Price sweeps above PDH by 8 pips at 
+London open then reverses sharply 
+lower 
+Price drops below Asian session low 
+by 10 pips at London open then spikes 
+aggressively higher 
+ 
+2.2  Equal Highs (EQH) and Equal Lows (EQL) 
+EQH and EQL are the clearest and most significant liquidity pools in ICT analysis. They form 
+when price tests the same level twice or more without breaking through: creating a double or 
+triple cluster of stop losses at that exact price. 
+• 
+Equal Highs (EQH): Two or more swing highs at approximately the same price. Both 
+long take profits and short stop losses cluster here: a major BSL magnet above price. 
+• 
+Equal Lows (EQL): Two or more swing lows at approximately the same price. Both short 
+take profits and long stop losses cluster here: a major SSL magnet below price. 
+• 
+Identification threshold: Highs or lows within 5–10 pips of each other on H4/Daily 
+constitute an EQH/EQL pool. More touches = larger pool = more aggressive sweep.
+
+--- Page 9 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 9 
+ 
+Fig 2.1: Buy-Side Liquidity (BSL), Sell-Side Liquidity (SSL), Equal Highs and Equal Lows 
+ 
+2.3  Liquidity Sweeps: The Stop Hunt Anatomy 
+A liquidity sweep occurs when price briefly moves beyond a key liquidity level, triggering the 
+stops losses resting there: before reversing sharply in the opposite direction. This is a deliberate 
+engineered move by institutional participants to fill large orders at advantageous prices. 
+• 
+BUILDUP: Price approaches a key level; retail traders are heavily positioned on the 
+obvious side 
+• 
+SPIKE: Price briefly breaks through the level; often a single candle with a long wick, 
+triggering all stop losses beyond it 
+• 
+ABSORPTION: Smart money fills their position in the opposite direction using the 
+triggered stop orders as counterparties 
+• 
+REVERSAL: Price aggressively moves away from the swept level, leaving a prominent 
+wick, in the directionection smart money just positioned
+
+--- Page 10 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 10 
+ 
+Fig 2.2: Liquidity Sweep Anatomy: Four-Step Process 
+ 
+WARNING 
+A genuine sweep has: (1) a sharp, aggressive price spike, not gradual, (2) a quick and decisive 
+reversalersal: typically the same or next candle, (3) follow-through in the reversal direction, and (4) 
+occurs during a Kill Zone at a premium or discount level. Not every wick above a high is a liquidity 
+sweep: context is critical. 
+ 
+2.4  Inducement (IDM) 
+Inducement is a specific ICT concept describing how smart money deliberately baits retail 
+traders into the wrong direction before the real move. It is a smaller liquidity pool created 
+intentionally to lure counter-trend traders before the larger primary liquidity objective is swept. 
+A common Inducement scenario in a bullish setup: 
+• 
+Price is in an uptrend on the HTF: the real move will be bullish 
+• 
+A pullback creates a small swing low: retail bearish traders short the pullback, placing 
+stops above the pullback high (creating buy-side inducement) 
+• 
+Price briefly sweeps above that small swing high: taking out the bearish traders' stops 
+(the IDM sweep) 
+• 
+Price then drops into an Order Block or FVG below: the real entry zone for smart money 
+accumulation 
+• 
+The actual bullish move then begins from the OB/FVG, fuel provided by the trapped 
+short sellers
+
+--- Page 11 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 11 
+ 
+Fig 2.3: Inducement (IDM) vs Primary Liquidity Pool 
+ 
+IDM vs REAL LIQUIDITY POOL 
+Inducement targets are ALWAYS smaller than the main liquidity objective. The real liquidity pool is a 
+more significant level: a Daily/Weekly swing high or low, an EQH/EQL. Inducement is the appetiser; 
+the main liquidity sweep is the main course. Learning to distinguish between the two prevents 
+premature and counter-trend entries.
+
+--- Page 12 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 12 
+  SECTION 3    Order Blocks 
+3. Order Blocks (OB) 
+ 
+An Order Block is the most precise entry tool in the ICT methodology. It represents the last 
+candle in the opposite direction before a significant impulsive move: the specific candle where 
+institutional orders were placed that launched the move. When price returns to this area, those 
+unfilled institutional orders act as a powerful support or resistance zone. 
+ 
+FORMAL DEFINITION 
+An Order Block is the last BEARISH candle before a BULLISH impulse (Bullish OB), or the last 
+BULLISH candle before a BEARISH impulse (Bearish OB). It is the candle immediately preceding the 
+move that created a Break of Structure, broke a swing high/low, or left a Fair Value Gap. 
+ 
+3.1  Bullish vs Bearish Order Block 
+Aspect 
+Bullish Order Block 
+Bearish Order Block 
+Identifying candle 
+Last BEARISH (red/down) candle 
+immediately before the bullish impulse 
+Last BULLISH (green/up) candle 
+immediately before the bearish 
+impulse 
+Entry zone 
+Body of the last bearish candle: from 
+candle close up to candle open 
+Body of the last bullish candle: from 
+candle open down to candle close 
+Expected reaction 
+Price returns from above: reacts 
+BULLISHLY; buyers step in 
+Price returns from below: reacts 
+BEARISHLY; sellers step in 
+Required 
+qualification 
+Impulse after OB must break structure, 
+sweep liquidity, or create an FVG 
+Impulse after OB must break structure, 
+sweep liquidity, or create an FVG 
+Key example 
+USD/JPY H4: last red candle before a 
+150-pip bullish impulse: retracement 
+into its body = long entryy 
+GBP/USD H4: last green candle 
+before a 200-pip bearish sell-off: 
+retracement into its body = short 
+entryentry 
+ 
+3.2  Order Block Quality Factors 
+Quality Factor 
+High Quality OB 
+Lower Quality OB 
+Impulse after OB 
+Large displacement: broke external 
+structure or swept major liquidity 
+Small move: only broke internal 
+structure or a minor level 
+Fair Value Gap 
+FVG present between OB and the 
+next significant structure 
+No FVG: price moved gradually 
+without leaving an imbalance 
+Freshness 
+Fresh: price has not returned to OB 
+since formation (untouched) 
+Already mitigated: some orders 
+consumed, weaker reaction 
+Timeframe 
+Daily or H4 OB: institutional 
+significance 
+M15 or M5 OB: use only for entries 
+within HTF OB context
+
+--- Page 13 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 13 
+Quality Factor 
+High Quality OB 
+Lower Quality OB 
+Confluence 
+Coincides with Premium/Discount 
+zone, FVG, or key liquidity level 
+OB in isolation, mid-range, no 
+additional supporting context 
+Displacement strength 
+Strong aggressive candles leaving 
+the OB: high institutional 
+commitment 
+Gradual weak move away: limited 
+institutional participation 
+ 
+ 
+Fig 3.1: Bullish Order Block and Bearish Order Block with Mitigation Entry 
+ 
+3.3  Mitigation: The Entry Opportunity 
+Mitigation is the process of price returning to an Order Block and filling the institutional orders 
+placed there. This is the actual entry opportunity in ICT trading. 
+• 
+First mitigation: Highest quality. Unfilled institutional orders still resting here; price 
+reaction should be sharp and immediate. 
+• 
+Partial mitigation: Price taps into the OB but does not close inside the full body. Reaction 
+may still be strong. 
+• 
+Full mitigation (body close through): Price closes fully through the OB body. The OB is 
+consumed;o not use it again. Often becomes a Breaker Block. 
+ 
+ENTRY PRECISION 
+Do not enter at the very top of a bullish OB or the very bottom of a bearish OB. Wait for price to enter 
+the OB body then look for a lower-timeframe CHoCH, FVG, or displacement candle WITHIN the OB 
+zone. This reduces pip distance to stop loss and dramatically improves risk/reward ratio.
+
+--- Page 14 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 14 
+3.4  Breaker Blocks 
+A Breaker Block forms when an Order Block fails: price fully mitigates through the OB body and 
+the structure is broken. The former OB inverts its function: a failed Bullish OB becomes a 
+Bearish Breaker Block (now resistance), and a failed Bearish OB becomes a Bullish Breaker 
+Block (now support). The logic: institutional orders at the original OB have been fully absorbed; 
+the area now acts as a reference for the opposing side. 
+ 
+3.5  Rejection Blocks 
+A Rejection Block is identified on a candle with a significant upper or lower wick relative to its 
+body. It represents a zone where smart money absorbed orders and drove price away. Used on 
+H1 and M15 to refine entries within a higher-timeframe OB or FVG zone. A bullish rejection 
+block (long lower wick) marks a demand zone at the wick area; a bearish rejection block (long 
+upper wick) marks a supply zone at the wick area. 
+ 
+ 
+Fig 3.2: Breaker Block (Failed OB Inverted) and Rejection Block 
+ 
+3.6  Order Block vs Supply/Demand Zone: Key Differences 
+Aspect 
+ICT Order Block 
+Supply/Demand Zone 
+Defined by 
+Specific single candle (last opposite-
+colour candle before impulse) 
+Consolidation base: range of candles 
+before the impulse 
+Drawing method 
+Body of the one qualifying candle only 
+High-to-low range of all base candles 
+Freshness rule 
+Invalidated when a body close occurs 
+through it 
+Weakens with each test but not 
+formally invalidated 
+Impulse 
+requirement 
+Must create structural break, liquidity 
+sweep, or FVG 
+Requires a sharp departure from the 
+base
+
+--- Page 15 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 15 
+Aspect 
+ICT Order Block 
+Supply/Demand Zone 
+Context 
+requirement 
+Must align with HTF bias, 
+premium/discount, and liquidity 
+narrative 
+Location at key levels adds quality but 
+not mandatory
+
+--- Page 16 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 16 
+  SECTION 4    Fair Value Gaps 
+4. Fair Value Gaps (FVG) 
+ 
+A Fair Value Gap is an imbalance in price: a region where price moved so quickly that trading 
+activity was heavily one-sided, leaving an area that was not efficiently traded. ICT's core 
+principle: price is always seeking to return to balance (fair value), making FVGs powerful targets 
+and high-precision entry zones. 
+ 
+4.1  The Three-Candle Structure 
+An FVG is defined by three consecutive candles where the wick of candle 1 and the wick of 
+candle 3 do NOT overlap. The gap between them is the Fair Value Gap. 
+Aspect 
+Bullish FVG 
+Bearish FVG 
+C2 direction 
+Strong bullish impulse candle 
+Strong bearish impulse candle 
+Gap definition 
+C1 HIGH and C3 LOW do not touch 
+(gap above C1 high, below C3 low) 
+C1 LOW and C3 HIGH do not touch 
+(gap below C1 low, above C3 high) 
+Top of FVG zone 
+C3's low 
+C1's low 
+Bottom of FVG 
+zone 
+C1's high 
+C3's high 
+Expected reaction 
+Price returning from above → reacts 
+bullishly, continues upward 
+Price returning from below → reacts 
+bearishly, continues downward 
+Dual role 
+Entry zone on pullback AND price 
+target for continuation 
+Entry zone on pullback AND price 
+target for continuation 
+ 
+ 
+Fig 4.1: Fair Value Gap Three-Candle Structure and Consequent Encroachment (CE)
+
+--- Page 17 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 17 
+ 
+4.2  Consequent Encroachment (CE): The 50% of the FVG 
+CE is the exact midpoint of the Fair Value Gap; ICT's most precise entry level within an FVG. 
+• 
+CE Formula: (FVG Top + FVG Bottom) ÷ 2 
+• 
+Price frequently reverses at or near the CE, the 50% of the gap, allowing a tighter stop 
+loss while targeting the continuation move 
+• 
+CE entries provide the best risk-to-reward ratio within any FVG setup 
+• 
+For a Bullish FVG: place a buy limit at the CE. Stop: 5–10 pips below the FVG bottom. 
+Target: next BSL pool or HTF resistance. 
+ 
+CE: KEY CONCEPT 
+The CE is not just a mechanical level; it represents the precise equilibrium of the imbalance. 
+Institutional algorithms frequently deliver price to exactly the CE before reversing. Mark the CE on 
+every FVG you trade. 
+ 
+4.3  Inversion FVG (IFVG) 
+An Inversion FVG occurs when price returns to an FVG and completely closes through the 
+entire gap: the FVG is violated. At this point, the FVG inverts its function: a violated Bullish FVG 
+becomes a Bearish IFVG (now acts as resistance when price retests from below); a violated 
+Bearish FVG becomes a Bullish IFVG (now acts as support when price retests from above). 
+ 
+4.4  Balanced Price Range (BPR) 
+A Balanced Price Range forms when a Bullish FVG and a Bearish FVG overlap: occupying the 
+same price range. This creates a uniquely powerful area because both bullish and bearish 
+imbalances are present simultaneously. The CE of the BPR (midpoint of the overlapping area) 
+is the highest-precision entry point within the entire zone. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig 4.2: Inversion FVG (IFVG) and Balanced Price Range (BPR)
+
+--- Page 18 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 18 
+FVG QUALITY RANKING 
+Prioritise FVGs by: (1) Timeframe: Daily > H4 > H1; (2) Displacement: the more aggressive the 
+impulse creating the FVG, the higher the quality; (3) Confluence: FVG inside an OB = elite entry zone; 
+(4) Freshness: first mitigation is always the highest quality. BPR > standard FVG > IFVG in terms of 
+reliability. 
+ 
+4.5  FVG as Entry Zone vs FVG as Target 
+Role 
+Scenario 
+Action 
+Entry Zone 
+Price moved in your direction 
+(bullish), pulls back into a Bullish 
+FVG 
+Enter long at CE; stop below FVG 
+bottom; target next BSL pool 
+Target 
+Price moving directionally with an 
+unfilled FVG above (bullish) or below 
+(bearish) 
+Use the FVG as your take profit 
+zone: price typically fills FVGs before 
+reversing from higher structure 
+Both simultaneously 
+Enter at lower-TF FVG; target higher-
+TF FVG above 
+Multi-timeframe: LTF entry precision 
++ HTF target. Most common ICT 
+trade structure.
+
+--- Page 19 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 19 
+  SECTION 5    ICT Kill Zones 
+5. ICT Kill Zones 
+ 
+ICT Kill Zones are specific time windows during the trading day when institutional algorithms are 
+most active and the highest-probability ICT setups occur. These windows align with major 
+market opens when institutional traders execute their largest orders and liquidity is deepest. A 
+pattern that forms outside a Kill Zone carries significantly lower probability. 
+ 
+ 
+Fig 5.1: ICT Kill Zones: 24-Hour Session Timeline (EST) with Silver Bullet Windows 
+ 
+CORE PRINCIPLE 
+Every significant ICT setup: liquidity sweep, OB mitigation, FVG fill, is dramatically more reliablele 
+when it occurs DURING a Kill Zone. Time is as important as price in the ICT framework. Do not trade 
+ICT setups outside of Kill Zone windows. 
+ 
+5.1  Kill Zone Summary Table 
+Kill Zone 
+EST Time 
+Priority 
+Best Instruments 
+Setup Type 
+Asian Session 
+Range 
+8:00 PM – 
+12:00 AM 
+Reference 
+All 4 pairs 
+Mark highs/lows as liquidity 
+targets for next session. Do not 
+trade during Asia. 
+London Kill 
+Zone 
+2:00 AM – 
+5:00 AM 
+High 
+EUR/USD, 
+GBP/USD, 
+XAU/USD 
+Judas Swing + OB/FVG after 
+sweep. True daily high/low often 
+set here for EUR pairs. 
+New York Kill 
+Zone 
+7:00 AM – 
+10:00 AM 
+Highest 
+All 4 pairs 
+OB/FVG + 8:30 AM US data 
+reaction. London/NY overlap = 
+maximum daily liquidity. 
+New York PM 
+Session 
+1:30 PM – 
+4:00 PM 
+Low-Mod. 
+EUR/USD, 
+GBP/USD 
+FVG continuation entries only. 
+Avoid as primary setup window.
+
+--- Page 20 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 20 
+ 
+5.2  Asian Session Range (8:00 PM – 12:00 AM EST) 
+The Asian session is primarily a range accumulation period. Price consolidates within a tight 
+range, building liquidity on both sides. The range highs accumulate buy-side liquidity (stops of 
+Asian shorts); the range lows accumulate sell-side liquidity (stops of Asian longs). London 
+typically opens by sweeping one side: this sweep is the Judas Swing. Always mark the Asian 
+High and Asian Low before trading the London session. 
+ 
+5.3  London Kill Zone (2:00 AM – 5:00 AM EST) 
+The London Kill Zone creates the first major directional move of the Western trading day. 
+London open frequently begins with a liquidity sweep of the Asian range (Judas Swing) before 
+the true directional move occurs. EUR/USD and GBP/USD OBs and FVGs during the LKZ are 
+the highest-probability setups for European pairs. XAU/USD is very active during London open: 
+often makes its largest daily move in this window. 
+ 
+5.4  New York Kill Zone (7:00 AM – 10:00 AM EST) 
+The NYKZ overlaps with the end of the London session and produces the highest-volume 
+period of the entire trading day. The 8:30 AM EST window is especially significant due to major 
+US economic releases. GBP/USD and EUR/USD are highest priority during this window. 
+XAU/USD can move $30–$50 in minutes on major data surprises. OB and FVG setups from this 
+window are among the most reliable in the ICT framework.
+
+--- Page 21 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 21 
+  SECTION 6    Power of 3: AMD Cycle 
+6. Power of 3: Accumulation, Manipulation, Distribution 
+ 
+The Power of 3 (PO3) describes the three mandatory phases that price goes through before 
+completing a directional leg: Accumulation, Manipulation, and Distribution. This framework 
+applies to the daily candle, the weekly candle, and each major session. Understanding PO3 
+prevents two of the most common trading mistakes: buying the Manipulation move, and missing 
+the Distribution entry. 
+ 
+Phase 
+Also Called 
+What Is Happening 
+Accumulation 
+(A) 
+Consolidation / Ranging 
+Smart money quietly builds a position. Price ranges with 
+no clear direction. Retail sees it as choppy. Smart money 
+is absorbing retail orders at a disadvantaged price. 
+Manipulation 
+(M) 
+Judas Swing / False 
+Break 
+Price makes a sudden sharp move in the OPPOSITE 
+direction to the true intended move. Retail stop losses are 
+triggered; breakout traders enter the wrong direction. This 
+is engineered deception. 
+Distribution (D) 
+The Real Move 
+Smart money, now fully positioned from Accumulation, 
+drives price aggressively in the intended directiontion: 
+through the liquidity pools swept during Manipulation 
+toward the ultimate target. 
+ 
+ 
+Fig 6.1: Power of 3: Daily AMD Cycle and Weekly PO3 Structure 
+ 
+ 
+6.1  Daily Candle PO3
+
+--- Page 22 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 22 
+• 
+Asian session (Accumulation): Daily candle opens. Price ranges in a tight band during 
+Asia. The NYMO (midnight open) anchors the Accumulation phase. 
+• 
+London open (Manipulation): Price makes a false move, sweeping the Asian range high 
+(fake bearish) or low (fake bullish). This is the Judas Swing. 
+• 
+New York session (Distribution): The true directional move occurs, establishing the daily 
+candle's close and the dominant direction for the day. 
+ 
+READING THE DAILY CANDLE 
+On a bullish daily candle: Open (accumulation), brief spike downward early in the day (manipulation) 
+sweeping SSL below Asian low) → aggressive rally to close near the high (distribution). The lower 
+wick of a bullish daily candle represents the Manipulation phase: the Judas Swing that trapped retail 
+shorts. 
+ 
+6.2  Weekly PO3 
+• 
+Monday: Accumulation / possible Judas Swing for the week. Do NOT trade Monday's 
+direction as the week's direction. 
+• 
+Tuesday: The true direction of the week typically establishes itself. The most important 
+directional day. 
+• 
+Wednesday–Thursday: Distribution: price reaches weekly targets, BOS events occur. 
+• 
+Friday: Rebalancing: price often reverses or consolidates heading into the weekend. 
+Avoid new positions on Friday afternoon. 
+ 
+WEEKLY BIAS RULE 
+Monday's move is frequently the week's manipulation. If price moves down sharply on Monday, the 
+week's bias is likely bullish (the Monday drop was the Judas Swing hunting SSL). Wait for Tuesday 
+confirmation before committing to any weekly bias trade.
+
+--- Page 23 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 23 
+  SECTION 7    Judas Swing 
+7. Judas Swing 
+ 
+The Judas Swing is ICT's name for the Manipulation phase of the PO3 cycle: the false, 
+deceptive price move that runs in the opposite direction of the day's true intended move. It is 
+named after Judas Iscariot: a betrayal move that deceives before the truth is revealed. It is the 
+single most important concept for understanding London and New York open price delivery. 
+ 
+7.1  How the Judas Swing Forms: Step by Step 
+• 
+Asian session closes: A clear range has formed with defined highs and lows. Liquidity 
+sits above the high (BSL) and below the low (SSL). 
+• 
+Kill Zone opens: Price makes an aggressive move in one direction, appearing as a 
+strong breakout. Retail breakout traders enter in the breakout direction. 
+• 
+Liquidity swept: The move runs through the obvious liquidity pool (e.g., above the Asian 
+high for a false bullish move), triggering all stop losses. 
+• 
+Absorption: Smart money fills their position in the opposite direction using the triggered 
+stop orders as the counterparty. 
+• 
+Sharp reversal: Price aggressively reverses; the trapped breakout traders' stop losses 
+now fuel the move in the true direction. 
+• 
+Distribution begins: Price runs toward the true daily target, frequently the opposite side 
+of the Asian rangesian range and beyond to the next major liquidity pool. 
+ 
+ 
+Fig 7.1: Judas Swing: False Opening Move, SSL Sweep, CHoCH and True Direction 
+ 
+7.2  Identifying the Judas Swing in Real Time
+
+--- Page 24 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 24 
+• 
+Context: The move occurs at the very start of a Kill Zone (London 2–5 AM or NY 7–9 AM 
+EST): not mid-session 
+• 
+Direction: The initial move goes into a clear, obvious liquidity pool (above EQH, above 
+Asian high, above a visible trendline high) 
+• 
+Speed: The initial move is fast and aggressive; resembling a retail 'breakout' setup 
+• 
+Reversal signal: After sweeping liquidity, a displacement candle forms in the opposite 
+direction;ften leaving an FVG on M15 or M5 
+• 
+HTF context: The daily/weekly bias actually favours the reversal direction; the Judas 
+Swing goes AGAINSTAINST the HTF bias before it resumes 
+ 
+7.3  Judas Swing by Instrument 
+Instrument 
+Typical Judas Swing Behaviour 
+Best Kill Zone 
+EUR/USD 
+Sweeps Asian range high or low at London open. 
+Very consistent; occurs approximately 70% of 
+trading days. 
+London Kill Zone (2–5 AM EST) 
+GBP/USD 
+Larger Judas Swings: can sweep 15–25 pips 
+beyond the Asian range vs EUR/USD's 8–15 pips. 
+More volatile. 
+London KZ + NY open 
+USD/JPY 
+Judas Swing often occurs at NY open (8:30 AM 
+EST data release); initial spike then reversal in 
+secondsnds. 
+New York Kill Zone 
+XAU/USD 
+Very aggressive: can sweep $8–$15 beyond a key 
+level before reversing sharply. Creates high-
+conviction SMT signals. 
+London open + NY open 
+ 
+MOST COMMON MISTAKE 
+The most common ICT beginner mistake: seeing the Judas Swing and trading in its direction as a 
+breakout. If you see an aggressive move at a Kill Zone open that runs into an obvious liquidity pool: do 
+NOT enter in the direction of that move. Wait for the reversal, look for CHoCH, then look for an OB or 
+FVG entry in the opposite direction.
+
+--- Page 25 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 25 
+  SECTION 8    Market Maker Models: Full Depth 
+8. Market Maker Models: MMBM and MMSM 
+ 
+The Market Maker Models are ICT's most complete and advanced framework, describing the full 
+institutionaltional cycle from the initial accumulation of a position to its complete distribution. 
+These models combine every concept covered so far (liquidity, OBs, FVGs, PO3, Kill Zones) 
+into a single, end-to-end trade narrative. Understanding the Market Maker Models is the ultimate 
+goal of ICT study. 
+ 
+8.1  Market Maker Buy Model (MMBM): Full Bullish Cycle 
+Phase 1: SSL Sweep (Accumulation) 
+Smart money needs to buy a large position. To buy at scale, they need sellers: specifically, the 
+stop-loss sell orders of retail long holders. Price is driven below obvious support levels: 
+sweeping sell-side liquidity (Equal Lows, previous swing lows, PDL). As longs' stops are 
+triggered, smart money absorbs these sell orders, buying from panicking holders. This sweep 
+creates a prominent lower wick on the daily or H4 candle. 
+Phase 2: Manipulation (Fake Bearish Move / Judas Swing) 
+During the SSL sweep, price appears bearish; retail traders who survived Phase 1 may now go 
+short, reinforcing the false bearish narrative. This provides smart money with more sell orders to 
+buy into. Smart money has now fully accumulated a long position at the lowest possible price. 
+Phase 3: Bullish CHoCH 
+After sweeping SSL and completing accumulation, price makes a sharp aggressive move 
+upward. This breaks above the most recent Lower High: an ICT Bullish CHoCH. The CHoCH 
+candle typically leaves a Bullish FVG and creates a Bullish OB. This is the FIRST confirmation 
+the MMBM is in play: the signal to start looking for long entries. 
+Phase 4: Retracement into OB/FVG (Entry Zone) 
+After the CHoCH, price retraces; this is the optimal entry zone for retail ICT traders. Price 
+returns to the Bullish OB formed by the CHoCH impulse candle, or fills the Bullish FVG left by 
+that impulse. Price is now in a Discount zone, confirming the buy opportunity. Entry trigger: a 
+lower-timeframe (M15/M5) CHoCH or displacement candle within the OB/FVG zone. 
+Phase 5: Bullish Expansion (Distribution) 
+Price advances upward, targeting Buy-Side Liquidity pools above: Equal Highs, previous swing 
+highs, PDH, PWH. Multiple BOS events occur as price creates new Higher Highs. Each 
+retracement during the expansion creates new OBs and FVGs that can be used for adding to 
+the position or as new entries. Smart money distributes (sells) their accumulated long position 
+into the BSL pools above. 
+ 
+ 
+Phase 6: Rebalancing (Top of the Move)
+
+--- Page 26 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 26 
+At the BSL target, smart money finishes distributing. A Bearish OB or FVG forms at the top. A 
+Bearish CHoCH forms: signalling the MMBM is complete and the MMSM (Market Maker Sell 
+Model) begins. 
+ 
+ 
+Fig 8.1: Market Maker Buy Model (MMBM): Full Bullish Institutional Cycle 
+ 
+MMBM FULL SEQUENCE 
+SSL Sweep (hunt sell-side liquidity) → Fake bearish move / Judas Swing → Bullish CHoCH → 
+Retracement to OB/FVG in DISCOUNT (entry zone) → Bullish expansion / BOS series → BSL target 
+reached / distribution complete → MMSM begins 
+ 
+8.2  Market Maker Sell Model (MMSM): Full Bearish Cycle 
+Phase 1: BSL Sweep (Distribution Setup) 
+Smart money needs to sell a large position. They need buyers: specifically, the stop-loss buy 
+orders of retail short holders. Price is driven above obvious resistance levels: sweeping Buy-
+Side Liquidity (Equal Highs, previous swing highs, PDH, PWH). Smart money sells (shorts) into 
+the BSL sweep, filling their bearish position against trapped breakout buyers. 
+Phase 2: Manipulation (Fake Bullish Move / Judas Swing) 
+The BSL sweep appears to retail traders as a strong bullish breakout. Retail longs enter, giving 
+smart money more buyers to sell into at the highest possible price. Smart money is now fully 
+positioned short at the peak.
+
+--- Page 27 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 27 
+Phase 3: Bearish CHoCH 
+Price reverses sharply from the BSL sweep. A Bearish CHoCH forms: price breaks below the 
+most recent Higher Low. The impulse down creates a Bearish OB and/or Bearish FVG. This is 
+the first confirmation the MMSM is active. 
+Phase 4: Retracement into Bearish OB/FVG (Entry Zone) 
+After the CHoCH, price retraces upward; the entry zone for ICT short traders. The Bearish OB 
+(last green candle before the bearish impulse) is the primary entry zone. Price is now in a 
+Premium zone, confirming the sell opportunity. Entry trigger: lower-timeframe CHoCH or 
+displacement candle within the OB/FVG zone. 
+Phase 5: Bearish Expansion (Distribution) 
+Price advances downward, targeting Sell-Side Liquidity pools below: Equal Lows, previous 
+swing lows, PDL, PWL. Multiple BOS events create new Lower Lows. Each retracement creates 
+new Bearish OBs and FVGs for adding to short positions. Smart money covers (buys back) their 
+short position into the SSL pools below. 
+Phase 6: Rebalancing (Bottom of the Move) 
+At the SSL target, smart money finishes covering. A Bullish OB or Bullish FVG forms at the low. 
+A Bullish CHoCH forms: the MMSM is complete; the MMBM begins. 
+ 
+ 
+Fig 8.2: Market Maker Sell Model (MMSM): Full Bearish Institutional Cycle 
+ 
+MMSM FULL SEQUENCE 
+BSL Sweep (hunt buy-side liquidity) → Fake bullish move / Judas Swing → Bearish CHoCH → 
+Retracement to OB/FVG in PREMIUM (entry zone) → Bearish expansion / BOS series → SSL target 
+reached / covering complete → MMBM begins
+
+--- Page 28 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 28 
+8.3  MMBM vs MMSM: Comparison Table 
+Phase 
+MMBM (Bullish) 
+MMSM (Bearish) 
+Liquidity hunted first 
+Sell-Side (SSL): below lows 
+Buy-Side (BSL): above highs 
+Judas Swing direction 
+Downward (fake bearish move) 
+Upward (fake bullish move) 
+CHoCH direction 
+Bullish (breaks above LH) 
+Bearish (breaks below HL) 
+Entry zone 
+Bullish OB or FVG in DISCOUNT 
+Bearish OB or FVG in PREMIUM 
+Expansion target 
+BSL pools above (EQH, swing 
+highs, PDH/PWH) 
+SSL pools below (EQL, swing lows, 
+PDL/PWL) 
+Completion signal 
+Bearish CHoCH at the top → 
+MMSM begins 
+Bullish CHoCH at the bottom → 
+MMBM begins
+
+--- Page 29 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 29 
+  SECTION 9    Optimal Trade Entry (OTE) 
+9. Optimal Trade Entry (OTE) 
+ 
+The Optimal Trade Entry is ICT's Fibonacci-based precision entry method. It defines the specific 
+retracement zone within a swing where the highest-probability entry occurs: combining 
+Fibonacci levels with the Order Block and FVG framework for maximum accuracy. The OTE 
+zone filters out shallow retracements (too early) and deep breakdowns (too late). 
+ 
+9.1  The OTE Fibonacci Zone: 62% to 79% 
+Fibonacci Level 
+Zone Position 
+ICT Significance 
+0.618 (61.8%) 
+OTE Zone Start 
+The Golden Ratio: most widely respected Fibonacci 
+level. Frequent price reversals here. 
+0.705 (70.5%) 
+Primary OTE Level 
+ICT's primary OTE level. Less crowded than 61.8%; 
+cleaner institutional entry, fewer retail eyes on this 
+level. 
+0.786 (78.6%) 
+OTE Zone End 
+Deep retracement level: square root of 0.618. Strong 
+setups often reach here before reversing. 
+ 
+9.2  How to Draw and Use the OTE 
+• 
+Identify the swing: Find the significant impulse move (CHoCH, BOS); identify its swing 
+low and swing highg high clearly 
+• 
+Draw Fibonacci retracement: From swing low to swing high (for a bullish setup) or swing 
+high to swing low (for a bearish setup) 
+• 
+Identify the 62–79% zone: This is your OTE zone: the area where you look for entry 
+• 
+Combine with OB/FVG: The highest-quality OTE entry occurs when the 62–79% zone 
+coincides with a Bullish OB or Bullish FVG 
+• 
+Entry trigger: A lower-timeframe CHoCH or displacement candle within the 
+OTE/OB/FVG zone confirms entry 
+• 
+Stop placement: Below the swing low (bullish OTE) or above the swing high (bearish 
+OTE)
+
+--- Page 30 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 30 
+ 
+Fig 9.1: Optimal Trade Entry (OTE): Fibonacci Zone 62%–79% with OB and FVG Confluence 
+ 
+OTE ELITE ENTRY: Three Conditions 
+An OTE entry reaches its highest probability when ALL THREE conditions are simultaneously met: (1) 
+Price is in the 62–79% retracement zone of a significant swing. (2) The OTE zone coincides with a 
+Bullish/Bearish OB or FVG. (3) The entry occurs during a Kill Zone (London or New York). When all 
+three align, this is an ICT elite setup: size accordingly.
+
+--- Page 31 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 31 
+  SECTION 10    Dealing Ranges and PD Arrays 
+10. Dealing Ranges and PD Arrays 
+ 
+ICT uses specific price references, PD Arrays (Price Delivery Arrays), as anchors for 
+understanding where price is likely to reach for and from where it is likely to deliver its next 
+move. These levels are the primary liquidity targets for each session and the primary 
+premium/discount anchors for bias classification. 
+ 
+10.1  Key Reference Levels 
+Reference Level 
+Abbrev. 
+Definition 
+ICT Significance 
+Previous Day 
+High 
+PDH 
+Highest price of the previous 
+trading day 
+Primary BSL target; frequently 
+swept at NY open or London open 
+Previous Day 
+Low 
+PDL 
+Lowest price of the previous 
+trading day 
+Primary SSL target; frequently 
+swept at London open (Judas 
+Swing) 
+Previous Week 
+High 
+PWH 
+Highest price of the previous 
+week (Mon–Fri) 
+Major BSL pool; weekly expansion 
+targets; Monday Judas Swing 
+target 
+Previous Week 
+Low 
+PWL 
+Lowest price of the previous 
+week 
+Major SSL pool; weekly Judas 
+Swing target downward 
+Previous Month 
+High 
+PMH 
+Highest price of the previous 
+calendar month 
+Macro BSL; significant on 
+Daily/Weekly HTF analysis for the 
+month 
+Previous Month 
+Low 
+PML 
+Lowest price of the previous 
+calendar month 
+Macro SSL; major structural 
+support/target for the month 
+NY Midnight 
+Open 
+NYMO 
+Price at exactly 12:00 AM New 
+York time 
+ICT's daily anchor; price above = 
+Premium, below = Discount for that 
+day 
+ 
+10.2  New York Midnight Open (NYMO) 
+The NYMO (12:00 AM EST) is one of ICT's most important daily reference levels. It marks the 
+beginning of the new trading day in the ICT framework and serves as the anchor for the daily 
+premium/discount analysis. 
+• 
+Price above the NYMO = Premium; look for selling opportunities; be cautious about new 
+longs 
+• 
+Price below the NYMO = Discount; look for buying opportunities; be cautious about new 
+shorts 
+• 
+The daily PO3 AMD cycle is measured from the NYMO: Accumulation above/below 
+NYMO → Manipulation (Judas Swing) → Distribution toward daily target 
+• 
+For GBP/USD and EUR/USD specifically: the NYMO is the single most important 
+intraday reference level
+
+--- Page 32 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 32 
+ 
+ 
+Fig 10.1: PD Arrays: PDH, PDL, PWH, PWL, PMH, PML and NY Midnight Open 
+ 
+STACKING PD ARRAYS 
+Stack PD arrays top-down before every session: PMH/PML (macro) → PWH/PWL (weekly) → 
+PDH/PDL (daily) → NYMO (intraday). If price is at or above PDH and PWH (both in premium), only 
+look for short entries. If price has swept below PDL and is recovering (discount), only look for long 
+entries. Never fight the premium/discount classification of your PD arrays.
+
+--- Page 33 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 33 
+  SECTION 11    SMT Divergence: Deep Focus 
+11. Smart Money Technique (SMT) Divergence 
+ 
+SMT Divergence is one of the most powerful and underutilised concepts in the ICT and SMC 
+framework. It is a confirmation and filtering tool that uses the relationship between correlated 
+instruments to identify when a price extreme is not being validated across the correlated market: 
+signalling a high-probability reversal point. When used correctly, SMT eliminates a large 
+proportion of false setups and dramatically improves entry timing and confidence. 
+ 
+FORMAL DEFINITION 
+SMT Divergence occurs when Instrument A makes a new high (or low) that Instrument B FAILS to 
+confirm: both being highly correlated pairs. The instrument that made the fake extreme (the sweep) 
+was manipulated. The instrument that did NOT confirm reveals the true underlying order flow direction. 
+The manipulated instrument will follow the non-confirming instrument's direction. 
+ 
+11.1  The Core Principle: Why Correlations Matter 
+Certain Forex pairs and instruments are highly correlated because they share the same base or 
+quote currencycurrency, or are driven by the same macroeconomic forces. Under normal 
+conditions, these correlated instruments move together: their swing highs and lows align 
+closely. 
+When correlated instruments diverge at a price extreme, it means one market is being 
+manipulated (stop hunt)op-hunted) while the other is not. This divergence reveals the direction 
+smart money intends to move price: because the instrument that did NOT make the extreme is 
+showing the true underlying order flow direction. 
+ 
+11.2  Correlation Pairs Within Our Instruments 
+EUR/USD and GBP/USD: Primary SMT Pair 
+EUR/USD and GBP/USD are the most closely correlated major Forex pairs; both quoted against 
+the USD and driven by shared macroeconomic cycles. 
+• 
+Normal behaviour: EUR/USD makes a new high → GBP/USD also makes a new high 
+(confirming the move) 
+• 
+Bullish SMT Divergence: EUR/USD makes a new LOWER LOW → GBP/USD makes a 
+HIGHER LOW (does NOT confirm). EUR/USD's new low was a fake SSL sweep. Both 
+pairs expected to RALLY. 
+• 
+Bearish SMT Divergence: EUR/USD makes a new HIGHER HIGH → GBP/USD makes 
+a LOWER HIGH (does NOT confirm). EUR/USD's new high was a fake BSL sweep. 
+Both pairs expected to FALL.
+
+--- Page 34 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 34 
+USD/JPY and XAU/USD: Inverse SMT Pair 
+USD/JPY and XAU/USD have an established inverse correlation: USD strengthening (USD/JPY 
+rising) = gold falling. This inverse relationship creates a unique SMT dynamic. 
+• 
+Normal behaviour: USD/JPY rises → XAU/USD falls (inverse movement as USD 
+strengthens) 
+• 
+Bullish Gold SMT: XAU/USD makes a new LOWER LOW → USD/JPY FAILS to make a 
+new higher high (USD not actually strengthening). Gold's new low was a false SSL 
+sweep. Expect gold to RALLY. 
+• 
+Bearish Gold SMT: XAU/USD makes a new HIGHER HIGH → USD/JPY FAILS to make 
+a new lower low (USD not actually weakening). Gold's new high was a false BSL sweep. 
+Expect gold to FALL. 
+ 
+ 
+ 
+ 
+Fig 11.1: SMT Divergence: XAU/USD vs USD/JPY Inverse Correlation: Both Scenarios 
+ 
+11.3  The Four SMT Scenarios: Step by Step 
+Scenario 1: Bullish EUR/USD vs GBP/USD 
+• 
+EUR/USD makes a new swing low: a fresh Lower Low. SSL swept below the previous 
+low. 
+• 
+At the same time (same candle or same Kill Zone), GBP/USD makes a HIGHER LOW: 
+does NOT confirm EUR/USD's new low. 
+• 
+The EUR/USD low was a liquidity sweep: engineered to trigger stops, not a genuine new 
+low driven by USD strength.
+
+--- Page 35 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 35 
+• 
+On EUR/USD: look for a Bullish OB or FVG immediately above the swept low (the 
+CHoCH area). Enter long on OB/FVG retracement. 
+• 
+On GBP/USD: look for a long entry at the Higher Low structure: the cleaner entry with a 
+tighter stop. 
+• 
+Target: both pairs rally toward BSL pools above (Equal Highs, PDH/PWH). 
+ 
+Scenario 2: Bearish EUR/USD vs GBP/USD 
+• 
+EUR/USD makes a new swing high: a fresh Higher High. BSL swept above the previous 
+high. 
+• 
+At the same time, GBP/USD makes a LOWER HIGH: does NOT confirm EUR/USD's 
+new high. 
+• 
+EUR/USD's high was a BSL sweep: the USD is not actually weakening; only EUR/USD 
+was manipulated upward. 
+• 
+On EUR/USD: a Bearish OB or FVG immediately below the swept high is the entry zone. 
+Sell the retracement after CHoCH. 
+• 
+On GBP/USD: sell at the Lower High: the cleaner and earlier signal. 
+• 
+Target: both pairs fall toward SSL pools below. 
+ 
+Scenario 3: Bullish Gold (XAU/USD vs USD/JPY) 
+• 
+XAU/USD makes a new swing low: gold drops aggressively, appearing bearish. 
+• 
+Check USD/JPY: if USD were genuinely strengthening, USD/JPY should make a new 
+HIGH. Instead, USD/JPY makes a LOWER HIGH or fails to confirm. 
+• 
+Gold's new low was a liquidity sweep below key SSL: not driven by genuine USD 
+strength. 
+• 
+On XAU/USD: the new low is a Bullish OB or FVG entry. The sweep reversal on gold is 
+the signal. 
+• 
+Target: gold rallies to sweep BSL above: Equal Highs, daily highs, previous key levels. 
+ 
+Scenario 4: Bearish Gold (XAU/USD vs USD/JPY) 
+• 
+XAU/USD makes a new swing high: gold rallies aggressively, appearing bullish. 
+• 
+Check USD/JPY: if USD were genuinely weakening, USD/JPY should make a new 
+LOW. Instead, USD/JPY makes a HIGHER LOW or fails to confirm. 
+• 
+Gold's new high was a BSL sweep: not a genuine USD weakness move. 
+• 
+On XAU/USD: the new high is a Bearish OB or FVG. Enter short on the retracement 
+after CHoCH. 
+• 
+Target: gold falls to sweep SSL below.
+
+--- Page 36 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 36 
+11.4  SMT Real-Time Checklist 
+ 
+SMT DIVERGENCE: REAL-TIME VERIFICATION CHECKLIST 
+[ ] 
+HTF Bias first: SMT only confirms entries in the direction of the Daily/Weekly bias; it does not 
+overrideerride it 
+[ ] 
+Open both charts simultaneously at the same timeframe (H1 or M15). Never compare different 
+timeframes across pairs. 
+[ ] 
+Watch the Kill Zone: SMT divergences are most reliable during the London Kill Zone and NY Kill 
+Zone 
+[ ] 
+Compare the extremes: when one instrument makes a new high or low, immediately check the 
+correlated instrument 
+[ ] 
+Wait for CHoCH: SMT divergence alone is NOT an entry signal. Wait for the manipulated 
+instrument to show a lower-TF CHoCH. 
+[ ] 
+Look for OB or FVG: the CHoCH should leave an OB or FVG. Enter at the CE of the FVG or 
+body of the OB. 
+[ ] 
+The CLEANER entry is on the non-confirming instrument: it was not manipulated; its structure 
+reflectsts true order flow. 
+ 
+11.5  SMT Common Pitfalls 
+Pitfall 
+Why It's Wrong 
+Correct Approach 
+Using SMT on 
+uncorrelated pairs 
+Divergence between uncorrelated 
+pairs is random; no institutional logic 
+Only use: EUR/USD vs GBP/USD 
+(direct correlation), or XAU/USD vs 
+USD/JPY (inverse) 
+Using SMT as entry 
+signal alone 
+SMT identifies the manipulation; it 
+does not time the reversal 
+Always wait for CHoCH + OB or 
+FVG confirmation after the SMT 
+divergence 
+Comparing different 
+timeframes 
+False divergences created between 
+H4 one instrument and M15 the 
+other 
+Always compare the SAME 
+timeframe on both instruments 
+simultaneously 
+Ignoring HTF bias 
+Even a perfect SMT divergence can 
+go against the macro trend 
+Only trade SMT divergences that 
+align with the Daily/Weekly 
+directional bias 
+All divergences are 
+equal 
+SMT during NY PM session is far 
+weaker than during London Kill 
+Zone 
+Weight by Kill Zone timing (highest) 
+> data release windows > mid-
+session (lowest) 
+ 
+11.6  Why SMT Works: The Institutional Logic 
+Large institutional participants cannot fill their entire position in a single instrument in one 
+movee: there is not enough liquidity at a specific price to absorb billions of dollars of orders. 
+They use correlated instruments to hunt liquidity in sequence: sweeping EUR/USD stops while 
+GBP/USD has already reversed, because the EUR/USD stop pool was deeper at that moment. 
+The non-confirming pair reveals that the sweep in the confirming pair was a manufactured 
+move: not driven by genuine order flow. Once the sweep is complete, both instruments realign: 
+the manipulated one reverses to rejoin the direction the non-confirming one was already 
+showing.
+
+--- Page 37 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 37 
+ 
+ADVANCED NOTE 
+As you become more experienced with SMT, you will observe that the non-confirming pair forms the 
+CLEANERANER ICT structure: cleaner OBs, less noise in the FVGs, tighter stop placement. This is 
+because it was NOT manipulated: its price action reflects genuine institutional order flow. Treat the 
+non-confirming instrument's structure as your primary entry vehicle when trading SMT setups.
+
+--- Page 38 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 38 
+  SECTION 12    Silver Bullet Strategy 
+12. Silver Bullet Strategy 
+ 
+The Silver Bullet is a specific ICT intraday setup that operates within defined 60-minute windows 
+during which price consistently creates a liquidity sweep followed by a sharp FVG-based entry. 
+It is considered one of ICT's most reliable and reproducible intraday setups: and when 
+combined with SMT divergence, it becomes one of the highest-probability entries in the entire 
+framework. 
+ 
+12.1  The Three Silver Bullet Windows 
+Window 
+Time (EST) 
+Time (UTC) 
+Best Instruments 
+Priority 
+Window 1: London 
+3:00 AM – 4:00 
+AM 
+08:00 – 09:00 
+EUR/USD, 
+GBP/USD 
+High 
+Window 2: NY 
+Morning 
+10:00 AM – 
+11:00 AM 
+15:00 – 16:00 
+GBP/USD, 
+EUR/USD, 
+XAU/USD 
+HIGHEST 
+Window 3: NY 
+Afternoon 
+2:00 PM – 3:00 
+PM 
+19:00 – 20:00 
+EUR/USD, 
+GBP/USD 
+Moderate 
+ 
+12.2  Setup Rules: Applicable to All Three Windows 
+• 
+Establish HTF bias: Know the Daily and/or H4 directional bias before the window opens. 
+Only take Silver Bulletver Bullet setups in the HTF bias direction: no counter-trend 
+entries. 
+• 
+Window opens: Price makes a liquidity sweep; sweeps a nearby swing high (bearish 
+silver bullet) or swing low (bullish silver bullet) within the opening minutes of the window. 
+• 
+FVG forms on the reversal: After sweeping liquidity, the reversal move creates a Fair 
+Value Gap on the M1 or M5 timeframe. This FVG is your entry zone. 
+• 
+Price retraces into the FVG: After the initial reversal move, price pulls back into the FVG 
+created by that reversal. 
+• 
+Enter at the CE of the FVG: Place entry at the midpoint (CE) of the M1/M5 FVG. Stop: 
+beyond the swept liquidity level. Target: next liquidity pool in the HTF bias direction. 
+• 
+All execution must occur within the 60-minute window: If the setup has not triggered by 
+the end of the window, skip ithe window, skip it: wait for the next Silver Bullet window.
+
+--- Page 39 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 39 
+ 
+Fig 12.1: Silver Bullet Strategy: Three Windows and Setup Sequence 
+ 
+SILVER BULLET KEY RULES 
+Window 2 (10–11 AM EST) is the highest-probability window for EUR/USD and GBP/USD. The FVG 
+must be CREATED by the reversal that follows the liquidity sweep: not a pre-existing FVG from 
+earlier. SMT divergence during a Silver Bullet window dramatically increases the setup's reliability: 
+when EUR/USD sweeps while GBP/USD doesn't confirm, the GBP/USD Silver Bullet entry is the 
+highest-probability setup in the entire ICT framework.
+
+--- Page 40 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 40 
+  SECTION 13    Time and Price Theory 
+13. Time and Price Theory 
+ 
+ICT's Time and Price Theory is the meta-framework underlying the entire ICT methodology. It 
+proposes that financial markets: particularly Forex: are not driven by supply and demand in the 
+traditional sense, but are delivered by an algorithmic price delivery mechanism (the Interbank 
+Price Delivery Algorithm, or IPDA) that moves price to specific levels at specific times, in a 
+predictable sequence. 
+ 
+13.1  The Core Proposition 
+Price is delivered by an interbank algorithm to pre-determined liquidity targets, at pre-
+determined time windows, in a predictable sequence. Key implications: 
+• 
+Price moves are purposeful: Every major price move exists to reach a liquidity target. 
+There is no randomnessandom walk: only moves toward engineered objectives. 
+• 
+Time is not random: Significant moves, reversals, and structural events cluster around 
+specific times windows: Kill Zones, economic releases, midnight opens, and quarter 
+turns of the clock. 
+• 
+Retail technical analysis is the target: Because retail traders use the same tools 
+(support/resistance)ce, trendlines, chart patterns), their orders cluster at predictable 
+levels: these clusters are the liquidity that the algorithm harvests. 
+• 
+Quarterly bias: Every 90-day quarter has a pre-determined directional bias. The opening 
+price of each quarter serves as a macro premium/discount reference. 
+ 
+13.2  Practical Applications of Time and Price Theory 
+Concept 
+Practical Application 
+Clock-based entries 
+Significant moves cluster at: 8:30 AM (US data), 10:00 AM (mid-
+morning), 2:00 PM (PM session open), 3:00 PM (London/NY afternoon 
+crossover), and 12:00 AM EST (NYMO) 
+Quarter-turn windows 
+Times at :00, :15, :30, and :45 minutes past the hour tend to produce 
+more significant price activity than random intra-hour times 
+Quarterly bias 
+Mark opening price of each quarter (Jan 1, Apr 1, Jul 1, Oct 1). Price 
+above quarterly open = bullish quarterly bias; below = bearish 
+HTF time alignment 
+A Daily setup on Tuesday (key weekly day) during London Kill Zone (2–5 
+AM) = maximum nested time confluence 
+Monday rule 
+Monday = potential manipulation day for the week. Tuesday = first 
+reliable directional day. Never trade Monday's direction as the week's 
+direction.
+
+--- Page 41 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 41 
+PRACTICAL RECOMMENDATION 
+Use Time and Price Theory as a TIMING FILTER: (1) Only enter trades during defined Kill Zones or at 
+key clock times. (2) Mark the quarterly open as a macro premium/discount reference. (3) Treat 
+Monday as potential manipulation; use Tuesday for weekly directional confirmation. (4) Never force a 
+trade outside a time window simply because the price looks right: in ICT, time alignment is as 
+important as price alignment.
+
+--- Page 42 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 42 
+  SECTION 14    ICT Concepts by Instrument 
+14. ICT Concepts by Instrument 
+ 
+While ICT concepts apply universally, each of the four instruments in this program has specific 
+behavioural tendencies that affect how setups present, how aggressive the moves are, and how 
+the sessions interact. Understanding these instrument-specific nuances sharpens your ability to 
+time entries and set appropriate stop distances. 
+ 
+14.1  EUR/USD: The Benchmark ICT Pair 
+• 
+Most consistent ICT structure of any Forex pair; OBs and FVGs are clean and reliable 
+across all timeframeseframes 
+• 
+Judas Swings at London open are highly predictable; Asian range sweeps occur on 
+approximately 70% of daysf trading days 
+• 
+SMT with GBP/USD is the primary signal filter; always cross-check before EUR/USD 
+entries 
+• 
+OBs on H4 and Daily are the cleanest entry zones; M15 OBs within the London and NY 
+Kill Zones are reliable for intraday 
+• 
+PDH/PDL sweeps are highly consistent; mark every day's high and low before the next 
+session 
+• 
+Silver Bullet Window 2 (10–11 AM EST) is the highest-probability intraday setup on 
+EUR/USD 
+ 
+14.2  GBP/USD: High-Volatility ICT 
+• 
+Larger daily ranges mean larger FVGs and OBs; stop losses must be wider; position 
+sizes must be adjustedusted accordingly 
+• 
+Judas Swings are more aggressive: can sweep 15–25 pips beyond the Asian range vs 
+EUR/USD's 8–15 pips 
+• 
+SMT relationship with EUR/USD: GBP/USD frequently shows the SMT divergence 
+BEFORE EUR/USD does, making it a leading indicator for the setup 
+• 
+Most active and reliable for ICT setups during the London Kill Zone; directly driven by 
+UK macro contextnditions 
+• 
+Breaker Blocks on GBP/USD are particularly powerful; when a major OB fails on 
+GBP/USD, the Breaker Block Block reaction is typically sharp and swift 
+• 
+Avoid GBP/USD during major UK political events (Budget, BoE emergency actions); 
+Judas Swings become unpredictable unreliable when genuine fundamental shocks 
+occur 
+ 
+14.3  USD/JPY: Session-Specific ICT 
+• 
+ICT setups on USD/JPY are most reliable during the New York Kill Zone, particularly 
+around the 8:30 AM EST release AM EST data releases
+
+--- Page 43 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 43 
+• 
+USD/JPY FVGs are clean and frequently fill completely; making FVG targets highly 
+reliable as take profit zonesrofit levels 
+• 
+SMT with XAU/USD (inverse): use USD/JPY as a filter for gold setups. If USD/JPY is not 
+confirming a gold move, the gold move is suspect. 
+• 
+Safe-haven flows and BoJ intervention risk can override the ICT algorithmic structure; 
+when VIX spikeskes or geopolitical events occur, patterns become less reliable 
+• 
+The 150.00 level is an extreme premium zone with historically proven BoJ intervention 
+risk; special caution required caution and tighter position management when price 
+approaches this area 
+ 
+14.4  XAU/USD (Gold): Aggressive ICT 
+• 
+Gold is the most aggressive ICT instrument: FVGs are wider ($5–$15), sweeps are 
+deeper ($8–$20), OBs can cover $10–$25 ranges on H4 
+• 
+Real yield correlation: Gold moves inversely with US real interest rates (US 10yr TIPS 
+yield). This macro driver can override intraday ICT structure: always check real yields 
+before HTF gold analysis. 
+• 
+Judas Swings on gold are extremely dramatic and create high-conviction SMT 
+divergence signals with USD/JPY: the gold/yen SMT is one of the most powerful setups 
+in this program 
+• 
+FVG fills on gold are highly reliable; once a bullish or bearish FVG forms on H1 or H4, 
+price almost alwayst always returns to at least the CE of the gap 
+• 
+Dollar Index (DXY) is the primary macro filter; if DXY and gold are moving in the same 
+direction simultaneouslymultaneously, one of them is about to snap back (divergence 
+signal) 
+• 
+The Asian session gold range is typically $3–$8. A London session sweep beyond this 
+range by $10+ is a reliable Judas Swing signal. 
+• 
+Wednesday EIA report creates knee-jerk gold reactions (via USD move); watch for false 
+FVG fills immediately afterediately after EIA that reverse within 30 minutes
+
+--- Page 44 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 44 
+  SECTION 15    Full ICT Trade Framework 
+15. Full ICT Trade Framework: Top-Down Analysis to 
+Execution 
+ 
+This section combines every concept in this module into a single, step-by-step workflow, from 
+the macroacro monthly analysis down to M5 execution. This is the process that every ICT trade 
+should follow, every time, without exception. 
+ 
+15.1  Top-Down Analysis: Five Timeframe Process 
+• 
+Monthly / Weekly: Mark PMH/PML and PWH/PWL. Identify macro dealing range. Is price 
+in premium or discount? What is the quarterly bias (above or below quarterly open 
+price)? 
+• 
+Daily: Identify the current market structure sequence (BOS continuation or CHoCH 
+pending). Mark the most recent Daily OB and FVG. Map all liquidity pools above and 
+below current price. Determine today's PO3 expectation based on weekly bias. 
+• 
+H4: Confirm Daily bias with H4 structure. Identify the specific OB and FVG that will be 
+the trade entry zone. Classify current price as premium or discount using the NYMO as 
+the reference level. 
+• 
+H1: Identify internal structure movements. Confirm the specific OB or FVG entry zone 
+within the H4 area. Mark the Kill Zone window for execution timing. 
+• 
+M15 / M5 (Entry Timeframe): Wait for the Kill Zone to open. Watch for the Judas Swing / 
+liquidity sweep. Look for a CHoCH and FVG formation on M15 confirming the reversal. 
+Enter at the CE of the M15 FVG or at the M15 OB body. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig 15.1: Full ICT Trade Framework: Top-Down Analysis to Execution
+
+--- Page 45 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 45 
+ 
+15.2  Sample ICT Trade: EUR/USD Long 
+Analysis Layer 
+Finding 
+Weekly bias 
+Bullish; price broke above the PWH on Tuesday, BOS confirmed. Still in 
+bullish expansion phase. 
+Daily structure 
+HH/HL sequence intact. Last Daily HL at 1.0820. Daily Bullish FVG 
+between 1.0835–1.0855. Price currently in Discount (below the 50% of the 
+Daily dealing range). 
+Liquidity context 
+SSL sits below 1.0810 (Equal Lows from past 3 days). PDL at 1.0815. 
+These are the Judas Swing targets for the London open. 
+NYMO reference 
+NYMO at 1.0840. Current price at 1.0820: Discount. Bias: bullish entries 
+preferred. 
+Kill Zone 
+London Kill Zone (2:00 AM – 5:00 AM EST). This is where the setup should 
+execute. 
+Expected AMD 
+sequence 
+London opens → Judas Swing drops into SSL below 1.0810–1.0815 
+(sweeps PDL and Equal Lows) → M15 CHoCH forms → Bullish M15 FVG 
+created by the reversal candle → Enter long at CE of M15 FVG. 
+SMT check 
+GBP/USD: If GBP/USD makes a higher low when EUR/USD sweeps its 
+Equal Lows; Bullish SMT divergence confirmedonfirmed. Dramatically 
+enhances confidence. 
+Entry 
+Buy at CE of M15 FVG: approximately 1.0820 (midpoint of the gap left by 
+the M15 reversal candle) 
+Stop Loss 
+Below the SSL sweep low; e.g., 1.0803 (below Judas Swing low with 7-pip 
+buffer). Risk = 17 pips. 
+Take Profit 1 
+PDH at 1.0870 = 50 pips from entry. RR = 2.94:1. Close 50% here; move 
+SL to breakeven. 
+Take Profit 2 
+BSL above Equal Highs at 1.0910 = 90 pips from entry. RR = 5.3:1 on 
+remaining position. 
+Invalidation 
+M15 candle close below 1.0800 (below the Judas Swing low by a significant 
+margin) = setup failed. Exit immediately. 
+ 
+15.3  ICT Confluence Scoring: Minimum 5/8 Required 
+Rate every ICT setup before taking it. Do not enter below a score of 5 out of 8. The RR factor is 
+a disqualifier: no setup should be entered without at least 2:1 risk/reward. 
+Confluence Factor 
+Present? 
+Score 
+HTF (Daily/Weekly) bias aligns with trade direction 
+Yes / No 
++2 if yes 
+Entry is in Discount (long) or Premium (short) 
+Yes / No 
++1 if yes 
+Liquidity swept before entry (Judas Swing / SSL or BSL sweep 
+occurred) 
+Yes / No 
++1 if yes 
+OB or FVG present at entry zone 
+Yes / No 
++1 if yes 
+Entry occurs during a Kill Zone 
+Yes / No 
++1 if yes
+
+--- Page 46 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 46 
+Confluence Factor 
+Present? 
+Score 
+CHoCH confirmed on entry timeframe before entry 
+Yes / No 
++1 if yes 
+SMT divergence confirms the manipulation 
+Yes / No 
++1 if yes 
+RR ratio is at least 2:1 to the first target 
+Yes / No 
++1 if yes 
+(DISQUALIFIER 
+if no)
+
+--- Page 47 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 47 
+ICT Glossary: Complete Reference 
+ 
+Term 
+Definition 
+AMD 
+Accumulation–Manipulation–Distribution. The three phases of the Power of 3 (PO3) 
+cycle. 
+BOS 
+Break of Structure. A candle body close beyond a confirmed swing high (bullish 
+BOS) or swing low (bearish BOS). Confirms trend continuation: not a reversal signal. 
+BPR 
+Balanced Price Range. The overlapping area of a Bullish and Bearish FVG. A high-
+priority rebalancing zone: both sides of the market have unfinished business here. 
+Breaker Block 
+A failed Order Block that has inverted its function. A broken Bullish OB becomes 
+bearish resistance (Bearish Breaker); a broken Bearish OB becomes bullish support 
+(Bullish Breaker). 
+BSL 
+Buy-Side Liquidity. Orders resting above price; stop losses of short sellers and 
+breakout buy orderss. Smart money sells INTO BSL sweeps. 
+CE 
+Consequent Encroachment. The 50% midpoint of a Fair Value Gap; the highest-
+precision entry within an FVGn FVG. Formula: (FVG Top + FVG Bottom) ÷ 2. 
+CHoCH 
+Change of Character. Price breaking the most recent structural swing that protected 
+the trend, following a liquidity sweep. First evidence of a potential trend reversal. 
+Dealing Range 
+Any defined price range used for premium/discount analysis: daily range, weekly 
+range, a swing from a major low to a major high. 
+Discount 
+Price below the 50% equilibrium of the current dealing range. Preferred zone for 
+buying. 
+EQH / EQL 
+Equal Highs / Equal Lows. Two or more swing highs or lows at the same price level, 
+creating a concentrated BSL (EQH) or SSL (EQL) liquidity pool. 
+FVG 
+Fair Value Gap. A three-candle imbalance where C1's wick and C3's wick do not 
+overlap, leaving an untouched price zone. Acts as both entry zone and price target. 
+IDM 
+Inducement. A smaller engineered liquidity pool that price sweeps before reaching 
+the larger primary liquidity objective. The decoy before the real target. 
+IFVG 
+Inversion Fair Value Gap. An FVG fully traded through and inverted: former Bullish 
+FVG acts as resistance; former Bearish FVG acts as support on retest. 
+Judas Swing 
+The Manipulation phase of PO3: the false directional move at Kill Zone open that 
+sweeps liquidity before the real Distribution move begins in the opposite direction. 
+Kill Zone 
+Specific high-probability time windows: London KZ (2–5 AM EST), New York KZ (7–
+10 AM EST). ICT setups outside these windows carry significantly lower probability. 
+MMBM 
+Market Maker Buy Model. Full institutional cycle for building and distributing a long 
+position. Sequence: SSL sweep → Judas Swing → Bullish CHoCH → OB/FVG entry 
+(Discount) → Bullish expansion → BSL target → MMSM begins. 
+MMSM 
+Market Maker Sell Model. Mirror of MMBM. Sequence: BSL sweep → Judas Swing 
+→ Bearish CHoCH → OB/FVG entry (Premium) → Bearish expansion → SSL target 
+→ MMBM begins. 
+Mitigation 
+The process of price returning to an Order Block and filling (partially or fully) the 
+institutional orders placed there. First mitigation = highest quality entry. 
+NYMO 
+New York Midnight Open. Price at 12:00 AM EST; ICT's primary daily anchor for 
+premium/discount classificationsification. Price above = Premium; below = Discount.
+
+--- Page 48 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 48 
+Term 
+Definition 
+OB 
+Order Block. The last opposite-colour candle immediately before a significant 
+impulse move. Representsts institutional order placement: the most precise ICT 
+entry tool. 
+OTE 
+Optimal Trade Entry. The 62%–79% Fibonacci retracement zone of a significant 
+swing: the highest-probability zone for entries, especially when combined with OB or 
+FVG. 
+PDH / PDL 
+Previous Day High / Previous Day Low. Primary daily BSL and SSL targets. 
+Frequently swept by the London or NY Judas Swing. 
+PO3 
+Power of 3. ICT's three-phase price delivery model: Accumulation → Manipulation → 
+Distribution. Applies to daily candles, weekly candles, and each major session. 
+Premium 
+Price above the 50% equilibrium of the current dealing range. Preferred zone for 
+selling. Never buy in Premium; never sell in Discount. 
+PWH / PWL 
+Previous Week High / Previous Week Low. Major weekly BSL and SSL pools. 
+Frequently the target of Monday's Judas Swing or Tuesday's true directional move. 
+Rejection 
+Block 
+A candle with a significant wick indicating aggressive order absorption at the wick 
+zone. Used on M15/H1 for precision entries within an OB or FVG from a higher 
+timeframe. 
+Silver Bullet 
+ICT intraday strategy: liquidity sweep within a defined 60-minute window → FVG 
+entry at the CE. Three windows: 3–4 AM, 10–11 AM, 2–3 PM EST. 
+SMT 
+Smart Money Technique Divergence. When a highly correlated instrument fails to 
+confirm a new high or low low in another: revealing a manufactured liquidity 
+manipulation in the confirming instrument. 
+SSL 
+Sell-Side Liquidity. Orders resting below price; stop losses of long holders and 
+breakout sell ordersrs. Smart money buys INTO SSL sweeps.
+
+--- Page 49 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 49 
+ICT Pre-Trade Checklist 
+ 
+Complete every item before entering any ICT-based trade. A score of 5 or higher on the 
+confluence score (Section 15.3) is required for execution. 
+ 
+ 
+Item 
+Category 
+MARKET STRUCTURE AND BIAS 
+[ ] 
+Weekly and Daily structure 
+identified: BOS sequence or 
+CHoCH pending: directional 
+bias confirmed 
+Structure 
+[ ] 
+Quarterly bias identified: 
+price above or below 
+quarterly open price 
+Time/Price 
+PD ARRAYS AND PREMIUM/DISCOUNT 
+[ ] 
+PMH/PML, PWH/PWL, 
+PDH/PDL all marked on the 
+chart 
+PD Arrays 
+[ ] 
+NYMO identified: current 
+price classified as Premium 
+or Discount for the day 
+NYMO 
+[ ] 
+Entry is in Discount (long) or 
+Premium (short): not trading 
+against the zone 
+Premium/Discount 
+LIQUIDITY AND JUDAS SWING 
+[ ] 
+Liquidity pools (BSL above, 
+SSL below) identified: know 
+which one is the Judas 
+Swing target 
+Liquidity 
+[ ] 
+Judas Swing has occurred: 
+the false move swept the 
+expected liquidity pool at the 
+Kill Zone open 
+Judas Swing 
+[ ] 
+I am positioning WITH the 
+reversal after the Judas 
+Swing: not in the direction of 
+the false move 
+Judas Swing 
+ORDER BLOCK AND FVG 
+[ ] 
+A Bullish or Bearish OB 
+identified on H4 or Daily: 
+fresh (unmitigated) and 
+within the premium/discount 
+zone 
+OB 
+[ ] 
+An FVG present at the entry 
+zone: CE calculated and 
+marked 
+FVG / CE
+
+--- Page 50 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 50 
+ 
+Item 
+Category 
+[ ] 
+OB or FVG aligns with the 
+OTE zone (62–79% 
+Fibonacci) if applicable 
+OTE 
+TIMING AND CONFIRMATION 
+[ ] 
+Entry is during a Kill Zone 
+(London 2–5 AM or NY 7–10 
+AM EST): no entries outside 
+these windows 
+Kill Zone 
+[ ] 
+CHoCH confirmed on the 
+entry timeframe (M15 or 
+M5): structural shift 
+confirmed before entry 
+CHoCH 
+[ ] 
+Entry is at the CE of an FVG 
+or the body of an OB: not 
+chasing price or entering 
+mid-range 
+Entry Precision 
+SMT AND CONFLUENCE 
+[ ] 
+SMT check completed: 
+correlated pair (EUR/GBP or 
+XAU/JPY) cross-referenced 
+SMT 
+[ ] 
+Confluence score calculated 
+(Section 15.3): minimum 5/8 
+required before entry 
+Confluence Score 
+RISK MANAGEMENT 
+[ ] 
+Stop loss placed beyond the 
+swept liquidity level: not 
+inside the OB or FVG 
+Stop Loss 
+[ ] 
+RR ratio is at least 2:1 to 
+TP1: the liquidity target is at 
+least 2x the stop distance 
+away 
+RR Ratio 
+[ ] 
+Position size calculated 
+based on 1–2% account 
+risk: lot size confirms the 
+dollar amount at risk 
+Position Size 
+[ ] 
+Economic calendar checked: 
+no red-folder news within 30 
+minutes of entry 
+News
+
+--- Page 51 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 51 
+Module 4 Quiz: 20 Questions 
+ 
+Circle or write the correct answer. Answers and explanations are on the final page. 
+ 
+Q1. In ICT, a Break of Structure (BOS) signals: 
+A) A trend reversal: the prior trend is over 
+B) Trend continuation: smart money has validated the directional bias 
+C) A liquidity sweep that will immediately reverse 
+D) An Order Block has been mitigated 
+ 
+Q2. Buy-Side Liquidity (BSL) consists of: 
+A) Long positions held by retail traders below support 
+B) Stop losses of short sellers and breakout buy orders resting ABOVE price 
+C) Institutional buy orders placed at Discount zones 
+D) The body of the last bullish candle before a bearish move 
+ 
+Q3. A Bullish Order Block is defined as: 
+A) The first bullish candle after a major down move 
+B) Any price area where price has previously bounced 
+C) The last BEARISH (red) candle immediately before a significant bullish impulse 
+D) The first bearish candle after price reaches a resistance level 
+ 
+Q4. Consequent Encroachment (CE) refers to: 
+A) Price closing fully through a Fair Value Gap, invalidating it 
+B) The 50% midpoint of a Fair Value Gap: the highest-precision entry within an FVG 
+C) The 78.6% Fibonacci retracement of any swing 
+D) When two correlated pairs diverge at a price extreme 
+ 
+Q5. The Power of 3 (PO3) Manipulation phase is best identified as: 
+A) A quiet, ranging period at the start of the session 
+B) A sharp, aggressive false move that sweeps liquidity before reversing in the true direction 
+C) The final expansion move that distributes smart money's position 
+D) Any candle that creates a Fair Value Gap 
+ 
+Q6. The New York Midnight Open (NYMO) is used in ICT as: 
+A) The reference price for calculating pip values 
+B) The anchor level for classifying current price as Premium or Discount for the day 
+C) The stop loss placement level for all NY session trades 
+D) The time when the London Kill Zone ends
+
+--- Page 52 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 52 
+Q7. In a Market Maker Buy Model (MMBM), the FIRST phase is: 
+A) A BSL sweep above the previous swing high 
+B) A bullish CHoCH breaking above a recent Lower High 
+C) An SSL sweep below obvious sell-side liquidity: hunting stop losses of long holders 
+D) Price retracing into a Bearish OB 
+ 
+Q8. A Breaker Block is: 
+A) A candle with a very long wick indicating rejection 
+B) An Order Block that price has returned to and fully mitigated through: now inverted in 
+function 
+C) The last candle before a liquidity sweep 
+D) A Fair Value Gap that has been traded through and inverted 
+ 
+Q9. EUR/USD makes a new lower low at the London open. GBP/USD makes a higher low 
+at the same time. This is: 
+A) A Bearish SMT divergence: expect both pairs to fall further 
+B) A Bullish SMT divergence: EUR/USD swept SSL; expect a rally on both pairs 
+C) A Balanced Price Range forming on EUR/USD 
+D) An Inversion FVG signal 
+ 
+Q10. The ICT Optimal Trade Entry (OTE) zone is: 
+A) The 38.2%–50% Fibonacci retracement of a swing 
+B) The 62%–79% Fibonacci retracement zone of a significant swing 
+C) Exactly the 61.8% level only 
+D) Any point inside a Fair Value Gap 
+ 
+Q11. Smart money SELLS into which type of liquidity? 
+A) Sell-Side Liquidity (SSL) below swing lows 
+B) Buy-Side Liquidity (BSL) above swing highs: into the stop losses of short sellers 
+C) Fair Value Gaps on the M15 timeframe 
+D) Any Order Block that has been previously mitigated 
+ 
+Q12. The Silver Bullet strategy Window 2 occurs at: 
+A) 3:00 AM – 4:00 AM EST 
+B) 8:30 AM – 9:30 AM EST 
+C) 10:00 AM – 11:00 AM EST 
+D) 2:00 PM – 3:00 PM EST
+
+--- Page 53 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 53 
+Q13. A Judas Swing at the London open that moves DOWNWARD first, then reverses 
+aggressively upward, tells you: 
+A) The daily bias is bearish: sell the reversal 
+B) The daily bias is bullish: the downward move was manipulation sweeping SSL; the true 
+Distribution move is upward 
+C) There is no directional signal: wait for the New York session 
+D) A Double Bottom pattern is forming on the Daily chart 
+ 
+Q14. When a Bullish FVG is completely traded through (price closes below it), it 
+becomes: 
+A) A Bullish Order Block 
+B) A Bullish Inversion FVG: now acts as support when price retests from above 
+C) A Bearish Inversion FVG: now acts as resistance when price retests from below 
+D) The level is simply invalidated and has no further use 
+ 
+Q15. In a Bearish SMT divergence between XAU/USD and USD/JPY: 
+A) XAU/USD makes a new high AND USD/JPY makes a new low: both confirm USD 
+weakness 
+B) XAU/USD makes a new high BUT USD/JPY fails to make a new low: USD is not actually 
+weakening; the gold high is a BSL sweep 
+C) Both instruments make new lows simultaneously: confirming dollar strength 
+D) SMT cannot be applied between XAU/USD and USD/JPY because gold is a commodity, 
+not a currency 
+ 
+Q16. Which of the following is NOT a characteristic of a high-quality Order Block? 
+A) The impulse after the OB broke external structure or swept major liquidity 
+B) A Fair Value Gap is present between the OB and the next significant structure 
+C) Price has already returned to the OB and mitigated through it twice fully 
+D) The OB is on H4 or Daily timeframe 
+ 
+Q17. In ICT, Equal Highs (EQH) are significant primarily because: 
+A) They confirm an uptrend: equal highs mean strong bullish momentum is holding 
+B) They create a concentrated pool of buy-side liquidity (BSL) above them: a magnet for 
+price to sweep before reversing 
+C) They indicate that smart money has completed its distribution at that level 
+D) Equal Highs always form at the 79% Fibonacci retracement level 
+ 
+Q18. What is the key difference between Inducement (IDM) and a primary liquidity pool? 
+A) Inducement occurs only during the Asian session; major pools only during Kill Zones 
+B) Inducement is a smaller pool engineered to bait traders before the larger primary liquidity 
+objective is swept: the decoy before the real target 
+C) There is no difference: IDM and major liquidity pools are the same concept in ICT 
+D) Inducement only occurs on Gold; major pools only on Forex pairs
+
+--- Page 54 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 54 
+ 
+Q19. According to Time and Price Theory, Monday's price action should be treated as: 
+A) The definitive direction for the entire week: trade Monday's momentum 
+B) Potential manipulation: Monday is frequently the week's Judas Swing; Tuesday is the first 
+reliable directional day 
+C) The most reliable ICT setup day: Monday Kill Zones have maximum volume 
+D) Irrelevant: ICT only trades Wednesday through Friday 
+ 
+Q20. Your EUR/USD long scores: Daily bullish BOS (+2), Price in Discount (+1), Judas 
+Swing swept SSL (+1), H1 FVG at entry (+1), London Kill Zone (+1), M15 CHoCH 
+confirmed (+1), SMT: no clear divergence (0), RR = 1.8:1 (0). Total score = 7/8. Should you 
+take the trade? 
+A) Yes: 7/8 is excellent, enter at full position size 
+B) No: the RR of 1.8:1 is below the 2:1 minimum. RR is a disqualifier regardless of other 
+confluence. Wait for a better entry that improves the RR, or skip the setup. 
+C) Yes: take half size because SMT is missing 
+D) Wait for the New York session and re-evaluate with better RR
+
+--- Page 55 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 55 
+Quiz Answer Key 
+ 
+Q 
+Answer 
+Explanation 
+Q1 
+B 
+BOS = continuation confirmation. In ICT, BOS signals smart money is still 
+executinging in the trend direction. A reversal is signalled by CHoCH, not BOS. The 
+entry comes on the OB/FVG retracement after the BOS: never at the BOS itself. 
+Q2 
+B 
+BSL sits ABOVE price; stop losses of shorts + breakout buys. When swept, smart 
+moneymoney fills short (sell) positions into the BSL. They are distributing shorts by 
+selling into the buyers created by the stop triggers. 
+Q3 
+C 
+Bullish OB = the last RED (bearish) candle before the bullish impulse. Not the first 
+bullish candle: the last bearish one. This is where institutional buy orders were 
+placed that launched the move. 
+Q4 
+B 
+CE = the 50% midpoint of the FVG zone. Formula: (FVG Top + FVG Bottom) ÷ 2. 
+The highest-precision, best-RR entry within the gap. Institutional algorithms 
+frequently deliver price exactly to the CE before reversing. 
+Q5 
+B 
+Manipulation = the Judas Swing: the false sharp directional move that sweeps 
+liquidity before the real Distribution move begins in the opposite direction. It is 
+engineered deception, not random price action. 
+Q6 
+B 
+NYMO is the anchor for daily premium/discount. Price above NYMO = Premium 
+(look to sell or avoid longs); below NYMO = Discount (look to buy or avoid shorts). 
+Used every trading day. 
+Q7 
+C 
+MMBM Phase 1 = SSL sweep. Smart money must hunt sell-side liquidity first to 
+accumulate long positions: they buy the triggered stop-loss sell orders. This is the 
+source of the 'cheap' price they need. 
+Q8 
+B 
+A Breaker Block is a failed OB: it was fully mitigated and its function inverted. A 
+broken Bullish OB becomes bearish resistance (Bearish Breaker). A broken Bearish 
+OB becomes bullish support (Bullish Breaker). 
+Q9 
+B 
+EUR/USD lower low + GBP/USD higher low = Bullish SMT divergence. EUR/USD's 
+new low was a false SSL sweep: GBP/USD's higher low reveals the true direction is 
+bullish. Both pairs expected to rally. 
+Q10 
+B 
+OTE zone = 62%–79% Fibonacci retracement. Combines the 0.618, 0.705, and 
+0.786 levels: the deep retracement area where ICT entries are highest probability, 
+especially when coinciding with an OB or FVG. 
+Q11 
+B 
+Smart money sells INTO BSL above; using the buy-stop orders and stop losses of 
+shorts as the counterpartyrparty for their distribution. They need buyers to sell into 
+at scale, and BSL provides exactly that. 
+Q12 
+C 
+Silver Bullet Window 2 = 10:00 AM – 11:00 AM EST. The three windows are: 
+Window 1 = 3–4 AM EST (London), Window 2 = 10–11 AM EST (NY morning, 
+HIGHEST priority), Window 3 = 2–3 PM EST (NY afternoon). 
+Q13 
+B 
+A downward Judas Swing sweeps SSL (below obvious support). This is the 
+Manipulation phase before the bullish Distribution. The daily bias is bullish: the 
+downward move was engineered to accumulate long positions before the rally. 
+Q14 
+C 
+A Bullish FVG that is completely closed through becomes a Bearish IFVG; it now 
+acts as RESISTANCEhen price retests from below. The direction flips: bullish 
+imbalance inverts to bearish resistance.
+
+--- Page 56 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 4: ICT Concepts 
+© Forex Study Program  |  Module 4 — ICT Concepts (Deep Focus) 
+Page 56 
+Q 
+Answer 
+Explanation 
+Q15 
+B 
+XAU/USD new high + USD/JPY NOT confirming with a new low = Bearish SMT on 
+Gold. USD is not weakening; as the gold high implies: gold's high was a BSL sweep 
+(manipulation). Expect gold to fall. 
+Q16 
+C 
+An OB mitigated through twice is consumed; no longer high quality. Fresh, 
+unmitigated OBs are the high-quality setups. Once the body has been closed 
+through completely, the OB's institutional orders have been filled. 
+Q17 
+B 
+EQH creates a concentrated BSL pool above; stop losses of shorts and breakout 
+buy orders cluster at and above EQH. Price sweeps this pool before reversing. The 
+more touches at EQH, the larger the pool and the more aggressive the eventual 
+sweep. 
+Q18 
+B 
+Inducement is a smaller engineered liquidity pool; the decoy that lures traders in the 
+wrong directionion before the larger primary liquidity is swept and the real 
+Distribution move begins. Always smaller and less significant than the real target. 
+Q19 
+B 
+Monday = potential Judas Swing for the week. Do not assume Monday's direction is 
+the week's direction. Tuesday's confirmation is required before committing to any 
+weekly bias trade in ICT. 
+Q20 
+B 
+RR of 1.8:1 is below the 2:1 minimum. The RR factor is a DISQUALIFIER; no trade 
+should be entered below 2:1elow 2:1 RR regardless of how high the other 
+confluence score is. Wait for a better entry or skip the setup entirely. 
+ 
+MODULE COMPLETION: ICT Concepts 
+Congratulations on completing Module 4: ICT Concepts (Deep Focus)! 
+Recommended score before proceeding: 16/20 or higher. 
+If you scored below 14/20, review Sections 2–8 (liquidity, OBs, FVGs, kill zones, PO3, market maker 
+models) before moving on. 
+Modules 2, 3, and 4 together form the complete Price Action and Institutional methodology foundation 
+for Module 5 (Fundamental Analysis) and Module 6 (Trade Planning and Confluence). 
+Next: Module 5: Fundamental Analysis 
+ 
+Next: Module 5: Fundamental Analysis 
+Forex Market Analysis: Complete Study Program  |  Module 4 of 7

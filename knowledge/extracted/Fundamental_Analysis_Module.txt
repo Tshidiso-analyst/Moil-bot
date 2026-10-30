@@ -1,0 +1,2380 @@
+--- Page 1 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 1 
+FOREX MARKET ANALYSIS 
+Complete Study Program 
+ 
+MODULE 5 
+Fundamental Analysis 
+Deep Focus Module  |  The Macro Engine Behind Price Delivery 
+Advanced Level  |  GBP/USD · EUR/USD · USD/JPY · XAU/USD  |  15 Sections  |  20 Diagrams 
+Central Banks 
+Yield & Bonds 
+Dollar Smile & Risk 
+COT & Workflow 
+ 
+Central Banks  •  Rate Cycles  •  Dot Plot  •  Economic Calendar  •  CPI / NFP / GDP  •  Inflation Funnel 
+Rate Differentials  •  Carry Trade  •  Yield Curve  •  2Y Yield  •  Yield Spreads  •  DXY Basket 
+Dollar Smile Theory  •  Safe-Haven Dynamics  •  VIX  •  Gold Real Yield  •  Oil & Commodities 
+Seasonality  •  COT Report  •  CME FedWatch  •  4-Step Fundamental + ICT Workflow
+
+--- Page 2 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 2 
+Table of Contents 
+Table of Contents ....................................................................................................................... 2 
+1. What Fundamentals Actually Do to Price ............................................................................... 4 
+1.1  The Fundamental-to-Price Chain ..................................................................................... 4 
+1.2  Why Beginners Fear Fundamental Events: And Why They Should Not ........................... 5 
+2. Central Banks ........................................................................................................................ 6 
+2.1  How Central Banks Control Currency Value .................................................................... 6 
+2.2  The Rate Cycle: Four Phases .......................................................................................... 6 
+2.3  The Four Major Central Banks for Our Instruments ......................................................... 7 
+2.4  Hawkish vs Dovish: Reading Central Bank Language ..................................................... 7 
+2.5  The Fed Dot Plot: Forward Guidance Made Visual .......................................................... 8 
+2.6  Bank of Japan: Special Considerations for USD/JPY ...................................................... 9 
+3. The Economic Calendar ........................................................................................................10 
+3.1  The Three Tiers of Market Impact ...................................................................................10 
+3.2  How to Read a Data Release .........................................................................................10 
+3.3  Full Data Release Calendar: All Key Events ...................................................................11 
+3.4  Pre-Announcement Protocol ...........................................................................................13 
+4. Inflation: The Most Important Economic Indicator ..................................................................15 
+4.1  Inflation Indicators: The Full Toolkit ................................................................................15 
+4.2  How to Trade CPI Releases ...........................................................................................16 
+5. Employment Data .................................................................................................................17 
+5.1  Non-Farm Payrolls (NFP): Anatomy ...............................................................................17 
+5.2  The Full Employment Data Suite ....................................................................................17 
+5.3  How to Trade NFP Using ICT .........................................................................................18 
+6. GDP and Growth Indicators ..................................................................................................19 
+6.1  GDP Releases and Their Structure .................................................................................19 
+6.2  PMI: The Leading Indicator .............................................................................................19 
+6.3  Retail Sales: The Consumer Proxy .................................................................................19 
+7. Interest Rate Differentials and Carry Trade ...........................................................................20 
+7.1  How Rate Differentials Drive Currency Direction .............................................................20 
+7.2  Carry Trade: Borrow Low, Invest High ............................................................................20 
+8. Bonds and FX: The Intermarket Engine ................................................................................22 
+8.1  The Yield Curve: Reading the Bond Market ....................................................................22 
+8.2  The 2-Year Yield: The Fed's Leading Indicator ...............................................................22 
+8.3  Yield Spreads: The Directional Tailwind .........................................................................23 
+8.4  DXY: The Dollar Index ....................................................................................................23
+
+--- Page 3 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 3 
+9. The Dollar Smile Theory........................................................................................................25 
+9.1  The Three Zones of the Dollar Smile ..............................................................................25 
+Zone 1: Recession and Crisis (Left Side of the Smile)........................................................25 
+Zone 2: Muddle Through (Bottom of the Smile) ..................................................................26 
+Zone 3: US Outperformance (Right Side of the Smile) .......................................................26 
+10. Safe-Haven Dynamics: Risk-On and Risk-Off .....................................................................27 
+10.1  The VIX: The Fear Index ..............................................................................................27 
+10.2  Safe-Haven Assets: Why They Are Safe ......................................................................28 
+10.3  Risk Sentiment and Our Four Instruments ....................................................................28 
+11. Energy and Commodities: The External Drivers ..................................................................29 
+11.1  Oil (WTI and Brent): Impact on FX ................................................................................29 
+11.2  The EIA Weekly Crude Oil Inventory Report .................................................................30 
+11.3  When Gold and USD Move in the Same Direction ........................................................30 
+12. Gold (XAU/USD): Fundamental Deep Dive .........................................................................32 
+12.1  The Real Yield Formula: Gold's Gravity ........................................................................32 
+12.2  All Gold Fundamental Drivers: Ranked by Importance ..................................................33 
+13. Seasonality and the Fiscal Year ..........................................................................................34 
+13.1  Quarterly Rebalancing: The Most Predictable Seasonal Event .....................................34 
+13.2  The Summer Doldrums: July and August ......................................................................35 
+13.3  Other Seasonal Patterns ..............................................................................................35 
+14. Institutional Tools: Where the Professionals Look ...............................................................36 
+14.1  CME FedWatch Tool: Rate Probability in Real Time .....................................................36 
+How to Read FedWatch: ....................................................................................................36 
+14.2  The COT Report: Smart Money Positioning ..................................................................36 
+How to Use the COT Report Step by Step: ........................................................................37 
+15. The Complete Fundamental + ICT Workflow .......................................................................39 
+15.1  The Four-Step Professional Process ............................................................................39 
+Step 1: Weekly: Check the COT Report .............................................................................39 
+Step 2: Daily: Check Yield Spreads and DXY ....................................................................40 
+Step 3: Session: Check the Economic Calendar ................................................................40 
+Step 4: Execution: Apply ICT Structure ..............................................................................40 
+15.2  Full Worked Example: GBP/USD Long .........................................................................40 
+15.3  Fundamental Bias Checklist: Weekly Preparation .........................................................41 
+Fundamental Analysis Glossary ................................................................................................43 
+Module 5 Quiz: 20 Questions ....................................................................................................45 
+Quiz Answer Key ......................................................................................................................49
+
+--- Page 4 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 4 
+ 
+  SECTION 1    What Fundamentals Do to Price 
+1. What Fundamentals Actually Do to Price 
+ 
+A common mistake among students who master technical analysis is to treat fundamental data as 
+noise: or worse, to fear it. In reality, fundamental events are not separate from the price action you 
+study. They are the fuel that creates the very moves, imbalances, and liquidity sweeps that ICT 
+concepts describe. Understanding fundamentals does not require you to become an economist. It 
+requires you to understand one core relationship: how macroeconomic data creates the liquidity 
+conditions that drive institutional order flow. 
+ 
+1.1  The Fundamental-to-Price Chain 
+Every significant price move, every Order Block, every Fair Value Gap, every CHoCH, has a 
+fundamentaltal reason behind it, even if you never look at a news calendar. The chain works as 
+follows: 
+• 
+A macroeconomic event is scheduled or occurs (CPI release, rate decision, NFP). 
+• 
+The market has an expectation of what the data will show (the Forecast). 
+• 
+The actual data is released. If it differs from the forecast, a surprise is created. 
+• 
+The surprise forces market participants to rapidly adjust their positions, triggering stop 
+losses, creating large one-directional order flows. 
+• 
+This order flow produces the displacement candles, Fair Value Gaps, and structural breaks 
+that ICT teaches you to trade. 
+ 
+ 
+Fig 1.1: How Fundamentals Connect to Price Delivery: The Macro-to-ICT Bridge
+
+--- Page 5 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 5 
+KEY INSIGHT 
+Fundamentals = the WHY of the move. ICT = the WHERE and WHEN of the entry. A hot CPI print is 
+the Judas Swing catalyst. The Fair Value Gap left after the spike is your entry. You do not have to 
+choose between fundamental and technical analysis: they are two layers of the same framework. 
+ 
+1.2  Why Beginners Fear Fundamental Events: And Why They Should Not 
+Many beginner traders avoid trading around news releases because price 'moves too fast' or 
+'seems random.' This is because they are trying to predict the direction of the move. That is not the 
+goal. The goal is to identify the structural aftermath of the move: the OB or FVG that the 
+displacement creates: and enter on the retracement once the direction has been established. The 
+news creates the opportunity. ICT provides the entry. 
+RULE 
+Never trade INTO a high-impact data release. Always trade the AFTERMATH. The setup is the FVG 
+or OB formed after the initial spike: entered during the retracement in the following Kill Zone window.
+
+--- Page 6 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 6 
+  SECTION 2    Central Banks: The Most Important Driver 
+2. Central Banks 
+ 
+Central banks are the single most powerful force in the foreign exchange market. Everything else: 
+inflation data, employment reports, GDP: matters primarily because of what it tells us about what a 
+central bank will do next. Understanding central banks is not optional for a Forex trader. It is the 
+foundation of all medium and long-term directional bias. 
+ 
+2.1  How Central Banks Control Currency Value 
+A central bank controls the supply of its national currency and sets the base interest rate; the 
+ratete at which commercial banks can borrow money overnight. This rate is the single most 
+important price in an economy. When the rate rises, holding that currency earns more return, 
+attracting capital from around the world. When the rate falls, that currency becomes less attractive, 
+and capital flows elsewhere. 
+• 
+Higher interest rates → Higher return on holding that currency → Capital inflows → 
+Currency STRENGTHENS 
+• 
+Lower interest rates → Lower return → Capital outflows → Currency WEAKENS 
+• 
+Markets do not just react to current rates; they react to EXPECTED future rates. This is 
+why a central bank's language and forward guidance often moves markets more than the 
+actual rate decision. 
+ 
+2.2  The Rate Cycle: Four Phases 
+Central banks move through a predictable cycle as they respond to economic conditions. 
+Understanding which phase a central bank is in tells you the medium-term directional bias for its 
+currency. 
+Phase 
+What CB Is Doing 
+Economic 
+Condition 
+Currency Impact 
+① Hiking 
+Raising interest 
+rates 
+Inflation too high, 
+economy running 
+hot 
+Currency STRENGTHENS: buy on dips 
+② Peak 
+Rates at maximum 
+level 
+Inflation slowing, 
+economy cooling 
+Watch for REVERSAL: the turn is coming 
+③ Cutting 
+Lowering interest 
+rates 
+Recession risk, 
+inflation controlled 
+Currency WEAKENS: sell rallies 
+④ Trough 
+Rates at minimum 
+level 
+Deep recession or 
+crisis 
+Watch for REVERSAL: stimulus begins to 
+work
+
+--- Page 7 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 7 
+ 
+Fig 2.1: Central Bank Rate Cycle: Four Phases and Currency Implications 
+ 
+2.3  The Four Major Central Banks for Our Instruments 
+Central 
+Bank 
+Abbreviation 
+Instruments 
+Affected 
+Meeting Frequency 
+Key Focus 
+Federal 
+Reserve 
+Fed / FOMC 
+EUR/USD, 
+GBP/USD, 
+USD/JPY, 
+XAU/USD 
+8× per year 
+Dual mandate: price 
+stability (2% CPI) + 
+maximum employment 
+European 
+Central 
+Bank 
+ECB 
+EUR/USD 
+(directly) 
+8× per year 
+Price stability only: 2% 
+HICP inflation target for 
+Eurozone 
+Bank of 
+England 
+BoE 
+GBP/USD 
+(directly) 
+8× per year 
+Price stability (2% CPI) + 
+financial system stability 
+Bank of 
+Japan 
+BoJ 
+USD/JPY 
+(directly) 
+8× per year 
+Historically ultra-dovish. 
+Negative rates until 2024. 
+YCC policy. Intervention 
+risk above 150.00. 
+ 
+2.4  Hawkish vs Dovish: Reading Central Bank Language 
+Central banks communicate through speeches, statements, and press conferences. The tone and 
+specific language used signals the direction of future policy. Learning to classify CB language as 
+hawkish or dovish is a core fundamental analysis skill.
+
+--- Page 8 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 8 
+ 
+Fig 2.2: Hawkish vs Dovish Language Spectrum with Real CB Phrases 
+ 
+KEY RULE 
+Markets react to CHANGES in CB language, not the absolute level. A central bank shifting from 
+'further hikes may be needed' to 'we are monitoring data carefully' is a dovish shift that can move a 
+currency pair 100+ pips even with no rate change. Always compare the current statement to the 
+previous one. 
+ 
+2.5  The Fed Dot Plot: Forward Guidance Made Visual 
+The Federal Reserve publishes a 'dot plot': a chart showing each FOMC member's projection for 
+the Fed Funds Rate at the end of each year and in the longer run. It is released four times per year 
+with the quarterly Summary of Economic Projections (SEP). This is one of the most important 
+documents in global finance. 
+• 
+Each dot represents one FOMC member's rate forecast. There are currently 19 members. 
+• 
+The MEDIAN dot (middle dot when arranged vertically) represents the committee's central 
+tendency;his is what markets focus on most. 
+• 
+When the median dot moves UP between meetings: hawkish surprise → USD typically 
+strengthens. 
+• 
+When the median dot moves DOWN between meetings: dovish surprise → USD typically 
+weakens. 
+• 
+The market reacts to the CHANGE in the dot plot, not the absolute projected level.
+
+--- Page 9 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 9 
+ 
+Fig 2.3: Fed Dot Plot: How to Read Interest Rate Projections 
+ 
+2.6  Bank of Japan: Special Considerations for USD/JPY 
+The Bank of Japan has unique characteristics that make USD/JPY behave differently from other 
+major pairs. For most of the 2010s and early 2020s, the BoJ maintained ultra-loose policy 
+including negative interest rates and Yield Curve Control (YCC): a policy of capping Japanese 
+Government Bond yields to stimulate the economy. Understanding these nuances is essential for 
+trading USD/JPY. 
+• 
+Yield Curve Control (YCC): The BoJ set a ceiling on the 10-year JGB yield (typically 0.5–
+1.0%). When yields approached the ceiling, the BoJ bought bonds: creating yen weakness. 
+• 
+Negative interest rates (until March 2024): The BoJ charged commercial banks to hold 
+excess reserves, discouraging saving and encouraging lending. This made JPY extremely 
+weak. 
+• 
+Intervention risk: When USD/JPY rises above 150.00, the Japanese government and BoJ 
+have historically intervened: selling USD, buying JPY: to defend the currency. Always 
+check for intervention risk above 148–150. 
+• 
+BoJ policy normalisation: From 2024, the BoJ began hiking rates for the first time in 17 
+years. This created significant JPY strength and volatile swings in USD/JPY. 
+WARNING 
+When USD/JPY is trading above 148.00, always check for BoJ intervention warnings in the news. 
+Intervention can cause 300–500 pip moves in minutes. Reduce position size and widen stops 
+significantly.
+
+--- Page 10 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 10 
+  SECTION 3    The Economic Calendar 
+3. The Economic Calendar 
+ 
+The economic calendar is your daily roadmap for fundamental analysis. It lists every scheduled 
+data release, central bank event, and speech, ranked by their likely market impact. Before every 
+trading session, the first step is to check the economic calendar. Not doing so is equivalent to 
+driving in the dark without headlights. 
+ 
+3.1  The Three Tiers of Market Impact 
+ 
+Fig 3.1: Economic Calendar Tiers: Red, Orange and Green Events with Pip Impact 
+ 
+3.2  How to Read a Data Release 
+Every data release has three numbers you must understand before the announcement: 
+Number 
+What It Means 
+What to Watch 
+ACTUAL 
+The number just released: what the 
+economy actually produced 
+This is what triggers the price move. Compare 
+immediately to Forecast. 
+FORECAST 
+The consensus estimate from 
+economists surveyed before the 
+release 
+This is what is already PRICED IN. Markets 
+react to the difference, not the absolute 
+number. 
+PREVIOUS 
+Last month's / quarter's reading 
+(sometimes revised) 
+Trend context. Also watch for revisions; they 
+can be as impactful as the current reading.
+
+--- Page 11 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 11 
+ 
+Fig 3.2: Reading a Data Release: Actual vs Forecast vs Previous: Four Scenarios 
+ 
+BUY THE RUMOUR, SELL THE FACT 
+If everyone is expecting a strong NFP number and has already bought USD in anticipation, even a 
+strong actual number may produce a 'sell the fact' reaction. The move was already made. Always ask: 
+is this data already priced in? Check positioning (COT) and recent price action before forming an 
+expectation. 
+ 
+3.3  Full Data Release Calendar: All Key Events 
+Event 
+Tier 
+Frequency 
+Time 
+(EST) 
+Currency 
+Typical Pip Impact on 
+Our Instruments 
+UNITED STATES: Federal Reserve / US Data 
+Non-Farm Payrolls 
+(NFP) 
+1 
+Monthly: 1st 
+Friday 
+8:30 AM 
+USD 
+EUR/USD: 60–150 pips | 
+GBP/USD: 70–160 pips | 
+USD/JPY: 50–120 pips | 
+Gold: $15–$40 
+CPI (Consumer 
+Price Index) 
+1 
+Monthly 
+8:30 AM 
+USD 
+EUR/USD: 40–120 pips | 
+GBP/USD: 50–130 pips | 
+Gold: $10–$35 
+Core CPI (ex food & 
+energy) 
+1 
+Monthly 
+8:30 AM 
+USD 
+Often more impactful than 
+headline CPI. Same pip 
+ranges. 
+FOMC Rate 
+Decision + 
+Statement 
+1 
+8× yearly 
+2:00 PM 
+USD 
+All pairs: 80–200 pips | 
+Gold: $20–$60 | Press 
+conference adds extra 
+volatility 
+FOMC Press 
+Conference 
+1 
+8× yearly 
+2:30 PM 
+USD 
+Can add 50–100 pips 
+beyond initial rate decision 
+move
+
+--- Page 12 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 12 
+Event 
+Tier 
+Frequency 
+Time 
+(EST) 
+Currency 
+Typical Pip Impact on 
+Our Instruments 
+PCE Price Index 
+(Fed's preferred) 
+1 
+Monthly 
+8:30 AM 
+USD 
+EUR/USD: 30–80 pips | 
+Gold: $8–$25. More 
+relevant than CPI for Fed 
+policy. 
+GDP (Advance 
+Estimate) 
+1 
+Quarterly 
+8:30 AM 
+USD 
+EUR/USD: 40–100 pips | 
+GBP/USD: 40–100 pips | 
+Gold: $10–$30 
+Retail Sales 
+1 
+Monthly 
+8:30 AM 
+USD 
+EUR/USD: 30–80 pips | 
+GBP/USD: 30–80 pips 
+ISM Manufacturing 
+PMI 
+2 
+Monthly 
+10:00 
+AM 
+USD 
+EUR/USD: 20–60 pips | 
+GBP/USD: 20–60 pips 
+ADP Employment 
+Change 
+2 
+Monthly 
+8:15 AM 
+USD 
+EUR/USD: 20–50 pips | 
+Preview for NFP: market 
+impact varies 
+Initial Jobless 
+Claims 
+2 
+Weekly: 
+Thursday 
+8:30 AM 
+USD 
+EUR/USD: 15–40 pips | 
+More impactful when near 
+critical levels 
+FOMC Meeting 
+Minutes 
+2 
+3 weeks after 
+meeting 
+2:00 PM 
+USD 
+EUR/USD: 20–50 pips | 
+Gold: $8–$20 
+Fed Chair Speech 
+1–2 
+Variable 
+Variable 
+USD 
+Can be any size 
+depending on content. 
+High alert. 
+EUROZONE: European Central Bank 
+ECB Rate Decision 
++ Statement 
+1 
+8× yearly 
+8:15 AM 
+EUR 
+EUR/USD: 50–150 pips | 
+GBP/USD: 20–50 pips 
+(indirect) 
+ECB Press 
+Conference 
+1 
+8× yearly 
+8:45 AM 
+EUR 
+Adds 30–80 pips to rate 
+decision move: Lagarde's 
+tone matters 
+Eurozone CPI Flash 
+Estimate 
+1 
+Monthly 
+5:00 AM 
+EUR 
+EUR/USD: 30–80 pips 
+Eurozone GDP 
+Flash 
+1 
+Quarterly 
+5:00 AM 
+EUR 
+EUR/USD: 30–70 pips 
+German CPI 
+1 
+Monthly 
+8:00 AM 
+EUR 
+EUR/USD: 20–60 pips | 
+Germany = Eurozone's 
+largest economy 
+Eurozone 
+Manufacturing PMI 
+2 
+Monthly 
+4:00 AM 
+EUR 
+EUR/USD: 20–50 pips | 
+Strong leading indicator 
+UNITED KINGDOM: Bank of England 
+BoE Rate Decision 
++ Statement 
+1 
+8× yearly 
+7:00 AM 
+GBP 
+GBP/USD: 60–150 pips | 
+EUR/GBP also volatile
+
+--- Page 13 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 13 
+Event 
+Tier 
+Frequency 
+Time 
+(EST) 
+Currency 
+Typical Pip Impact on 
+Our Instruments 
+UK CPI 
+1 
+Monthly 
+2:00 AM 
+GBP 
+GBP/USD: 40–100 pips | 
+Most important UK data 
+release 
+UK Employment / 
+Average Earnings 
+1 
+Monthly 
+2:00 AM 
+GBP 
+GBP/USD: 30–80 pips | 
+Wage growth especially 
+important 
+UK GDP (Monthly) 
+1 
+Monthly 
+2:00 AM 
+GBP 
+GBP/USD: 30–70 pips 
+UK Retail Sales 
+2 
+Monthly 
+2:00 AM 
+GBP 
+GBP/USD: 20–50 pips 
+JAPAN: Bank of Japan 
+BoJ Rate Decision 
+1 
+8× yearly 
+Varies 
+(Tokyo 
+time) 
+JPY 
+USD/JPY: 80–200 pips | 
+Most surprising CB in 
+markets due to policy 
+shifts 
+Japan CPI 
+2 
+Monthly 
+7:30 PM 
+(prev. 
+night) 
+JPY 
+USD/JPY: 20–50 pips 
+Japan GDP 
+2 
+Quarterly 
+7:50 PM 
+(prev. 
+night) 
+JPY 
+USD/JPY: 20–40 pips 
+BoJ Governor 
+Speech 
+1–2 
+Variable 
+Variable 
+JPY 
+USD/JPY: 50–150 pips 
+when policy signals given 
+GOLD (XAU/USD): Key Data 
+All USD data (CPI, 
+NFP, FOMC) 
+1 
+See USD 
+rows 
+See 
+above 
+USD 
+Gold reacts inversely to 
+USD strength. $15–$60 
+moves on major prints. 
+US Real Yields 
+(TIPS/Breakeven) 
+Ongoing 
+Daily 
+Market 
+hours 
+USD 
+Most important ongoing 
+driver. Check daily via 
+FRED (T10YIE). 
+Geopolitical events 
+(War, Crisis) 
+1 
+Unpredictable 
+N/A 
+RISK 
+Gold spikes $20–$60 on 
+major geopolitical shocks 
+regardless of technicals. 
+ 
+3.4  Pre-Announcement Protocol 
+Follow this protocol around every Tier 1 data release: 
+• 
+30 minutes before: Close any open trades that do not have wide enough stops to survive a 
+100-pip adverse move. The risk is not worth it. 
+• 
+At release: Watch price but do not enter. Observe the initial spike direction and magnitude. 
+• 
+5–10 minutes after: The initial spike often retraces partially: this is the Judas Swing of the 
+news event. 
+• 
+After the FVG forms: Look for a retracement entry into the Fair Value Gap left by the 
+displacement candle. This is the highest-probability post-news entry.
+
+--- Page 14 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 14 
+• 
+Always check: Was the reaction in line with the surprise? (Hot CPI = USD up, Gold down). 
+If not, somethingthing else is driving the market: stand aside.
+
+--- Page 15 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 15 
+  SECTION 4    Inflation: The Central Bank Trigger 
+4. Inflation: The Most Important Economic Indicator 
+ 
+Inflation is the rate at which prices in an economy are rising. It is the single most watched 
+economic indicator for Forex traders because central banks exist primarily to control inflation. 
+When inflation is too high, central banks raise rates: strengthening the currency. When inflation is 
+too low or falling, central banks cut rates: weakening the currency. Understanding inflation data is 
+understanding the primary driver of interest rate expectations. 
+ 
+4.1  Inflation Indicators: The Full Toolkit 
+Indicator 
+Abbreviation 
+What It 
+Measures 
+Trading Significance 
+Consumer 
+Price Index 
+CPI 
+Price changes 
+for a basket of 
+consumer 
+goods and 
+services 
+The headline inflation measure. Most widely 
+watched. Includes food and energy; volatile. 
+Core CPI 
+Core CPI 
+CPI excluding 
+volatile food 
+and energy 
+prices 
+The Fed's preferred CPI measure. More stable 
+signal for policy direction. 
+Personal 
+Consumption 
+Expenditures 
+PCE 
+Spending by 
+households on 
+goods and 
+services 
+The Fed's OFFICIAL preferred inflation measure. 
+More comprehensive than CPI. Often moves 
+differently. 
+Core PCE 
+Core PCE 
+PCE excluding 
+food and 
+energy 
+The single most watched inflation gauge for Fed 
+policy. Released monthly with Personal 
+Income/Spending. 
+Producer Price 
+Index 
+PPI 
+Price changes 
+at the 
+wholesale / 
+producer level 
+Leading indicator of future CPI; price pressures 
+start here before reaching consumers. 
+HICP 
+(Eurozone) 
+HICP 
+Harmonised 
+Index of 
+Consumer 
+Prices: 
+Eurozone 
+measure 
+The ECB's primary inflation target measure. 
+Used for European inflation analysis.
+
+--- Page 16 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 16 
+ 
+Fig 4.1: Inflation Funnel: From CPI Data to Central Bank Decision to FX Impact 
+ 
+4.2  How to Trade CPI Releases 
+The CPI release follows a predictable logic chain. Internalise this sequence: 
+• 
+CPI BEATS FORECAST (higher than expected): USD strengthens. EUR/USD falls. 
+GBP/USD falls. Gold usually falls. USD/JPY rises. 
+• 
+CPI MISSES FORECAST (lower than expected): USD weakens. EUR/USD rises. 
+GBP/USD rises. Gold usually rises. USD/JPY falls. 
+• 
+CPI IN-LINE: Minimal reaction; focus on the trend (is inflation moving toward or away from 
+2% target?). 
+• 
+CORE CPI SURPRISE: Often more impactful than headline. If Core CPI beats while 
+headline misses, the Fed will focus on Core: trade accordingly. 
+ 
+ADVANCED NOTE 
+The Fed's 2% inflation target uses Core PCE, not CPI. However, CPI is released first and markets use 
+it as a proxy. When CPI and PCE diverge significantly, the PCE release (which comes later) can 
+cause a 'correction' trade. Always check whether the pair's reaction to CPI was proportionate.
+
+--- Page 17 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 17 
+  SECTION 5    Employment Data 
+5. Employment Data 
+ 
+Employment data is one half of the Federal Reserve's dual mandate; maximum employment 
+alongside pricece stability. When the labour market is strong, the Fed is comfortable keeping rates 
+higher for longer. When unemployment rises or jobs growth weakens, rate cuts become more 
+likely. For a Forex trader, employment data: especially the Non-Farm Payrolls: is the single most 
+consistently market-moving scheduled event. 
+ 
+5.1  Non-Farm Payrolls (NFP): Anatomy 
+ 
+Fig 5.1: NFP Anatomy: Components, Scenarios and Pip Impact by Instrument 
+ 
+5.2  The Full Employment Data Suite 
+Indicator 
+Release 
+Time (EST) 
+What to Watch 
+Non-Farm Payrolls 
+Monthly: 1st 
+Friday 
+8:30 AM 
+Headline number + revisions + wage growth. 
+Three numbers in one release. 
+Unemployment 
+Rate 
+Monthly: with 
+NFP 
+8:30 AM 
+Below 4% = tight labour market. Above 5% = 
+weakness. Rising trend more important than 
+level. 
+Average Hourly 
+Earnings 
+Monthly: with 
+NFP 
+8:30 AM 
+Wage inflation. >0.4% month-on-month = 
+inflationary pressure. Fed hawks this closely. 
+ADP Employment 
+Change 
+Monthly 
+8:15 AM 
+(Wed) 
+Private sector jobs preview for Friday's NFP. 
+Not always a reliable predictor but moves 
+markets.
+
+--- Page 18 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 18 
+Indicator 
+Release 
+Time (EST) 
+What to Watch 
+Initial Jobless 
+Claims 
+Weekly: 
+Thursdayrsday 
+8:30 AM 
+Real-time labour market health. Sustained rise 
+above 250K signals trouble. 
+JOLTS (Job 
+Openings) 
+Monthly 
+10:00 AM 
+Job vacancies. High openings = tight market. 
+Falling sharply = cooling quickly. 
+Participation Rate 
+Monthly: with 
+NFP 
+8:30 AM 
+% of working age adults in workforce. Rising = 
+healthy. Falling masks unemployment 
+improvement. 
+ 
+5.3  How to Trade NFP Using ICT 
+• 
+Thursday before NFP: Mark the PDH and PDL carefully. Asian session Thursday night will 
+define the Asian range that London sweeps on Friday. 
+• 
+Friday morning, pre-8:30 AM EST: Close any trades. Mark the Asian session high and low. 
+Do not enter. 
+• 
+At 8:30 AM: Watch price reaction. Do NOT trade the spike. Observe which direction the 
+displacement goes. 
+• 
+The 'Judas Spike': The initial move after NFP frequently reverses within 5–15 minutes. This 
+is the news-driven Judas Swing: the first spike is often in the wrong direction. 
+• 
+After the reversal is established: Look for a Fair Value Gap on M5 or M15 left by the 
+second move. Enter at the CE of this FVG. Stop beyond the post-NFP spike low/high. 
+• 
+Target: PDH or PDL that was not already swept, or the nearest Equal Highs/Lows. 
+WARNING 
+Do NOT hold positions through the NFP release unless your stop loss can survive a 200-pip adverse 
+move. The spread also widens dramatically at 8:30 AM: slippage is severe. Wait for the dust to settle.
+
+--- Page 19 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 19 
+  SECTION 6    GDP and Growth Indicators 
+6. GDP and Growth Indicators 
+ 
+Gross Domestic Product (GDP) is the total value of all goods and services produced in a country 
+over a period. It is the broadest measure of economic health. While GDP has a direct impact on 
+currency markets when it surprises, its greater value to Forex traders is in establishing the 
+medium-term directional bias for a currency: which phase of the economic cycle the country is in. 
+ 
+6.1  GDP Releases and Their Structure 
+GDP Type 
+Release Timing 
+What Traders Watch 
+Advance Estimate 
+~28 days after 
+quarter end 
+First look: highest market impact because it is the first 
+reading. Largest surprise potential. 
+Preliminary 
+Revision 
+~58 days after 
+quarter end 
+Revised with more data. Medium impact if revision is 
+significant. 
+Final Reading 
+~88 days after 
+quarter end 
+Minimal market impact: largely priced in by advance 
+estimate. 
+Monthly UK GDP 
+Monthly (unique to 
+UK) 
+UK releases monthly GDP; gives more granular view. 
+Often moves GBP/USD. 
+ 
+6.2  PMI: The Leading Indicator 
+Purchasing Managers' Index (PMI) surveys are released monthly and ask businesses whether 
+conditions are expanding or contracting. They are released BEFORE GDP and act as a leading 
+indicator. 
+• 
+PMI above 50 = Expansion (positive for currency) 
+• 
+PMI below 50 = Contraction (negative for currency) 
+• 
+Manufacturing PMI: measures factory output, new orders, employment in manufacturing 
+• 
+Services PMI: measures the services sector; often more predictive for FX than 
+manufacturing in developed economies 
+• 
+Composite PMI: combines both. Watch for trend: three consecutive months above/below 
+50 signals a clear trend. 
+ 
+6.3  Retail Sales: The Consumer Proxy 
+Retail Sales measures the total value of sales at the retail level. Because consumer spending 
+accountsts for approximately 70% of US GDP, Retail Sales is a real-time proxy for economic 
+health. A strong Retail Sales print suggests the consumer is confident and spending: positive for 
+the economy and the currency. A weak reading signals caution.
+
+--- Page 20 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 20 
+  SECTION 7    Rate Differentials and Carry Trade 
+7. Interest Rate Differentials and Carry Trade 
+ 
+The interest rate differential between two countries is one of the most powerful long-term drivers of 
+currency direction in Forex. It explains why currencies with rising rates consistently outperform 
+those with falling or stable rates, and why the Japanese yen weakened so dramatically in 2022–
+2023 while the US dollar surged. 
+ 
+7.1  How Rate Differentials Drive Currency Direction 
+ 
+Fig 7.1: Interest Rate Differential: How the Gap Between Central Banks Drives FX 
+ 
+The logic is simple: investors seek the highest risk-adjusted return. If the US Federal Reserve is 
+paying 5.25% interest while the ECB is paying 4.00%, capital flows to the US: not because 
+investors think the US economy is necessarily better, but because they are earning more on their 
+money. This capital inflow creates demand for USD, strengthening it relative to EUR. 
+• 
+The pair that matters: always compare the two currencies in the pair. EUR/USD is driven 
+by the Fed-ECB rate differential. 
+• 
+Direction of change matters most: if the Fed is hiking while the ECB is cutting, the 
+differential is widening. This is MORE powerful than the absolute differential. 
+• 
+Rate EXPECTATIONS matter more than current rates: markets price in future moves. If the 
+market expects the Fed to cut 3 times this year, USD will weaken NOW even though the 
+current rate is high. 
+ 
+7.2  Carry Trade: Borrow Low, Invest High
+
+--- Page 21 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 21 
+The carry trade is a strategy where traders borrow in a low-interest-rate currency and invest in a 
+high-interest-rate currency, pocketing the interest rate differential as profit. The Japanese yen 
+(JPY) is the world's most popular carry trade funding currency because the BoJ maintained near-
+zero rates for decades. 
+• 
+Classic carry trade: Borrow JPY at 0.1%, buy USD/JPY, earn 5% on the USD deposit = 
+4.9% carry profit annually 
+• 
+When carry trades work: stable markets, risk-on environment, low volatility; investors 
+comfortable holding the position 
+• 
+When carry trades UNWIND: risk-off event, market shock, BoJ rate hike surprise; investors 
+rush to coverlose, creating a massive JPY BUY (USD/JPY falls rapidly, often 300–500 
+pips) 
+• 
+The 2024 carry trade unwind: When the BoJ raised rates unexpectedly in July 2024, 
+USD/JPY fell from 161 to 142 in weeks as carry trades unwound globally 
+ 
+CARRY TRADE RULE 
+Watch for carry trade unwind risk when: (1) VIX spikes above 25, (2) BoJ makes a surprise hawkish 
+statement, (3) Major risk-off event occurs globally. These scenarios cause rapid, aggressive JPY 
+buying regardless of other fundamentals.
+
+--- Page 22 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 22 
+  SECTION 8    Bonds, Yields and the Intermarket Engine 
+8. Bonds and FX: The Intermarket Engine 
+ 
+If central bank policy is the engine of the Forex market, bond yields are the transmission 
+mechanism. The relationship between government bond yields and currency values is not just a 
+correlation: it is a cause-and-effect chain that professional traders monitor every day. 
+Understanding yields transforms your fundamental analysis from reactive to predictive. 
+ 
+8.1  The Yield Curve: Reading the Bond Market 
+The yield curve is a line that plots the interest rates (yields) of government bonds across different 
+maturities: from 3 months to 30 years. Its shape tells you what the market believes about the future 
+of interest rates and the economy. 
+ 
+Fig 8.1: The Yield Curve: Normal, Inverted and Flat with Trading Implications 
+ 
+8.2  The 2-Year Yield: The Fed's Leading Indicator 
+Among all bond maturities, the 2-year Treasury yield is the most important for Forex traders. It 
+prices in the Federal Reserve's expected policy path over the next two years: which means it 
+moves BEFORE the Fed acts. 
+• 
+When the 2Y yield rises: the market is pricing in future Fed rate hikes → USD strengthens. 
+If the 2Y is rising for weeks, USD has a fundamental tailwind even if the Fed has not hiked 
+yet. 
+• 
+When the 2Y yield falls: the market is pricing in future rate cuts; USD weakens. Watch for 
+2Y yield peaking: it often peaks before the last Fed hike and begins falling months before 
+the first cut.
+
+--- Page 23 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 23 
+• 
+Rule: The 2Y yield tells you where the Fed is GOING. The current Fed Funds Rate tells 
+you where the Fed IS. Trade the 2Y, not just the current rate. 
+ 
+8.3  Yield Spreads: The Directional Tailwind 
+Rather than looking at one country's yield in isolation, compare the yield spreads between pairs. 
+The spread between two countries' bond yields is the fundamental tailwind or headwind for that 
+currency pair. 
+ 
+Fig 8.2: 2-Year Yield as Fed Leading Indicator and UK-US Yield Spread for GBP/USD 
+ 
+Pair 
+Relevant Spread 
+Direction Signal 
+Where to Find 
+EUR/USD 
+US 10Y vs German 
+Bund (10Y) 
+Spread widening 
+(US>Germany) → 
+EUR/USD falls 
+TradingView: US10Y-
+DE10Y spread 
+GBP/USD 
+US 10Y vs UK Gilt 
+(10Y) 
+UK Gilt outperforms → 
+GBP/USD rises 
+TradingView: GB10Y-
+US10Y spread 
+USD/JPY 
+US 10Y vs Japan JGB 
+(10Y) 
+US-Japan spread 
+widening → USD/JPY 
+rises 
+TradingView: US10Y-JP10Y 
+spread 
+All pairs 
+US 2Y vs foreign 2Y 
+The 2Y spread is more 
+sensitive to near-term 
+CB expectations 
+FRED or Bloomberg 
+ 
+8.4  DXY: The Dollar Index 
+The US Dollar Index (DXY) measures the value of the US dollar against a basket of six major 
+currencies. It is the single most useful macro reference for all four of our instruments.
+
+--- Page 24 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 24 
+ 
+Fig 8.3: US Dollar Index (DXY): Basket Composition and Correlation to FX Pairs 
+ 
+• 
+DXY rising = most currencies weakening vs USD. EUR/USD, GBP/USD typically fall. Gold 
+typically falls. 
+• 
+DXY falling = most currencies strengthening vs USD. EUR/USD, GBP/USD rise. Gold 
+typically rises. 
+• 
+57.6% of DXY is EUR; so EUR/USD and DXY are almost perfect mirror images of each 
+other. 
+• 
+Use DXY as your quick macro reference: if DXY breaks a key support level, EUR/USD and 
+GBP/USD likely to rally. If DXY breaks resistance, they likely to fall. 
+PRACTICAL TOOL 
+Add DXY to your charts as a reference panel. Before entering any trade on EUR/USD, GBP/USD, or 
+Gold, check the DXY chart. Are they giving the same signal? If DXY is breaking above resistance 
+while EUR/USD is at a Bullish OB, the OB entry goes against the macro flow: reduce size or skip.
+
+--- Page 25 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 25 
+  SECTION 9    The Dollar Smile Theory 
+9. The Dollar Smile Theory 
+ 
+The Dollar Smile is one of the most important and most counterintuitive concepts in macro Forex 
+analysis. It explains a pattern that confuses beginners: why does the US dollar sometimes 
+strengthen when US economic data is BAD? The answer is that the USD is not simply a 'growth 
+currency.' It plays a dual role in the global financial system: and understanding this dual role is 
+what separates professional macro thinking from simple rate-differential analysis. 
+ 
+ 
+Fig 9.1: The Dollar Smile Theory: Why USD Gains in Both Recession and Strong Growth 
+ 
+9.1  The Three Zones of the Dollar Smile 
+Zone 1: Recession and Crisis (Left Side of the Smile) 
+When global economies enter recession or a financial crisis erupts, investors panic. Capital flees 
+from risky assets: equities, emerging market currencies, commodities: and rushes into safe 
+havens. The US dollar is the world's reserve currency, and US Treasuries are the world's safest 
+asset. This creates massive demand for dollars even when the US economy itself is in trouble. 
+• 
+Bad US data in a recession = USD can STILL strengthen as the safe-haven demand 
+overwhelms the negative data 
+• 
+Examples: 2008 Global Financial Crisis, March 2020 COVID crash; USD surged on global 
+panic despite US being the epicentre 
+• 
+How to identify: VIX above 30, equity markets falling rapidly, credit spreads widening. All 
+signs of risk-off = USD demand regardless of fundamentals
+
+--- Page 26 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 26 
+ 
+Zone 2: Muddle Through (Bottom of the Smile) 
+When the US economy is growing, but not dramatically faster than other economies, the dollar 
+loses its safe-haven advantage without gaining a significant growth advantage. Capital diversifies 
+globally: investors seek higher returns in Europe, emerging markets, and commodities. This is 
+when EUR/USD and GBP/USD tend to rally and gold can perform well. 
+• 
+Moderate global growth, US growing at average pace = USD WEAKENS 
+• 
+Good global data = capital flows away from USD safe haven toward higher-yield 
+opportunities 
+• 
+This is the 'good news is bad for dollar' scenario: most confusing for beginners 
+ 
+Zone 3: US Outperformance (Right Side of the Smile) 
+When the US economy is clearly outperforming other major economies, capital flows to the US for 
+its growth potential AND high interest rates. This is the straightforward 'strong US economy = 
+strong dollar' scenario. 
+• 
+Strong US GDP, hot NFP, rising CPI = Fed hikes = USD STRENGTHENS 
+• 
+This is the 'good news is good for dollar' scenario: the one beginners intuitively understand 
+• 
+EUR/USD falls, GBP/USD falls, Gold falls (rising real yields) 
+ 
+THE KEY PRACTICAL APPLICATION 
+When you see bad US data and USD is rising: ask: are we in Zone 1 (recession/crisis)? If VIX is 
+spiking and equities are falling, bad US data = USD up is RATIONAL. This is the Dollar Smile left side. 
+If we are in Zone 2 or 3 and bad US data causes USD to rise briefly, that reaction is likely a fake 
+Judas Swing: the real move will be USD weakness.
+
+--- Page 27 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 27 
+  SECTION 10    Safe-Haven Dynamics and Risk Sentiment 
+10. Safe-Haven Dynamics: Risk-On and Risk-Off 
+ 
+Risk sentiment is the overarching mood of global financial markets at any given time; whether 
+investorstors are confident and seeking returns (risk-on) or fearful and seeking safety (risk-off). 
+This sentiment directly and immediately affects all four of our instruments. Understanding risk 
+sentiment is the context layer that sits above all other fundamental analysis. 
+ 
+ 
+Fig 10.1: Risk-On vs Risk-Off: Capital Flow Chart and Safe-Haven Asset Behaviour 
+ 
+10.1  The VIX: The Fear Index 
+The CBOE Volatility Index (VIX) measures expected volatility in the S&P 500 over the next 30 
+days, derived from options pricing. It is the most widely used measure of market fear and risk 
+appetite. 
+VIX Level 
+Market Mood 
+Implication for FX and Gold 
+Below 15 
+Extreme complacency / 
+Risk-on 
+Equities rallying. JPY and CHF weak. Gold may drift 
+lower. Carry trades in favour. 
+15–20 
+Normal / Calm 
+Standard trading conditions. No special risk-on or risk-off 
+bias. 
+20–30 
+Elevated concern 
+Watch for risk-off signals. Reduce size. Begin monitoring 
+JPY and Gold for strengthening. 
+Above 30 
+Fear / Risk-off active 
+JPY strengthens aggressively. Gold surges. USD often 
+rises (Dollar Smile left side). Carry trades unwind.
+
+--- Page 28 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 28 
+VIX Level 
+Market Mood 
+Implication for FX and Gold 
+Above 40 
+Extreme fear / Crisis 
+All correlations may break down. Reduce all positions. 
+Protect capital first. 
+ 
+10.2  Safe-Haven Assets: Why They Are Safe 
+• 
+US Dollar (USD): World's reserve currency. Global debt is priced in USD. In crises, 
+everyone needs USD to repay debts and meet obligations. 
+• 
+Japanese Yen (JPY): Japan is the world's largest creditor nation. In crises, Japanese 
+investors repatriatetriate overseas investments: buying yen. Carry trade unwinding also 
+creates massive yen demand. 
+• 
+Swiss Franc (CHF): Switzerland's political neutrality, strong banking system, and current 
+account surplus make CHF a safe haven. Note: SNB (Swiss National Bank) sometimes 
+intervenes to weaken CHF. 
+• 
+Gold (XAU/USD): Universal store of value with no counterparty risk. No government can 
+print more gold. In crises, gold initially may fall (liquidated for cash/USD) before surging as 
+the crisis deepens. 
+ 
+10.3  Risk Sentiment and Our Four Instruments 
+Instrument 
+Risk-On Environment 
+Risk-Off Environment 
+EUR/USD 
+Rises as USD safe-haven demand falls 
+and EUR benefits from risk appetite 
+Falls as USD demand surges. ECB 
+typically less hawkish in crises. 
+GBP/USD 
+Rises in risk-on; GBP is a risk-sensitive 
+currency due to UK's financial sector 
+exposure 
+Falls sharply in risk-off. GBP is NOT a safe 
+haven; the UK runs a current account 
+deficit. 
+USD/JPY 
+Rises as JPY carry trades are funded 
+(sell yen, buy USD/risk assets) 
+Falls sharply as carry trades unwind. JPY 
+bought aggressively. Fastest-moving pair 
+in risk-off. 
+XAU/USD 
+Mixed; gold may underperform vs 
+equities in mild risk-on 
+Strong safe-haven buyer. After initial 
+liquidation dip, gold surges in prolonged 
+risk-off.
+
+--- Page 29 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 29 
+  SECTION 11    Energy and Commodities 
+11. Energy and Commodities: The External Drivers 
+ 
+Forex does not exist in a vacuum. Commodity markets, especially crude oil, have direct 
+relationshipss with specific currencies and indirect effects on all four of our instruments through 
+their impact on inflation, trade balances, and central bank policy. 
+ 
+ 
+Fig 11.1: Energy and FX: Oil Impact on USD/CAD, Inflation and Global Currency Flows 
+ 
+11.1  Oil (WTI and Brent): Impact on FX 
+Crude oil is the most economically significant commodity in the world. Its price affects inflation 
+globally and has direct FX implications. 
+• 
+WTI (West Texas Intermediate): The US benchmark for crude oil. Traded on CME/NYMEX. 
+Most relevant for USD/CAD and US inflation data (CPI). 
+• 
+Brent Crude: The global benchmark. More relevant for European currencies (EUR/USD, 
+GBP/USD) and global inflation expectations. 
+• 
+USD/CAD and Oil: Canada is one of the world's largest oil exporters. When WTI oil price 
+rises, Canada earns more from oil exports → CAD strengthens → USD/CAD FALLS. This 
+is the most direct oil-FX relationship. 
+• 
+Oil and Gold: Both commodities often rise together when inflation fears increase. However, 
+when oil rises primarily due to supply disruption (geopolitics), it can be stagflationary: bad 
+for growth but inflationary. This is complicated for gold.
+
+--- Page 30 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 30 
+11.2  The EIA Weekly Crude Oil Inventory Report 
+Every Wednesday at 10:30 AM EST, the US Energy Information Administration (EIA) releases its 
+weekly crude oil inventory report. This is a Tier 2 event for USD and a direct driver of WTI oil 
+prices. 
+• 
+Inventory DRAW (lower than expected stocks): Oil prices rise. Inflationary signal. CAD 
+strengthens. USD/CAD falls. 
+• 
+Inventory BUILD (higher than expected stocks): Oil prices fall. Deflationary signal for 
+energy. CAD weakens. USD/CAD rises. 
+ 
+11.3  When Gold and USD Move in the Same Direction 
+ 
+Fig 12.2: Gold and USD Moving in the Same Direction: The Systemic Crisis Signal 
+ 
+Normally, gold and the US dollar move inversely; a stronger dollar makes gold more expensive in 
+other currencies, reducing demand. But occasionally, gold and USD both rise simultaneously. This 
+is a critical signal. 
+• 
+What it means: A dollar shortage in the global financial system. Every institution needs 
+USD simultaneously: even gold buyers. 
+• 
+Historical examples: Peak of 2008 GFC (September–November 2008), initial COVID crash 
+(March 2020). 
+• 
+What to do: Reduce position size dramatically on all four instruments. Normal correlations 
+have broken down. The market is in systemic stress. Only trade with the widest stops and 
+smallest size. 
+• 
+How long does it last: Usually 2–6 weeks. Once the Fed provides USD liquidity (swap lines, 
+QE), the normal inverse relationship resumes: and gold typically surges.
+
+--- Page 31 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 31 
+RULE 
+If you see Gold and USD/DXY rising simultaneously for more than 3 consecutive days, this is a 
+systemic stress signal. This is not the time to look for normal setups. Reduce exposure to 25–50% of 
+normal position size across all instruments.
+
+--- Page 32 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 32 
+  SECTION 12    Gold: Fundamental Deep Dive 
+12. Gold (XAU/USD): Fundamental Deep Dive 
+ 
+Gold is unlike any other instrument in this program. It is not a currency, but it trades like one. It is 
+not a commodity in the traditional sense, but commodity flows affect it. Understanding gold's 
+fundamental drivers is essential not just for trading XAU/USD directly, but for understanding global 
+risk sentiment that affects all four instruments. 
+ 
+12.1  The Real Yield Formula: Gold's Gravity 
+ 
+Fig 12.1: Gold Fundamental Drivers: Real Yield Formula and Two Key Scenarios 
+ 
+Real Yield Formula 
+Where to Find the Components 
+Real Yield = Nominal Yield − Inflation 
+Expectations 
+Nominal Yield: 10-Year US Treasury yield; 
+Bloomberg, TradingView (US10Y) 
+Example: 5.0% Nominal − 2.3% Breakeven = 
+2.7% Real Yield 
+Breakeven Rate: FRED (fred.stlouisfed.org) → 
+search T10YIE (10-Year Breakeven Inflation 
+Rate) 
+When Real Yield rises → Gold typically falls 
+Alternative: TradingView ticker TIPS10Y or the 
+spread US10Y minus T10YIE 
+When Real Yield falls → Gold typically rises 
+The breakeven rate is the difference between 
+standard Treasury yield and TIPS yield of same 
+maturity
+
+--- Page 33 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 33 
+12.2  All Gold Fundamental Drivers: Ranked by Importance 
+Rank 
+Driver 
+How It Affects Gold and Where to Monitor 
+1 
+US Real Yields 
+MOST IMPORTANT. Inverse relationship. Real yields rising = gold 
+falls. Real yields falling = gold rises. Check daily. 
+2 
+US Dollar Index (DXY) 
+Inverse relationship. DXY up = gold down. DXY down = gold up. 
+80% correlation. Check before every gold trade. 
+3 
+Risk Sentiment (VIX) 
+Safe haven demand. VIX above 25 = gold bid. VIX falling = gold 
+less supported. Risk-off = gold up. 
+4 
+Fed Policy Expectations 
+Rate cut expectations = gold bullish. Rate hike fears = gold bearish. 
+Monitor CME FedWatch tool. 
+5 
+Central Bank Buying 
+BRICS nations, China, India buying gold reserves. Creates steady 
+structural demand floor. Check quarterly WGC data. 
+6 
+Gold ETF Flows (GLD) 
+Institutional demand proxy. GLD holdings rising = bullish signal. 
+Falling = bearish. Check Bloomberg or GLD website. 
+7 
+Geopolitical Risk 
+Wars, sanctions, banking crises create demand surges. Not 
+predictable but important when they occur. 
+8 
+US CPI / PCE 
+Hot inflation can be gold-positive (real yield falls if nominal rates 
+don't rise enough to offset). 
+ 
+GOLD TRADING CHECKLIST 
+Before every XAU/USD trade, check: (1) Direction of US 10Y real yield: rising or falling? (2) DXY: 
+trending up or down? (3) VIX: above or below 20? (4) CME FedWatch: is the market pricing in cuts or 
+hikes? If all four align with your trade direction, the setup has maximum fundamental conviction.
+
+--- Page 34 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 34 
+  SECTION 13    Seasonality and the Fiscal Year 
+13. Seasonality and the Fiscal Year 
+ 
+Seasonality refers to recurring patterns in financial markets that occur at predictable times of the 
+year year, driven by institutional behaviour, fiscal year cycles, and structural market dynamics. 
+Understanding seasonality will not tell you which direction to trade: but it will tell you when to trade 
+larger and when to reduce size, when to trust your setups and when to be suspicious of false 
+moves. 
+ 
+ 
+Fig 13.1: Forex Seasonality: Month-by-Month Patterns and Quarterly Rebalancing Periods 
+ 
+13.1  Quarterly Rebalancing: The Most Predictable Seasonal Event 
+At the end of every quarter, March, June, September, and December, large institutional investors 
+(pension funds, sovereign wealth funds, insurance companies) must rebalance their portfolios. A 
+pension fund that targets 60% equities and 40% bonds will have drifted from this target as markets 
+moved during the quarter. Rebalancing requires selling what has outperformed and buying what 
+has underperformed. 
+• 
+Impact on FX: If US equities significantly outperformed European equities in Q1, European 
+pension funds holding US assets will sell USD and buy EUR at quarter-end to rebalance. 
+This creates EUR buying pressure at the end of March regardless of fundamental data. 
+• 
+Typical timeframe: Last 3–5 trading days of each quarter. Moves can be 100–200 pips in 
+major pairs. 
+• 
+What you will see: 'Irrational' price action; price moving against the dominant trend or 
+against the data. This is NOT a fundamental reversal: it is mechanical rebalancing. 
+• 
+Rule: Do not add new positions in the final week of each quarter unless you have very high 
+confluence. Existing profitable positions may benefit from rebalancing flows: hold them.
+
+--- Page 35 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 35 
+ 
+13.2  The Summer Doldrums: July and August 
+July and August are the quietest months in Forex markets. Institutional traders take holidays, 
+hedge fund managers are away, and trading desks operate with skeleton crews. The result is 
+significantly reduced liquidity. 
+• 
+Volume falls 20–40% below average in July and August for major Forex pairs 
+• 
+False breakouts are far more common; there are fewer participants to follow through on 
+breakouts 
+• 
+News reactions are exaggerated then quickly reversed; thin markets amplify moves then 
+lack the participation to sustain them 
+• 
+ICT setups become less reliable during summer; FVGs may not fill, OBs may not hold 
+• 
+Gold can be particularly volatile in summer with smaller moves having outsized pip impact 
+SUMMER RULE 
+Reduce your position size by 50% during July and August. Widen your stop losses by 25–50%. Do not 
+take counter-trend trades. Only trade the highest-quality setups (5+ confluence score). Do not trade 
+the week of the 4th of July (US holiday) or the last two weeks of August. 
+ 
+13.3  Other Seasonal Patterns 
+Period 
+Pattern 
+FX Implication 
+January 
+January Effect: year-open 
+institutional flows. Often 
+sets direction for Q1. 
+Watch for strong January directional move: often 
+continues through February. 
+Late March (Q1 
+End) 
+Quarter-end rebalancing. 
+EUR/USD and GBP/USD 
+often see unusual moves. 
+Do not add new positions in last 3–5 days of March. 
+Let rebalancing complete first. 
+May 
+'Sell in May and go away': 
+equities historically 
+underperform May–
+September. 
+Risk-off bias. USD and JPY may find support. Gold 
+can benefit. 
+September 
+Historically worst month 
+for equities. Risk-off flows 
+return after summer. 
+Watch for equity weakness driving JPY strength and 
+gold demand. 
+October 
+Volatility return. End of 
+summer + start of new 
+fiscal year for many funds. 
+Strong ICT setups return. Q3-end rebalancing can 
+distort direction early October. 
+December 
+Year-end: profit-taking, 
+position squaring, thin 
+Christmas week market. 
+Avoid Christmas week (Dec 24–Jan 2). Low liquidity 
+= manipulated moves. 
+  SECTION 14    Institutional Tools: The Professional Toolkit
+
+--- Page 36 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 36 
+14. Institutional Tools: Where the Professionals Look 
+ 
+The difference between retail and professional Forex analysis is not intelligence; it is the tools 
+used to form directional bias. Two tools stand above all others for establishing a fundamental 
+picture of where institutional money is positioned and where it expects rates to go: the CME 
+FedWatch Tool and the COT (Commitment of Traders) Report. Both are free, both are publicly 
+available, and both are used every week by professional traders. 
+ 
+14.1  CME FedWatch Tool: Rate Probability in Real Time 
+The CME FedWatch Tool uses Fed Funds Futures contracts traded on the Chicago Mercantile 
+Exchange to calculate the probability of specific rate outcomes at each upcoming FOMC meeting. 
+It gives you: in real time: what the market believes the Fed will do, expressed as a percentage 
+probability. 
+How to Read FedWatch: 
+• 
+Go to cmegroup.com/markets/interest-rates/cme-fedwatch-tool 
+• 
+Select the next FOMC meeting date from the dropdown 
+• 
+The tool shows a probability bar chart: e.g., '72% chance of 25bp cut, 28% chance of no 
+change' 
+• 
+Watch how probabilities CHANGE over time. If the probability of a cut rises from 30% to 
+70% over two weeks, that is a major USD-weakening signal even if no cut has happened 
+yet 
+• 
+Compare the current meeting to the following meeting to understand the full expected rate 
+path 
+• 
+When to use: Before any USD-sensitive trade (all four of our instruments). Check what the 
+market is pricing in for the next 1–3 meetings. This is your short-term fundamental context. 
+• 
+Key signal: If the market is pricing 80%+ probability of a hike or cut, the outcome is largely 
+priced ind in: the SURPRISE would be if it does NOT happen. 
+ 
+14.2  The COT Report: Smart Money Positioning 
+The Commitment of Traders (COT) Report is published every Friday at 3:30 PM EST by the US 
+Commodity Futures Trading Commission (CFTC). It shows the positioning of three groups of 
+market participants in futures markets as of the previous Tuesday. For Forex traders, it reveals 
+where institutional money is positioned in currency futures: the most important positioning data 
+available to the public.
+
+--- Page 37 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 37 
+ 
+Fig 14.1: COT Report: Three Participant Groups and How to Read Smart Money Positioning 
+ 
+How to Use the COT Report Step by Step: 
+• 
+Access: Go to cftc.gov/dea/futures/deacmesf.htm; download the 'Current Legacy' report for 
+Chicago Mercantile Exchange futures 
+• 
+Find the currency you want: Look for EUR/USD futures, GBP futures, JPY futures, or Gold 
+futures 
+• 
+Find the Large Speculator column: This is the Non-Commercial category. These are hedge 
+funds and managed money: the directional traders 
+• 
+Calculate the NET position: Large Spec NET = Long contracts minus Short contracts. A 
+large NET LONG means institutions are bullish. A large NET SHORT means they are 
+bearish. 
+• 
+Look for EXTREMES: When the NET position is at a multi-year extreme (highest long or 
+shortest short in 52 weeks), this is a contrarian signal: a potential reversal is approaching 
+• 
+The ICT connection: A COT extreme long on EUR futures = the Large Specs are massively 
+long EUR/USD = this is a premium zone on the fundamental level. Look for bearish ICT 
+setups. 
+ 
+COT Signal 
+What It Means 
+ICT Application 
+Large Specs at 
+EXTREME LONG 
+Hedge funds maximally bullish; few 
+more buyers available 
+Equivalent to price in HTF Premium 
+zone. Favour bearish ICT setups. 
+Large Specs at 
+EXTREME SHORT 
+Hedge funds maximally bearish; few 
+more sellers available 
+Equivalent to price in HTF Discount 
+zone. Favour bullish ICT setups. 
+Large Specs FLIPPING 
+from Long to Short 
+Institutional sentiment reversing; 
+strong directional signal 
+Aligns with a bearish CHoCH on the 
+weekly chart. Confirm with price. 
+Commercials at 
+EXTREME opposite to 
+Specs 
+Hedgers covering against big specs; 
+confirms extreme 
+Additional confirmation of the 
+contrarian signal.
+
+--- Page 38 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 38 
+COT Signal 
+What It Means 
+ICT Application 
+Small Specs heavily 
+positioned one way 
+Retail traders all in one direction at 
+an extreme 
+Fade extreme retail positioning. 
+Classic contrarian. 
+ 
+COT = FUNDAMENTAL HTF PD ARRAY 
+Think of the COT report as the fundamental version of an ICT Higher Timeframe Price Delivery Array. 
+When Large Speculators are at an extreme NET LONG in EUR futures, EUR/USD is in a 
+'Fundamental Premium Zone.' Smart money has distributed its long positions: the next directional 
+move is likely lower. Use this as your weekly macro bias filter before looking at any ICT entry.
+
+--- Page 39 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 39 
+  SECTION 15    The Complete Fundamental + ICT Workflow 
+15. The Complete Fundamental + ICT Workflow 
+ 
+This section brings together every concept in Module 5 into a single, actionable, top-down process. 
+This is not theory: it is the process a professional Forex trader runs through before taking any 
+position. Executed consistently, it ensures that every ICT technical entry has a fundamental 
+narrative behind it, and that no ICT entry is made against the macro flow. 
+ 
+ 
+Fig 15.1: Professional Fundamental + ICT Workflow: Four-Step Top-Down Process 
+ 
+15.1  The Four-Step Professional Process 
+Step 1: Weekly: Check the COT Report 
+Every Friday evening or Saturday morning, before the new week begins: 
+• 
+Download the latest COT report from cftc.gov for your instrument's futures market 
+• 
+Check the Large Speculator NET position. Is it extreme? Has it flipped direction this week? 
+• 
+Record your reading: 'EUR Large Specs NET LONG 85K contracts; elevated but not at 
+extreme. Slight bullish fundamental bias for EUR/USD.' 
+• 
+This step sets your MACRO DIRECTIONAL BIAS for the week; the fundamental filter that 
+overrides or supports your ICT HTF analysis
+
+--- Page 40 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 40 
+Step 2: Daily: Check Yield Spreads and DXY 
+Every morning before the trading session opens: 
+• 
+Check the relevant yield spread for your instrument (e.g., US10Y-GB10Y for GBP/USD) 
+• 
+Is the spread widening or narrowing? Is it at an extreme? Does it support or contradict the 
+COT reading? 
+• 
+Check DXY direction: is it trending up, down, or ranging? Does the DXY level align with the 
+COT bias? 
+• 
+Check the US 2Y yield: is it rising (hawkish expectations) or falling (dovish expectations)? 
+This confirms the near-term USD direction. 
+• 
+This step confirms or challenges the weekly COT bias and gives you a DAILY 
+FUNDAMENTAL TAILWIND or HEADWIND 
+ 
+Step 3: Session: Check the Economic Calendar 
+30–60 minutes before your trading session begins: 
+• 
+Open the economic calendar (forexfactory.com or investing.com): filter for the day's events 
+• 
+Identify all Tier 1 and Tier 2 events and their exact times 
+• 
+Mark any Tier 1 events as 'volatility windows': enhanced Kill Zone periods 
+• 
+Decide: will you trade around this data (exit before, re-enter after) or target the post-data 
+FVG entry? 
+• 
+This step tells you WHEN the institutional move is most likely to occur; combining the 
+economic calendarendar with Kill Zone timing 
+ 
+Step 4: Execution: Apply ICT Structure 
+Once the data has been released and the displacement has occurred: 
+• 
+Identify the FVG or OB created by the post-data displacement candle 
+• 
+Confirm the direction matches the COT bias, yield spread direction, and data surprise 
+direction 
+• 
+Check for SMT divergence if applicable (EUR/USD vs GBP/USD, or XAU/USD vs 
+USD/JPY) 
+• 
+Enter at the CE of the FVG or the body of the OB during the Kill Zone 
+• 
+Stop loss: beyond the post-data spike extreme 
+• 
+Target: next liquidity pool (PDH/PDL, Equal Highs/Lows, PWH/PWL) 
+ 
+ 
+ 
+ 
+ 
+ 
+15.2  Full Worked Example: GBP/USD Long
+
+--- Page 41 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 41 
+ 
+Analysis Layer 
+Finding 
+Step 1: COT (Weekly) 
+GBP futures Large Spec NET: -45,000 (extreme short). Signal: institutions 
+are maximally bearish GBP: contrarian BULLISH signal. The SHORT is 
+getting crowded. 
+Step 2a: Yield Spread 
+UK 10Y Gilt = 4.5%, US 10Y = 4.0%. Spread = +0.5% UK advantage. 
+Spread has been widening for 3 weeks. GBP has fundamental TAILWIND. 
+Step 2b: DXY 
+DXY at Daily Bearish OB resistance. Real yields falling slightly. USD 
+fundamental headwind at this level. 
+Step 3: Calendar 
+UK CPI releases Tuesday 2:00 AM EST (Tier 1). Forecast: 3.8%. Previous: 
+4.0%. If actual beats = GBP up. 
+Step 3b: Kill Zone 
+UK CPI release falls within London Kill Zone (2:00–5:00 AM EST). 
+Maximum time-and-event confluence. 
+Actual Release 
+UK CPI: Actual 4.1% vs Forecast 3.8% = BEAT. Inflation still hot → BoE 
+must stay hawkish. 
+ICT Response 
+GBP/USD spikes up 60 pips on CPI beat. Brief retrace (Judas 
+consolidation). M15 Bullish FVG formed at 1.2680–1.2695. 
+SMT Check 
+EUR/USD also rising on dollar weakness. No divergence; confirming the 
+GBP/USD long setup. 
+Entry 
+Buy at CE of M15 FVG: 1.2687. Stop: below the FVG bottom at 1.2672. 
+Risk = 15 pips. 
+Take Profit 1 
+PDH at 1.2740 = 53 pips. RR = 3.5:1. Close 50% here; move SL to 
+breakeven. 
+Take Profit 2 
+BSL above Equal Highs at 1.2790 = 103 pips from entry. RR = 6.9:1 
+Full Confluence 
+COT extreme short (contrarian bull) + yield spread UK advantage + CPI 
+beat + BoE hawkish narrative + ICT FVG at Discount + London Kill Zone + 
+No adverse SMT = Maximum conviction setup. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+15.3  Fundamental Bias Checklist: Weekly Preparation
+
+--- Page 42 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 42 
+ 
+ 
+WEEKLY FUNDAMENTAL PREPARATION CHECKLIST 
+COT REPORT 
+[ ] 
+Downloaded and read the latest COT report (released Friday 3:30 PM EST) 
+[ ] 
+Identified Large Speculator NET position for EUR, GBP, JPY, and Gold futures 
+[ ] 
+Flagged any extreme positions (52-week high/low in NET contracts) 
+[ ] 
+Recorded my macro directional bias per instrument based on COT reading 
+YIELD ANALYSIS 
+[ ] 
+Checked US 2Y Treasury yield direction (rising = USD bullish, falling = USD bearish) 
+[ ] 
+Checked the relevant yield spread for each instrument (UK-US Gilt, DE-US Bund, US-JP JGB) 
+[ ] 
+Checked DXY daily chart: trend direction and proximity to key levels 
+[ ] 
+Checked US 10Y Real Yield for gold analysis (FRED: T10YIE) 
+ECONOMIC CALENDAR 
+[ ] 
+Reviewed all Tier 1 and Tier 2 events for the week ahead 
+[ ] 
+Marked key data windows on the chart and in my trading journal 
+[ ] 
+Identified whether any events fall during a Kill Zone window 
+[ ] 
+Decided which events to trade the aftermath of, and which to sit out 
+MACRO CONTEXT 
+[ ] 
+Checked VIX level: is the market in risk-on or risk-off environment? 
+[ ] 
+Checked seasonality: are we in Q-end rebalancing week? Summer doldrums? 
+[ ] 
+Is gold moving with or against DXY? (Same direction = crisis alert) 
+[ ] 
+Has the Dollar Smile position changed this week? (Safe-haven, muddle-through, or growth 
+USD?)
+
+--- Page 43 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 43 
+Fundamental Analysis Glossary 
+ 
+Term 
+Definition 
+Basis Points 
+(bps) 
+Unit of interest rate measurement. 100 bps = 1.00%. A 25bps hike = 0.25% rate 
+increase. 
+Breakeven Rate 
+The market's inflation expectation embedded in bond prices. Equal to nominal 
+yield minus TIPS yield. Used to calculate real yields. 
+Buy the Rumour, 
+Sell the Fact 
+When an anticipated outcome occurs, the market sells the news after buying in 
+anticipation, even if the news is positive. 
+Carry Trade 
+Borrowing in a low-rate currency and investing in a high-rate currency to earn the 
+interest differential. 
+CME FedWatch 
+Tool 
+Tool from the Chicago Mercantile Exchange showing market-implied probabilities 
+of Fed rate moves at upcoming FOMC meetings. 
+COT Report 
+Commitment of Traders. Weekly CFTC report showing positioning of three groups 
+in futures markets. Large Speculators are the key group to monitor. 
+Core CPI / Core 
+PCE 
+Inflation measures that exclude volatile food and energy prices. More stable 
+signals for central bank policy direction. 
+CPI 
+Consumer Price Index. Measures the change in price of a fixed basket of 
+consumer goods. Primary inflation measure for most CBs. 
+Dollar Smile 
+Theory that USD strengthens at both extremes: global recession (safe haven) and 
+US outperformance (growth): but weakens in the middle (muddle through). 
+Dot Plot 
+Fed's quarterly projection of future interest rate paths, with each dot representing 
+one FOMC member's forecast. 
+Dovish 
+Central bank language or stance that implies lower interest rates or more 
+accommodative policy. Associated with currency weakness. 
+DXY 
+US Dollar Index. Measures USD against a basket of 6 currencies. 57.6% EUR. 
+DXY and EUR/USD are nearly perfect inverses. 
+EIA Report 
+US Energy Information Administration weekly crude oil inventory report. Released 
+Wednesdays 10:30 AM EST. 
+Forward 
+Guidance 
+Central bank communications about the future path of policy. Often more market-
+moving than the actual decision. 
+GDP 
+Gross Domestic Product. Total value of all goods and services produced. Broad 
+measure of economic health. 
+Hawkish 
+Central bank language or stance implying higher interest rates or tighter policy. 
+Associated with currency strength. 
+HICP 
+Harmonised Index of Consumer Prices. The ECB's primary inflation measure for 
+the Eurozone. 
+JGB 
+Japanese Government Bond. Key reference for Japan's yield curve and BoJ policy 
+analysis. 
+NFP 
+Non-Farm Payrolls. Monthly US jobs report released first Friday at 8:30 AM EST. 
+The most market-moving scheduled event.
+
+--- Page 44 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 44 
+Term 
+Definition 
+PCE 
+Personal Consumption Expenditures price index. The Fed's preferred inflation 
+measure. More comprehensive than CPI. 
+PMI 
+Purchasing Managers' Index. Leading indicator of economic 
+expansion/contraction. Above 50 = expansion; below 50 = contraction. 
+PPI 
+Producer Price Index. Measures wholesale price changes. Leading indicator of 
+future consumer inflation (CPI). 
+Rate Differential 
+The difference between the interest rates of two countries. Primary driver of 
+medium-term currency pair direction. 
+Real Yield 
+Nominal yield minus inflation expectations (breakeven rate). The single most 
+important driver of gold prices. 
+Risk-Off 
+Environment where investors sell risky assets and buy safe havens (USD, JPY, 
+CHF, Gold). VIX rising. 
+Risk-On 
+Environment where investors buy risky assets and sell safe havens. Equities 
+rising. VIX falling. 
+Summer 
+Doldrums 
+July–August period of reduced market liquidity due to institutional holidays. False 
+breakouts more common. 
+TIPS 
+Treasury Inflation-Protected Securities. US government bonds whose principal 
+adjusts with inflation. Used to calculate real yields. 
+VIX 
+CBOE Volatility Index. Measures expected S&P 500 volatility. Known as the 'Fear 
+Index.' Above 30 = risk-off. 
+YCC 
+Yield Curve Control. BoJ policy of capping JGB yields to stimulate the economy. 
+Phased out from 2024. 
+Yield Spread 
+The difference between the bond yields of two countries. Widening spread in 
+favour of Country A = Country A's currency likely to strengthen.
+
+--- Page 45 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 45 
+Module 5 Quiz: 20 Questions 
+ 
+Circle or write the correct answer. Answers and explanations on the final page. 
+ 
+Q1. Central bank interest rate decisions affect currency values primarily because: 
+A) Higher rates increase the money supply, weakening the currency 
+B) Higher rates attract capital inflows as investors seek higher returns, increasing currency 
+demand 
+C) Higher rates cause inflation, which always strengthens a currency 
+D) Central bank decisions have no direct relationship with currency value 
+ 
+Q2. A CPI reading of 4.2% is released against a forecast of 3.8%. What is the most likely 
+immediate FX reaction? 
+A) USD weakens: high inflation is negative for the currency 
+B) USD strengthens: hot CPI implies the Fed will keep rates higher (or hike), making USD 
+more attractive 
+C) EUR/USD rises: higher US inflation means European currencies benefit 
+D) No reaction: CPI is a lagging indicator that markets ignore 
+ 
+Q3. The Fed Dot Plot shows the median projection for the 2025 year-end rate moved DOWN 
+by 50bps compared to the previous meeting. This signals: 
+A) The Fed is planning to hike rates aggressively in 2025 
+B) A dovish shift: the Fed expects to cut rates more than previously planned. USD likely 
+weakens. 
+C) This is a hawkish signal because rates are still positive 
+D) The Dot Plot has no market significance: only the actual rate decision matters 
+ 
+Q4. The US 2-Year Treasury yield is the most important bond maturity for Forex traders 
+because: 
+A) It is the safest bond and attracts the most investment 
+B) It prices in the Federal Reserve's expected policy path over the next two years; it leads the 
+Fed 
+C) The 2Y yield is only relevant for very short-term trades 
+D) It directly controls the price of gold 
+ 
+Q5. The Dollar Smile Theory states that USD gains strength during: 
+A) Only when US economic data is strong 
+B) Only during global recessions due to safe-haven demand 
+C) Both during global crisis / recession (safe haven) AND during US economic outperformance 
+(growth). USD weakens in the middle.
+
+--- Page 46 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 46 
+D) Any time the Fed raises interest rates 
+ 
+Q6. You see the UK 10-Year Gilt yield at 4.8% and the US 10-Year Treasury at 4.1%. The 
+spread has been widening for two weeks. What is the fundamental implication for 
+GBP/USD? 
+A) GBP/USD should fall: UK has higher rates which means inflation is out of control 
+B) GBP/USD has a fundamental tailwind: capital flows toward higher-yielding UK bonds, 
+increasing GBP demand 
+C) No implication: yield spreads only affect equity markets, not FX 
+D) GBP/USD should fall because the US Treasury rate is still positive 
+ 
+Q7. An NFP release shows: Actual 85K vs Forecast 180K. What is the most likely reaction? 
+A) USD strengthens: any positive number is good for the dollar 
+B) USD weakens significantly. Big miss suggests labour market cooling. EUR/USD and 
+GBP/USD likely to rally sharply. 
+C) No reaction: NFP is already priced in 
+D) Gold falls because weak employment data is deflationary 
+ 
+Q8. The Real Yield formula is: 
+A) Real Yield = CPI − Federal Funds Rate 
+B) Real Yield = GDP Growth − Inflation 
+C) Real Yield = Nominal Yield − Inflation Expectations (Breakeven Rate) 
+D) Real Yield = Corporate Bond Yield − Government Bond Yield 
+ 
+Q9. When VIX rises above 30, you should expect: 
+A) USD/JPY to rise as risk appetite increases 
+B) EUR/USD to rally as European assets attract capital 
+C) JPY and Gold to strengthen as risk-off flows increase. Carry trades may unwind. 
+D) No change in FX markets: VIX only affects equity markets 
+ 
+Q10. In the COT Report, the 'Large Speculators' group is showing an EXTREME NET LONG 
+position in EUR futures. According to ICT/fundamental analysis, this suggests: 
+A) EUR/USD will continue to rise: institutions are bullish so you should be too 
+B) EUR/USD may be approaching a top: extreme positioning is a contrarian signal. Equivalent 
+to price in a fundamental Premium zone. 
+C) The COT report is unreliable and should not be used 
+D) You should always trade the same direction as the Large Speculators regardless of the 
+level
+
+--- Page 47 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 47 
+Q11. Oil prices rise sharply by 15% over two weeks due to Middle East tensions. What is the 
+most likely FX impact? 
+A) USD/CAD falls: higher oil strengthens the Canadian dollar (major oil exporter) 
+B) USD/CAD rises: oil prices are unrelated to CAD 
+C) EUR/USD rises: European economies benefit from higher oil 
+D) Gold falls: oil and gold are inversely correlated 
+ 
+Q12. The 'Summer Doldrums' refers to: 
+A) A seasonal pattern where Forex markets are highly volatile in July and August 
+B) Reduced market liquidity in July and August due to institutional holidays, causing false 
+breakouts and unreliable setups 
+C) A central bank policy of keeping rates low during summer months 
+D) The period when the Fed does not hold FOMC meetings 
+ 
+Q13. A central bank statement includes the phrase 'further hikes may be appropriate if data 
+warrants.' This language is best classified as: 
+A) Dovish: they are acknowledging the possibility of no more hikes 
+B) Neutral: not committing to any direction 
+C) Hawkish: explicitly leaving the door open to further tightening 
+D) Extremely dovish: preparing markets for rate cuts 
+ 
+Q14. You notice that XAU/USD (Gold) has been rising for three consecutive days AND the 
+US Dollar Index (DXY) has also been rising. What does this unusual correlation signal? 
+A) Normal market conditions: gold and USD always move together 
+B) A potential systemic crisis or dollar shortage: normal correlations have broken down. 
+Reduce all position sizes. 
+C) Gold is broken as a safe haven and should be ignored 
+D) The DXY data must be incorrect: this combination cannot occur 
+ 
+Q15. The CME FedWatch Tool shows a 78% probability of a 25bps rate CUT at the next 
+FOMC meeting. What does this mean for USD and your trades? 
+A) USD is likely to strengthen significantly when the cut is delivered: good news for dollar bulls 
+B) A 25bps cut is largely PRICED IN. The bigger market impact would come from a 
+SURPRISE (no cut, or larger cut). USD has already partially weakened in anticipation. 
+C) The FedWatch Tool is unreliable and should be ignored 
+D) You should wait until the cut is announced before making any trades
+
+--- Page 48 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 48 
+Q16. Quarter-end rebalancing in Forex markets is significant because: 
+A) Central banks always change rates at quarter-end 
+B) Institutional investors must rebalance portfolios: selling outperformers and buying 
+underperformers: creating 'irrational' FX flows in the final 3–5 days of March, June, 
+September, and December 
+C) Quarterly rebalancing only affects equity markets, not Forex 
+D) The quarter-end always creates the most reliable ICT setups of the month 
+ 
+Q17. In the complete 4-step Fundamental + ICT workflow, what is the correct order? 
+A) Calendar → COT → Yield Spreads → ICT Execution 
+B) ICT Execution → COT → Calendar → Yield Spreads 
+C) COT (weekly bias) → Yield Spreads (daily confirmation) → Calendar (session volatility 
+windows) → ICT Execution (entry) 
+D) Yield Spreads → ICT Execution → COT → Calendar 
+ 
+Q18. When should you NOT trade around a Tier 1 data release? 
+A) You should always trade immediately at the exact time of the release for maximum profit 
+B) Never trade within 30 minutes before the release. Wait for the initial spike. Look for the post-
+release FVG or OB entry after the dust settles. 
+C) Tier 1 events are too small to affect Forex: trade normally 
+D) Only avoid data releases when you are losing money on an existing trade 
+ 
+Q19. The Carry Trade most commonly uses which currency as the 'funding currency' (the 
+currency you borrow in)? 
+A) USD: because it is the world's reserve currency 
+B) EUR: because the Eurozone is the largest economy 
+C) JPY: because the Bank of Japan maintained near-zero interest rates for decades, making 
+yen the cheapest currency to borrow 
+D) GBP: because UK interest rates are always lower than US rates 
+ 
+Q20. A complete setup for GBP/USD long using the full fundamental + ICT framework 
+requires which of the following to be aligned? 
+A) Only the ICT technical setup: fundamentals are not necessary for ICT trading 
+B) Only the COT report: if Large Specs are short at an extreme, that is enough 
+C) All four layers: COT macro bias (bearish positioning as contrarian signal) + Yield spread 
+(UK advantage) + Calendar (BoE/UK data catalyst) + ICT entry (FVG in Discount during Kill 
+Zone) 
+D) The monthly GDP release must have just been published before any GBP/USD long is valid
+
+--- Page 49 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 49 
+Quiz Answer Key 
+ 
+Q 
+Answer 
+Explanation 
+Q1 
+B 
+Higher rates attract capital inflows: investors earn more holding that currency. This 
+creates demand for the currency, strengthening it. The Fed's primary tool is the 
+interest rate because it directly controls the return on holding USD-denominated 
+assets. 
+Q2 
+B 
+Hot CPI (actual 4.2% vs forecast 3.8%) signals persistent inflation. The Fed must 
+keep rates high or hike further to combat it. Higher rates = USD more attractive = 
+USD strengthens. EUR/USD falls. 
+Q3 
+B 
+Median dots moving DOWN = the committee collectively expects fewer hikes or 
+more cuts than previouslyy. This is dovish. Markets immediately re-price Fed 
+expectations lower: USD weakens because the future rate path is less attractive. 
+Q4 
+B 
+The 2Y yield reflects market expectations for Fed policy over the next 2 years. It 
+moves BEFORE the Fed Fed acts: often 3–6 months ahead. Watching the 2Y gives 
+you predictive rather than reactive information about USD direction. 
+Q5 
+C 
+The Dollar Smile theory: Left side = global recession/crisis = USD safe haven (even 
+bad US data = USD up). Right side = US outperformance = USD as growth 
+currency (good US data = USD up). Middle = muddle through = USD weakens. 
+Q6 
+B 
+Yield spread = UK 4.8% minus US 4.1% = +0.7% in UK's favour. Widening spread 
+means capital increasinggly favours UK bonds. More capital flowing to UK = more 
+GBP demand = GBP/USD has a fundamental tailwind: bullish bias. 
+Q7 
+B 
+NFP 85K vs forecast 180K is a massive miss (-95K). Labour market weakening = 
+Fed more likely to cut rates = USD less attractive = USD weakens sharply. 
+EUR/USD and GBP/USD rally. Gold often rises on USD weakness. 
+Q8 
+C 
+Real Yield = Nominal Yield − Inflation Expectations (Breakeven Rate). Example: 
+5.0% nominal minus 2.3% breakeven = 2.7% real yield. When real yields rise, gold 
+falls. When real yields fall, gold rises. The breakeven rate is found on FRED 
+(T10YIE). 
+Q9 
+C 
+VIX above 30 = fear / risk-off active. JPY strengthens as carry trades unwind 
+(everyone buys back yen). Gold surges as safe-haven demand spikes. USD often 
+strengthens (Dollar Smile left side). USD/JPY falls as yen is bought. 
+Q10 
+B 
+Extreme Large Spec NET LONG = institutions are maximally bullish. There are few 
+more buyers availablee. This is a contrarian signal: it is equivalent to price being in 
+a fundamental Premium zone. Favour bearish ICT setups on the pair. 
+Q11 
+A 
+Canada is one of the world's largest oil exporters. Rising oil prices = more export 
+revenue = CAD demand increases = CAD strengthens = USD/CAD falls. This is the 
+most direct oil-FX relationship in major pairs. 
+Q12 
+B 
+July and August see 20–40% reduced volume as institutional traders take holidays. 
+This thin liquidity creates false breakouts (not enough follow-through), unreliable 
+ICT setups, and exaggerated moves that quickly reverse. Trade smaller in summer. 
+Q13 
+C 
+'Further hikes may be appropriate if data warrants' is hawkish language; it explicitly 
+keeps the dooror open to additional rate increases. Markets interpret this as the CB 
+being willing to hike, which supports the currency.
+
+--- Page 50 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 5: Fundamental Analysis 
+© Forex Study Program  |  Module 5 — Fundamental Analysis 
+Page 50 
+Q 
+Answer 
+Explanation 
+Q14 
+B 
+Gold and DXY moving up simultaneously is a systemic stress or dollar shortage 
+signal. Normal correlations have broken down. Historical examples: 2008 GFC 
+peak, March 2020 COVID crash. Reduce all position sizes immediately. 
+Q15 
+B 
+At 78% probability, a 25bps cut is largely priced in; markets have already partially 
+priced this outtcome. The surprise (and thus larger move) would come from no cut 
+or a larger cut. Trading purely on the expected outcome has limited edge. 
+Q16 
+B 
+Quarter-end rebalancing by pension funds and institutions creates mechanical FX 
+flows that override fundamentals. Selling outperformers and buying 
+underperformers causes 'irrational' price action in the last 3–5 days of March, June, 
+September, December. 
+Q17 
+C 
+The correct order: (1) COT weekly for macro bias, (2) Yield spreads daily for 
+confirmation and tailwind/headwind, (3) Economic calendar for session volatility 
+windows, (4) ICT execution after displacement. This is the top-down professional 
+process. 
+Q18 
+B 
+Never enter a position in the 30 minutes before a Tier 1 release. The spread widens 
+dramatically, slippage is severe, and the initial spike direction is often reversed. Wait 
+for the displacement to occur, the initial spike to retrace, and then enter the FVG or 
+OB. 
+Q19 
+C 
+JPY is the world's primary carry trade funding currency because the BoJ maintained 
+near-zero (and negative) interest rates for decades. Borrowing yen was essentially 
+free. When these trades unwind (crisis, BoJ hike), USD/JPY falls rapidly. 
+Q20 
+C 
+The complete framework requires all layers: COT macro bias + yield spread 
+confirmation + calendar catalyst + ICT technical entry in the right zone at the right 
+time. Any single layer alone is insufficient. The power comes from the convergence 
+of all four. 
+ 
+MODULE COMPLETION: Fundamental Analysis 
+Congratulations on completing Module 5: Fundamental Analysis! 
+Recommended score before proceeding: 16/20 or higher. 
+If you scored below 14/20, review Sections 2, 8, 9, and 14 (central banks, yield spreads, Dollar Smile, 
+COT report) before moving on. 
+Modules 4 and 5 together form the complete institutional framework: ICT provides the technical entry 
+precision; Fundamental Analysis provides the directional conviction behind every trade. 
+Next: Module 6: Trade Planning and Confluence 
+ 
+Next: Module 6: Trade Planning and Confluence 
+Forex Market Analysis: Complete Study Program  |  Module 5 of 7

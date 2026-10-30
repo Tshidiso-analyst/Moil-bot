@@ -1,0 +1,3828 @@
+--- Page 1 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 1 
+FOREX MARKET ANALYSIS 
+Complete Study Program 
+ 
+MODULE 2 
+Price Action & Candlesticks 
+Intermediate Level  |  GBP/USD · EUR/USD · USD/JPY · XAU/USD  |  Study Notes + Patterns + 
+Exercises + Quiz 
+45+ Patterns 
+Price Structure 
+S/D Zones 
+Volume Analysis 
+ 
+Sections in This Module 
+Anatomy  •  Single-Candle Patterns  •  Two-Candle Patterns  •  Three-Candle Patterns  •  Multi-Candle & 
+Exotic Patterns 
+Support & Resistance  •  Trendlines & Channels  •  Market Structure (HH/HL/LH/LL)  •  Supply & Demand 
+Zones 
+Volume Analysis  •  Reversal vs Continuation Map  •  Sample Trade Setup  •  Pre-Trade Checklist  •  Quiz
+
+--- Page 2 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 2 
+Table of Contents 
+Table of Contents ....................................................................................................................... 2 
+1. Candlestick Anatomy ............................................................................................................. 4 
+1.1  The Four Data Points....................................................................................................... 4 
+1.2  Anatomy Components ..................................................................................................... 5 
+1.3  Bullish vs Bearish Candle Anatomy ................................................................................. 5 
+1.4  Body Size: What It Tells You ........................................................................................... 5 
+1.5  Wick Psychology: The Hidden Story ................................................................................ 6 
+1.6  Candle Context Rules ...................................................................................................... 7 
+2. Single-Candle Patterns .......................................................................................................... 8 
+2.1  The Doji Family ................................................................................................................ 8 
+2.2  Hammer & Hanging Man Family ...................................................................................... 9 
+2.3  Marubozu: Momentum Candles ......................................................................................10 
+2.4  Spinning Tops & Other Single Patterns ..........................................................................11 
+3. Two-Candle Patterns ............................................................................................................13 
+4. Three-Candle Patterns ..........................................................................................................17 
+5. Multi-Candle & Exotic Patterns ..............................................................................................22 
+6. Support & Resistance ...........................................................................................................26 
+6.1  Definitions .......................................................................................................................26 
+6.2  How to Identify Valid S/R Levels .....................................................................................26 
+6.3  S/R Quality Factors ........................................................................................................27 
+6.4  The S/R Role Reversal (Flip): Illustrated .........................................................................27 
+7. Trendlines & Channels ..........................................................................................................29 
+7.1  Trendline Drawing Rules ................................................................................................29 
+7.2  Types of Trendlines ........................................................................................................29 
+7.3  Channels ........................................................................................................................30 
+7.4  Trendline Breaks: Trading the Break ..............................................................................31 
+8. Market Structure ...................................................................................................................32 
+8.1  The Four Structural Swings ............................................................................................32 
+8.2  Trend Identification by Structure .....................................................................................32 
+8.3  Break of Structure (BOS) & Change of Character (CHoCH) ...........................................33 
+8.4  Multi-Timeframe Structure Alignment ..............................................................................33 
+9. Supply & Demand Zones ......................................................................................................35 
+9.1  Supply vs Demand: Core Definitions ..............................................................................35 
+9.2  How to Draw S/D Zones .................................................................................................35 
+9.3  Zone Types by Formation Pattern...................................................................................36
+
+--- Page 3 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 3 
+9.4  S/D Zones vs. S/R Levels: Key Differences ....................................................................37 
+10. Volume Analysis in Price Action ..........................................................................................38 
+10.1  Volume Principles .........................................................................................................38 
+10.2  Volume at Key Price Levels ..........................................................................................39 
+10.3  Volume Divergence ......................................................................................................39 
+10.4  Volume and Candlestick Pattern Combinations ............................................................40 
+11. Pattern Classification Master Table .....................................................................................41 
+12. Sample Trade Setup: GBP/USD Short (Pure Price Action) .................................................44 
+12.1  Market Context Analysis ...............................................................................................44 
+12.2  Entry Signal: Evening Star Formation ...........................................................................44 
+12.3  Full Trade Plan .............................................................................................................45 
+13. Pre-Trade Checklist: Price Action Edition ............................................................................46 
+14. Practice Exercises ...............................................................................................................48 
+Exercise 1: Pattern Identification ...........................................................................................48 
+Exercise 2: Supply & Demand Zone Drawing ........................................................................48 
+Exercise 3: Market Structure Mapping ...................................................................................49 
+Exercise 4: Full Trade Setup Documentation .........................................................................49 
+15. Module 2 Quiz: 15 Questions ..............................................................................................50 
+Quiz Answer Key ......................................................................................................................53
+
+--- Page 4 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 4 
+  SECTION 1    Candlestick Anatomy: Deep Dive 
+1. Candlestick Anatomy 
+ 
+Every candlestick on a chart is a compressed story of the battle between buyers and sellers 
+over a defined time period. Reading that story accurately: before looking at patterns: is the 
+foundation of every price action decision you will ever make. 
+ 
+1.1  The Four Data Points 
+Each candlestick encodes exactly four prices from its time period: 
+Price Point 
+Position 
+What It Represents 
+Trading Significance 
+Open 
+Body edge 
+(bottom of 
+bull / top of 
+bear) 
+The first traded price when the 
+candle began 
+Establishes the initial 
+supply/demand baseline for the 
+period 
+Close 
+Body edge 
+(top of bull / 
+bottom of 
+bear) 
+The last traded price before the 
+candle closed 
+Most important price: shows where 
+buyers/sellers finished dominating 
+High 
+Top of upper 
+wick 
+Highest price tested during the 
+candle 
+Shows how far bulls pushed; 
+rejected if a long wick forms there 
+Low 
+Bottom of 
+lower wick 
+Lowest price tested during the 
+candle 
+Shows how far bears pushed; 
+rejected if a long wick forms there 
+ 
+ 
+Fig 1.1: Candlestick Anatomy: Bullish vs Bearish with Labeled Components
+
+--- Page 5 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 5 
+1.2  Anatomy Components 
+Component 
+Also Called 
+Definition & Interpretation 
+Real Body 
+Body 
+The rectangle between Open and Close. Bullish = green/white 
+(close > open). Bearish = red/black (close < open). Larger body 
+= stronger conviction. 
+Upper Wick 
+Upper Shadow 
+/ Tail 
+Thin line above the body. Extends to the session High. Length 
+indicates how far bulls pushed and were rejected: longer = 
+stronger bearish rejection overhead. 
+Lower Wick 
+Lower Shadow 
+/ Tail 
+Thin line below the body. Extends to the session Low. Length 
+indicates how far bears pushed and were rejected: longer = 
+stronger bullish rejection below. 
+Body-to-Range 
+Ratio 
+Real Body % 
+Body size ÷ total candle range (High – Low) × 100. Marubozu = 
+~95%+. Doji = ~0–5%. Spinning top = ~20–40%. 
+Upper Wick Ratio 
+- 
+Upper wick ÷ total range × 100. High ratio (>40%) at resistance 
+signals strong bearish rejection. 
+Lower Wick Ratio 
+- 
+Lower wick ÷ total range × 100. High ratio (>40%) at support 
+signals strong bullish rejection. 
+ 
+1.3  Bullish vs Bearish Candle Anatomy 
+Feature 
+Bullish Candle (Green) 
+Bearish Candle (Red) 
+Open position 
+Bottom of body 
+Top of body 
+Close position 
+Top of body 
+Bottom of body 
+Meaning 
+Buyers dominated: price closed 
+above where it opened 
+Sellers dominated: price closed 
+below where it opened 
+Upper wick 
+interpretation 
+Bulls pushed higher but some 
+selling capped the close 
+Bears pushed lower but sellers ran 
+out of steam above the close 
+Lower wick 
+interpretation 
+Bears tried to push lower but bulls 
+bought the dip 
+Bears tried to push lower; dip was 
+bought but then rejected again 
+No wick (Marubozu) 
+Extreme bullish dominance: buyers 
+controlled entire session 
+Extreme bearish dominance: sellers 
+controlled entire session 
+ 
+1.4  Body Size: What It Tells You 
+Body Size 
+Body-to-Range 
+% 
+Market Message 
+Large / Full body 
+70–100% 
+Strong momentum in one direction. One side fully 
+dominated. High conviction candle. 
+Medium body 
+40–70% 
+Moderate conviction. Direction is clear but some opposing 
+pressure exists. 
+Small body 
+15–40% 
+Indecision. Neither side dominated convincingly. Potential 
+exhaustion or pause.
+
+--- Page 6 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 6 
+Body Size 
+Body-to-Range 
+% 
+Market Message 
+Very small / Doji 
+0–15% 
+Near-equal open and close. Strong indecision. Context 
+determines bullish/bearish bias. 
+ 
+ 
+Fig 1.2: Body Size Scale and Wick Psychology 
+1.5  Wick Psychology: The Hidden Story 
+Wicks reveal rejected price levels and institutional order activity. They are one of the most 
+powerful yet most misread elements on a chart. 
+ 
+Wick Scenario 
+What Likely Happened 
+Trading Implication 
+Long upper wick on 
+bullish candle 
+Bulls pushed price high but smart 
+money distributed (sold) at the highs, 
+pushing price back down before 
+close 
+Bearish warning at resistance: 
+confirms selling pressure overhead 
+Long upper wick on 
+bearish candle 
+Bears had full control. Bulls tried 
+briefly but were crushed back 
+immediately 
+Extreme bearish momentum: very 
+few buyers willing to step in 
+Long lower wick on 
+bearish candle 
+Bears pushed low but smart money 
+absorbed (bought) at the lows: bullish 
+absorption signal 
+Bullish reversal potential: strong 
+demand at the low 
+Long lower wick on 
+bullish candle 
+Bears tried pushing lower but bulls 
+defended and reclaimed strongly 
+before close 
+Confirms bullish demand at the wick 
+low: a high-quality support test 
+Equal wicks both 
+sides (Spinning Top) 
+Complete indecision: buyers and 
+sellers tested both extremes and 
+returned to centre 
+Pause in trend. Wait for the next 
+candle for direction confirmation 
+No wicks at all 
+(Marubozu) 
+Total one-sided dominance. Opening 
+price immediately ran in one direction 
+with no opposition 
+High-momentum continuation signal. 
+Follow the body direction.
+
+--- Page 7 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 7 
+ 
+KEY CONCEPT: Wick Confluence 
+When a long wick terminates exactly at a known Support/Resistance level, Supply/Demand Zone, or 
+Fibonacci level: the reliability of that wick's reversal signal multiplies dramatically. A 10-pip wick on 
+EUR/USD at a Daily support level is far more significant than a 50-pip wick in the middle of nowhere. 
+ 
+1.6  Candle Context Rules 
+No candlestick pattern has meaning in isolation. Always evaluate: 
+• 
+Where on the chart is the pattern forming? (At structure or in the middle of a range?) 
+• 
+What is the higher-timeframe trend? (Counter-trend patterns require higher conviction) 
+• 
+What is the session context? (London open candles carry more weight than Asian 
+session candles) 
+• 
+What is the volume on the pattern candle? (High-volume reversals are more reliable) 
+• 
+Has price run into a key level? (S/R, supply/demand zone, round number, Fibonacci 
+level) 
+• 
+What is the candle's size relative to recent average candles? (Unusually large = 
+momentum or exhaustion)
+
+--- Page 8 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 8 
+  SECTION 2    Single-Candle Patterns 
+2. Single-Candle Patterns 
+ 
+Single-candle patterns are formed by one candlestick alone. They are signals of indecision, 
+momentum, or rejection and must always be read in the context of where they appear on the 
+chart and the surrounding trend. 
+ 
+ 
+Fig 2A: Single-Candle Patterns: Marubozu, Doji Family, Hammer and Shooting Star Family 
+2.1  The Doji Family 
+A Doji forms when the open and close are at or near the same price, producing a very small or 
+non-existent body. All Doji variants signal indecision and potential reversal: their power comes 
+from their location, not from the Doji itself. 
+ 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+DOJI FAMILY 
+Standard 
+Doji 
+1 
+Any 
+Indecision: 
+neither 
+bulls nor 
+bears won 
+Moderate 
+EUR/USD: 
+appears 
+mid-range 
+before 
+breakout 
+Open ≈ Close; small 
+body; equal upper/lower 
+wicks. Context-
+dependent; alone it is 
+weak.
+
+--- Page 9 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 9 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+Long-
+Legged 
+Doji 
+1 
+Any 
+High 
+indecision: 
+strong test 
+both ways 
+Moderate 
+USD/JPY: 
+forms 
+before 
+major 
+reversal 
+after trend 
+run 
+Extremely long upper 
+AND lower wicks. 
+Market tested far in both 
+directions. Expect 
+volatility. 
+Gravestone 
+Doji 
+1 
+Uptrend 
+Bearish 
+reversal 
+High 
+GBP/USD: 
+forms at 
+daily 
+resistance 
+after rally 
+Open=Close=Low. Long 
+upper wick only. Bears 
+crushed bull rally back 
+to open. Strongly 
+bearish. 
+Dragonfly 
+Doji 
+1 
+Downtrend 
+Bullish 
+reversal 
+High 
+XAU/USD: 
+forms at 
+key 
+demand 
+zone on H4 
+Open=Close=High. 
+Long lower wick only. 
+Bears pushed hard but 
+bulls fully recovered. 
+Strongly bullish. 
+Four-Price 
+Doji 
+1 
+Any 
+Extreme 
+indecision 
+/ illiquid 
+market 
+Low 
+EUR/USD: 
+rare on 1H; 
+seen in thin 
+Asian 
+session 
+Open=High=Low=Close. 
+No range at all. Usually 
+means low liquidity; 
+ignore or avoid. 
+Neutral 
+Doji 
+1 
+Any 
+Indecision 
+with slight 
+body 
+Low-
+Moderate 
+USD/JPY: 
+transition 
+signal in 
+choppy 
+conditions 
+Tiny body (not zero), 
+roughly equal wicks. 
+Similar to standard Doji 
+but fractionally decisive. 
+ 
+2.2  Hammer & Hanging Man Family 
+These patterns share the same physical shape: small body at the top of the candle range with a 
+long lower wick. Their signal (bullish or bearish) depends entirely on their position in the trend. 
+ 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+HAMMER & HANGING MAN FAMILY 
+Hammer 
+1 
+Downtrend 
+Bullish 
+reversal 
+High 
+GBP/USD: 
+lower wick 
+touches 
+weekly 
+support on 
+H4 
+Small body at top; 
+lower wick ≥ 2× 
+body. Bull candle 
+preferred. No or tiny 
+upper wick. 
+Inverted 
+Hammer 
+1 
+Downtrend 
+Bullish 
+reversal 
+(weaker 
+Moderate 
+EUR/USD: 
+forms at 
+demand 
+zone; needs 
+Small body at 
+bottom; long upper 
+wick. Bulls tried 
+upward but failed;
+
+--- Page 10 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 10 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+than 
+Hammer) 
+bullish 
+follow-
+through 
+watch for next 
+candle confirmation. 
+Hanging 
+Man 
+1 
+Uptrend 
+Bearish 
+reversal 
+warning 
+Moderate-
+High 
+USD/JPY: 
+appears at 
+top of 
+extended 
+rally 
+Same shape as 
+Hammer but in 
+uptrend. Bears 
+pushed down hard 
+but bulls recovered. 
+Bearish if confirmed. 
+Shooting 
+Star 
+1 
+Uptrend 
+Bearish 
+reversal 
+High 
+GBP/USD: 
+long upper 
+wick into 
+daily 
+resistance 
+Small body at 
+bottom; long upper 
+wick ≥ 2× body. 
+Bears crushed bull 
+rally. No or tiny lower 
+wick. 
+ 
+CONFIRMATION RULE: Best Practice 
+A Hammer or Shooting Star pattern must be confirmed by the next candle. For a Hammer: the 
+following candle should close above the Hammer's body. For a Shooting Star: the following candle 
+should close below the pattern's body. Trading the pattern without confirmation is a common beginner 
+mistake. 
+ 
+2.3  Marubozu: Momentum Candles 
+A Marubozu has no wicks (or negligible wicks). It signals total dominance by one side and is 
+one of the strongest momentum signals on any timeframe. 
+ 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+MARUBOZU FAMILY 
+Bullish 
+Marubozu 
+1 
+Any 
+(strongest 
+in uptrend) 
+Bullish 
+continuation 
+/ reversal 
+Very High 
+XAU/USD: 
+large green 
+body at 
+break of 
+resistance 
+Open=Low; 
+Close=High. No 
+wicks. Complete 
+bull domination for 
+entire session. 
+Strong 
+continuation 
+signal. 
+Bearish 
+Marubozu 
+1 
+Any 
+(strongest 
+in 
+downtrend) 
+Bearish 
+continuation 
+/ reversal 
+Very High 
+GBP/USD: 
+large red 
+body at 
+break of 
+major 
+support 
+Open=High; 
+Close=Low. No 
+wicks. Complete 
+bear domination. 
+Strong 
+continuation or 
+reversal initiation.
+
+--- Page 11 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 11 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+Closing 
+Marubozu 
+(Bull) 
+1 
+Any 
+Bullish bias: 
+close at 
+high 
+High 
+EUR/USD: 
+strong NY 
+close with 
+no upper 
+wick 
+Has lower wick 
+(open above low) 
+but closes at 
+session high. 
+Buyers dominated 
+the second half. 
+Closing 
+Marubozu 
+(Bear) 
+1 
+Any 
+Bearish 
+bias: close 
+at low 
+High 
+USD/JPY: 
+NY session 
+close at 
+lows after 
+selling 
+Has upper wick 
+but closes at 
+session low. 
+Sellers dominated 
+the second half; 
+bearish into next 
+sessionion. 
+Opening 
+Marubozu 
+(Bull) 
+1 
+Any 
+Initial 
+bullish 
+push: 
+weakens 
+Moderate 
+EUR/USD: 
+opens at 
+low, closes 
+below high 
+Open=Low but has 
+upper wick; bulls 
+lost some 
+momentum. Less 
+reliable than full 
+Marubozu. 
+ 
+2.4  Spinning Tops & Other Single Patterns 
+ 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+SPINNING TOP & MISCELLANEOUS SINGLES 
+Spinning 
+Top 
+1 
+Any 
+Indecision: 
+trend 
+exhaustion 
+warning 
+Moderate 
+USD/JPY: 
+forms after 
+5-day 
+directional 
+run 
+Small body (any 
+colour) with wicks 
+longer than body on 
+both sides. Neither 
+side won. Potential 
+reversal setup. 
+High Wave 
+Candle 
+1 
+Any 
+Extreme 
+indecision 
+at high 
+volatility 
+Moderate 
+GBP/USD: 
+high-vol 
+candle at 
+NFP 
+surprise 
+Like Spinning Top but 
+with very long wicks 
+on both sides; market 
+tested extreme 
+ranges before 
+settling. 
+Belt Hold 
+(Bull) 
+1 
+Downtrend 
+Bullish 
+reversal 
+initiation 
+Moderate 
+EUR/USD: 
+opens at 
+low, closes 
+near high 
+with no 
+lower wick 
+Opens at low (no 
+lower wick), close is 
+significantly higher. 
+Similar to Opening 
+Marubozu; bullish 
+momentumomentum 
+shift.
+
+--- Page 12 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 12 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+Belt Hold 
+(Bear) 
+1 
+Uptrend 
+Bearish 
+reversal 
+initiation 
+Moderate 
+XAU/USD: 
+opens at 
+high, closes 
+near low 
+with no 
+upper wick 
+Opens at high (no 
+upper wick), close is 
+significantly lower. 
+Bearish momentum 
+shift. 
+Rickshaw 
+Man 
+1 
+Any 
+Extreme 
+indecision 
+Low 
+EUR/USD: 
+very rare; 
+appears in 
+thin 
+markets 
+Doji where 
+open/close are 
+exactly in the middle 
+of the range. 
+Maximum symmetry 
+= maximum 
+indecision. 
+Takuri Line 
+1 
+Downtrend 
+Strong 
+bullish 
+reversal 
+High 
+USD/JPY: 
+extremely 
+long lower 
+wick at H4 
+support 
+Extreme lower wick 
+(≥3× body). A very 
+elongated 
+Dragonfly/Hammer. 
+Bears tested deeply; 
+bulls crushed them.
+
+--- Page 13 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 13 
+  SECTION 3    Two-Candle Patterns 
+3. Two-Candle Patterns 
+ 
+Two-candle patterns require the relationship between two consecutive candles to form a signal. 
+The first candle establishes direction or context; the second confirms the reversal or 
+continuation. These patterns carry more weight than single-candle formations. 
+ 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+ENGULFING PATTERNS 
+Bullish 
+Engulfing 
+2 
+Downtrend 
+Strong 
+bullish 
+reversal 
+Very High 
+GBP/USD: 
+large green 
+candle 
+engulfs 
+prior red at 
+H4 support 
+Candle 2 body 
+fully covers 
+Candle 1 body. 
+Green engulfs 
+red. Volume 
+surge on C2 
+increases 
+reliability. 
+Bearish 
+Engulfing 
+2 
+Uptrend 
+Strong 
+bearish 
+reversal 
+Very High 
+EUR/USD: 
+large red 
+candle 
+engulfs 
+prior green 
+at daily 
+resistance 
+Candle 2 body 
+fully covers 
+Candle 1 body. 
+Red engulfs 
+green. One of the 
+most reliable 2-
+candle signals. 
+HARAMI PATTERNS (Inside Bar variants) 
+Bullish 
+Harami 
+2 
+Downtrend 
+Bullish 
+reversal 
+warning 
+Moderate 
+USD/JPY: 
+small green 
+inside large 
+red at 
+support 
+zone 
+Candle 2 is small 
+and contained 
+within C1's body. 
+Japanese for 
+'pregnant'. C2 
+must be opposite 
+colour for classic 
+Harami. 
+Bearish 
+Harami 
+2 
+Uptrend 
+Bearish 
+reversal 
+warning 
+Moderate 
+GBP/USD: 
+small red 
+inside large 
+green at 
+supply zone 
+Opposite of 
+Bullish Harami. 
+C2 is small red 
+inside large 
+green C1. 
+Signals potential 
+top. 
+Bullish 
+Harami Cross 
+2 
+Downtrend 
+Bullish 
+reversal 
+Moderate-
+High 
+EUR/USD: 
+Doji inside 
+large bear 
+candle at 
+C2 is a Doji (not 
+just small 
+candle). Stronger 
+than standard 
+Harami due to
+
+--- Page 14 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 14 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+demand 
+zone 
+extreme 
+indecision. 
+Bearish 
+Harami Cross 
+2 
+Uptrend 
+Bearish 
+reversal 
+Moderate-
+High 
+XAU/USD: 
+Doji inside 
+large bull 
+candle at 
+supply zone 
+C2 Doji inside 
+bull C1. Strong 
+indecision at top 
+after bullish run. 
+PIERCING & DARK CLOUD 
+Piercing Line 
+2 
+Downtrend 
+Bullish 
+reversal 
+High 
+GBP/USD: 
+C2 green 
+opens 
+below C1 
+low, closes 
+above C1 
+midpoint 
+C1=bear candle. 
+C2 opens below 
+C1 low (gap 
+down), closes 
+above C1's 50% 
+midpoint. Bulls 
+pierced bearish 
+dominance. 
+Dark Cloud 
+Cover 
+2 
+Uptrend 
+Bearish 
+reversal 
+High 
+EUR/USD: 
+C2 red 
+opens 
+above C1 
+high, closes 
+below 
+midpoint 
+C1=bull candle. 
+C2 opens above 
+C1 high, closes 
+below C1's 
+midpoint. 
+Opposite of 
+Piercing Line. 
+TWEEZER PATTERNS 
+Tweezer 
+Bottom 
+2 
+Downtrend 
+Bullish 
+reversal: 
+double-
+tested low 
+High 
+USD/JPY: 
+two candles 
+share 
+identical 
+low at H4 
+support 
+Two candles test 
+the exact same 
+low and both 
+reject it. Shows 
+strong demand at 
+that level. Strong 
+S/R confirmation. 
+Tweezer Top 
+2 
+Uptrend 
+Bearish 
+reversal: 
+double-
+tested high 
+High 
+GBP/USD: 
+two candles 
+share 
+identical 
+high at 
+resistance 
+Two candles test 
+the exact same 
+high and both 
+reject it. Strong 
+supply at that 
+level. Resistance 
+confirmed. 
+ON-NECK & COUNTER-ATTACK PATTERNS 
+On-Neck 
+(Bearish) 
+2 
+Downtrend 
+Bearish 
+continuation 
+Moderate 
+EUR/USD: 
+C2 closes 
+near but 
+just at C1's 
+low: weak 
+bull 
+response 
+C1=large bear. 
+C2=small bull 
+that closes near 
+C1's close. Bulls 
+couldn't recover. 
+Bearish 
+continuation.
+
+--- Page 15 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 15 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+In-Neck 
+(Bearish) 
+2 
+Downtrend 
+Bearish 
+continuation 
+Moderate 
+USD/JPY: 
+C2 barely 
+closes 
+above C1's 
+close: 
+marginal 
+bull push 
+Similar to On-
+Neck but C2 
+closes slightly 
+above C1's close. 
+Still a bearish 
+continuation 
+pattern. 
+Counterattack 
+(Bull) 
+2 
+Downtrend 
+Bullish 
+reversal 
+signal 
+Moderate 
+GBP/USD: 
+C2 green 
+closes at 
+same price 
+as C1 red 
+C1=bear; C2=bull 
+that opens lower 
+but closes at C1's 
+close (same 
+price). Bulls fully 
+counteracted 
+bears. 
+Counterattack 
+(Bear) 
+2 
+Uptrend 
+Bearish 
+reversal 
+signal 
+Moderate 
+XAU/USD: 
+C2 red 
+closes at 
+same price 
+as C1 
+green 
+C1=bull; C2=bear 
+that opens higher 
+but closes at C1's 
+close. Bears fully 
+counteracted 
+bulls at the top. 
+MEETING LINES 
+Bullish 
+Meeting Lines 
+2 
+Downtrend 
+Potential 
+bullish 
+reversal 
+Moderate 
+EUR/USD: 
+bear and 
+bull candle 
+close at 
+same price 
+at demand 
+zone 
+Two opposite-
+colour candles 
+close at exactly 
+the same level. 
+Shared close = 
+standoff. Bullish if 
+at support. 
+Bearish 
+Meeting Lines 
+2 
+Uptrend 
+Potential 
+bearish 
+reversal 
+Moderate 
+GBP/USD: 
+bull and 
+bear candle 
+close at 
+same price 
+at supply 
+zone 
+Opposite of 
+Bullish Meeting 
+Lines. Both close 
+at same price at 
+resistance. 
+Bearish 
+continuation risk.
+
+--- Page 16 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 16 
+ 
+Fig 2B: Two-Candle Patterns: Engulfing, Harami, Tweezer, Piercing, Kicking and More 
+CAUTION: Two-Candle Patterns 
+The Harami and Piercing Line patterns are weaker when they appear mid-trend with no structural 
+confluence. Only trade two-candle reversal patterns when they form at a key level (support, 
+resistance, supply/demand zone, Fibonacci retracement). Without location context, these patterns 
+have a reliability close to random.
+
+--- Page 17 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 17 
+  SECTION 4    Three-Candle Patterns 
+4. Three-Candle Patterns 
+ 
+Three-candle patterns offer the clearest narrative structure in candlestick analysis: a setup 
+candle, a decision candle, and a confirmation candle. They are widely regarded as the most 
+balanced between reliability and timeliness. 
+ 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+STAR PATTERNS 
+Morning 
+Star 
+3 
+Downtrend 
+Strong bullish 
+reversal 
+Very High 
+GBP/USD: 
+forms at 
+weekly 
+support on 
+Daily chart 
+C1=large bear. 
+C2=small/Doji 
+(gap down or in 
+body). 
+C3=large bull 
+closing into 
+C1's body. 
+Classic 3-
+candle 
+reversal. 
+Evening 
+Star 
+3 
+Uptrend 
+Strong bearish 
+reversal 
+Very High 
+EUR/USD: 
+forms at 
+monthly 
+resistance 
+on Daily 
+chart 
+C1=large bull. 
+C2=small/Doji 
+(gap up or in 
+body). 
+C3=large bear 
+closing into 
+C1's body. 
+Mirror of 
+Morning Star. 
+Morning 
+Doji Star 
+3 
+Downtrend 
+Very strong bullish 
+reversal 
+Very High 
+USD/JPY: 
+Doji 
+sandwiched 
+between 
+bear and 
+bull candle 
+at support 
+C2 must be a 
+Doji 
+specifically. 
+Stronger than 
+standard 
+Morning Star: 
+deeper 
+indecision 
+before reversal. 
+Evening 
+Doji Star 
+3 
+Uptrend 
+Very strong bearish 
+reversal 
+Very High 
+XAU/USD: 
+Doji at top 
+of gold rally 
+on H4 
+C2 must be a 
+Doji 
+specifically. 
+Stronger than 
+Evening Star. 
+Most reliable 3-
+candle top 
+signal.
+
+--- Page 18 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 18 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+Abandoned 
+Baby (Bull) 
+3 
+Downtrend 
+Strongest bullish 
+reversal 
+Highest 
+GBP/USD: 
+rare gap 
+Doji at key 
+daily 
+demand 
+zone 
+C1=bear. 
+C2=Doji that 
+gaps away 
+from C1 AND 
+C3. Isolated. 
+Very rare in 
+Forex (no true 
+gaps). High 
+impact when 
+gaps appear at 
+week open. 
+Abandoned 
+Baby (Bear) 
+3 
+Uptrend 
+Strongest bearish 
+reversal 
+Highest 
+EUR/USD: 
+rare gap 
+Doji 
+isolated at 
+daily supply 
+zone 
+C1=bull. 
+C2=Doji 
+isolated by 
+gaps on both 
+sides. 
+C3=bear. 
+Rarest and 
+most reliable 
+reversal 
+pattern. 
+SOLDIERS & CROWS 
+Three 
+White 
+Soldiers 
+3 
+Downtrend 
+/ Base 
+Strong bullish 
+continuation/reversal 
+High 
+GBP/USD: 
+three 
+consecutive 
+large green 
+candles 
+after base 
+Three large 
+bullish candles, 
+each closing 
+higher, opening 
+within prior 
+body. No major 
+wicks. Strong 
+institutional 
+buying. 
+Three Black 
+Crows 
+3 
+Uptrend 
+Strong bearish 
+reversal 
+High 
+EUR/USD: 
+three 
+consecutive 
+large red 
+candles 
+from 
+resistance 
+Three large 
+bearish 
+candles, each 
+closing lower, 
+opening within 
+prior body. 
+Strong 
+institutional 
+selling. 
+Advance 
+Block 
+3 
+Uptrend 
+Bearish reversal 
+warning 
+Moderate 
+USD/JPY: 
+Three 
+Soldiers but 
+bodies 
+shrinking + 
+upper wicks 
+growing 
+Like Three 
+White Soldiers 
+but 
+progressively 
+smaller bodies 
+and growing 
+upper wicks; 
+bull momentum 
+fading.
+
+--- Page 19 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 19 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+Deliberation 
+3 
+Uptrend 
+Potential top 
+formation 
+Moderate 
+XAU/USD: 
+third candle 
+is small or 
+Doji after 
+two large 
+bulls 
+Two large bull 
+candles then a 
+very small third. 
+Bulls losing 
+conviction; 
+potential 
+reversal 
+incoming. 
+THREE INSIDE / OUTSIDE 
+Three 
+Inside Up 
+3 
+Downtrend 
+Bullish reversal: 
+confirmed Harami 
+High 
+GBP/USD: 
+Bullish 
+Harami 
+confirmed 
+by bullish 
+C3 close 
+C1=large bear, 
+C2=small bull 
+inside C1 
+(Harami), 
+C3=bull that 
+closes above 
+C1's open. Full 
+confirmation. 
+Three 
+Inside 
+Down 
+3 
+Uptrend 
+Bearish reversal: 
+confirmed Harami 
+High 
+EUR/USD: 
+Bearish 
+Harami 
+confirmed 
+by bearish 
+C3 close 
+C1=large bull, 
+C2=small bear 
+inside C1, 
+C3=bear 
+closing below 
+C1's open. 
+Mirror of Three 
+Inside Up. 
+Three 
+Outside Up 
+3 
+Downtrend 
+Bullish reversal: 
+confirmed Engulfing 
+High 
+USD/JPY: 
+Bullish 
+Engulfing 
+confirmed 
+by bullish 
+C3 
+C1=bear, 
+C2=bull that 
+engulfs (Bullish 
+Engulfing), 
+C3=bull that 
+closes higher. 
+Full 3-candle 
+confirmation. 
+Three 
+Outside 
+Down 
+3 
+Uptrend 
+Bearish reversal: 
+confirmed Engulfing 
+High 
+GBP/USD: 
+Bearish 
+Engulfing 
+confirmed 
+by bearish 
+C3 
+C1=bull, 
+C2=bear that 
+engulfs 
+(Bearish 
+Engulfing), 
+C3=bear that 
+closes lower. 
+Strong triple 
+confirmation. 
+THREE LINE STRIKE 
+Bullish 
+Three Line 
+Strike 
+3+1 
+Downtrend 
+Bullish continuation 
+(counter-intuitive) 
+Moderate 
+EUR/USD: 
+three bears 
+followed by 
+one large 
+bull that 
+Three bear 
+candles (lower 
+lows) followed 
+by a large bull 
+candle that 
+closes above
+
+--- Page 20 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 20 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+covers all 
+three 
+C1's open. 
+Actually a 
+bullish 
+continuation 
+after 
+retracement. 
+Bearish 
+Three Line 
+Strike 
+3+1 
+Uptrend 
+Bearish continuation 
+(counter-intuitive) 
+Moderate 
+GBP/USD: 
+three bulls 
+followed by 
+one large 
+bear that 
+covers all 
+three 
+Three bull 
+candles 
+followed by a 
+large bear 
+candle that 
+closes below 
+C1's open. 
+Bearish 
+continuation 
+signal. 
+UNIQUE THREE-CANDLE PATTERNS 
+Tri-Star 
+(Bull) 
+3 
+Downtrend 
+Strong bullish 
+reversal 
+High 
+USD/JPY: 
+three 
+consecutive 
+Doji at 
+support 
+Three 
+consecutive 
+Doji candles at 
+or near the 
+same level. 
+Extreme 
+indecision 
+resolved; watch 
+for explosive 
+breakoutplosive 
+move. 
+Tri-Star 
+(Bear) 
+3 
+Uptrend 
+Strong bearish 
+reversal 
+High 
+XAU/USD: 
+three 
+consecutive 
+Doji at 
+resistance 
+Three 
+consecutive 
+Doji at or near 
+highs. Very 
+rare. Expect 
+sharp reversal 
+move following 
+this. 
+Unique 
+Three-River 
+Bottom 
+3 
+Downtrend 
+Bullish reversal: rare 
+Moderate 
+GBP/USD: 
+bear, 
+hammer, 
+small bull 
+inside 
+range 
+Complex 3-
+candle 
+sequence: 
+large bear, 
+bear with long 
+lower wick 
+(makes new 
+low), small 
+inside bull. 
+Reversal 
+signal.
+
+--- Page 21 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 21 
+ 
+Fig 2C: Three-Candle Patterns: Star Patterns, Soldiers, Crows, Inside and Outside Patterns 
+BEST PRACTICE: Three-Candle Patterns 
+The Morning Star and Evening Star patterns on the Daily timeframe at a Weekly support or resistance 
+level are among the highest-probability setups in Price Action trading. When C3 closes more than 
+50% into C1's body, and volume on C3 exceeds C1's volume, the probability of follow-through 
+increases substantially.
+
+--- Page 22 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 22 
+  SECTION 5    Multi-Candle & Exotic Patterns 
+5. Multi-Candle & Exotic Patterns 
+ 
+Multi-candle patterns require four or more candles to complete. These patterns are less frequent 
+but tend to offer high-quality continuation or reversal signals, particularly on the H4 and Daily 
+timeframes. 
+ 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+RISING & FALLING THREE METHODS (Continuation) 
+Rising 
+Three 
+Methods 
+5 
+Uptrend 
+Bullish 
+continuation 
+High 
+GBP/USD: 
+large bull → 
+3 small 
+bears → 
+large bull 
+C1=large bull. 
+C2/C3/C4=3 small 
+bears (stay within 
+C1 range). 
+C5=large bull 
+closing above C1's 
+high. Pause then 
+continuation. 
+Falling 
+Three 
+Methods 
+5 
+Downtrend 
+Bearish 
+continuation 
+High 
+EUR/USD: 
+large bear 
+→ 3 small 
+bulls → 
+large bear 
+Mirror: C1=large 
+bear. Middle 3 = 
+small bulls within 
+range. C5=large 
+bear making new 
+low. Bearish 
+continuation. 
+TASUKI GAP PATTERNS 
+Upside 
+Tasuki Gap 
+3 
+Uptrend 
+Bullish 
+continuation 
+Moderate 
+GBP/USD: 
+bull gap up 
++ small bear 
+that doesn't 
+fill gap 
+C1=bull, C2=bull 
+that gaps up, 
+C3=bear that 
+opens in C2's 
+body but doesn't 
+close the gap. Gap 
+holds = 
+continuation. 
+Downside 
+Tasuki Gap 
+3 
+Downtrend 
+Bearish 
+continuation 
+Moderate 
+USD/JPY: 
+bear gap 
+down + 
+small bull 
+that doesn't 
+fill gap 
+C1=bear, C2=bear 
+that gaps down, 
+C3=bull that can't 
+close the gap. Gap 
+holds = bearish 
+continuation. 
+MAT HOLD PATTERNS 
+Bull Mat 
+Hold 
+5 
+Uptrend 
+Bullish 
+continuation 
+High 
+EUR/USD: 
+similar to 
+Rising 
+Three 
+Large bull, gap up, 
+three small bears 
+declining (stay 
+above C1 open),
+
+--- Page 23 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 23 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+Methods on 
+Daily chart 
+large bull 
+continuation 
+candle. Strong 
+institutional 
+footprint. 
+Bear Mat 
+Hold 
+5 
+Downtrend 
+Bearish 
+continuation 
+High 
+GBP/USD: 
+large bear, 
+gap down, 
+three small 
+bulls, large 
+bear 
+Large bear, gap 
+down, three small 
+bulls declining, 
+large bear 
+continuation. 
+Mirror pattern. 
+High reliability. 
+STICK SANDWICH 
+Bull Stick 
+Sandwich 
+3 
+Downtrend 
+Bullish 
+reversal 
+Moderate-
+High 
+USD/JPY: 
+bear-bull-
+bear where 
+C1 and C3 
+close at 
+same level 
+C1=bear, C2=bull, 
+C3=bear closing at 
+C1's close (same 
+price). Shows 
+strong support at 
+that price level. 
+Bear Stick 
+Sandwich 
+3 
+Uptrend 
+Bearish 
+reversal 
+Moderate-
+High 
+XAU/USD: 
+bull-bear-
+bull where 
+C1 and C3 
+close at 
+same high 
+C1=bull, C2=bear, 
+C3=bull closing at 
+C1's close. 
+Repeated 
+resistance at same 
+close level. 
+Bearish warning. 
+CONCEALING BABY SWALLOW 
+Concealing 
+Baby 
+Swallow 
+4 
+Downtrend 
+Strong 
+bullish 
+reversal 
+High 
+GBP/USD: 
+four-candle 
+reversal 
+after deep 
+bear trend 
+C1=bear 
+Marubozu, 
+C2=bear 
+Marubozu, 
+C3=bear with 
+upper wick (gap 
+up), C4=large bull 
+that engulfs C3. 
+Rare pattern. 
+SIDE-BY-SIDE PATTERNS 
+White Side-
+by-Side 
+3 
+Uptrend 
+Bullish 
+continuation 
+Moderate 
+EUR/USD: 
+gap up then 
+two almost 
+identical 
+bull candles 
+C1=any. C2=bull 
+candle that gaps 
+up. C3=bull candle 
+almost identical to 
+C2. Two near-
+equal bulls after 
+gap = 
+continuation. 
+Black Side-
+by-Side 
+3 
+Downtrend 
+Bearish 
+continuation 
+Moderate 
+USD/JPY: 
+gap down 
+Mirror: gap down 
+followed by two
+
+--- Page 24 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 24 
+Pattern 
+Candles 
+Prior 
+Trend 
+Signal 
+Reliability 
+Instrument 
+Example 
+Key Notes / 
+Confirmation 
+then two 
+almost 
+identical 
+bear 
+candles 
+near-identical bear 
+candles. 
+Institutional selling 
+continuation. 
+KICKING PATTERN 
+Bullish 
+Kicking 
+2 
+Any 
+Very strong 
+bullish 
+reversal 
+Very High 
+GBP/USD: 
+bearish 
+Marubozu 
+gapped by 
+bullish 
+Marubozu 
+C1=bear 
+Marubozu. 
+C2=bull Marubozu 
+that gaps away 
+from C1. Total 
+momentum 
+reversal. Very rare 
+but very powerful. 
+Bearish 
+Kicking 
+2 
+Any 
+Very strong 
+bearish 
+reversal 
+Very High 
+XAU/USD: 
+bullish 
+Marubozu 
+gapped by 
+bearish 
+Marubozu 
+C1=bull 
+Marubozu. 
+C2=bear 
+Marubozu that 
+gaps down. 
+Complete and 
+sudden 
+momentum 
+reversal. 
+HOMING PIGEON / LADDER PATTERNS 
+Homing 
+Pigeon 
+2 
+Downtrend 
+Bullish 
+reversal 
+signal 
+Moderate 
+EUR/USD: 
+two bear 
+candles 
+where C2 is 
+inside C1 
+Both candles bear. 
+C2 contained 
+within C1's range. 
+Bears are losing 
+range; bullish 
+reversal possible. 
+Ladder 
+Bottom 
+5 
+Downtrend 
+Bullish 
+reversal: 
+exhaustion 
+High 
+GBP/USD: 
+three bears 
+with 
+increasing 
+upper wicks 
++ bull with 
+gap 
+Three bear 
+candles with 
+progressively 
+longer upper wicks 
+(absorption 
+beginning), then 
+Shooting Star, 
+then gap-up bull. 
+Ladder Top 
+5 
+Uptrend 
+Bearish 
+reversal: 
+exhaustion 
+High 
+EUR/USD: 
+three bulls 
+with 
+increasing 
+lower wicks 
++ bear with 
+gap 
+Three bull candles 
+with progressively 
+longer lower 
+wicks, then 
+Hammer, then 
+gap-down bear. 
+Mirror pattern.
+
+--- Page 25 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 25 
+ 
+Fig 2D: Multi-Candle Patterns: Three Methods, Kicking, Tasuki, Ladder and Mat Hold
+
+--- Page 26 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 26 
+  SECTION 6    Support & Resistance 
+6. Support & Resistance 
+ 
+Support and Resistance (S&R) are horizontal price levels where price has previously paused, 
+reversed, or consolidated. They are the most fundamental concept in technical and price action 
+analysis. Every candlestick pattern described in Sections 2–5 gains its primary power from 
+occurring at these levels. 
+ 
+6.1  Definitions 
+Concept 
+Definition 
+Support 
+A price level where buying interest is historically strong enough to halt or reverse a 
+downward move. Price has bounced up from this level at least twice. 
+Resistance 
+A price level where selling interest is strong enough to halt or reverse an upward 
+move. Price has been rejected at this level at least twice. 
+S/R Zone 
+A zone (band of prices), not a single line, where the level has been tested multiple 
+times across slightly different prices. More realistic than a single pip line. 
+Role Reversal 
+(Flip) 
+When a previous Support is broken, it becomes new Resistance. When previous 
+Resistance is broken, it becomes new Support. This is one of the most powerful 
+confirmations in PA trading. 
+Round Numbers 
+Price levels ending in .0000, .5000, .2500 act as psychological S/R due to large 
+order clusters. Examples: EUR/USD 1.1000, GBP/USD 1.2500, XAU/USD 2000, 
+USD/JPY 150.00 
+ 
+6.2  How to Identify Valid S/R Levels 
+Not all horizontal levels are equal. Use this hierarchy to rank level quality: 
+ 
+Rank 
+Level Type 
+How to Identify 
+1st 
+Monthly / Weekly 
+S/R 
+Levels from Monthly and Weekly chart timeframes. Price has reacted 
+at these levels over months or years. Highest quality. 
+2nd 
+Daily S/R 
+Swing highs and lows on the Daily chart. Widely watched by 
+professional traders and algorithmic systems. 
+3rd 
+H4 S/R 
+4-hour swing levels. Relevant for intraday and swing traders. Used to 
+refine entries from Daily levels. 
+4th 
+Round Number 
+Levels 
+Psychological levels (e.g., USD/JPY 150.00, EUR/USD 1.1000). Tend 
+to cluster stop losses and pending orders. 
+5th 
+Previous Day/Week 
+High & Low 
+PDH, PDL, PWH, PWL are key institutional reference points for daily 
+trading decisions.
+
+--- Page 27 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 27 
+6.3  S/R Quality Factors 
+• 
+Number of touches: More touches = stronger level (minimum 2, ideally 3+) 
+• 
+Time between touches: Levels tested months apart are stronger than levels tested within 
+hours 
+• 
+Candle behaviour at the level: Long wicks with closes away from level = strong rejection 
+• 
+Volume at the level: High volume reaction = institutional participation confirmed 
+• 
+Distance from current price: Levels close to current price carry more immediate 
+relevance 
+• 
+Cleanness of the level: A level where price turned sharply (not gradually) is cleaner and 
+more tradeable 
+ 
+6.4  The S/R Role Reversal (Flip): Illustrated 
+This is one of the most powerful and reliable price action concepts. Once a level changes from 
+S to R or vice versa, it often holds with increased strength. 
+ 
+Scenario 
+Before Break 
+After Break 
+Example 
+Support becomes 
+Resistance 
+Level holds as 
+Support multiple 
+times 
+Price breaks below 
+decisively, retests from 
+below, now rejects 
+downward 
+GBP/USD: 1.2600 was 
+support (tested 4×). Breaks 
+below, retests 1.2600, 
+sellers step in → now 
+resistance. 
+Resistance 
+becomes Support 
+Level holds as 
+Resistance multiple 
+times 
+Price breaks above 
+decisively, retests from 
+above, now holds as 
+support 
+EUR/USD: 1.0900 was 
+resistance (tested 3×). 
+Breaks above, retests 
+1.0900, buyers defend → 
+now support. 
+Failed Flip 
+Resistance 
+appears to break; 
+then fails 
+Price breaks above, 
+retests, and falls back 
+through; original resistance 
+holds 
+USD/JPY: 150.00 breaks, 
+immediate retest, sellers 
+overwhelm; false break. 
+150.00 remains resistance.
+
+--- Page 28 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 28 
+ 
+Fig 6.1: Support and Resistance with Role Reversal 
+CAUTION: S/R Levels 
+Support and Resistance are ZONES, not exact pip levels. A level of 1.0850 on EUR/USD may act as 
+support anywhere from 1.0843 to 1.0857. Drawing S/R as a zone (shaded area) rather than a single 
+horizontal line prevents premature stop losses and unnecessary missed entries.
+
+--- Page 29 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 29 
+  SECTION 7    Trendlines & Channels 
+7. Trendlines & Channels 
+ 
+Trendlines are diagonal S/R levels that connect a series of swing highs or lows, defining the 
+angle and boundary of a trend. Channels add a parallel line on the opposite side to create a 
+price corridor. They are dynamic: they change angle and position as price evolves. 
+ 
+7.1  Trendline Drawing Rules 
+Incorrectly drawn trendlines are worse than no trendline at all; they create false expectations. 
+Follow these rules: 
+ 
+Rule 
+Detail 
+Minimum 2 points 
+A trendline requires at least 2 swing lows (uptrend) or 2 swing highs 
+(downtrend) to draw. 3 points = confirmed trendline. 
+Use candle bodies, 
+not wicks 
+Draw through the bodies (close/open prices) for the most meaningful line. 
+Wicks are noise; bodies are commitment. 
+Connect the most 
+prominent swings 
+Use major swing lows/highs visible on your timeframe, not every minor wiggle. 
+Avoid forcing the line 
+A valid trendline should connect 2+ points cleanly without cutting through 
+candle bodies between those points. 
+Steeper = more 
+fragile 
+A trendline with an angle above 45° is likely to break. Shallow, sustained 
+trendlines are the strongest. 
+Extend forward 
+Always extend trendlines into the future; this reveals upcoming interaction 
+points before price arrives. 
+Timeframe hierarchy 
+A trendline on the Daily chart outweighs one on H1. Draw on higher TF first, 
+then use lower TF for precision. 
+ 
+7.2  Types of Trendlines 
+Type 
+How Drawn 
+Market Condition 
+Instrument Example 
+Ascending 
+Trendline (Support) 
+Connect rising 
+swing lows 
+Uptrend: defines the rising 
+floor 
+GBP/USD: connect June, 
+August, October swing 
+lows on Daily chart 
+Descending 
+Trendline 
+(Resistance) 
+Connect falling 
+swing highs 
+Downtrend: defines the 
+falling ceiling 
+EUR/USD: connect March, 
+May, July swing highs in 
+downtrend 
+Horizontal 
+Trendline 
+Flat line at 
+repeated price level 
+Consolidation or key S/R 
+USD/JPY: flat line at 
+149.50 tested 4 times
+
+--- Page 30 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 30 
+Type 
+How Drawn 
+Market Condition 
+Instrument Example 
+Internal Trendline 
+Drawn through 
+candle congestion 
+areas (not extreme 
+wicks) 
+Cutting through price 
+action to find hidden 
+diagonal S/R 
+XAU/USD: line through 
+dense wax zones on H4 
+ 
+ 
+Fig 7.1: Ascending Trendline, Descending Trendline and Channel 
+7.3  Channels 
+A channel is formed by drawing a second (parallel) line on the opposite side of the trendline, 
+creating a price corridor. Price oscillates between the two lines, providing both support and 
+resistance entries within the structure. 
+ 
+Channel Type 
+Shape 
+Trading Approach 
+Ascending Channel 
+Rising parallel lines 
+(SW to NE) 
+Buy at lower channel line (support); sell at upper channel 
+line (resistance). Bias is bullish. 
+Descending 
+Channel 
+Falling parallel lines 
+(NW to SE) 
+Sell at upper channel line (resistance); buy at lower 
+channel line (support). Bias is bearish. 
+Horizontal Channel 
+(Range) 
+Flat parallel lines 
+Buy at support, sell at resistance. No directional bias: 
+fade the extremes. 
+Expanding Channel 
+(Megaphone) 
+Widening lines: 
+higher highs and 
+lower lows 
+Volatile, hard to trade. Usually indicates institutional 
+accumulation/distribution. Avoid. 
+Contracting 
+Channel (Wedge) 
+Narrowing lines 
+converging 
+Breakout imminent. Falling wedge = bullish breakout 
+likely. Rising wedge = bearish breakout likely.
+
+--- Page 31 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 31 
+7.4  Trendline Breaks: Trading the Break 
+A trendline break is one of the most powerful signals in price action, often marking the beginning 
+of a new trend phase or the end of a corrective move. 
+ 
+• 
+RULE 1: Require a candle CLOSE beyond the trendline, not just a wick pierce, to 
+confirm the break 
+• 
+RULE 2: The break candle should show increased momentum (larger body relative to 
+recent candles) 
+• 
+RULE 3: Wait for a retest: after breaking, price often returns to test the broken trendline 
+from the other side before continuing 
+• 
+RULE 4: Volume should increase at the break point; low-volume breaks are often false 
+breaks 
+• 
+EXAMPLE: GBP/USD descending trendline on H4. Break with large bullish body, 
+followed by 3-candle retest back to the trendline. Bullish Engulfing on retest = high-
+confidence long entry 
+ 
+WARNING: Trendline Breaks 
+Up to 30% of trendline breaks are false breaks (price briefly crosses then returns). This is why waiting 
+for the retest rather than chasing the initial break is a critical discipline. False breaks are particularly 
+common during news events and low-liquidity periods (Asian session, Friday PM).
+
+--- Page 32 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 32 
+  SECTION 8    Market Structure: HH / HL / LH / LL 
+8. Market Structure 
+ 
+Market structure is the backbone of price action analysis. Before identifying any candlestick 
+pattern or entry signal, you must know which structural phase the market is in. Trading in 
+alignment with market structure is one of the highest-impact rules in systematic price action 
+trading. 
+ 
+8.1  The Four Structural Swings 
+Swing Type 
+Abbreviation 
+Definition & Significance 
+Higher High 
+HH 
+Price makes a peak (swing high) above the previous swing high. 
+Confirms uptrend; bulls are pushing higher each rally. 
+Higher Low 
+HL 
+Price makes a trough (swing low) above the previous swing low. 
+Buyers are stepping in earlier each time: demand increasing. 
+Lower High 
+LH 
+Price makes a peak below the previous swing high. Sellers are 
+stepping in earlier each rally; supply is buildingy increasing. First sign 
+of potential trend change. 
+Lower Low 
+LL 
+Price makes a trough below the previous swing low. Bears are 
+pushing lower each decline. Confirms downtrend. 
+ 
+8.2  Trend Identification by Structure 
+Market Phase 
+Structural 
+Sequence 
+Description & Trading Bias 
+Uptrend 
+HH → HL → HH → 
+HL 
+Price consistently making higher highs AND higher lows. 
+ONLY look for long (buy) entries at HL zones. Do not short 
+an uptrend. 
+Downtrend 
+LH → LL → LH → 
+LL 
+Price consistently making lower highs AND lower lows. 
+ONLY look for short (sell) entries at LH zones. Do not buy a 
+downtrend. 
+Consolidation / 
+Range 
+HH → LL or erratic 
+Price oscillating between roughly equal highs and lows. No 
+clear structural sequence. Trade the range or wait for 
+breakout. 
+Transitioning 
+(Trend Change) 
+HH → HL → LH → 
+HL 
+First LH forms (after previous HH): early warning of 
+potential trend change. Wait for LL confirmation before 
+reversing bias.
+
+--- Page 33 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 33 
+8.3  Break of Structure (BOS) & Change of Character (CHoCH) 
+Event 
+Definition 
+Significance 
+Break of Structure 
+(BOS) 
+Price closes beyond a key swing 
+high (bullish BOS) or key swing 
+low (bearish BOS) 
+Confirms current trend continuation. A 
+bullish BOS (new HH) in uptrend = buy; 
+bearish BOS (new LL) in downtrend = sell 
+or hold shorts. 
+Change of 
+Character (CHoCH) 
+In an uptrend: price breaks below 
+the previous HL (creates a LL). In 
+downtrend: breaks above 
+previous LH. 
+First structural evidence that the trend is 
+reversing. CHoCH is not a confirmed 
+reversal; it is an alert to tighten stops or 
+reduce position on trend trades. 
+Confirmed 
+Reversal 
+CHoCH followed by a new LH (in 
+former uptrend) or new HL (in 
+former downtrend) 
+Only now should you actively trade against 
+the prior trend. Two structural shifts 
+required for confirmation. 
+ 
+8.4  Multi-Timeframe Structure Alignment 
+The most powerful price action trades occur when structure aligns across multiple timeframes: 
+ 
+Timeframe 
+Role 
+How to Use 
+Monthly / Weekly 
+Macro trend 
+direction 
+Defines the highest-probability bias for all lower-TF trades. 
+Never fight this trend. 
+Daily 
+Primary trade 
+structure 
+Identifies key swing highs/lows, trend phase (HH/HL or 
+LH/LL). Entry zones based on this TF. 
+H4 
+Intermediate 
+structure 
+Refines the Daily entry zone to a specific H4 price level. 
+Confirms Local structure. 
+H1 
+Entry trigger 
+timeframe 
+Candlestick patterns and entry signals at exact price. Final 
+confirmation before executing. 
+M15 
+Precision entry 
+(optional) 
+Used by experienced traders to reduce pip distance to stop 
+loss. Not recommended for beginners. 
+ 
+ 
+Fig 8.1: Market Structure: Uptrend (HH/HL), Downtrend (LH/LL) and CHoCH
+
+--- Page 34 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 34 
+BEST PRACTICE: Market Structure 
+Never place a trade on a 1H or H4 signal that goes against the Daily or Weekly market structure. A 
+bearish Evening Star on H4 is meaningless if the Weekly chart shows a strong uptrend with price still 
+well above its last Higher Low. Structure alignment is more important than any individual candlestick 
+pattern.
+
+--- Page 35 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 35 
+  SECTION 9    Supply & Demand Zones 
+9. Supply & Demand Zones 
+ 
+Supply and Demand zones are areas on the chart where significant institutional order activity 
+has occurred. Unlike simple horizontal S/R which looks at price levels, S/D zones focus on the 
+candle structure that originated the move: the exact location where large orders were placed 
+and may still be waiting to be filled. 
+ 
+9.1  Supply vs Demand: Core Definitions 
+Zone Type 
+Definition 
+Formation Signal 
+Demand Zone 
+Price area where institutional buyers 
+placed large orders. Price left this area 
+sharply upward, leaving unfilled 
+demand behind. 
+A sharp bullish impulse candle (or 
+candles) that left the area quickly. The 
+zone is the base of that move. 
+Supply Zone 
+Price area where institutional sellers 
+placed large orders. Price left this area 
+sharply downward, leaving unfilled 
+supply behind. 
+A sharp bearish impulse candle (or 
+candles) that left the area quickly. The 
+zone is the ceiling of that drop. 
+Untested (Fresh) 
+Zone 
+A zone price has not returned to since 
+it was created 
+Highest probability: unfilled orders still 
+waiting. Most powerful entry when price 
+returns. 
+Tested (Used) 
+Zone 
+A zone price has already returned to 
+and reacted from once 
+Still valid but weakened; some orders 
+were filled on the first return. Reliability 
+decreases with each test. 
+Broken Zone 
+A zone price has passed through 
+completely (close beyond it) 
+Zone is invalidated. May flip to opposite 
+S/D role if clean break occurs. 
+ 
+9.2  How to Draw S/D Zones 
+The zone boundaries are defined by the base candle(s): the consolidation or pause that 
+immediately preceded the sharp move: 
+ 
+• 
+DEMAND ZONE: Draw from the BODY HIGH of the last bearish candle before the 
+impulse upward, to the BODY LOW of the first bullish impulse candle (or the 
+consolidation range low) 
+• 
+SUPPLY ZONE: Draw from the BODY LOW of the last bullish candle before the impulse 
+downward, to the BODY HIGH of the first bearish impulse candle (or the consolidation 
+range high) 
+• 
+Wicks extending beyond the zone are acceptable; they show price tested outside the 
+zone but closed within it
+
+--- Page 36 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 36 
+• 
+The best zones are formed from 1–3 candle consolidation bases before a sharp 
+departure, not gradualual drift 
+ 
+9.3  Zone Types by Formation Pattern 
+Zone Type 
+Abbreviation 
+Formation 
+Example 
+DEMAND ZONE TYPES 
+Rally-Base-Rally 
+RBR 
+Small upward move → base 
+(1–3 candle consolidation) → 
+sharp rally up. Continuation 
+demand zone. 
+EUR/USD: pullback to the 
+base of a prior bullish impulse 
+during uptrend 
+Drop-Base-Rally 
+DBR 
+Sharp drop → base → sharp 
+rally upward. Classic demand 
+zone reversal. 
+GBP/USD: price drops into a 
+zone, consolidates for 1–2 
+candles, reverses sharply up 
+SUPPLY ZONE TYPES 
+Drop-Base-Drop 
+DBD 
+Small downward move → 
+base → sharp drop. 
+Continuation supply zone. 
+USD/JPY: rally into the base of 
+a prior bearish impulse during 
+downtrend 
+Rally-Base-Drop 
+RBD 
+Sharp rally → base → sharp 
+drop. Classic supply zone 
+reversal. 
+XAU/USD: price rallies into 
+zone, consolidates for 1–2 
+candles, drops sharply 
+ 
+ 
+Fig 9.1: Supply and Demand Zone Types: RBR, DBR, DBD, RBD
+
+--- Page 37 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 37 
+9.4  S/D Zones vs. S/R Levels: Key Differences 
+Aspect 
+Support & Resistance 
+Supply & Demand Zones 
+Shape 
+Horizontal line or thin zone 
+Area/rectangle: typically 10–40 pips 
+wide on H4 
+Defined by 
+Price levels where reactions have 
+occurred 
+The base candle(s) that preceded 
+the impulse move 
+Focus 
+Where price reacted (the reaction 
+point) 
+Where orders were placed (the 
+origin of the move) 
+Ideal test count 
+Gets stronger with 3+ touches 
+Gets weaker with each return: 
+freshness is key 
+Best timeframe 
+Daily / Weekly / Monthly for drawing 
+H4 / Daily for drawing; H1 for entry 
+refinement 
+Origin concept 
+Historical price behaviour 
+Unfilled institutional orders at 
+specific price ranges 
+ 
+KEY CONCEPT: Freshness is Everything 
+A fresh (untested) Supply or Demand zone that formed from a sharp, clean departure carries 
+significantly more weight than one that has already been visited. When price returns to a fresh zone, 
+unfilled institutional orders from the original move are still resting there: creating a natural inflection 
+point. After a zone is tested twice, treat it as standard S/R only.
+
+--- Page 38 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 38 
+  SECTION 10    Volume Analysis in Price Action 
+10. Volume Analysis in Price Action 
+ 
+Volume represents the total number of contracts or units traded during a candlestick's period. In 
+Forex, true volume (number of contracts) is unavailable since the market is decentralised: 
+however, tick volume (the number of price changes per period) has been shown to correlate 
+closely with real institutional volume and is the standard proxy used in Forex analysis. 
+ 
+NOTE: Forex Volume 
+Forex tick volume from your broker shows only the activity through that broker's liquidity pool, not the 
+whole market. Despite this, studies have shown that tick volume in major Forex pairs (EUR/USD, 
+GBP/USD) correlates 90%+ with actual exchange volume from futures markets (CME). Volume 
+analysis remains highly useful. 
+ 
+10.1  Volume Principles 
+ 
+Principle 
+Explanation 
+Trend + Rising Volume 
+Price trending with rising volume = strong, sustainable trend. 
+Institutional participation confirmed. 
+Trend + Declining Volume 
+Price trending with declining volume = weakening momentum. Trend 
+may be exhausting. 
+Breakout + High Volume 
+A breakout of S/R or trendline with volume spike = genuine break. High 
+probability of follow-through. 
+Breakout + Low Volume 
+A breakout with no volume surge = suspicious. High probability of a 
+false break / stop hunt. 
+Reversal Candle + High 
+Volume 
+A reversal pattern (Engulfing, Morning Star etc.) on high volume = 
+strong institutional reversal signal. 
+Pullback + Low Volume 
+A retracement within a trend that shows declining volume = healthy 
+pullback, trend likely to resume. 
+Climax Volume 
+Extremely high volume spike at the end of a trend (exhaustion). Often 
+marks the final push before reversal.
+
+--- Page 39 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 39 
+10.2  Volume at Key Price Levels 
+ 
+Scenario 
+Volume Pattern 
+Interpretation 
+Price approaches 
+Support 
+Volume decreases as price drops 
+toward support 
+Bears are losing conviction before 
+the support: expect bounce 
+Price bounces from 
+Support 
+Volume spikes on the bounce 
+candle 
+Strong institutional buying 
+confirmed: high-quality support 
+Price approaches 
+Resistance 
+Volume decreases as price rallies 
+toward resistance 
+Bulls losing conviction: expect 
+rejection at resistance 
+Price rejects from 
+Resistance 
+Volume spikes on the bearish 
+rejection candle 
+Institutional selling confirmed: high-
+quality resistance 
+Price consolidates 
+(range) 
+Very low, declining volume during 
+range 
+Market resting / orders 
+accumulating: big move incoming 
+Price breaks out of 
+range 
+Volume spikes sharply on breakout 
+candle 
+Institutional money entering: 
+breakout likely genuine 
+ 
+10.3  Volume Divergence 
+ 
+Volume divergence occurs when price action and volume move in opposite directions. This is a 
+powerful warning signal: 
+ 
+Divergence Type 
+What You See 
+Meaning 
+Bearish Volume 
+Divergence 
+Price makes new higher highs BUT 
+volume is declining on each 
+successive high 
+Institutional participation is fading; 
+bulls are running out of buyers. 
+Reversal risk high. 
+Bullish Volume 
+Divergence 
+Price makes new lower lows BUT 
+volume is declining on each 
+successive low 
+Bears are losing participation; fewer 
+sellers at each new low. Reversal 
+risk high. 
+Climax Reversal 
+Extremely high volume on a candle 
+that then fails to make a new 
+extreme 
+Exhaustion: all remaining 
+buyers/sellers acted at once. 
+Reversal likely.
+
+--- Page 40 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 40 
+10.4  Volume and Candlestick Pattern Combinations 
+Pattern 
+Volume Confirmation 
+Needed 
+Example 
+Bullish Engulfing at Support 
+High volume on the 
+engulfing (C2) candle 
+GBP/USD: Bullish Engulfing at 1.2500 
+Daily support + volume 2× average = 
+high-confidence long 
+Bearish Engulfing at 
+Resistance 
+High volume on the 
+engulfing (C2) candle 
+EUR/USD: Bearish Engulfing at 1.0950 
+resistance + volume spike = high-
+confidence short 
+Morning Star 
+High volume specifically on 
+C3 (the recovery candle) 
+USD/JPY: Morning Star at 147.00 
+support; C3 volume exceeds C1 = 
+strong reversal confirmation 
+Trendline Break 
+Volume must spike on the 
+break candle 
+XAU/USD: bearish trendline broken 
+with bullish candle + high tick volume = 
+genuine break, not false 
+Inside Bar / Harami 
+Low volume during the 
+inside candle; then spike on 
+breakout 
+GBP/USD: Bullish Harami at support, 
+low volume on C2 (indecision), then 
+explosive C3 + high volume = confirm
+
+--- Page 41 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 41 
+  SECTION 11    Reversal vs Continuation Master Reference 
+11. Pattern Classification Master Table 
+ 
+Use this table as a quick reference to classify any pattern by its type, signal direction, and 
+minimum reliability before using it in a live trade setup. 
+ 
+Pattern Name 
+Candles 
+Classification 
+Reliability 
+Minimum Conditions for 
+Use 
+SINGLE-CANDLE PATTERNS 
+Bullish / Bearish 
+Marubozu 
+1 
+Continuation 
+Very High 
+Must appear in direction of 
+trend; high volume preferred 
+Hammer 
+1 
+Bullish 
+Reversal 
+High 
+Must be in downtrend; at 
+Support or Demand Zone; 
+confirmed by next candle 
+Shooting Star 
+1 
+Bearish 
+Reversal 
+High 
+Must be in uptrend; at 
+Resistance or Supply Zone; 
+confirmed by next candle 
+Gravestone Doji 
+1 
+Bearish 
+Reversal 
+High 
+At resistance in uptrend 
+only; needs bearish follow-
+through 
+Dragonfly Doji 
+1 
+Bullish 
+Reversal 
+High 
+At support in downtrend 
+only; needs bullish follow-
+through 
+Standard Doji 
+1 
+Indecision 
+Moderate 
+Location context essential; 
+not tradeable alone 
+Spinning Top 
+1 
+Indecision 
+Moderate 
+At structure only; requires 
+strong follow-through next 
+candle 
+Hanging Man 
+1 
+Bearish 
+Reversal 
+Moderate-
+High 
+Must be in uptrend; at 
+resistance; bearish next 
+candle required 
+TWO-CANDLE PATTERNS 
+Bullish Engulfing 
+2 
+Bullish 
+Reversal 
+Very High 
+Downtrend; at 
+Support/Demand; C2 
+volume > C1 
+Bearish Engulfing 
+2 
+Bearish 
+Reversal 
+Very High 
+Uptrend; at 
+Resistance/Supply; C2 
+volume > C1 
+Bullish Harami 
+2 
+Bullish 
+Reversal 
+Moderate 
+At Support only; needs C3 
+confirmation for higher 
+reliability
+
+--- Page 42 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 42 
+Pattern Name 
+Candles 
+Classification 
+Reliability 
+Minimum Conditions for 
+Use 
+Bearish Harami 
+2 
+Bearish 
+Reversal 
+Moderate 
+At Resistance only; needs 
+C3 confirmation 
+Tweezer Bottom 
+2 
+Bullish 
+Reversal 
+High 
+Exact double test of same 
+low; at Support or Demand 
+Zone 
+Tweezer Top 
+2 
+Bearish 
+Reversal 
+High 
+Exact double test of same 
+high; at Resistance or 
+Supply Zone 
+Piercing Line 
+2 
+Bullish 
+Reversal 
+High 
+C2 must close above C1's 
+midpoint; in downtrend at 
+support 
+Dark Cloud Cover 
+2 
+Bearish 
+Reversal 
+High 
+C2 must close below C1's 
+midpoint; in uptrend at 
+resistance 
+Bullish Kicking 
+2 
+Bullish 
+Reversal 
+Very High 
+Both Marubozu with gap; 
+extremely rare; trade 
+immediately 
+On-Neck / In-Neck 
+2 
+Bearish 
+Continuation 
+Moderate 
+In downtrend; C2 fails to 
+recover; continue the short 
+THREE-CANDLE PATTERNS 
+Morning Star 
+3 
+Bullish 
+Reversal 
+Very High 
+At Support; C3 closes >50% 
+into C1; high volume on C3 
+Evening Star 
+3 
+Bearish 
+Reversal 
+Very High 
+At Resistance; C3 closes 
+>50% into C1; high volume 
+on C3 
+Morning Doji Star 
+3 
+Bullish 
+Reversal 
+Very High 
+C2 must be Doji; strongest 
+at Weekly or Monthly 
+support 
+Evening Doji Star 
+3 
+Bearish 
+Reversal 
+Very High 
+C2 must be Doji; strongest 
+at Weekly or Monthly 
+resistance 
+Three White Soldiers 
+3 
+Bullish Rev / 
+Cont 
+High 
+Each candle closes near 
+high; no large wicks; post-
+consolidation 
+Three Black Crows 
+3 
+Bearish Rev / 
+Cont 
+High 
+Each candle closes near 
+low; no large wicks; from 
+resistance 
+Three Inside Up 
+3 
+Bullish 
+Reversal 
+High 
+Confirmed Harami; C3 
+closes above C1 open; at 
+Support 
+Three Inside Down 
+3 
+Bearish 
+Reversal 
+High 
+Confirmed Harami; C3 
+closes below C1 open; at 
+Resistance
+
+--- Page 43 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 43 
+Pattern Name 
+Candles 
+Classification 
+Reliability 
+Minimum Conditions for 
+Use 
+Three Outside Up 
+3 
+Bullish 
+Reversal 
+High 
+Confirmed Engulfing; 
+highest reliability of 3-
+candle setups 
+Three Outside Down 
+3 
+Bearish 
+Reversal 
+High 
+Confirmed Engulfing; 
+highest reliability of 3-
+candle setups 
+Abandoned Baby 
+(Bull) 
+3 
+Bullish 
+Reversal 
+Highest 
+Gap required on both sides 
+of C2; extremely rare in 
+Forex 
+MULTI-CANDLE PATTERNS 
+Rising Three Methods 
+5 
+Bullish 
+Continuation 
+High 
+Middle 3 candles stay within 
+C1 range; C5 breaks C1 
+high 
+Falling Three 
+Methods 
+5 
+Bearish 
+Continuation 
+High 
+Middle 3 candles stay within 
+C1 range; C5 breaks C1 low 
+Bullish Kicking (full) 
+2 
+Bullish 
+Reversal 
+Very High 
+Marubozu gap: any trend 
+context; rarest of all 
+patterns 
+Ladder Bottom 
+5 
+Bullish 
+Reversal 
+High 
+Three bears with increasing 
+upper wicks + gap-up bull 
+Ladder Top 
+5 
+Bearish 
+Reversal 
+High 
+Three bulls with increasing 
+lower wicks + gap-down 
+bear
+
+--- Page 44 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 44 
+  SECTION 12    Sample Trade Setup 
+12. Sample Trade Setup: GBP/USD Short (Pure Price Action) 
+ 
+This setup demonstrates how multiple price action concepts covered in this module combine 
+into a single, fully documented trade. Every element of the decision is traceable to a specific PA 
+concept. 
+ 
+12.1  Market Context Analysis 
+Context Layer 
+Analysis 
+Weekly Chart Structure 
+GBP/USD in a downtrend on Weekly: sequence of LH → LL → LH → LL 
+confirmed over 14 weeks. Weekly bias: BEARISH. 
+Daily Chart Structure 
+After recent LL at 1.2450, price has rallied back up to the previous LH zone 
+at 1.2750–1.2780. Daily is now forming a new Lower High: bearish structure 
+continuation. 
+Supply Zone (H4) 
+A Rally-Base-Drop (RBD) Supply Zone identified on H4 between 1.2760 
+and 1.2795. This zone was formed 3 weeks ago when price collapsed 200 
+pips from exactly this zone. Zone is FRESH (untested since). 
+Resistance Level (Daily) 
+The 1.2780 level is a Daily resistance level with 3 previous touches. Also 
+coincides with the 61.8% Fibonacci retracement of the last bear leg. 
+Session 
+London session open (08:00 UTC). GBP pairs most active. Catalyst 
+potential from 09:30 UTC UK PMI data (moderate impact, not red-folder). 
+ 
+12.2  Entry Signal: Evening Star Formation 
+Candle 
+Description 
+Candle 1 (C1) 
+Large bullish candle on H4; price pushed up into the Supply Zone (1.2760–
+1.2795). Candle closes at 1.2771. Volume: 40% above 20-period average. 
+Bulls showing conviction but entering supply. 
+Candle 2 (C2) 
+Small Doji candle with body between 1.2768–1.2774. Opens and closes 
+almost identically. Upper wick reaches 1.2792 (into top of Supply Zone). 
+Lower wick to 1.2761. Volume: 25% below average. Indecision: Morning 
+Doji Star formation beginning. 
+Candle 3 (C3) 
+Large bearish candle closes at 1.2718; closing well below C1's midpoint 
+(1.2740). Volume: 65% above 20-period average. Bears have full control. 
+Evening Doji Star pattern CONFIRMED. 
+Pattern Confirmed 
+Evening Doji Star at Supply Zone coinciding with Daily Resistance and 
+Weekly Lower High formation. Three-layer confluence: Pattern + Zone + 
+Structure.
+
+--- Page 45 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 45 
+12.3  Full Trade Plan 
+ 
+Trade Element 
+Detail 
+Instrument 
+GBP/USD 
+Direction 
+SHORT (Sell) 
+Entry Price 
+1.27180: Sell Limit placed at close of C3 (or enter at open of next H4 
+candle) 
+Stop Loss 
+1.28000: Above the top of the Supply Zone (1.2795) + 5 pip buffer = 82 
+pips 
+Take Profit 1 
+1.26480: Previous H4 support / consolidation zone = 70 pips (0.85:1 RR) 
+Take Profit 2 
+1.25500: Previous Daily swing low (LL) = 168 pips (2.05:1 RR) 
+Overall RR (TP2) 
+2.05:1: comfortably above the 1.5:1 minimum 
+Account Size 
+$5,000 
+Risk Per Trade 
+1% = $50 
+Position Size 
+$50 ÷ (82 pips × $10/pip) = 0.061 lots → round to 0.06 lots 
+Actual $ Risk 
+82 pips × $0.60/pip (0.06 lots) = $49.20 
+Trade Management 
+At TP1 (1.26480): Close 50%, move SL to breakeven (1.27180). Let 
+remainder run to TP2. 
+Invalidation 
+Any H4 candle closing ABOVE 1.27950 (inside the Supply Zone body) 
+invalidates the short. 
+News Check 
+No red-folder events in next 12 hours. UK PMI at 09:30 is orange; 
+monitor but maintain position. 
+PA Confluence Summary 
+Evening Doji Star + Fresh RBD Supply Zone + Daily Resistance + 
+Weekly LH + High volume C3 + H4 structure turning bearish (CHoCH) 
+ 
+ 
+GOOD PRACTICE: Confluence Checklist 
+This trade has 5 independent confluence factors: (1) Candlestick pattern, (2) Supply Zone, (3) 
+Horizontal Resistance, (4) Market Structure (LH), (5) Volume confirmation on C3. A minimum of 3 
+confluences should be your personal rule before committing real capital to any trade.
+
+--- Page 46 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 46 
+  SECTION 13    Pre-Trade Checklist: Price Action Edition 
+13. Pre-Trade Checklist: Price Action Edition 
+ 
+This checklist expands on Module 1's foundation with Price Action-specific verification steps. 
+Complete every item before entering any trade based on PA signals. 
+ 
+ 
+PRICE ACTION PRE-TRADE CHECKLIST 
+1. Market Structure 
+[ ] 
+I have checked the Weekly chart and identified the structural trend (uptrend HH/HL, downtrend 
+LH/LL, or range) 
+[ ] 
+My trade direction aligns with the Weekly and Daily market structure; I am NOT trading counter-
+trendd without extra confluence 
+[ ] 
+I have identified whether we are in an impulse leg or a corrective/pullback leg; I am entering at a 
+pullback, not chasing the impulse 
+[ ] 
+I have confirmed no Break of Structure (BOS) against my trade direction has occurred on the 
+trigger timeframe 
+2. Key Levels & Zones 
+[ ] 
+I have identified the nearest Support or Resistance level on the Daily chart that my trade is 
+interacting with 
+[ ] 
+If applicable, I have identified and shaded a Supply or Demand Zone on H4; my entry is within 
+or at the edge of this zone 
+[ ] 
+I have checked for a Role Reversal (Flip); is a broken support now acting as resistance, or vice 
+versa? 
+[ ] 
+My Stop Loss is placed beyond the key level / zone, not inside it 
+3. Candlestick Signal 
+[ ] 
+I have identified a specific candlestick pattern (named it: ____________) and it is at a key level; 
+not in the middle of a range 
+[ ] 
+For reversal patterns (Hammer, Engulfing, Star etc.): the prior trend is clear and the pattern 
+appears at the END of it 
+[ ] 
+For two-candle patterns: I have waited for the second candle to fully close before entering, not 
+anticipatingticipating mid-candle 
+[ ] 
+For three-candle patterns: C3 has closed at least 50% into C1's body to confirm the pattern 
+[ ] 
+I have considered the body-to-range ratio and wick psychology of the signal candle; wicks 
+confirm rejection at my expected level 
+4. Volume Confirmation 
+[ ] 
+Volume on the signal candle (or C3 for Star patterns) is above the 20-period average, ideally 
+150%+ 
+[ ] 
+If this is a breakout entry, the breakout candle shows a volume spike, not a low-volume false 
+break
+
+--- Page 47 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 47 
+ 
+PRICE ACTION PRE-TRADE CHECKLIST 
+[ ] 
+Volume during the pullback (if entering on retest) was declining, confirming the pullback is 
+corrective, not impulsive 
+5. Trendline & Channel 
+[ ] 
+If my entry relies on a trendline break; the break candle has CLOSED beyond the trendline (not 
+just a wick) 
+[ ] 
+If trading a channel, I am entering at the channel boundary: not mid-channel 
+6. Confluence Count 
+[ ] 
+I have a minimum of 3 independent confluence factors: Pattern + Level Type + Structure + 
+Volume + Session = at least 3 of these 
+[ ] 
+I have written down the name of the pattern, the zone/level I'm at, and my structural reason; if I 
+cannot articulate it, I do not trade can't write it clearly, I don't take the trade 
+7. Risk & Execution 
+[ ] 
+Position size calculated; SL and TP levels pre-set; order type selected (limit preferred over 
+market for PA setups) 
+[ ] 
+Economic calendar checked: no red-folder event within 4 hours of entry 
+[ ] 
+I am not in this trade due to FOMO, revenge trading, or someone else's signal. I have my own 
+PA reason.
+
+--- Page 48 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 48 
+  SECTION 14    Practice Exercises 
+14. Practice Exercises 
+ 
+Exercise 1: Pattern Identification 
+For each description, name the candlestick pattern: 
+ 
+1. EUR/USD H4: A large bearish candle followed by a Doji that gaps into the bearish 
+candle's range, followed by a large bullish candle closing more than 60% into the first 
+candle's body. Name: _______________ 
+2. GBP/USD Daily: Two consecutive candles test the exact same high at 1.2800 and both 
+close below it. Name: _______________ 
+3. USD/JPY H4: A candle with no body (open = close), long upper wick, no lower wick, 
+forming at the top of a rally into resistance. Name: _______________ 
+4. XAU/USD H4: Three large bullish candles, each opening within the prior candle's body, 
+each closing near its own high, after a prolonged downtrend. Name: _______________ 
+5. GBP/USD Daily: A large bull candle followed by a small bear candle that is completely 
+contained within the bull candle's body, at a resistance level. Name: _______________ 
+6. EUR/USD H4: One bear Marubozu gapped down by a bull Marubozu. Name: 
+_______________ 
+7. USD/JPY: Five candles: large bull, three small bears staying inside the bull's range, then 
+a large bull closing above the first candle's high. Name: _______________ 
+ 
+Exercise 2: Supply & Demand Zone Drawing 
+Open a GBP/USD H4 chart. Identify and document 2 Supply Zones and 2 Demand Zones using 
+the following template for each: 
+ 
+ZONE 1: 
+Type (Supply/Demand): _______  |  Formation Pattern (RBR/DBR/DBD/RBD): _______ 
+Zone Top: _______  |  Zone Bottom: _______  |  Zone Width (pips): _______ 
+Fresh or Tested: _______  |  Number of times tested: _______ 
+Sharp departure? (Y/N): _______  |  Volume spike at origin? (Y/N): _______ 
+ 
+ZONE 2: 
+Type (Supply/Demand): _______  |  Formation Pattern (RBR/DBR/DBD/RBD): _______ 
+Zone Top: _______  |  Zone Bottom: _______  |  Zone Width (pips): _______ 
+Fresh or Tested: _______  |  Number of times tested: _______
+
+--- Page 49 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 49 
+ 
+Exercise 3: Market Structure Mapping 
+On a blank chart grid, mark the following sequence of EUR/USD Daily closing prices and 
+classify each swing: 
+ 
+Prices (in order): 1.0750 → 1.0820 → 1.0780 → 1.0870 → 1.0810 → 1.0900 → 1.0850 → 
+1.0820 
+ 
+1. Label each peak as HH or LH, and each trough as HL or LL 
+2. What is the structural trend phase? (Uptrend / Downtrend / Transitioning) 
+3. Has a Change of Character (CHoCH) occurred? If yes, at which price? 
+4. If you were a swing trader, where would be the ideal next entry and in which direction? 
+ 
+Exercise 4: Full Trade Setup Documentation 
+Using the sample trade setup in Section 12 as your template, document a hypothetical trade on 
+EUR/USD using only Price Action concepts covered in this module. Complete ALL fields: 
+ 
+Pair: EUR/USD  |  Direction: _______  |  Timeframe: _______  |  Session: _______ 
+Weekly Structure: _______  |  Daily Structure: _______ 
+Candlestick Pattern: _______  (named) 
+Supply/Demand Zone (Y/N): _______  Zone: _______ to _______ 
+S/R Level: _______  |  Volume Confirmation: _______ 
+Entry: _______  |  Stop Loss: _______ (_____ pips)  |  Take Profit: _______ (_____ pips) 
+RR Ratio: _______  |  Account $3,000, 1% risk → Lot Size: _______ 
+Confluence factors listed (min 3): 
+___________________________________________________ 
+Invalidation condition: ___________________________________________________
+
+--- Page 50 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 50 
+  SECTION 15    Module Quiz 
+15. Module 2 Quiz: 15 Questions 
+ 
+Circle or write the correct answer. Check your answers in the Answer Key on the final page. 
+ 
+Q1. A Gravestone Doji appears after a rally into GBP/USD's Daily resistance. What does it 
+signal? 
+A) Strong bullish continuation: the doji is a pause before higher prices 
+B) Bearish reversal: bears pushed price all the way back to open after bulls initially pushed 
+higher 
+C) Indecision only: no directional meaning 
+D) Bullish reversal: open and close are at the same level 
+ 
+Q2. In a Bullish Engulfing pattern, what must Candle 2 (the bullish candle) do? 
+A) Close above the previous day's high only 
+B) Have a larger wick than Candle 1 
+C) Completely engulf the body of Candle 1 and close bullish 
+D) Open and close at the same price as Candle 1 
+ 
+Q3. EUR/USD is making HH → HL → HH → HL. Which is the CORRECT action for a price 
+action trader? 
+A) Look for short (sell) setups at each Lower High 
+B) Look for long (buy) setups at each Higher Low pullback 
+C) Wait for a downtrend to begin before trading 
+D) Only trade breakouts above each new Higher High 
+ 
+Q4. A Morning Star pattern forms on the XAU/USD Daily chart. Candle 3 (the bullish 
+recovery candle) closes only 30% into Candle 1's body. How does this affect reliability? 
+A) No effect: 30% is sufficient for full confirmation 
+B) Reduces reliability: a close of 50%+ into C1 is preferred for strong confirmation 
+C) Increases reliability: a smaller close means less bullish exhaustion 
+D) The pattern is invalid: C3 must always close at 100% of C1's body 
+ 
+Q5. What is a 'Role Reversal' (Flip) in Support & Resistance? 
+A) When the same S/R level is tested 3 times in a row 
+B) When a previously bullish pair suddenly becomes bearish 
+C) When a broken Support level becomes a new Resistance level (and vice versa) 
+D) When the Daily chart contradicts the Weekly chart's trend
+
+--- Page 51 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 51 
+ 
+Q6. A Supply Zone (Rally-Base-Drop) forms on GBP/USD H4 at 1.2750–1.2780 and price 
+has not returned to it since. How should this zone be classified? 
+A) Broken Zone: it no longer applies 
+B) Tested Zone: it has been used once already 
+C) Fresh (Untested) Zone: highest probability; unfilled orders likely still resting here 
+D) Support Zone: price is below it so it acts as support 
+ 
+Q7. A trendline connecting rising swing lows is broken by a large bearish candle. What 
+should a disciplined price action trader do FIRST? 
+A) Immediately sell at market price 
+B) Wait for a candle close beyond the trendline, then watch for a retest of the broken 
+trendline before entering 
+C) Draw a new trendline from the most recent low and ignore the break 
+D) Enter a buy trade because the break is likely false 
+ 
+Q8. USD/JPY shows a price breakout above Daily resistance with very LOW volume. 
+What does this suggest? 
+A) Confirmed breakout: price has broken through resistance 
+B) Suspicious breakout: low volume increases the probability of a false break or stop hunt 
+C) Volume is irrelevant in Forex: ignore it 
+D) The breakout will be significantly more powerful than a high-volume break 
+ 
+Q9. Which pattern is composed of: a large bearish candle (C1), three small bullish 
+candles staying within C1's range (C2, C3, C4), and a large bearish candle closing below 
+C1's low (C5)? 
+A) Falling Three Methods 
+B) Three Black Crows 
+C) Bearish Engulfing series 
+D) Downside Tasuki Gap 
+ 
+Q10. A Bullish Harami forms on EUR/USD at support. Volume on Candle 2 (the small 
+inside candle) is very LOW. What is the correct interpretation? 
+A) The pattern is invalid: volume must be high on C2 
+B) Low volume on C2 is actually appropriate: it shows indecision with little conviction, which 
+is normal. Wait for C3 confirmation. 
+C) Low volume confirms a bearish continuation: sell the Harami 
+D) The Harami becomes a Gravestone Doji if volume is low
+
+--- Page 52 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 52 
+Q11. An Evening Star pattern forms on GBP/USD H4. Which of the following additional 
+factors would MOST increase the setup's reliability? 
+A) The pattern forms in the middle of a price range with no nearby levels 
+B) The pattern forms at a fresh Supply Zone that coincides with Daily resistance, and C3 
+shows above-average volume 
+C) The pattern forms with all three candles being the same size 
+D) The pattern forms during the Asian session only 
+ 
+Q12. What is the key structural difference between a Demand Zone and a Support Level? 
+A) There is no difference: they are the same concept 
+B) A demand zone is drawn on the candles that caused the upward move (origin of the 
+impulse); S/R is drawn at the price where reaction occurred 
+C) Support levels are only valid on H4; demand zones only on Daily 
+D) A demand zone requires 3+ touches; support requires only 1 
+ 
+Q13. USD/JPY forms: C1 = large bearish Marubozu. C2 = bullish Marubozu that opens 
+above C1's close (gaps up). What pattern is this? 
+A) Three White Soldiers 
+B) Bullish Kicking 
+C) Bullish Engulfing 
+D) Morning Star 
+ 
+Q14. On the EUR/USD Daily chart, price makes a new high above the last HH, then drops 
+sharply below the most recent HL. What structural event has occurred? 
+A) A Bearish Break of Structure (bearish BOS): trend continues down 
+B) A Change of Character (CHoCH): first evidence that the uptrend may be reversing 
+C) A Higher High confirmation: the uptrend is strengthening 
+D) A Role Reversal: the previous HL becomes resistance 
+ 
+Q15. Which of the following body-to-range ratios most accurately describes a Spinning 
+Top candlestick? 
+A) 90–100% (almost no wicks) 
+B) 0–5% (open and close almost identical) 
+C) 20–40% (small body, wicks longer than body on both sides) 
+D) 60–80% (moderate body with small wicks)
+
+--- Page 53 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 53 
+Quiz Answer Key 
+ 
+Q 
+Answer 
+Explanation 
+Q1 
+B 
+Gravestone Doji: Open=Close=Low; long upper wick. Bulls pushed up but bears 
+crushed them back to open. Strong bearish signal at resistance. 
+Q2 
+C 
+Bullish Engulfing requires C2's body to fully engulf C1's body and close bullish. 
+Body engulfment is the defining criterion. 
+Q3 
+B 
+HH/HL sequence = uptrend. Trade long at Higher Low pullbacks; the pullback to 
+HL is the entry opportunity, not the breakout above HH. 
+Q4 
+B 
+C3 closing 50% or more into C1 is the standard reliability threshold for Morning 
+Star. 30% = weak confirmation; additional C4 confirmation is advisable. 
+Q5 
+C 
+Role Reversal = when broken support becomes new resistance or broken 
+resistance becomes new support. One of the most powerful PA concepts. 
+Q6 
+C 
+Fresh (untested) zone; price hasn't returned since formation. Unfilled institutional 
+orders still resting in the zone. Highest-probability supply zone. 
+Q7 
+B 
+Wait for close below trendline then watch for retest. Chasing the initial break 
+exposes you to false break reversals: retesting the line is the safer, confirmed 
+entry. 
+Q8 
+B 
+Low-volume breakouts suggest a lack of institutional participation; high probability 
+of false break / stop hunt. Require volume spike to confirm genuine breakouts. 
+Q9 
+A 
+Falling Three Methods: Large bear (C1), three small bulls contained within C1 
+range (C2/C3/C4), large bear making new low (C5). Classic bearish continuation. 
+Q10 
+B 
+Low volume on the Harami's C2 (inside candle) is actually normal; it represents 
+low-conviction indecision. The key volume signal comes on C3 (the confirmation 
+candle). 
+Q11 
+B 
+Multiple confluence factors dramatically increase pattern reliability. Fresh Supply 
+Zone + Daily Resistance + high-volume C3 = three independent confirming 
+factors. 
+Q12 
+B 
+Demand zones mark the origin of the move (where institutional orders were 
+placed). S/R marks where price reacted. Demand zones use the base candles; 
+S/R uses the reaction point. 
+Q13 
+B 
+Bullish Kicking: bear Marubozu gapped by a bull Marubozu. The most powerful 
+two-candle reversal pattern. Rarest and most reliable. 
+Q14 
+B 
+CHoCH (Change of Character): in an established uptrend, breaking below the 
+most recent HL is the first structural evidence the trend may be reversing. Not yet 
+confirmed reversal. 
+Q15 
+C 
+Spinning Top: small body (20–40% of range) with wicks longer than the body on 
+both sides. Represents indecision where neither bulls nor bears won convincingly.
+
+--- Page 54 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 2: Price Action & Candlesticks 
+© Forex Study Program  |  Module 2 — Price Action & Candlesticks 
+Page 54 
+MODULE COMPLETION: Price Action & Candlesticks 
+Congratulations on completing Module 2: Price Action & Candlesticks! 
+Recommended score before proceeding: 12/15 or higher. 
+If you scored below 10/15, review Sections 2–5 (pattern library) and Section 8 (market structure) 
+before moving on. 
+The concepts in this module underpin every subsequent module, especially ICT (Module 4) and Trade 
+Planning (Module 6). 
+Next: Module 3: Chart Patterns 
+ 
+Next: Module 3: Chart Patterns 
+Forex Market Analysis: Complete Study Program  |  Module 2 of 7

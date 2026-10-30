@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: moil-bot
+    runtime: python
+    buildCommand: pip install -r requirements-render.txt
+    startCommand: python -m dashboard.app
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: MOILBOT_CLOUD_MODE
+        value: "true"

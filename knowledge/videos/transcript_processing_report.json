@@ -1,0 +1,8 @@
+{
+  "catalogue": "knowledge\\videos\\saved_transcripts_only_temp.json",
+  "catalogue_count": 29,
+  "transcripts_processed": 29,
+  "failures_by_reason": {},
+  "knowledge_records_saved": 30,
+  "output": "knowledge\\videos\\processed_knowledge.json"
+}

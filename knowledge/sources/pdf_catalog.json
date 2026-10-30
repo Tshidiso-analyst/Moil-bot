@@ -1,0 +1,81 @@
+[
+  {
+    "title": "Forex Market Analysis Complete Framework",
+    "file": "Forex_Market_Analysis_Complete_Framework.pdf",
+    "source_url": "https://github.com/priyanshbuilds/forex-market-analysis-book",
+    "download_url": "https://raw.githubusercontent.com/priyanshbuilds/forex-market-analysis-book/main/FOREXMARKETANALYSIS.pdf",
+    "license": "CC BY 4.0",
+    "redistribution_allowed": "yes"
+  },
+  {
+    "title": "Forex Foundations Module",
+    "file": "Forex_Foundations_Module.pdf",
+    "source_url": "https://github.com/priyanshbuilds/forex-market-analysis-book",
+    "download_url": "https://raw.githubusercontent.com/priyanshbuilds/forex-market-analysis-book/main/modules/pdf/Module1_Forex_Foundations.pdf",
+    "license": "CC BY 4.0",
+    "redistribution_allowed": "yes",
+    "bytes": 429606
+  },
+  {
+    "title": "Price Action and Candlesticks Module",
+    "file": "Price_Action_and_Candlesticks_Module.pdf",
+    "source_url": "https://github.com/priyanshbuilds/forex-market-analysis-book",
+    "download_url": "https://raw.githubusercontent.com/priyanshbuilds/forex-market-analysis-book/main/modules/pdf/Module2_Price_Action_Candlesticks.pdf",
+    "license": "CC BY 4.0",
+    "redistribution_allowed": "yes",
+    "bytes": 973937
+  },
+  {
+    "title": "Chart Patterns Module",
+    "file": "Chart_Patterns_Module.pdf",
+    "source_url": "https://github.com/priyanshbuilds/forex-market-analysis-book",
+    "download_url": "https://raw.githubusercontent.com/priyanshbuilds/forex-market-analysis-book/main/modules/pdf/Module3_Chart_Patterns.pdf",
+    "license": "CC BY 4.0",
+    "redistribution_allowed": "yes",
+    "bytes": 1042184
+  },
+  {
+    "title": "ICT Concepts Smart Money Module",
+    "file": "ICT_Concepts_Smart_Money_Module.pdf",
+    "source_url": "https://github.com/priyanshbuilds/forex-market-analysis-book",
+    "download_url": "https://raw.githubusercontent.com/priyanshbuilds/forex-market-analysis-book/main/modules/pdf/Module4_ICT_Concepts.pdf",
+    "license": "CC BY 4.0",
+    "redistribution_allowed": "yes",
+    "bytes": 1321862
+  },
+  {
+    "title": "Fundamental Analysis Module",
+    "file": "Fundamental_Analysis_Module.pdf",
+    "source_url": "https://github.com/priyanshbuilds/forex-market-analysis-book",
+    "download_url": "https://raw.githubusercontent.com/priyanshbuilds/forex-market-analysis-book/main/modules/pdf/Module5_Fundamental_Analysis.pdf",
+    "license": "CC BY 4.0",
+    "redistribution_allowed": "yes",
+    "bytes": 1495648
+  },
+  {
+    "title": "Trade Planning and Confluence Module",
+    "file": "Trade_Planning_and_Confluence_Module.pdf",
+    "source_url": "https://github.com/priyanshbuilds/forex-market-analysis-book",
+    "download_url": "https://raw.githubusercontent.com/priyanshbuilds/forex-market-analysis-book/main/modules/pdf/Module6_Trade_Planning.pdf",
+    "license": "CC BY 4.0",
+    "redistribution_allowed": "yes",
+    "bytes": 1073875
+  },
+  {
+    "title": "Risk Management and Psychology Module",
+    "file": "Risk_Management_and_Psychology_Module.pdf",
+    "source_url": "https://github.com/priyanshbuilds/forex-market-analysis-book",
+    "download_url": "https://raw.githubusercontent.com/priyanshbuilds/forex-market-analysis-book/main/modules/pdf/Module7_Risk_Psychology.pdf",
+    "license": "CC BY 4.0",
+    "redistribution_allowed": "yes",
+    "bytes": 1179512
+  },
+  {
+    "title": "How to Make Money in Foreign Exchange and Foreign Bonds",
+    "file": "How_to_Make_Money_in_Foreign_Exchange_and_Foreign_Bonds.pdf",
+    "source_url": "https://commons.wikimedia.org/wiki/File:How_to_make_money_in_foreign_exchange_and_foreign_bonds_(IA_howtomakemoneyin00greerich).pdf",
+    "download_url": "https://archive.org/download/howtomakemoneyin00greerich/howtomakemoneyin00greerich.pdf",
+    "license": "Public domain status requires jurisdiction check",
+    "redistribution_allowed": "yes"
+  }
+]

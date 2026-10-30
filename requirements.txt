@@ -17,8 +17,8 @@ pandas==2.3.3
 pillow==12.3.0
 plotly==7.1.0
 pluggy==1.6.0
-psycopg==3.3.6
 psycopg-binary==3.3.6
+psycopg==3.3.6
 Pygments==2.21.0
 pymupdf==1.28.2
 pyparsing==3.3.3
@@ -34,3 +34,5 @@ threadpoolctl==3.7.0
 tomli==2.4.1
 typing_extensions==4.16.0
 tzdata==2026.4
+youtube-transcript-api==1.2.4
+bcrypt>=4.1

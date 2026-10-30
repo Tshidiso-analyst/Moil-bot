@@ -1,0 +1,294 @@
+diff --git a/knowledge/UNIFIED_SEARCH.md b/knowledge/UNIFIED_SEARCH.md
+new file mode 100644
+index 0000000..d018328
+--- /dev/null
++++ b/knowledge/UNIFIED_SEARCH.md
+@@ -0,0 +1,38 @@
++# Unified PDF and YouTube Knowledge Search
++
++Moil Bot can search saved YouTube transcript records and local PDF reference documents through one function: `knowledge.unified_search.search_all_knowledge`.
++
++## Where it looks
++
++- YouTube: `knowledge/videos/processed_knowledge.json` (the existing processed transcript catalogue).
++- PDFs: files ending in `.pdf` anywhere under `knowledge/documents/`, including subfolders.
++
++Use `pdf_directory=` if your PDF files are stored in a different folder. The function returns source-aware results with `source_type`, title, snippet, score, and the source location. Video hits include their YouTube URL and video ID. PDF hits include the PDF path and one-based page number.
++
++## Example
++
++```python
++from knowledge.unified_search import search_all_knowledge
++
++results = search_all_knowledge("liquidity sweep", limit=10)
++for result in results:
++    print(result["source_type"], result["title"], result["location"])
++    if result["page"] is not None:
++        print("Page:", result["page"])
++    print(result["snippet"])
++```
++
++If PDFs are in another folder:
++
++```python
++results = search_all_knowledge(
++    "fair value gap",
++    pdf_directory=r"C:\\Users\\vumil\\Documents\\MoilBotPDFs",
++)
++```
++
++## Important limitations
++
++- This searches text embedded in PDFs. Scanned/image-only PDFs require OCR before their text can be searched.
++- PDF pages are read when a search is run, so very large document collections may need a persistent index/cache later.
++- This is a knowledge retrieval feature; it does not connect to MT5 or execute trades.
+diff --git a/knowledge/tests/test_unified_search.py b/knowledge/tests/test_unified_search.py
+new file mode 100644
+index 0000000..f49c9cb
+--- /dev/null
++++ b/knowledge/tests/test_unified_search.py
+@@ -0,0 +1,53 @@
++import json
++
++import fitz
++import pytest
++
++from knowledge.unified_search import search_all_knowledge
++
++
++def test_search_returns_matching_video_and_pdf_page(tmp_path):
++    video_path = tmp_path / "processed_knowledge.json"
++    video_path.write_text(json.dumps({"records": [{
++        "title": "Liquidity Sweep Lesson",
++        "video_id": "lesson123",
++        "url": "https://www.youtube.com/watch?v=lesson123",
++        "concepts": ["liquidity sweep"],
++        "text": "A liquidity sweep takes liquidity before a reversal.",
++    }]}), encoding="utf-8")
++
++    pdf_dir = tmp_path / "pdfs"
++    pdf_dir.mkdir()
++    pdf_path = pdf_dir / "ict-notes.pdf"
++    document = fitz.open()
++    page = document.new_page()
++    page.insert_text((72, 72), "A liquidity sweep can occur above prior highs.")
++    document.save(pdf_path)
++    document.close()
++
++    results = search_all_knowledge(
++        "liquidity sweep",
++        video_knowledge_path=video_path,
++        pdf_directory=pdf_dir,
++    )
++
++    assert {result["source_type"] for result in results} == {"video", "pdf"}
++    video = next(result for result in results if result["source_type"] == "video")
++    pdf = next(result for result in results if result["source_type"] == "pdf")
++    assert video["url"].endswith("v=lesson123")
++    assert video["video_id"] == "lesson123"
++    assert pdf["page"] == 1
++    assert pdf["location"].endswith("ict-notes.pdf")
++    assert "liquidity sweep" in pdf["snippet"].lower()
++
++
++def test_search_ignores_blank_and_unknown_queries(tmp_path):
++    empty_path = tmp_path / "processed_knowledge.json"
++    empty_path.write_text(json.dumps({"records": []}), encoding="utf-8")
++    assert search_all_knowledge("  ", video_knowledge_path=empty_path, pdf_directory=tmp_path) == []
++    assert search_all_knowledge("unknownterm", video_knowledge_path=empty_path, pdf_directory=tmp_path) == []
++
++
++def test_search_validates_limit(tmp_path):
++    with pytest.raises(ValueError, match="positive integer"):
++        search_all_knowledge("liquidity", limit=0, video_knowledge_path=tmp_path / "missing.json", pdf_directory=tmp_path)
+diff --git a/knowledge/unified_search.py b/knowledge/unified_search.py
+new file mode 100644
+index 0000000..7a8b4e7
+--- /dev/null
++++ b/knowledge/unified_search.py
+@@ -0,0 +1,185 @@
++"""Search Moil Bot's saved YouTube transcripts and local PDF references together."""
++
++import json
++import re
++from pathlib import Path
++
++import fitz
++
++from knowledge.search import DEFAULT_KNOWLEDGE_PATH
++
++DEFAULT_PDF_DIRECTORY = Path(__file__).resolve().parent / "documents"
++
++
++def _terms(query: str) -> list[str]:
++    return list(dict.fromkeys(re.findall(r"[a-z0-9]+", query.lower())))
++
++
++def _snippet(text: str, terms: list[str], max_length: int = 360) -> str:
++    if not text:
++        return ""
++
++    lowered = text.lower()
++    positions = [lowered.find(term) for term in terms if lowered.find(term) >= 0]
++    start_at = min(positions) if positions else 0
++    start = max(0, start_at - 100)
++    end = min(len(text), start + max_length)
++    excerpt = text[start:end].strip()
++
++    if start:
++        excerpt = "..." + excerpt
++    if end < len(text):
++        excerpt += "..."
++    return excerpt
++
++
++def _score(query: str, terms: list[str], title: str, text: str, concepts: list[str]) -> int:
++    title_lower = title.lower()
++    text_lower = text.lower()
++    concept_text = " ".join(concepts).lower()
++    phrase_pattern = re.compile(
++        r"\b" + r"\s+".join(re.escape(term) for term in terms) + r"\b"
++    )
++    score = 0
++
++    if query in [concept.lower().strip() for concept in concepts]:
++        score += 50
++    elif query in concept_text:
++        score += 30
++    if phrase_pattern.search(title_lower):
++        score += 35
++    if phrase_pattern.search(text_lower):
++        score += 20
++
++    title_terms = set(_terms(title_lower))
++    text_terms = set(_terms(text_lower))
++    concept_terms = set(_terms(concept_text))
++    if all(term in title_terms for term in terms):
++        score += 12
++    if all(term in concept_terms for term in terms):
++        score += 12
++    if all(term in text_terms for term in terms):
++        score += 8
++
++    for term in terms:
++        if term in title_terms:
++            score += 3
++        if term in concept_terms:
++            score += 2
++        if term in text_terms:
++            score += 1
++
++    return score
++
++
++def _load_video_records(knowledge_path: Path) -> list[dict]:
++    if not knowledge_path.exists():
++        return []
++
++    with knowledge_path.open("r", encoding="utf-8-sig") as file:
++        data = json.load(file)
++
++    records = data.get("records", []) if isinstance(data, dict) else []
++    return [record for record in records if isinstance(record, dict)] if isinstance(records, list) else []
++
++
++def _pdf_page_records(pdf_directory: Path) -> list[dict]:
++    if not pdf_directory.exists():
++        return []
++
++    records = []
++    for pdf_path in sorted(path for path in pdf_directory.rglob("*") if path.is_file() and path.suffix.lower() == ".pdf"):
++        try:
++            with fitz.open(pdf_path) as document:
++                for page_number, page in enumerate(document, start=1):
++                    text = page.get_text("text").strip()
++                    if not text:
++                        continue
++                    records.append({
++                        "title": pdf_path.stem,
++                        "text": text,
++                        "concepts": [],
++                        "source_type": "pdf",
++                        "location": str(pdf_path),
++                        "page": page_number,
++                        "url": None,
++                        "video_id": None,
++                    })
++        except (OSError, RuntimeError, ValueError):
++            # One damaged or password-protected PDF should not block other sources.
++            continue
++    return records
++
++
++def search_all_knowledge(
++    query: str,
++    limit: int = 10,
++    video_knowledge_path: str | Path | None = None,
++    pdf_directory: str | Path | None = None,
++) -> list[dict]:
++    """Search processed YouTube records and PDF pages, returning source-aware hits.
++
++    PDF files are discovered recursively beneath ``knowledge/documents`` by default.
++    Pass ``pdf_directory`` to use a different folder. Scanned/image-only PDFs need OCR
++    before their page text can be searched.
++    """
++    if not isinstance(query, str) or not query.strip():
++        return []
++    if not isinstance(limit, int) or isinstance(limit, bool) or limit < 1:
++        raise ValueError("limit must be a positive integer")
++
++    terms = _terms(query)
++    if not terms:
++        return []
++
++    normalized_query = " ".join(terms)
++    knowledge_path = Path(video_knowledge_path) if video_knowledge_path is not None else DEFAULT_KNOWLEDGE_PATH
++    pdf_root = Path(pdf_directory) if pdf_directory is not None else DEFAULT_PDF_DIRECTORY
++
++    candidates = []
++    for record in _load_video_records(knowledge_path):
++        title = str(record.get("title") or "Untitled video")
++        text = str(record.get("text") or "")
++        raw_concepts = record.get("concepts", [])
++        if not isinstance(raw_concepts, list):
++            raw_concepts = []
++        concepts = []
++        for concept in raw_concepts:
++            if concept is not None:
++                concepts.extend(part.strip() for part in str(concept).split(",") if part.strip())
++
++        score = _score(normalized_query, terms, title, text, concepts)
++        if score <= 0:
++            continue
++        candidates.append({
++            "title": title,
++            "source_type": "video",
++            "location": record.get("url") or record.get("video_id") or "",
++            "url": record.get("url"),
++            "video_id": record.get("video_id"),
++            "page": None,
++            "concepts": list(dict.fromkeys(concepts)),
++            "snippet": _snippet(text, terms),
++            "score": score,
++        })
++
++    for record in _pdf_page_records(pdf_root):
++        title = record["title"]
++        text = record["text"]
++        score = _score(normalized_query, terms, title, text, [])
++        if score <= 0:
++            continue
++        candidates.append({
++            "title": title,
++            "source_type": "pdf",
++            "location": record["location"],
++            "url": None,
++            "video_id": None,
++            "page": record["page"],
++            "concepts": [],
++            "snippet": _snippet(text, terms),
++            "score": score,
++        })
++
++    candidates.sort(key=lambda item: (-item["score"], item["source_type"], item["title"].lower(), item["page"] or 0))
++    return candidates[:limit]

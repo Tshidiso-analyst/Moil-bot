@@ -1,0 +1,291 @@
+from __future__ import annotations
+
+from datetime import date, datetime, timezone
+import json
+import math
+from pathlib import Path
+
+
+EVIDENCE_PATH = Path("knowledge/reports/strategy_source_evidence.json")
+REVIEW_PATH = Path("knowledge/reports/strategy_source_review.json")
+REGISTRY_PATH = Path("knowledge/reports/strategy_rule_registry.json")
+
+RELEVANCE_RANK = {"weak": 0, "partial": 1, "direct": 2}
+VALID_DIRECTIONS = {"bullish", "bearish", "either"}
+
+
+def _read_json(path: Path, default=None):
+    if not path.is_file():
+        if default is not None:
+            return default
+        raise FileNotFoundError(f"Required file not found: {path}")
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+def _required_text(value, field):
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{field} must be a non-empty string.")
+    return value.strip()
+
+
+def _required_list(values, field):
+    if isinstance(values, (str, bytes)) or not isinstance(values, (list, tuple)):
+        raise ValueError(f"{field} must be a non-empty list.")
+    cleaned = [
+        value.strip()
+        for value in values
+        if isinstance(value, str) and value.strip()
+    ]
+    if not cleaned:
+        raise ValueError((f"At least one human-reviewed evidence ID is required; {field} must contain at least one item." if field == "human_reviewed_evidence_ids" else f"{field} must contain at least one item."))
+    return cleaned
+
+
+class StrategyRuleRegistry:
+    """
+    Source-linked rule drafts and backtest methodology records.
+
+    This registry does not generate rules from search scores and does not
+    submit orders. Creating a draft or recording a backtest never enables
+    live or demo execution.
+    """
+
+    def __init__(
+        self,
+        evidence_path=EVIDENCE_PATH,
+        review_path=REVIEW_PATH,
+        registry_path=REGISTRY_PATH,
+        min_backtest_trades: int = 100,
+    ):
+        if (
+            not isinstance(min_backtest_trades, int)
+            or isinstance(min_backtest_trades, bool)
+            or min_backtest_trades < 1
+        ):
+            raise ValueError("min_backtest_trades must be a positive integer.")
+
+        self.registry_path = Path(registry_path)
+        self.min_backtest_trades = min_backtest_trades
+
+        evidence_data = _read_json(Path(evidence_path))
+        review_data = _read_json(Path(review_path))
+
+        self.evidence = {}
+        for item in evidence_data.get("records", []):
+            evidence_id = item.get("evidence_id")
+            if evidence_id:
+                self.evidence[str(evidence_id)] = item
+
+        self.best_relevance = {}
+        for item in review_data.get("assessments", []):
+            evidence_id = str(item.get("evidence_id") or "")
+            relevance = str(item.get("relevance") or "weak").lower()
+            rank = RELEVANCE_RANK.get(relevance, 0)
+            self.best_relevance[evidence_id] = max(
+                rank,
+                self.best_relevance.get(evidence_id, 0),
+            )
+
+        saved = _read_json(
+            self.registry_path,
+            default={"rules": []},
+        )
+        if not isinstance(saved, dict) or not isinstance(saved.get("rules"), list):
+            raise ValueError("Rule registry has an invalid JSON structure.")
+
+        self.rules = saved["rules"]
+
+    def _save(self):
+        self.registry_path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = self.registry_path.with_suffix(".json.tmp")
+        temporary.write_text(
+            json.dumps(
+                {"rules": self.rules},
+                indent=2,
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+        temporary.replace(self.registry_path)
+
+    def add_draft(
+        self,
+        rule_id: str,
+        name: str,
+        concept: str,
+        direction: str,
+        entry_conditions,
+        invalidation_conditions,
+        exit_conditions,
+        risk_controls,
+        evidence_ids,
+        human_reviewed_evidence_ids,
+    ) -> dict:
+        rule_id = _required_text(rule_id, "rule_id")
+        name = _required_text(name, "name")
+        concept = _required_text(concept, "concept")
+        direction = _required_text(direction, "direction").lower()
+
+        if direction not in VALID_DIRECTIONS:
+            raise ValueError(
+                f"direction must be one of {sorted(VALID_DIRECTIONS)}."
+            )
+
+        entry_conditions = _required_list(entry_conditions, "entry_conditions")
+        invalidation_conditions = _required_list(
+            invalidation_conditions, "invalidation_conditions"
+        )
+        exit_conditions = _required_list(exit_conditions, "exit_conditions")
+        risk_controls = _required_list(risk_controls, "risk_controls")
+        evidence_ids = list(dict.fromkeys(
+            _required_list(evidence_ids, "evidence_ids")
+        ))
+        reviewed_ids = set(_required_list(
+            human_reviewed_evidence_ids,
+            "human_reviewed_evidence_ids",
+        ))
+
+        if any(rule.get("rule_id") == rule_id for rule in self.rules):
+            raise ValueError(f"Rule already exists: {rule_id}")
+
+        if not set(evidence_ids).issubset(reviewed_ids):
+            raise ValueError(
+                "Every evidence ID must be explicitly confirmed as "
+                "human-reviewed before creating a rule draft."
+            )
+
+        sources = []
+        for evidence_id in evidence_ids:
+            passage = self.evidence.get(evidence_id)
+            if passage is None:
+                raise ValueError(f"Unknown source evidence ID: {evidence_id}")
+
+            if self.best_relevance.get(evidence_id, 0) == 0:
+                raise ValueError(
+                    f"Evidence {evidence_id} has only weak relevance. "
+                    "Review a better passage before using it."
+                )
+
+            sources.append({
+                "evidence_id": evidence_id,
+                "source_type": passage.get("source_type", ""),
+                "title": passage.get("title", ""),
+                "locator": passage.get("locator", ""),
+                "page": passage.get("page"),
+                "video_id": passage.get("video_id"),
+                "url": passage.get("url", ""),
+                "snippet": passage.get("snippet", ""),
+                "relevance_screen": (
+                    "direct_candidate"
+                    if self.best_relevance[evidence_id] == 2
+                    else "partial_candidate"
+                ),
+                "human_review_confirmed": True,
+            })
+
+        rule = {
+            "rule_id": rule_id,
+            "name": name,
+            "concept": concept,
+            "direction": direction,
+            "entry_conditions": entry_conditions,
+            "invalidation_conditions": invalidation_conditions,
+            "exit_conditions": exit_conditions,
+            "risk_controls": risk_controls,
+            "sources": sources,
+            "version": "0.1.0",
+            "status": "draft",
+            "created_at_utc": datetime.now(timezone.utc).isoformat(),
+            "backtest": None,
+            "execution_enabled": False,
+        }
+
+        self.rules.append(rule)
+        self._save()
+        return rule
+
+    def record_backtest(self, rule_id: str, result: dict) -> dict:
+        rule = self._find_rule(rule_id)
+
+        required = {
+            "trade_count",
+            "costs_included",
+            "out_of_sample",
+            "no_future_leakage",
+            "period_start",
+            "period_end",
+            "profit_factor",
+            "max_drawdown_pct",
+            "net_return_pct",
+        }
+        missing = required - set(result)
+        if missing:
+            raise ValueError(
+                f"Backtest result is missing fields: {sorted(missing)}"
+            )
+
+        trade_count = result["trade_count"]
+        if (
+            not isinstance(trade_count, int)
+            or isinstance(trade_count, bool)
+            or trade_count < 0
+        ):
+            raise ValueError("trade_count must be a non-negative integer.")
+
+        for key in ("costs_included", "out_of_sample", "no_future_leakage"):
+            if not isinstance(result[key], bool):
+                raise ValueError(f"{key} must be a boolean.")
+
+        try:
+            start = date.fromisoformat(str(result["period_start"]))
+            end = date.fromisoformat(str(result["period_end"]))
+        except (TypeError, ValueError) as exc:
+            raise ValueError("Backtest dates must use YYYY-MM-DD.") from exc
+
+        if start >= end:
+            raise ValueError("Backtest period_start must precede period_end.")
+
+        metrics = {}
+        for key in ("profit_factor", "max_drawdown_pct", "net_return_pct"):
+            try:
+                value = float(result[key])
+            except (TypeError, ValueError) as exc:
+                raise ValueError(f"{key} must be numeric.") from exc
+            if not math.isfinite(value):
+                raise ValueError(f"{key} must be finite.")
+            metrics[key] = value
+
+        if metrics["profit_factor"] < 0 or metrics["max_drawdown_pct"] < 0:
+            raise ValueError("Profit factor and drawdown cannot be negative.")
+
+        method_passed = (
+            trade_count >= self.min_backtest_trades
+            and result["costs_included"]
+            and result["out_of_sample"]
+            and result["no_future_leakage"]
+        )
+
+        rule["backtest"] = {
+            **result,
+            **metrics,
+            "methodology_gate": (
+                "passed" if method_passed else "not_passed"
+            ),
+            "minimum_trade_count": self.min_backtest_trades,
+            "recorded_at_utc": datetime.now(timezone.utc).isoformat(),
+        }
+
+        # A backtest record never approves a strategy or enables execution.
+        rule["status"] = "draft"
+        rule["execution_enabled"] = False
+        self._save()
+        return rule["backtest"]
+
+    def _find_rule(self, rule_id):
+        for rule in self.rules:
+            if rule.get("rule_id") == rule_id:
+                return rule
+        raise KeyError(f"Unknown strategy rule: {rule_id}")
+
+    def all_rules(self) -> list[dict]:
+        return list(self.rules)

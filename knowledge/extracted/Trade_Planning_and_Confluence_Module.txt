@@ -1,0 +1,2114 @@
+--- Page 1 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 1 
+FOREX MARKET ANALYSIS 
+Complete Study Program 
+ 
+MODULE 6 
+Trade Planning and Confluence 
+Where Every Tool From Modules 1–5 Becomes One Decision 
+Advanced Level  |  GBP/USD · EUR/USD · USD/JPY · XAU/USD  |  15 Sections  |  12 Diagrams 
+Top-Down 
+Framework 
+Entry and 
+Invalidation 
+Risk and Sizing 
+Grading and 
+Journal 
+ 
+Confluence and Bias  •  Setup Zone  •  No-Trade Filter  •  Entry Trigger  •  Structural Invalidation 
+Stop Loss Rules  •  Free Trade Rule  •  Position Sizing  •  RR Mathematics  •  Trade Management 
+SMT Hard Filter  •  A/B/C Trade Grading  •  Pre-Trade Checklist  •  Journal Template  •  Four Sample Trades
+
+--- Page 2 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 2 
+Table of Contents 
+Table of Contents ....................................................................................................................... 2 
+1. What Is Confluence and Why It Matters ................................................................................. 4 
+1.1  The Mathematics of Confluence ...................................................................................... 4 
+1.2  What Confluence Is NOT ................................................................................................. 4 
+2. The Top-Down Timeframe Hierarchy ..................................................................................... 6 
+2.1  What Each Timeframe Does ............................................................................................ 6 
+2.2  The Two Hard Rules ........................................................................................................ 7 
+2.3  The Top-Down Analysis Flow: In Practice ........................................................................ 7 
+3. Building Your Directional Bias: The Weighted Scoring System............................................... 8 
+3.1  The Three Factors and How to Score Them .................................................................... 8 
+3.2  Scoring Outcomes and Position Sizing Rules .................................................................. 9 
+3.3  Writing the Bias Statement .............................................................................................. 9 
+4. Identifying the Setup Zone and the No-Trade Filter ...............................................................10 
+4.1  What Makes a Valid Setup Zone ....................................................................................10 
+4.2  The No-Trade Environment Filter....................................................................................11 
+5. Timing the Entry: Kill Zones and the AMD Cycle ...................................................................13 
+5.1  Kill Zone Priority for Each Instrument ..............................................................................13 
+5.2  Combining PO3 with Kill Zone Timing .............................................................................13 
+6. The Entry Trigger and Structural Invalidation ........................................................................14 
+6.1  The Three-Step Trigger Sequence .................................................................................14 
+6.2  Structural Invalidation: When the Trade Idea Is Dead .....................................................15 
+How to Identify the Structural Invalidation Level .................................................................15 
+7. Stop Loss Placement: Professional Rules .............................................................................17 
+7.1  The ICT Stop Loss Rule .................................................................................................17 
+7.2  The Three Retail Mistakes ..............................................................................................18 
+7.3  ATR as a Volatility Check ...............................................................................................18 
+8. Take Profit Strategy and The Free Trade Rule ......................................................................19 
+8.1  Take Profit Levels: Where to Set Them ..........................................................................19 
+8.2  The Free Trade Rule ......................................................................................................19 
+The Three-Step Free Trade Sequence: .............................................................................20 
+8.3  Scaled Exit Example: EUR/USD Long ............................................................................20 
+9. Risk/Reward and Position Sizing ...........................................................................................21 
+9.1  The Risk/Reward Ratio ...................................................................................................21 
+9.2  Minimum RR Rules .........................................................................................................21 
+9.3  Position Sizing: The Lot Size Formula ............................................................................22 
+The Formula: .....................................................................................................................22
+
+--- Page 3 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 3 
+Worked Example: Full Calculation:.....................................................................................22 
+9.4  Risk Percentage Guidelines by Account Stage ...............................................................23 
+10. Trade Management: After You Are In ..................................................................................24 
+10.1  The Trailing Stop: Using ICT Structure .........................................................................24 
+Trailing Stop Rules: ............................................................................................................24 
+10.2  When to Cut a Trade Early: Three Scenarios................................................................25 
+10.3  What Does NOT Invalidate a Trade ..............................................................................25 
+11. Multi-Instrument Confluence and the SMT Hard Rule .........................................................26 
+11.1  SMT Divergence as a HARD VETO ..............................................................................26 
+11.2  Using All Four Instruments Together ............................................................................26 
+11.3  The Risk Sentiment Quick Check .................................................................................27 
+12. The Master Pre-Trade Checklist and Trade Grading System ..............................................28 
+12.1  The A/B/C Trade Grading Summary .............................................................................30 
+13. Trade Journalling: The Most Underused Edge in Trading ....................................................31 
+13.1  The Journal Template ...................................................................................................31 
+13.2  The Three Screenshot Rule ..........................................................................................32 
+13.3  Weekly Journal Review Protocol...................................................................................32 
+13.4  Monthly Performance Metrics .......................................................................................33 
+14. Four Sample Trade Setups: Full Framework Applied ..........................................................34 
+14.1  EUR/USD Long: London Kill Zone ................................................................................34 
+14.2  GBP/USD Short: New York Kill Zone ............................................................................34 
+14.3  USD/JPY Long: New York Kill Zone (8:30 AM Data) .....................................................35 
+14.4  XAU/USD (Gold) Long: London Kill Zone .....................................................................36 
+15. Common Confluence Mistakes: The Five Most Costly Errors ..............................................37 
+15.1  Mistake 1: Confirmation Bias ........................................................................................37 
+15.2  Mistake 2: Confluence Paralysis ...................................................................................37 
+15.3  Mistake 3: Ignoring Structural Invalidation ....................................................................38 
+15.4  Mistake 4: Trading Outside Kill Zones ..........................................................................38 
+15.5  Mistake 5: Chasing Missed Entries ...............................................................................38 
+Module 6 Glossary: Trade Planning Terms ...............................................................................39 
+Module 6 Quiz: 20 Questions ....................................................................................................40 
+Quiz Answer Key ......................................................................................................................44
+
+--- Page 4 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 4 
+  SECTION 1    What Is Confluence and Why It Matters 
+1. What Is Confluence and Why It Matters 
+ 
+Confluence is the alignment of multiple independent factors that all point to the same trade 
+conclusion. A single reason to enter a trade is speculation. Five independent reasons that all agree 
+is an edge. The difference between a professional trader and a consistent loser is not intelligence, 
+access to information, or even chart-reading skill: it is whether they trade with one reason or five. 
+ 
+1.1  The Mathematics of Confluence 
+Imagine each analysis factor has a 60% probability of being correct independently. That is modest: 
+better than a coin flip, but not impressive. Now stack them: 
+Number of Factors 
+Combined Probability 
+Real-World Meaning 
+1 factor at 60% 
+60% 
+Slightly better than a coin flip 
+2 factors at 60% 
+60% x 60% = 36% (if 
+independent); but 
+combined directional P 
+is higher 
+Better edge when both agree 
+3 aligned factors 
+Approximately 65–70% 
+accuracy 
+Consistently profitable territory 
+5 aligned factors 
+Approximately 75–80% 
+accuracy 
+Professional-grade setup quality 
+ 
+The logic is not that each factor independently predicts success with a higher percentage: it is that 
+multiple independent systems all agreeing significantly reduces the probability of being wrong. 
+ 
+1.2  What Confluence Is NOT 
+• 
+It is NOT finding more reasons to confirm a trade you already want to take (confirmation 
+bias) 
+• 
+It is NOT using five indicators that all measure the same thing (RSI, Stochastic, MACD: all 
+momentumm oscillators: do not give independent confirmation) 
+• 
+It is NOT waiting for 10 factors to align before every trade (paralysis by analysis) 
+• 
+It IS finding genuinely independent signals: macro direction (COT), structural bias (price 
+action), entry precision (OB/FVG), timing (Kill Zone), and risk filter (SMT): five distinct 
+categories 
+ 
+ 
+THE CORE PRINCIPLE 
+Every factor in your analysis should come from a DIFFERENT source of information. COT (positioning 
+data) + Yield Spread (macro economics) + Market Structure (price action) + OB/FVG (institutional
+
+--- Page 5 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 5 
+footprint) + Kill Zone (time) + SMT (cross-market confirmation). Six independent categories. That is 
+genuine confluence.
+
+--- Page 6 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 6 
+  SECTION 2    The Top-Down Timeframe Hierarchy 
+2. The Top-Down Timeframe Hierarchy 
+ 
+The timeframe hierarchy is the most fundamental structural rule in professional trading. Every 
+analysis starts at the highest timeframe available and works downward: never the other way 
+around. The purpose of each timeframe is different, and confusing which timeframe does which job 
+is the single most common source of failed trades. 
+ 
+ 
+Fig 2.1: Top-Down Timeframe Hierarchy: Six Layers from Monthly Bias to M15 Execution 
+ 
+2.1  What Each Timeframe Does 
+Timeframe 
+Purpose 
+What You Identify 
+Never Use It For 
+Monthly 
+Macro Bias 
+Long-term trend, 
+PMH/PML, macro 
+premium/discount, 
+quarterly bias 
+Entry decisions: too slow 
+Weekly 
+Structural 
+Bias 
+BOS/CHoCH sequence, 
+PWH/PWL, COT 
+alignment, weekly PO3 
+expectation 
+Precise entry levels 
+Daily 
+Trade Bias 
+HTF OB/FVG zones, 
+NYMO premium/discount, 
+daily PO3, liquidity targets 
+Timing within the day 
+H4 
+Entry Zone 
+Confirm Daily bias, 
+specific OB/FVG entry 
+Overall directional bias
+
+--- Page 7 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 7 
+Timeframe 
+Purpose 
+What You Identify 
+Never Use It For 
+zone, refine 
+premium/discount 
+H1 
+Trigger Zone 
+Internal structure, Kill 
+Zone timing, CHoCH 
+formation area 
+Deciding whether to trade 
+M15 / M5 
+Execution 
+CHoCH confirmation, 
+FVG creation, CE entry, 
+stop placement 
+Direction or bias analysis 
+ 
+2.2  The Two Hard Rules 
+RULE 1 
+NEVER use M15 or M5 to decide DIRECTION. The M15 CHoCH that triggers your entry is a local 
+signal withinthin a larger context. If the Daily is bearish and you see a bullish M15 CHoCH, that 
+CHoCH is a retracement bounce: not a reversal. Direction is ONLY decided on Daily and Weekly. 
+ 
+RULE 2 
+NEVER use the Daily to time your entry. The Daily OB tells you WHERE the trade is; it does not telll 
+you WHEN to enter. A Daily OB can take 3–5 days to react after price enters it. Drop to M15 for the 
+trigger. 
+ 
+2.3  The Top-Down Analysis Flow: In Practice 
+Here is the exact sequence to run before every trade session: 
+• 
+MONTHLY/WEEKLY (5 minutes): Is the trend clearly bullish, bearish, or ranging? What are 
+the major liquidityquidity pools? What is the quarterly bias? If ranging at the macro level: 
+reduce size on all trades this week. 
+• 
+DAILY (5 minutes): Where is the most recent Daily OB and FVG? Is price currently in 
+premium or discount? What is today's PO3 expectation based on weekly bias? 
+• 
+H4 (5 minutes): Does H4 confirm the Daily bias? Where exactly is the H4 OB or FVG entry 
+zone? Is price approaching it? 
+• 
+H1 (3 minutes): Internal structure; is price forming a higher low (bullish setup) or lower high 
+(bearish setup)? Which Kill Zone is approaching? 
+• 
+M15/M5 (WAIT): Do not act here until the Kill Zone opens. Then watch for the Judas Swing 
+sweep, the CHoCH, and the FVG formation. Enter at the CE.
+
+--- Page 8 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 8 
+  SECTION 3    Building Your Directional Bias 
+3. Building Your Directional Bias: The Weighted Scoring 
+System 
+ 
+Before looking at a single entry-level chart, every professional session begins with a clear, scored 
+directional bias. The bias is not a feeling or an impression: it is a calculated score based on three 
+independent factors. This process takes five minutes and prevents the single most destructive 
+trading behaviour: entering trades in both directions on the same pair in the same session because 
+you 'saw a setup.' 
+ 
+ 
+Fig 3.1: Weighted Directional Bias Scoring System: COT + Yield Spread + HTF Structure 
+ 
+3.1  The Three Factors and How to Score Them 
+Factor 
+What to Check 
+Bullish Signal (+1) 
+Bearish Signal (+1) 
+Factor 1: 
+COT 
+Large Speculator NET 
+position in futures. Check 
+cftc.gov Friday evening. 
+Large Specs NET LONG 
+or covering an extreme 
+short position 
+Large Specs NET SHORT 
+or building on extreme 
+long position 
+Factor 2: 
+Yield Spread 
+Relevant yield spread (UK 
+Gilt vs US 10Y for 
+GBP/USD). DXY trend. 
+Yield spread favours the 
+base currency. DXY 
+trending lower. 
+Yield spread favours 
+USD. DXY trending 
+higher. 
+Factor 3: 
+HTF 
+Structure 
+Daily and Weekly 
+BOS/CHoCH sequence. 
+Daily/Weekly Bullish BOS 
+confirmed. HH/HL 
+sequence intact. 
+Daily/Weekly Bearish 
+BOS confirmed. LH/LL 
+sequence intact.
+
+--- Page 9 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 9 
+3.2  Scoring Outcomes and Position Sizing Rules 
+Score 
+Grade 
+Position Size 
+What It Means 
+3/3: All aligned 
+A-Grade 
+Full Size: 1 to 2% 
+account risk 
+Maximum conviction. All three 
+independent sources agree. This is the 
+week to size up. 
+2/3: Two 
+aligned 
+B-Grade 
+Half Size: 0.5 to 1% 
+account risk 
+Good probability but not maximum. One 
+factor is missing or neutral. Trade 
+smaller. 
+1/3: One 
+aligned 
+C-Grade 
+NO TRADE: sit out 
+One agreement is not a bias; it is a 
+guess. Wait for at least 2/3 before 
+entering any position. 
+0/3: None 
+aligned 
+No Trade 
+Absolutely no trades 
+this week 
+Market is in transition. No edge exists. 
+Cash is a position; protect it. 
+ 
+3.3  Writing the Bias Statement 
+After scoring, write a single sentence that expresses your bias. This sentence is the filter for every 
+trade you consider this week. If a setup contradicts this sentence: skip it, regardless of how good it 
+looks technically. 
+• 
+Example A (3/3 Bullish GBP/USD): 'I am bullish GBP/USD this week; Large Specs covering 
+extreme shortt, UK/US yield spread widening, Daily Bullish BOS on Tuesday. Full size long 
+setups only.' 
+• 
+Example B (2/3 Bearish EUR/USD): 'Mildly bearish EUR/USD; ECB dovish pivot expected, 
+DXY range supportort holding, but COT not at extreme. Half size shorts only. No longs.' 
+• 
+Example C (1/3 Neutral USD/JPY): 'No clear bias on USD/JPY; BoJ uncertainty, yield 
+spread compressedd, structure ranging. No trades until 2/3 alignment.' 
+ 
+BIAS LOCK RULE 
+Once your bias is written, it does not change until the next COT report (Friday). Mid-week, you may 
+see a setup that looks like it argues against your bias. Do NOT change your bias mid-week based on 
+a single chart signal. Reassess every Friday with fresh COT data.
+
+--- Page 10 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 10 
+  SECTION 4    Identifying the Setup Zone and Environment Filter 
+4. Identifying the Setup Zone and the No-Trade Filter 
+ 
+Once your directional bias is confirmed, the next task is to identify WHERE on the chart the trade 
+could form. This is the Setup Zone: the specific price area where multiple confluence factors stack 
+on top of each other. Finding the Setup Zone is not the same as entering a trade: it is marking the 
+area you will watch when the Kill Zone opens. 
+ 
+ 
+Fig 4.1: Setup Zone Identification: Stacking OB, FVG, OTE, Liquidity and Premium/Discount 
+ 
+4.1  What Makes a Valid Setup Zone 
+A Setup Zone must contain at least three of the following five elements stacked at the same price 
+area: 
+Element 
+What It Looks Like 
+Why It Matters 
+Premium / Discount 
+Price below 50% of dealing range 
+(for longs) or above 50% (for shorts) 
+Entering against institutional 
+distribution tendency 
+Order Block (OB) 
+Fresh, unmitigated Bullish or 
+Bearish OB at this price level 
+Unfilled institutional orders resting 
+here 
+Fair Value Gap (FVG) 
+Imbalance zone overlapping with or 
+adjacent to the OB 
+Price drawn to fill imbalance; acts as 
+precise entry zone 
+OTE Zone (62–79%) 
+The Fibonacci OTE zone of the 
+most recent significant swing 
+Deep enough retracement for smart 
+money to re-accumulate
+
+--- Page 11 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 11 
+Element 
+What It Looks Like 
+Why It Matters 
+Liquidity Swept 
+Below/Above 
+SSL swept before a long entry, BSL 
+swept before a short entry 
+Smart money has hunted stops; the 
+Judas Swing has completed 
+ 
+4.2  The No-Trade Environment Filter 
+Before marking any Setup Zone, run the environment filter. A technically perfect Setup Zone in the 
+wrong environment has near-zero probability of clean execution. This filter is a hard gate: if any 
+condition fails, there is no trade regardless of how beautiful the confluence looks. 
+ 
+ 
+Fig 4.2: No-Trade Environment Filter: Suspended, Reduced and Normal Trading Windows 
+ 
+Condition 
+Check 
+Action if Failed 
+Tier 1 event within 30 
+min 
+Check forexfactory.com 
+before every session 
+Close all positions, do not enter any new trades 
+NFP Friday pre-9 AM 
+Is it the first Friday of 
+the month? 
+No new entries before 9:00 AM EST on NFP 
+Friday 
+FOMC window 
+Rate decision at 2:00 
+PM + press conference 
+at 2:30 PM EST 
+No trades from 1:30 PM to 4:00 PM EST on 
+FOMC days 
+VIX above 25 
+Check VIX level on any 
+charting platform 
+Trade at 50% normal position size; widen stops 
+by 25% 
+Q-end rebalancing 
+week 
+Last 3–5 trading days of 
+Mar/Jun/Sep/Dec 
+Trade with awareness: do not add new positions 
+late in the week 
+Summer Doldrums 
+July and August 
+Reduce all sizes by 50%. Only A-grade setups. 
+Christmas / Holiday 
+week 
+Dec 24 – Jan 2 
+No trades. Zero exceptions.
+
+--- Page 12 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 12 
+HARD RULE 
+If a Tier 1 news event is scheduled within 30 minutes of your intended entry: DO NOT ENTER. The 
+spread widens, slippage is severe, and the initial price spike is frequently a Judas Swing that will 
+reverse. Wait for the post-data FVG instead: that is the real trade.
+
+--- Page 13 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 13 
+  SECTION 5    Timing the Entry: Kill Zones and PO3 
+5. Timing the Entry: Kill Zones and the AMD Cycle 
+ 
+Knowing WHERE the trade will form is only half the equation. The other half is knowing WHEN. In 
+ICT methodology, time is not secondary to price: it is equally important. A setup that forms outside 
+a Kill Zone has significantly lower probability than the identical setup forming during one. This 
+section covers how to combine Kill Zone timing with the Power of 3 AMD cycle to identify the 
+optimal entry window. 
+ 
+5.1  Kill Zone Priority for Each Instrument 
+Instrument 
+Primary Kill Zone 
+Secondary Kill Zone 
+Expected Sequence 
+EUR/USD 
+London KZ (2–5 
+AM EST) 
+NY KZ (7–10 AM EST) 
+Judas Swing at London open → 
+retracement into OB/FVG → 
+distribution during NY 
+GBP/USD 
+London KZ (2–5 
+AM EST) 
+NY KZ (7–10 AM EST) 
+Same as EUR/USD but larger pip 
+swings: 15–25 pip Judas Swings 
+are common 
+USD/JPY 
+NY KZ (7–10 AM 
+EST) 
+NY PM (1:30–4 PM 
+EST) 
+Most reliable setups occur at 8:30 
+AM EST US data releases 
+XAU/USD 
+London KZ + NY 
+KZ 
+Both windows equally 
+Gold's largest daily moves occur at 
+NY open: especially on US data 
+days 
+ 
+5.2  Combining PO3 with Kill Zone Timing 
+Every trading day follows the Power of 3 AMD cycle. Understanding which phase the market is in 
+when your Kill Zone opens tells you whether you are about to enter the Manipulation phase (do not 
+trade: wait for it to complete) or the Distribution phase (the real trade). 
+• 
+Asian session closes: Mark the Asian High and Asian Low. These are the Manipulation 
+targets for the London Kill Zone. 
+• 
+London Kill Zone opens (2 AM EST): The Judas Swing occurs. Price spikes toward the 
+Asian High or Low: this is MANIPULATION. Do NOT trade the spike. 
+• 
+After the Judas Swing reverses (typically 2:30–4:00 AM): The real directional move begins: 
+DISTRIBUTION. The FVG formed by the reversal candle is your entry. 
+• 
+New York Kill Zone (7–10 AM EST): If no clean London entry, the NY open provides a 
+second AMD cycle. The 8:30 AM data release often acts as the Manipulation spike. 
+PATIENCE RULE 
+The most common timing mistake: entering DURING the Judas Swing rather than AFTER it. If price is 
+moving fast at the Kill Zone open and breaking obvious levels: WAIT. The real entry comes on the 
+retracement after the manipulation completes. The reward for patience is a better entry price and a 
+tighter stop.
+
+--- Page 14 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 14 
+  SECTION 6    Entry Trigger and Structural Invalidation 
+6. The Entry Trigger and Structural Invalidation 
+ 
+The entry trigger is the specific, rule-based signal that confirms the trade is valid and ready for 
+execution. It is not 'price entered the OB.' It is not 'the setup looks good.' It is a precise sequence 
+of market events that tells you smart money has positioned and the move is beginning. Without a 
+confirmed trigger, there is no trade. 
+ 
+6.1  The Three-Step Trigger Sequence 
+• 
+CHoCH on M15 or M5: Price breaks above the most recent Lower High (bullish) or below 
+the most recent Higher Low (bearish) WITHIN the setup zone. This is the change of 
+character that signals smart money has positioned. 
+• 
+FVG Created by the displacement: The CHoCH candle or the impulse following it leaves a 
+Fair Value Gap. This gap is the entry zone. 
+• 
+CE Entry on retracement: Price retraces back into the FVG. Enter at the CE (midpoint) of 
+the FVG. Stop loss goes beyond the swept liquidity level that preceded the CHoCH. 
+ 
+ 
+Fig 6.1: Entry Trigger: Wrong Early Entry vs Correct CHoCH + FVG + CE Confirmation 
+ 
+TRIGGER RULE 
+No CHoCH: no trigger. No FVG: no trigger. No retracement to CE: no trigger. All three must be 
+presentsent before any entry is placed. If price blasts through the OB without giving a retracement, the 
+opportunity was missed: do not chase. Another setup will come.
+
+--- Page 15 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 15 
+6.2  Structural Invalidation: When the Trade Idea Is Dead 
+Every trade has two types of exits: the stop loss (price has moved against you) and the structural 
+invalidation (the trade IDEA is wrong). Professional traders distinguish between these. A stop loss 
+is a mechanical safety net. Structural invalidation is an intellectual recognition that the premise of 
+the trade has been disproved. 
+ 
+ 
+Fig 6.2: Structural Invalidation: When the Trade Idea Is Dead Before the Stop Is Hit 
+ 
+How to Identify the Structural Invalidation Level 
+• 
+Identify the swing that VALIDATED your trade: For a bullish setup, the Judas Swing low 
+that was swept is the validating event. The Higher Low that formed after the sweep is the 
+structural anchor. 
+• 
+The invalidation level is a CLOSE below that Higher Low (for longs) or a CLOSE above that 
+Lower High (for shorts): Not a wick, not a brief spike: a candle BODY close. 
+• 
+If this level is violated: the bullish CHoCH is negated, the trade premise is gone. EXIT 
+immediately: do not wait for the stop loss. 
+• 
+Reset: After the structural invalidation, wait for a new setup to form. Do not re-enter the 
+same trade without a full new analysis cycle. 
+ 
+Trade Direction 
+Structural Invalidation Event 
+What It Tells You 
+LONG (Bullish) 
+Candle body CLOSES below the 
+Higher Low that formed after the 
+Judas Swing SSL sweep 
+The bullish CHoCH has been 
+negated. Smart money did not 
+commit. The thesis is wrong. 
+SHORT (Bearish) 
+Candle body CLOSES above the 
+Lower High that formed after the 
+Judas Swing BSL sweep 
+The bearish CHoCH has been 
+negated. The bearish thesis is 
+wrong. Exit and reassess.
+
+--- Page 16 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 16 
+Trade Direction 
+Structural Invalidation Event 
+What It Tells You 
+Either direction 
+Price returns to sweep the same 
+liquidity level twice with no 
+displacement 
+The setup has lost its momentum. 
+Smart money is not driving this 
+move. Exit. 
+ 
+CUTTING EARLY 
+Structural invalidation often triggers 5–15 pips before the stop loss. Cutting the trade here saves those 
+pips AND protects your psychology: a loss cut early feels like a decision; a stop loss hit feels like a 
+failure. Professional traders CUT ideas, not just positions.
+
+--- Page 17 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 17 
+  SECTION 7    Stop Loss Placement 
+7. Stop Loss Placement: Professional Rules 
+ 
+Stop loss placement is one of the most misunderstood skills in trading. Most retail traders place 
+stops at arbitrary distances (20 pips, 50 pips) or at round numbers that happen to be nearby. 
+Professional stop placement is structural: it is placed at the level that, if broken, tells you the trade 
+premise is invalid. 
+ 
+ 
+Fig 7.1: Stop Loss Placement: Correct Method vs Three Common Retail Mistakes 
+ 
+7.1  The ICT Stop Loss Rule 
+In ICT methodology, the stop loss is placed BEYOND the swept liquidity level that preceded the 
+entry. This is the Judas Swing low (for longs) or the Judas Swing high (for shorts): with a 3–7 pip 
+buffer beyond the extreme. 
+• 
+For a LONG trade: Stop goes 3–7 pips below the SSL sweep low. If price returns to sweep 
+this level a second time, the setup has failed regardless of anything else. 
+• 
+For a SHORT trade: Stop goes 3–7 pips above the BSL sweep high. A return to this level 
+means the manipulation was not the Judas Swing: the real move was upward. 
+• 
+Buffer size varies by instrument: EUR/USD = 3–5 pips. GBP/USD = 5–8 pips. USD/JPY = 
+5–8 pips. XAU/USD = $3–$8.
+
+--- Page 18 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 18 
+7.2  The Three Retail Mistakes 
+Mistake 
+What Traders Do 
+Why It Fails 
+SL inside the OB 
+Placing SL at the bottom of the 
+Bullish OB body 
+OBs are frequently wicked through 
+before reacting. Inside SL = stopped 
+out before trade actually begins. 
+Round number SL 
+Placing SL at 1.0800, 1.0850, 
+145.00, $1900 
+Round numbers are where 
+everyone's stops are. Market 
+makers know exactly where they 
+are. You are placing your stop 
+where you will be swept. 
+Too-tight SL 
+Stop only 5 pips from entry on 
+GBP/USD 
+Normal spread on GBP/USD at 
+London open is 1–2 pips. 5 pips of 
+volatility = instant stop. SL must be 
+beyond the structural extreme. 
+ 
+7.3  ATR as a Volatility Check 
+The Average True Range (ATR) tells you the average daily range of an instrument over a period. A 
+stop loss smaller than 50% of the ATR(14) on the entry timeframe is almost certainly too tight. 
+• 
+EUR/USD Daily ATR(14): approximately 70–100 pips. M15 ATR(14): approximately 6–12 
+pips. Minimum M15 stop: 6+ pips. 
+• 
+GBP/USD Daily ATR(14): approximately 90–130 pips. M15 ATR(14): approximately 8–15 
+pips. Minimum M15 stop: 8+ pips. 
+• 
+USD/JPY Daily ATR(14): approximately 80–120 pips. M15 ATR(14): approximately 7–13 
+pips. 
+• 
+XAU/USD Daily ATR(14): approximately $25–$45. M15 ATR(14): approximately $3–$8. 
+Minimum stop: $5+.
+
+--- Page 19 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 19 
+  SECTION 8    Take Profit Strategy and the Free Trade Rule 
+8. Take Profit Strategy and The Free Trade Rule 
+ 
+Take profit strategy is not just about where price is going; it is about how you manage the trade 
+positionsychologically so you can hold winning positions long enough to capture the full move. The 
+Free Trade Rule is the most powerful single mechanism for solving the most common problem in 
+trading: cutting winners too early. 
+ 
+8.1  Take Profit Levels: Where to Set Them 
+ICT take profit targets are always set at the next significant liquidity pool in the direction of the 
+trade. Not at a Fibonacci extension, not at a round number, and not at a fixed pip count. 
+TP Level 
+What It Targets 
+Strategy 
+TP1: 
+Conservative 
+Nearest liquidity pool: PDH/PDL, 
+Equal Highs/Lows within 50 pips 
+Close 50% of position here. Move SL to 
+breakeven immediately after TP1 is hit. 
+TP2: Full 
+Target 
+Next significant liquidity pool: 
+PWH/PWL, major swing high/low 
+Hold remaining 50% for the full move. Stop 
+is now at breakeven; risk-free. 
+TP3: Extended 
+(optional) 
+Major HTF level: PMH/PML, yearly 
+pivot, major structural extreme 
+Only hold this if the trade is clearly running 
+with momentum and no resistance 
+ 
+8.2  The Free Trade Rule 
+The Free Trade Rule is the mechanism that eliminates the anxiety of holding a winning trade. Its 
+logic is simple: once TP1 is hit and the stop is moved to breakeven, the worst possible outcome on 
+the remaining position is breaking even: you cannot lose money on the trade. This psychological 
+shift from 'I could lose to SL' to 'I cannot lose' allows you to hold TP2 with full confidence. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig 8.1: The Free Trade Rule: Moving SL to Breakeven After TP1 for Risk-Free TP2
+
+--- Page 20 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 20 
+ 
+The Three-Step Free Trade Sequence: 
+• 
+Price reaches TP1 level: Close exactly 50% of your position. Do not negotiate with yourself; 
+50% closeoses, exactly, the moment TP1 price is reached. 
+• 
+Immediately move SL to Breakeven: The stop loss moves from its original position (beyond 
+the sweep low) to the entry price the moment TP1 is hit. No delay. 
+• 
+Hold TP2 with zero anxiety: You are now in Phase 2 of the trade, the Free Trade. If price 
+reverses and hits BE, you break even on the full trade. If price reaches TP2, you make the 
+full profit on the remaining 50%. 
+ 
+THE FREE TRADE RULE 
+The Free Trade Rule solves the single most common trading problem: 'I always cut my winners too 
+early'y.' You cut early because you fear giving back the profit. The Free Trade Rule removes that fear: 
+the 50% profit from TP1 is already locked in. The remaining 50% cannot hurt you. Hold it. 
+ 
+8.3  Scaled Exit Example: EUR/USD Long 
+• 
+Entry: 1.0820 (CE of M15 FVG). Full position: 0.5 lots. 
+• 
+Stop Loss: 1.0803 (below Judas Swing low). Risk: 17 pips = $85. 
+• 
+TP1: 1.0870 (PDH, nearest liquidity pool). RR: 2.94:1. On TP1 hit: close 0.25 lots (50%) = 
++50 pips = $125 profit. Move SL to 1.0820 (BE). 
+• 
+TP2: 1.0910 (Equal Highs, next BSL pool). RR on remaining: 5.3:1. 0.25 lots = +90 pips = 
+$225 profit. 
+• 
+Worst case after TP1: price reverses to BE. Result = +$125 (TP1 profit only). Cannot lose 
+original $85 risk. 
+• 
+Best case (both TPs hit): $125 + $225 = $350 total. On $85 risk. Overall RR = 4.1:1.
+
+--- Page 21 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 21 
+  SECTION 9    Risk/Reward and Position Sizing 
+9. Risk/Reward and Position Sizing 
+ 
+Risk/reward ratio and position sizing are the two most mathematically important concepts in all of 
+trading. They determine whether a trader is profitable over time regardless of how good or bad 
+their entries are. A trader with average entries but excellent risk management will outperform a 
+trader with excellent entries but poor risk management every single time, over a large enough 
+sample size. 
+ 
+9.1  The Risk/Reward Ratio 
+The risk/reward (RR) ratio expresses the potential profit relative to the potential loss on a single 
+trade. A 3:1 RR means you stand to gain $300 for every $100 you risk. 
+ 
+Fig 9.2: Risk/Reward Mathematics: Why 40% Win Rate at 3:1 Beats 70% Win Rate at 1:1 
+ 
+The table above proves mathematically that a 40% win rate at 3:1 RR ($600 net over 10 trades) 
+outperforms a 70% win rate at 1:1 RR ($400 net). This is the most important table in this module. 
+Understand it deeply before trading with real money. 
+ 
+9.2  Minimum RR Rules 
+Grade 
+Minimum RR 
+Reasoning 
+A-Grade setup 
+3:1 or better 
+Full position size demands maximum RR. If you 
+cannot get 3:1 on an A-grade, reconsider the entry 
+level.
+
+--- Page 22 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 22 
+Grade 
+Minimum RR 
+Reasoning 
+B-Grade setup 
+2:1 or better 
+Half size with 2:1 = positive expectation if win rate is 
+reasonable. 
+Below 2:1 
+DISQUALIFIER: no 
+trade 
+No setup, regardless of how good it looks, is worth 
+taking below 2:1 RR. 
+ 
+9.3  Position Sizing: The Lot Size Formula 
+Position sizing is the most neglected risk management skill. Most beginners pick an arbitrary lot 
+size (0.1 lots, 0.5 lots) without calculating how much of their account is at risk. This leads to one 
+large loss destroying multiple previous small wins. 
+ 
+ 
+Fig 9.1: Position Sizing Formula: Lot Size Calculation for All Four Instruments 
+ 
+The Formula: 
+Lot Size = (Account Balance × Risk %) ÷ (Stop Loss in Pips × Pip Value per Lot) 
+ 
+Worked Example: Full Calculation: 
+Input 
+Value 
+Account Balance 
+$10,000 
+Risk Percentage 
+1% per trade 
+Dollar Risk 
+$10,000 × 1% = $100 
+Instrument 
+GBP/USD
+
+--- Page 23 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 23 
+Input 
+Value 
+Stop Loss Distance 
+22 pips (below swept low) 
+Pip Value (Standard 
+Lot) 
+$10 per pip for GBP/USD 
+Calculation 
+$100 ÷ (22 pips × $10) = $100 ÷ $220 = 0.45 lots 
+Position Size 
+0.45 lots (round to 0.4 lots for clean sizing) 
+Maximum loss 
+0.45 lots × 22 pips × $10 = $99 ≈ 1% of account 
+ 
+9.4  Risk Percentage Guidelines by Account Stage 
+Stage 
+Max Risk per Trade 
+Reasoning 
+Learning (under 6 
+months) 
+0.25–0.5% per trade 
+Preserving capital while learning. A 20-trade 
+losing streak loses only 5–10% of account. 
+Developing (6–18 
+months) 
+0.5–1% per trade 
+Consistent positive results over 50+ trades 
+before increasing. 
+Consistent (18+ 
+months) 
+1–2% per trade 
+Only after proven profitability over 6+ months 
+with positive expectation. 
+Never exceed 
+2% per trade on any 
+trade 
+Even the best setup can fail. No single trade 
+should threaten your account. 
+POSITION SIZING RULE 
+Calculate your lot size before every single trade. Never enter without calculating. A trade with the 
+correct direction, correct entry, and correct stop loss can still be catastrophic if sized incorrectly. A 20-
+pip SL at 5 lots on a $10,000 account is a 100% account wipe if all go wrong. Calculate first. Always.
+
+--- Page 24 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 24 
+  SECTION 10    Trade Management: After You Are In 
+10. Trade Management: After You Are In 
+ 
+The moment you enter a trade, the analysis phase is over. Trade management begins. The 
+primary objective of trade management is to protect capital first and maximise profit second. Most 
+beginners do this in reverse: they try to maximise profit and barely think about protection. The 
+result is a series of large losses interspersed with small wins. 
+ 
+10.1  The Trailing Stop: Using ICT Structure 
+In ICT methodology, the trailing stop moves with the structure of the trade: not by a fixed pip 
+amount. As the trade moves in your favour, each new Higher Low (for longs) or Lower High (for 
+shorts) provides the new stop loss level. 
+ 
+ 
+Fig 10.1: Trade Management: Trailing Stop Loss Using ICT Higher Low Structure 
+ 
+Trailing Stop Rules: 
+• 
+After TP1: Move SL immediately to Breakeven. This is non-negotiable; it happens the 
+moment TP1 is hitit. 
+• 
+After each new confirmed Higher Low (long): Move SL to 3–5 pips below that Higher Low. 
+The HL must be confirmed: not just a candle body, but a clear swing low with a higher 
+close on the following candle. 
+• 
+Never move SL backward: If you have trailed to a HL that is now 40 pips from price, do not 
+move the SL back SL back down because 'price needs room.' The trailing SL is a ratchet: it 
+only moves in the direction of the trade.
+
+--- Page 25 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 25 
+• 
+Final SL: The stop at the most recent HL before TP2 is hit. If price reverses from the HL 
+and takes out out the trailing stop, you exit with profit: the trail has protected gains. 
+ 
+10.2  When to Cut a Trade Early: Three Scenarios 
+Scenario 
+What You See 
+Action 
+Structural invalidation 
+Protected HL closes below (long) or 
+LH closes above (short) 
+EXIT immediately; idea is dead. Do 
+not wait for SL. 
+Adverse SMT 
+divergence 
+EUR/USD long; GBP/USD starts 
+making lower highs while EUR/USD 
+is still rising 
+Tighten SL or exit 50%; something 
+is wrong with the directional move. 
+Pre-news window 
+Tier 1 event in 15 minutes and trade 
+is in profit 
+Take partial profit or full exit. Do not 
+hold through Tier 1 data in profit; 
+data can reverse 100 pipsips. 
+ 
+10.3  What Does NOT Invalidate a Trade 
+• 
+Price retracing 50% of the move after entry: Normal; do not panic. If SL and structural 
+invalidationn level are intact, hold. 
+• 
+A bearish candlestick pattern forming mid-trade: Individual candle patterns do not override 
+the trade plan. 
+• 
+A news headline that sounds scary but is not Tier 1: Do not exit on noise. Tier 2 and Tier 3 
+events are already in the trade plan. 
+• 
+The trade being in small drawdown after 2 hours: ICT setups can take time to develop. 
+Patience within the plan is a skill. 
+TRADE MANAGEMENT MINDSET 
+Once in a trade: your only jobs are (1) manage the stop loss using structure, (2) execute the TP1/Free 
+Trade Rule at the right level, and (3) monitor for genuine invalidation signals. Anything else is noise. 
+Do not stare at the screen. Check every 30 minutes during the Kill Zone, then step away.
+
+--- Page 26 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 26 
+  SECTION 11    Multi-Instrument Confluence and the SMT Hard Rule 
+11. Multi-Instrument Confluence and the SMT Hard Rule 
+ 
+No currency pair exists in isolation. EUR/USD is affected by DXY. GBP/USD is correlated with 
+EUR/USD. USD/JPY inversely correlates with Gold. Every trade you take gains or loses credibility 
+based on what correlated instruments are doing at the same time. Multi-instrument confluence is 
+the professional's final filter before execution. 
+ 
+11.1  SMT Divergence as a HARD VETO 
+Smart Money Technique (SMT) Divergence was covered in depth in Module 4. In the context of 
+trade planning, it operates as a hard veto rule: not merely a factor that reduces confidence, but a 
+condition that CANCELS the trade entirely if it signals against you. 
+ 
+SMT Reading 
+Trade Decision 
+SMT CONFIRMS your 
+trade (correlated pair 
+also shows same 
+directional signal) 
+PROCEED: add 1 point to confluence score. Highest conviction. 
+SMT NEUTRAL 
+(correlated pair not 
+giving a clear signal 
+either way) 
+PROCEED with normal position size; no SMT bonus, no penalty. 
+SMT DIVERGES 
+AGAINST your trade 
+(correlated pair 
+showing opposite 
+signal) 
+HARD VETO: DO NOT ENTER. No exceptions. The divergence reveals that 
+one market is being manipulated and you cannot determine which one in 
+real time. 
+ 
+SMT HARD RULE 
+If EUR/USD makes a new lower low (bullish SMT setup) BUT GBP/USD is ALSO making lower lows 
+and confirmingrming the bearish move: there is no SMT divergence. Do not invent divergence. The 
+rule only applies when the correlated pair genuinely fails to confirm an extreme. When in doubt, wait 
+for clarity. 
+ 
+11.2  Using All Four Instruments Together 
+When trading any of the four instruments, the other three provide context signals: 
+Your Instrument 
+Check This First 
+What You Are Looking For 
+EUR/USD 
+GBP/USD for SMT 
+confirmation 
+Are they moving together or diverging? 
+Divergence = manipulation signal.
+
+--- Page 27 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 27 
+Your Instrument 
+Check This First 
+What You Are Looking For 
+GBP/USD 
+EUR/USD for SMT (GBP often 
+leads) 
+GBP/USD frequently shows the SMT divergence 
+BEFORE EUR/USD; it is the leading indicator. 
+USD/JPY 
+XAU/USD (inverse) for SMT 
+Gold and JPY often both strengthen when USD 
+weakens. Inverse divergence = USD move 
+confirmation. 
+XAU/USD 
+USD/JPY (inverse) and DXY 
+DXY direction is the primary macro filter for all 
+gold trades. Check DXY before every gold entry. 
+ 
+11.3  The Risk Sentiment Quick Check 
+Before any trade on any instrument, run a 30-second sentiment check: 
+• 
+VIX: Above 25? Reduce all sizes. Above 30? Only A-grade setups at half size. 
+• 
+S&P 500 direction: Sharply falling? Risk-off. USD/JPY may fall (carry unwind). Gold may 
+spike. 
+• 
+DXY: Is it breaking above or below a key level today? All USD pairs will be affected. 
+• 
+Gold and DXY moving in same direction? Systemic stress signal; reduce ALL positions by 
+50%.
+
+--- Page 28 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 28 
+  SECTION 12    Pre-Trade Checklist and Trade Grading 
+12. The Master Pre-Trade Checklist and Trade Grading System 
+ 
+The pre-trade checklist is the document you use before every single trade, without exception. It is 
+designed so that a tired, stressed, or distracted trader can follow it without thinking. Each item is a 
+binary YES or NO. If any item is NO in a category marked as mandatory, the trade does not 
+happen. The checklist takes 90 seconds. Use it every time. 
+ 
+MASTER PRE-TRADE CHECKLIST: YES / NO ONLY 
+STEP 1: MARKET STRUCTURE AND BIAS 
+[ ] 
+Weekly structure is BULLISH or BEARISH 
+(not ranging) 
+BOS confirmed on Daily or Weekly 
+[ ] 
+Bias score is 2/3 or 3/3 
+COT + Yield Spread + Structure aligned 
+[ ] 
+I can state my bias in one sentence 
+e.g. 'Bullish GBP/USD: BoE hawkish + yield 
+spread + Daily HH/HL' 
+STEP 2: ENVIRONMENT FILTER 
+[ ] 
+No Tier 1 event within 30 minutes of entry 
+Check calendar FIRST: hard stop 
+[ ] 
+Not NFP Friday before 9:00 AM EST 
+No exceptions 
+[ ] 
+Not FOMC decision or press conference 
+window 
+Hard no-trade zone 
+[ ] 
+VIX below 25 OR position sized at 50% if 
+above 
+Risk adjustment applied 
+[ ] 
+Not Q-end rebalancing week OR trading 
+with awareness 
+Last 3–5 days of Mar/Jun/Sep/Dec 
+STEP 3: PREMIUM / DISCOUNT 
+[ ] 
+For LONGS: entry is in DISCOUNT zone 
+(below 50% / NYMO) 
+Never buy in premium 
+[ ] 
+For SHORTS: entry is in PREMIUM zone 
+(above 50% / NYMO) 
+Never sell in discount 
+STEP 4: LIQUIDITY 
+[ ] 
+Liquidity has been swept BEFORE my 
+entry 
+Judas Swing / SSL or BSL sweep occurred 
+[ ] 
+I know the target liquidity pool above 
+(long) or below (short) 
+PDH / EQH / PWH or PDL / EQL / PWL 
+STEP 5: ENTRY ZONE 
+[ ] 
+A fresh OB or FVG exists at my entry 
+zone 
+Not previously mitigated through 
+[ ] 
+Entry zone is at or within the 62–79% 
+OTE zone 
+Fibonacci retracement confirmed 
+[ ] 
+Kill Zone is active or about to open 
+London 2–5 AM or NY 7–10 AM EST
+
+--- Page 29 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 29 
+STEP 6: TRIGGER CONFIRMATION 
+[ ] 
+CHoCH confirmed on M15 or M5 
+BEFORE entry 
+Not entering on touch; waiting for CHoCH 
+[ ] 
+FVG formed by the displacement after 
+CHoCH 
+CE calculated and entry placed there 
+STEP 7: SMT HARD FILTER 
+[ ] 
+SMT check completed on correlated pair 
+EUR/USD vs GBP/USD or XAU/USD vs USD/JPY 
+[ ] 
+SMT is NOT diverging AGAINST my trade 
+direction 
+If SMT vetoes: NO TRADE, no exceptions 
+STEP 8: RISK MANAGEMENT 
+[ ] 
+Stop loss is placed beyond the swept 
+liquidity level 
+Not inside the OB or at a round number 
+[ ] 
+Structural invalidation level identified and 
+noted 
+The level that kills the idea before SL 
+[ ] 
+Position size CALCULATED using the 
+formula 
+Account × Risk% ÷ (SL pips × pip value) 
+[ ] 
+RR ratio is 2:1 or better to TP1 
+No trade below 2:1. No exceptions. 
+[ ] 
+Trade grade assigned (A / B / C) 
+C-grade = no trade regardless of how good it looks 
+ 
+ 
+Fig 12.1: Trade Grading System: A, B and C Grade Criteria with Position Size Rules
+
+--- Page 30 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 30 
+12.1  The A/B/C Trade Grading Summary 
+Grade 
+Position Size 
+Requirements 
+Monthly Focus 
+A 
+Full (1–2% risk) 
+3/3 bias + Kill Zone + 
+Discount/Premium + Fresh 
+OB/FVG + CHoCH + SMT 
+confirms + RR ≥ 3:1 
+Take every A-grade setup. These 
+build the account. 
+B 
+Half (0.5–1% risk) 
+2/3 bias + Kill Zone + Zone 
+correct + OB or FVG present + 
+CHoCH + SMT neutral + RR ≥ 2:1 
+Take selectively; only when no A-
+grade is available. 
+C 
+NO TRADE 
+1/3 or lower bias OR SMT veto 
+OR below 2:1 RR OR outside Kill 
+Zone 
+Skip entirely. Looking at C-grades 
+is a waste of time. 
+ 
+THE GRADING DISCIPLINE 
+Every month, calculate what percentage of your trades were A-grade, B-grade, and C-grade. A 
+professional trader takes 70%+ A-grade trades. If you are taking more than 20% B-grade trades, you 
+are being impatient. If you are taking any C-grade trades, you have a discipline problem. The journal 
+tracks this: use it.
+
+--- Page 31 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 31 
+  SECTION 13    Trade Journalling 
+13. Trade Journalling: The Most Underused Edge in Trading 
+ 
+The trade journal is the only tool that tells you the truth about your trading. Win rates, average 
+RRR, grade distribution, best instruments, worst times of day: none of this is knowable without a 
+journal. A trader without a journal is guessing at their own weaknesses. A trader with a detailed 
+journal knows exactly what to improve and can measure whether the improvement is working. 
+ 
+13.1  The Journal Template 
+Use this template for every trade, filled in immediately before and after each trade closes. Do not 
+fill it in from memory hours later. 
+ 
+TRADE JOURNAL ENTRY 
+Date & Time 
+                    Instrument:           Session: London  /  NY  /  PM 
+Trade Direction 
+LONG  /  SHORT                       Grade:  A  /  B  /  C 
+PRE-TRADE ANALYSIS 
+HTF Bias (D/W) 
+Bullish / Bearish: Reason:                                          Score: ___ /3 
+COT Reading 
+Large Specs NET:              Extreme? Y/N     Direction: 
+Yield Spread 
+Spread favours:               Widening / Narrowing / Flat 
+HTF Structure 
+BOS / CHoCH / Ranging       Last major swing: High / Low 
+Premium / 
+Discount 
+Premium / Discount / Neutral     NYMO:              Current Price: 
+Liquidity Context 
+BSL above at:               SSL below at:               Target: 
+SETUP DETAILS 
+OB / FVG Level 
+Type: OB / FVG / BPR       Level:              Timeframe: 
+OTE Zone 
+62–79% zone between:               and:               CE at: 
+Kill Zone 
+London / NY / PM      Event on calendar? Y/N     Event: 
+No-Trade Filter 
+Tier 1 within 30 min? Y/N    VIX:      Q-end week? Y/N    Summer? Y/N 
+ENTRY & RISK 
+Entry Price 
+Entry:              Trigger: CHoCH+FVG / OB Mitigation / Other: 
+Stop Loss 
+SL Price:              Pips to SL:              Type: Structural / Fixed 
+Invalidation Level 
+If price closes             , idea is structurally dead; EXIT before SL 
+Position Size 
+Account: $          Risk %:          Lot Size:          $ at risk: 
+SMT Check 
+EUR/GBP or XAU/JPY confirms? Y/N    Details: 
+RR Ratio 
+TP1:              (RR:      :1)    TP2:              (RR:      :1) 
+OUTCOME
+
+--- Page 32 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 32 
+Result 
+Win / Loss / Break-even        P&L: $          Pips: 
+TP1 Hit? 
+Yes / No      SL moved to BE? Yes / No      TP2 Hit? Yes / No 
+Exit Reason 
+TP reached / SL hit / Structural invalidation / Manual / News 
+REVIEW (Complete after trade closes) 
+What went right 
+                                                                               
+What went wrong 
+                                                                               
+Was the grade 
+correct? 
+Was this truly an A/B grade or did I force it? Honest assessment: 
+Screenshots 
+taken 
+HTF Context (D/W): Y/N    Setup Zone (H4/H1): Y/N    Entry (M15/M5): Y/N 
+Improvement 
+note 
+One thing I will do differently next time: 
+ 
+13.2  The Three Screenshot Rule 
+Every trade journal entry must include three screenshots, taken at the time of the trade, not 
+reconstructedstructed after. This is non-negotiable because a trade that looks obvious in hindsight 
+often looked ambiguous in real time. The screenshots capture that reality. 
+Screenshot 
+Timeframe 
+What to Capture 
+Screenshot 1: 
+HTF Context 
+Daily or Weekly 
+The overall trend, the liquidity pools, the dealing 
+range, and the reason for the directional bias. This is 
+the 'why I was in this trade' screenshot. 
+Screenshot 2: 
+Setup Zone 
+H4 or H1 
+The OB, FVG, OTE zone, and the price approaching 
+the setup area. Taken before entry. 
+Screenshot 3: 
+Entry and Exit 
+M15 or M5 
+The CHoCH, the FVG, the CE entry, stop loss level, 
+and the eventual outcome. Taken after the trade 
+closes. 
+ 
+THE MOST IMPORTANT SCREENSHOT 
+Screenshot 1 (HTF Context) is the most important and the most commonly skipped. Most traders only 
+screenshot their M1 entry. A month later, when they review their journal, they have no idea why they 
+were in the trade. The HTF context screenshot is the memory of the trade. Never skip it. 
+ 
+13.3  Weekly Journal Review Protocol 
+Every Sunday evening, before running the new week's bias analysis, spend 20–30 minutes 
+reviewing the past week's trades. Use these five questions: 
+• 
+What was my A/B/C grade distribution this week? Was I disciplined or impatient? 
+• 
+Did I follow the checklist on every trade, or did I skip steps? Which steps? 
+• 
+What was my average actual RR vs planned RR? Am I cutting winners too early? 
+• 
+Were there any structural invalidation events I caught early? Any I missed? 
+• 
+What is the single most important thing I can improve next week? Write it down.
+
+--- Page 33 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 33 
+ 
+13.4  Monthly Performance Metrics 
+Track these metrics monthly. Review them quarterly to identify trends: 
+• 
+Win rate percentage (wins ÷ total trades) 
+• 
+Average RR on winning trades 
+• 
+Average RR on losing trades (should be below 1:1; you should never lose more than you 
+planned) 
+• 
+A/B/C grade distribution 
+• 
+Performance by instrument (which pair makes money, which loses?) 
+• 
+Performance by Kill Zone (London vs NY vs PM; where is the edge?) 
+• 
+Drawdown: maximum consecutive losses and maximum account drawdown percentage
+
+--- Page 34 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 34 
+  SECTION 14    Four Sample Trade Setups 
+14. Four Sample Trade Setups: Full Framework Applied 
+ 
+The following four trade setups each demonstrate the complete top-down framework applied to a 
+specific instrument. Each setup follows the same process: bias → environment filter → setup zone 
+→ trigger → invalidation → risk management → outcome. Study the process, not the result. 
+ 
+14.1  EUR/USD Long: London Kill Zone 
+Step 
+Detail 
+Bias Score 
+3/3 Bullish; Large Specs covering extreme EUR short (COT), US-EU yield 
+spread narrowing (EUR advantage)age building), Daily Bullish BOS on 
+Tuesday confirmed. 
+Environment Filter 
+No Tier 1 events scheduled at London open. VIX at 14 (calm). Not Q-end 
+week. All clear. 
+HTF Context 
+Daily: Bullish BOS sequence, HH/HL intact. Daily FVG between 1.0835–
+1.0855. Price retracing after Tuesday BOS. NYMO at 1.0840: current price 
+1.0820 = Discount. 
+Setup Zone 
+H4: Bullish OB at 1.0818–1.0825 (last bearish H4 candle before Tuesday's 
+BOS). Coincides with 69% OTE of the recent swing. FVG overlapping at 
+1.0820–1.0830. SSL below at 1.0808 (Equal Lows from 3 days). 
+Kill Zone 
+London Kill Zone. Expected AMD: Asian range 1.0818–1.0842. Judas 
+Swing: drop below Asian Low (1.0818) to sweep SSL at 1.0808. 
+Trigger 
+London opens. Price drops to 1.0806 sweeping SSL (Judas Swing). M15 
+Bullish CHoCH forms at 1.0815. Displacement candle leaves M15 FVG: 
+1.0810–1.0820. CE at 1.0815. 
+SMT Check 
+GBP/USD: makes Higher Low at London open when EUR/USD makes 
+lower low. Bullish SMT divergence confirmed. A-grade upgrade. 
+Entry 
+Buy at CE: 1.0815. Grade: A. 
+Stop Loss 
+1.0800 (5 pips below SSL sweep low at 1.0806). Distance: 15 pips. 
+Invalidation Level 
+Close below 1.0806 (the Judas Swing low) = idea is structurally dead. Exit 
+before SL. 
+Position Size 
+$10,000 account, 1% risk = $100. $100 ÷ (15 pips × $10) = 0.67 lots (use 
+0.6 lots). 
+TP1 
+PDH at 1.0865 = 50 pips. RR = 3.3:1. Close 0.3 lots (+$150). Move SL to 
+BE (1.0815). 
+TP2 
+BSL above Equal Highs at 1.0910 = 95 pips. RR on remaining = 6.3:1. 
+Close 0.3 lots (+$285). 
+Total P&L 
+$150 + $285 = $435 on $100 risk. Overall RR = 4.35:1. A-grade result. 
+ 
+14.2  GBP/USD Short: New York Kill Zone
+
+--- Page 35 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 35 
+Step 
+Detail 
+Bias Score 
+2/3 Bearish; US/UK yield spread widening in USD favour (Factor 2 bearish), 
+Daily Bearish BOS confirmedmed LH/LL (Factor 3 bearish). COT neutral: 
+not at extreme (Factor 1 neutral). 
+Grade 
+B-Grade from the start; half size only. 
+Environment Filter 
+UK CPI released at 2:00 AM (beat forecast; GBP initially rallied). No further 
+Tier 1 events until nextext day. VIX 16. Clear for NY session. 
+HTF Context 
+Daily: Bearish BOS, LH/LL sequence. Daily Bearish OB at 1.2750–1.2770 
+(last bullish Daily candle before the bearish impulse). Price rallied post-UK 
+CPI into this OB zone. 
+Setup Zone 
+H4: Bearish OB at 1.2758–1.2768. FVG above: 1.2762–1.2775. OTE zone: 
+67% of recent bearish swing lands at 1.2760. Price is in Premium zone 
+(above NYMO). BSL swept above PDH (1.2780) by the CPI spike. 
+Kill Zone 
+New York Kill Zone (7–10 AM EST). BSL sweep occurred at 2:30 AM 
+London (CPI reaction). Retracement back into Bearish OB expected during 
+NY session. 
+Trigger 
+NY opens. Price retraces to 1.2762 (inside Bearish OB). M15 Bearish 
+CHoCH forms. Bearish M15 FVG: 1.2770–1.2778. CE at 1.2774. 
+SMT Check 
+EUR/USD: making lower high simultaneously. Bearish SMT confirms. 
+Grade upgrades to A-grade; increasee to full size. 
+Entry 
+Sell at CE: 1.2774. Grade upgraded to A (SMT confirmation). Full size. 
+Stop Loss 
+1.2788 (above BSL sweep high at 1.2782 + 6 pip buffer). Distance: 14 pips. 
+Invalidation Level 
+Close above 1.2782 (BSL sweep high) = setup structurally invalid. Exit 
+before SL. 
+TP1 
+PDL at 1.2720 = 54 pips. RR = 3.86:1. Close 50% (+profit). Move SL to BE. 
+TP2 
+Equal Lows (SSL) at 1.2665 = 109 pips. RR = 7.8:1 on remaining position. 
+ 
+14.3  USD/JPY Long: New York Kill Zone (8:30 AM Data) 
+Step 
+Detail 
+Bias Score 
+3/3 Bullish USD/JPY; US yields rising faster than Japan yields, spread 
+widening (Factor 2). Daily BOSullish BOS (Factor 3). COT: Large Specs 
+growing NET LONG JPY shorts = bullish USD/JPY (Factor 1). 
+Environment Filter 
+US NFP scheduled Friday 8:30 AM EST. Today is Wednesday; ADP at 
+8:15 AM EST (Tier 2). VIX 15. Tradeable plan: watch NY Kill Zone, be out 
+15 min before ADP. 
+Setup Zone 
+H4: Bullish OB at 148.20–148.45 (last bearish H4 candle before Monday's 
+bullish BOS). FVG: 148.30–148.50. OTE 71% lands at 148.38. SSL below 
+at 148.10 (Equal Lows from 2 days). NYMO: 148.55: current price 148.25 = 
+Discount. 
+ADP Release (Tier 2) 
+ADP: 185K (vs forecast 170K) = mild USD beat. USD/JPY spikes to 149.10 
+then retraces. Spike created a a Bearish FVG above: potential future target. 
+Retracement begins at 8:25 AM.
+
+--- Page 36 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 36 
+Step 
+Detail 
+Trigger 
+M15 CHoCH bullish at 148.40 after retracement. M15 FVG: 148.32–148.44. 
+CE at 148.38. Kill Zone active (8:00–10:00 AM EST). 
+SMT Check 
+XAU/USD (inverse): Gold falling while USD/JPY rising; normal inverse 
+relationship. No adverse divergencegence. Proceed. 
+Entry 
+Buy at CE: 148.38. Grade: A. 
+Stop Loss 
+148.05 (5 pips below SSL at 148.10). Distance: 33 pips. 
+Position Size 
+$10,000, 1% risk = $100. Pip value USD/JPY ≈ $9.09/pip. $100 ÷ (33 × 
+$9.09) = 0.33 lots. 
+TP1 
+PDH at 149.20 = 82 pips. RR = 2.5:1. Close 50%. Move SL to BE. 
+TP2 
+BSL above Equal Highs at 149.85 = 147 pips. RR = 4.5:1. 
+ 
+14.4  XAU/USD (Gold) Long: London Kill Zone 
+Step 
+Detail 
+Bias Score 
+3/3 Bullish Gold; US real yields falling (Factor 2: nominal yields flat, PCE 
+falling = real yield falling)alling). Daily Bullish BOS on gold (Factor 3). COT: 
+Large Specs growing NET LONG gold futures (Factor 1). 
+Macro Check 
+DXY: Daily Bearish OB resistance holding. USD weakening = gold bullish. 
+CME FedWatch: 65% probability of rate cut next meeting (dovish signal = 
+gold bullish). 
+Environment Filter 
+No Tier 1 USD events today. VIX 13. Not Q-end. Full trading conditions. 
+Setup Zone 
+H4: Bullish OB at $1,918–$1,926 (last bearish H4 candle before the $45 
+rally that created a Bullish BOS). FVG overlapping: $1,920–$1,928. OTE 
+68% of recent swing = $1,922. SSL below at $1,908 (Equal Lows). Price in 
+Discount (below NYMO $1,935). 
+Kill Zone 
+London Kill Zone (2–5 AM EST). Asian range: $1,918–$1,932. Judas Swing 
+target: SSL at $1,908. 
+Trigger 
+London opens. Gold drops sharply to $1,905; sweeping SSL (Judas Swing). 
+M15 Bullish CHoCH at $1,912. M15 FVG: $1,909–$1,918. CE at $1,913. 
+SMT Check 
+USD/JPY (inverse): makes a higher high when gold makes lower low at 
+London open. Bullish Gold SMT divergence confirmed. A-grade confirmed. 
+Entry 
+Buy at CE: $1,913. Grade: A. 
+Stop Loss 
+$1,902 ($3 below SSL sweep at $1,905). Distance: $11 (110 pips). 
+Position Size 
+$10,000, 1% = $100. Gold pip value at 0.1 lots = $1/pip. $100 ÷ (110 × $1) 
+= 0.91 lots. Use 0.9 lots. 
+Invalidation Level 
+Close below $1,905 (sweep low) = structurally invalid. Exit before SL. 
+TP1 
+PDH at $1,950 = $37 move. RR = 3.4:1. Close 0.45 lots (+$1,665... wait, 
+recalc: 0.45 lots × 370 pips × $1/pip = $166.50). Move SL to BE. 
+TP2 
+BSL above Equal Highs at $1,975 = $62 move. RR = 5.6:1 on remaining 
+0.45 lots.
+
+--- Page 37 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 37 
+  SECTION 15    Common Confluence Mistakes 
+15. Common Confluence Mistakes: The Five Most Costly 
+Errors 
+ 
+Understanding the right process is only half the battle. The other half is avoiding the specific ways 
+that process breaks down under pressure. These five mistakes are made by almost every trader at 
+some point. The difference between a trader who learns from them and one who keeps repeating 
+them is whether they are logged in the journal. 
+ 
+15.1  Mistake 1: Confirmation Bias 
+Definition: Looking for reasons to confirm a trade you already want to take, rather than running the 
+process objectively. 
+• 
+What it looks like: You decide EUR/USD is going up based on a chart pattern you like. You 
+then selectivelytively check COT, yield spread, and structure: only remembering the ones 
+that confirm your view and dismissing the ones that do not. 
+• 
+Why it is dangerous: Confirmation bias masquerades as confluence. You have five factors 
+that agree; but they agreed because you chose only the agreeing ones. The true probability 
+of your trade is the same as if you had one factor. 
+• 
+How to prevent it: Run the bias scoring process BEFORE looking at any entry-level chart. 
+Score COT, yield spread, and structure independently, in that order. Write the score down. 
+Only then look at H4/H1. 
+ 
+15.2  Mistake 2: Confluence Paralysis 
+Definition: Waiting for all possible factors to align simultaneously, resulting in no trades ever being 
+taken. 
+• 
+What it looks like: The trader requires 7/7 factors to align, SMT confirmation, a specific 
+candlestick pattern, the moon phase, and then wonders why they have only taken 3 trades 
+in two months. 
+• 
+Why it is dangerous: A 3/3 bias score with a confirmed trigger is a sufficient edge. Over-
+filtering removes trades with genuine probability and produces under-trading, which is as 
+harmful as over-trading. 
+• 
+How to prevent it: Define your minimum standard clearly (A-grade = 5/5 checklist items + 
+grade confirmed). Take every A-grade setup. Take selective B-grade setups. No more, no 
+less.
+
+--- Page 38 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 38 
+15.3  Mistake 3: Ignoring Structural Invalidation 
+Definition: Knowing the invalidation level exists but not acting on it when it is hit, hoping the trade 
+will 'come back.' 
+• 
+What it looks like: Price closes below the protected Higher Low. You know this invalidates 
+the trade. But the setup looked so good, and you are down only 8 pips. You wait. Price 
+continues lower and hits the full stop loss. 
+• 
+Why it is dangerous: Structural invalidation exists to save you from full stop losses. Every 
+time you ignore it, you are paying 5–15 extra pips to 'hope.' Over a full year of trading, 
+those pips become account-destroying. 
+• 
+How to prevent it: Write the structural invalidation level in the journal BEFORE entering. 
+When it is breached, the journal is your accountability partner. Close the trade. 
+ 
+15.4  Mistake 4: Trading Outside Kill Zones 
+Definition: Taking ICT setups that form outside the London or New York Kill Zone windows. 
+• 
+What it looks like: A beautiful M15 CHoCH and FVG forms at 11:30 PM EST (Asian 
+session). It ticks every other box. You enter. 
+• 
+Why it is dangerous: The Asian session does not have the institutional order flow that 
+validates ICT setups patterns. What looks like a CHoCH + FVG setup in the Asian session 
+is frequently just noise in a low-liquidity environment: it will often retrace further or reverse 
+completely before the real directional move begins at London open. 
+• 
+How to prevent it: Add the Kill Zone filter as a hard rule on the checklist. If the Kill Zone 
+checkboxox is NO, the trade does not happen. A setup that forms outside the Kill Zone is 
+not a B-grade: it is a C-grade by definition. 
+ 
+15.5  Mistake 5: Chasing Missed Entries 
+Definition: Entering a trade after missing the optimal entry because price has already moved 
+significantly in the expected direction. 
+• 
+What it looks like: You identified the perfect A-grade setup in EUR/USD. The CE entry was 
+at 1.0815. You were busy when the Kill Zone opened. You return to the screen to find price 
+is now at 1.0860. You enter here anyway because 'the setup was valid.' 
+• 
+Why it is dangerous: The RR of a chased entry is almost always below 2:1. The optimal 
+entry at 1.0815 had 15 pips of risk to a clean SL. Entering at 1.0860 means either taking a 
+60-pip SL (disproportionate) or a 15-pip SL that is nowhere near a structural level. 
+• 
+How to prevent it: A missed entry is not a loss. There will always be another setup. The rule 
+is simpleple: if price has moved more than 50% of the planned trade distance without your 
+entry, the trade is missed. Mark it in the journal as 'missed: would have been X pips.' Then 
+move on. 
+ 
+THE FINAL RULE 
+Every mistake in this section comes down to one thing: breaking the process under emotional 
+pressure. The checklist exists precisely for this moment: when you want to bend the rules because 
+'this one looks different.' It never looks different. Run the checklist. Follow the grade. Protect the 
+process.
+
+--- Page 39 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 39 
+Module 6 Glossary: Trade Planning Terms 
+ 
+Term 
+Definition 
+A-Grade Setup 
+A trade scoring full marks on the bias (3/3), environment filter (clear), checklist 
+(all Yes), and SMT (confirming). Maximum position size. Highest probability. 
+ATR 
+Average True Range. Measures average daily or session volatility. Used to 
+ensure stop loss distances are appropriate for current market conditions. 
+B-Grade Setup 
+A trade scoring 2/3 on bias with all other checklist items met. Half position size. 
+Good probability but not maximum. 
+Bias Score 
+The weighted 0–3 score combining COT positioning, yield spread direction, and 
+HTF price structure. Determines trade direction and maximum position size. 
+Breakeven (BE) 
+Moving the stop loss to the exact entry price. The worst outcome is a break-
+even trade: no profit, no loss. 
+C-Grade Setup 
+A trade with 1/3 or lower bias, adverse SMT, below 2:1 RR, or outside Kill Zone. 
+Not tradeable. Always skip. 
+Confluence 
+The alignment of multiple independent analysis factors all pointing to the same 
+trade conclusion. 
+Confirmation Bias 
+The cognitive error of selectively seeking information that confirms a trade idea 
+already formed, while ignoring contradicting signals. 
+Free Trade Rule 
+The mechanism of closing 50% of a position at TP1 and moving the stop to 
+breakeven, making the remaining position risk-free. 
+Lot Size Formula 
+Lot Size = (Account Balance × Risk %) ÷ (SL in Pips × Pip Value per Lot). 
+Calculates exact position size for any instrument. 
+No-Trade Filter 
+The set of environmental conditions (Tier 1 events, VIX level, Q-end, summer) 
+that suspend trading regardless of setup quality. 
+Position Sizing 
+Calculating the exact lot size for each trade based on account balance, risk 
+percentage, stop loss distance, and pip value. 
+Risk/Reward (RR) 
+The ratio of potential profit to potential loss on a trade. Minimum 2:1 for B-grade, 
+3:1 for A-grade. 
+Setup Zone 
+The specific price area on the chart where multiple confluence factors (OB, 
+FVG, OTE, liquidity, premium/discount) stack together. 
+SMT Hard Veto 
+The rule that adverse SMT divergence cancels a trade entirely: regardless of all 
+other factors. No exceptions. 
+Structural 
+Invalidation 
+The specific price level (a protected swing high or low) whose violation proves 
+the trade idea is wrong: used to exit before the stop loss. 
+Three Screenshot 
+Rule 
+The requirement to capture three screenshots per trade: HTF context 
+(Daily/Weekly), Setup Zone (H4/H1), and Entry/Exit (M15/M5). 
+Trailing Stop 
+Moving the stop loss to below each new Higher Low (long) or above each Lower 
+High (short) as the trade progresses, locking in gains.
+
+--- Page 40 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 40 
+Module 6 Quiz: 20 Questions 
+ 
+Circle the correct answer. Answers and explanations on the final page. 
+ 
+Q1. A trader has a 3/3 bias score, a clean A-grade setup, and a 3:1 RR. However, the SMT 
+check shows GBP/USD making a lower high while they want to go long EUR/USD (SMT 
+adverse). What should they do? 
+A) Enter at half size: the other factors override the SMT 
+B) Skip the trade: SMT adverse divergence is a HARD VETO with no exceptions 
+C) Wait until the next day and re-check SMT 
+D) Enter full size: 3/3 bias outweighs SMT 
+ 
+Q2. NFP is scheduled for Friday 8:30 AM EST. A beautiful EUR/USD long setup forms at 
+8:00 AM with a confirmed M15 CHoCH and a fresh FVG. What is the correct action? 
+A) Enter immediately: the setup is A-grade and should not be missed 
+B) Enter at half size: the setup is good but news is nearby 
+C) DO NOT ENTER: Tier 1 event within 30 minutes triggers the No-Trade filter. Wait for the 
+post-NFP FVG instead 
+D) Enter and place an extra-wide stop loss to survive the news spike 
+ 
+Q3. The lot size formula is: Lot Size = ? 
+A) Account Balance × Risk % × Pip Value 
+B) (Account Balance × Risk %) ÷ (Stop Loss in Pips × Pip Value per Lot) 
+C) Stop Loss in Pips × Account Balance 
+D) Risk % ÷ (Account Balance × Stop Loss) 
+ 
+Q4. A trader's account is $5,000. They risk 1%. Stop loss is 20 pips on EUR/USD (pip value 
+$10). What is the correct lot size? 
+A) 0.50 lots 
+B) 0.25 lots 
+C) 1.00 lot 
+D) 0.10 lots 
+ 
+Q5. The structural invalidation for a LONG trade occurs when: 
+A) Price touches the stop loss level 
+B) A bearish candlestick pattern appears on the M15 chart 
+C) A candle BODY closes below the Higher Low that was formed after the SSL sweep (Judas 
+Swing) 
+D) Price retraces 50% from entry
+
+--- Page 41 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 41 
+Q6. The Free Trade Rule states that after TP1 is hit, you should: 
+A) Close the entire position and take the profit 
+B) Close 50% of the position AND immediately move SL to breakeven on the remaining 50% 
+C) Move SL tighter by 10 pips to protect profit 
+D) Do nothing: let the full position run to TP2 
+ 
+Q7. A trader scores their bias at 1/3 (only HTF structure aligns, COT neutral, yield spread 
+against). What should they do? 
+A) Take the trade at quarter size: 1/3 is still positive 
+B) Take the trade but use a wider stop loss for protection 
+C) NO TRADE: 1/3 is a C-grade. Sit out and wait for 2/3 alignment minimum 
+D) Trade the opposite direction since two factors suggest against 
+ 
+Q8. Which timeframe is used ONLY for execution (entry and stop placement) and NEVER 
+for determining directional bias? 
+A) H4 
+B) H1 
+C) M15 and M5 
+D) Daily 
+ 
+Q9. The three screenshots required in every journal entry are: 
+A) Entry candle, stop loss level, take profit level 
+B) HTF Context (Daily/Weekly), Setup Zone (H4/H1), and Entry/Exit (M15/M5) 
+C) Pre-trade plan, during trade, post-trade outcome 
+D) COT chart, yield spread chart, and price chart 
+ 
+Q10. A trade has: 3/3 bias, Kill Zone timing, OB in Discount, CHoCH confirmed, SMT 
+confirms. The RR to TP1 is 1.7:1. What grade is this trade? 
+A) A-grade: all other factors are perfect 
+B) B-grade: the RR reduces it by one grade 
+C) C-grade: RR below 2:1 is a DISQUALIFIER regardless of other factors 
+D) A-grade: RR of 1.7:1 is close enough to 2:1 
+ 
+Q11. A trader is in a long EUR/USD trade. Price has reached a new Higher Low and the 
+trader has trailed the SL below it. Suddenly, the HL is broken by 2 pips on a wick but closes 
+above it. What should the trader do? 
+A) Exit immediately: the HL was violated 
+B) Do nothing: the invalidation requires a candle BODY close below the HL, not just a wick 
+C) Move SL 10 pips lower to give the trade more room 
+D) Close half the position as a precaution
+
+--- Page 42 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 42 
+Q12. A beautiful GBP/USD short setup forms at 11:30 PM EST during the Asian session, 
+outside any Kill Zone. Every other checklist item passes. What grade is this trade? 
+A) A-grade: all factors except timing are perfect 
+B) B-grade: the timing reduces it by one grade 
+C) C-grade: outside Kill Zone is a checklist failure. Kill Zone is mandatory. 
+D) A-grade: the Asian session is a valid trading window 
+ 
+Q13. A trader has a winning EUR/USD long trade. Price reaches TP1 (+50 pips). They move 
+SL to BE. Price then rallies to TP2 (+90 pips) and they close the remaining 50%. What is 
+their overall RR on the full trade if original risk was 15 pips? 
+A) 3.3:1 
+B) 6.0:1 
+C) 4.7:1 (blended: 50% at 3.3:1 and 50% at 6.0:1) 
+D) Cannot calculate without knowing position size 
+ 
+Q14. In the Weighted Bias Scoring system, a 2/3 score means: 
+A) Trade full size in the direction of the two aligning factors 
+B) Do not trade: only 3/3 justifies a trade 
+C) Trade at half position size (0.5–1% risk): valid edge but not maximum conviction 
+D) Trade in the direction of whichever two factors align 
+ 
+Q15. The primary purpose of tracking A/B/C grade distribution in the journal monthly is: 
+A) To determine which grade has the highest win rate 
+B) To identify whether the trader is being disciplined (70%+ A-grade) or impatient (too many 
+B/C trades) 
+C) To calculate the average RR across all trade grades 
+D) To compare performance across different instruments 
+ 
+Q16. A trader misses the perfect EUR/USD entry at the CE of 1.0815. By the time they return 
+to their screen, price is at 1.0860. The original RR was 3:1. What should they do? 
+A) Enter at 1.0860: the setup is still valid 
+B) Enter at 1.0860 but use a wider stop 
+C) Do NOT enter: the trade is missed. Moving more than 50% of the planned trade distance 
+without entry = opportunity missed. Log it and move on. 
+D) Wait for price to retrace to 1.0840 and enter there 
+ 
+Q17. The Three Screenshot Rule requires the HTF Context screenshot because: 
+A) It is the most aesthetically interesting screenshot to review 
+B) Without it, a trader reviewing the journal a month later has no idea WHY they were in the 
+trade: only that they were. The entry screenshot alone tells you nothing about the reasoning. 
+C) The Daily chart always shows the best entry level 
+D) The broker requires it for record-keeping
+
+--- Page 43 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 43 
+Q18. During the last week of September, a trader sees a B-grade USD/JPY setup. The setup 
+passes all checklist items. Should they take it? 
+A) Yes: B-grade trades should always be taken 
+B) Yes at full size: September is historically active 
+C) With caution: last week of September is Q3-end rebalancing. Trade with awareness, do not 
+add new positions late in the week, and do not add to positions. 
+D) No trades allowed in the last week of any quarter 
+ 
+Q19. A 40% win rate with 3:1 RR produces what net result over 10 trades with $100 risk 
+each? 
+A) $200 net profit 
+B) $400 net profit 
+C) $600 net profit 
+D) Breakeven 
+ 
+Q20. A GBP/USD long trade is open and price is in profit by 35 pips. A UK political crisis 
+news headline appears (not a scheduled Tier 1 event, just headline news). The setup 
+structure is intact. What should the trader do? 
+A) Exit immediately: any news is dangerous 
+B) Continue managing the trade according to the plan. Unscheduled non-Tier-1 headlines are 
+noise. Only exit if the structural invalidation level is hit or a Tier 1 event is now imminent. 
+C) Close 50% immediately as a precaution 
+D) Widen the stop loss by 20 pips to account for uncertainty
+
+--- Page 44 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 44 
+Quiz Answer Key 
+ 
+Q 
+Answer 
+Explanation 
+Q1 
+B 
+SMT adverse divergence is a HARD VETO in the trade planning framework. It 
+cancels the trade entirely: no exceptions, no partial entries. The other factors do not 
+override it. 
+Q2 
+C 
+Tier 1 event within 30 minutes triggers the No-Trade filter. This is a hard rule on the 
+checklist. Enter the post-NFP FVG instead: that is the actual trade. 
+Q3 
+B 
+Lot Size = (Account Balance × Risk %) ÷ (Stop Loss in Pips × Pip Value per Lot). 
+Dollar risk divided by total dollar value of the stop loss distance. 
+Q4 
+B 
+$5,000 × 1% = $50. $50 ÷ (20 pips × $10) = $50 ÷ $200 = 0.25 lots. 
+Q5 
+C 
+Structural invalidation = candle BODY closes below the HL formed after the Judas 
+Swing SSL sweep (for longs). Not a wick, not touching the level: a body close. 
+Q6 
+B 
+The Free Trade Rule: close exactly 50% at TP1 AND immediately move SL to 
+breakeven on the remaining 50%. Both actions happen simultaneously at TP1. 
+Q7 
+C 
+1/3 bias score = C-grade = NO TRADE. Minimum threshold for any trade is 2/3. 
+Trading on 1/3 alignment is guessing, not trading with edge. 
+Q8 
+C 
+M15 and M5 are execution timeframes ONLY. Used for CHoCH, FVG, CE entry, 
+and stop placement. NEVER used to determine whether to trade or which direction. 
+Q9 
+B 
+The Three Screenshot Rule: HTF Context (Daily/Weekly) for the 'why,' Setup Zone 
+(H4/H1) for the 'where,' Entry/Exit (M15/M5) for the 'how.' Three distinct 
+perspectives. 
+Q10 
+C 
+RR below 2:1 is a disqualifier on the checklist. It makes the last item NO, which is a 
+C-grade regardless of all other factors. Never trade below 2:1 RR. 
+Q11 
+B 
+Structural invalidation requires a CANDLE BODY close below the HL: not a wick. A 
+2-pip wick through the level that closes above it is noise. The trade is still valid. 
+Q12 
+C 
+Kill Zone is a mandatory checklist item. Outside Kill Zone = checklist item fails = C-
+grade. The Asian session does not have the institutional flow to validate ICT 
+patterns. 
+Q13 
+C 
+50% closed at 3.3:1 (50 ÷ 15), 50% closed at 6.0:1 (90 ÷ 15). Blended: (3.3 + 6.0) ÷ 
+2 = 4.65:1 ≈ 4.7:1 overall. The Free Trade Rule dramatically improves blended RR. 
+Q14 
+C 
+2/3 = B-grade = half position size (0.5–1% risk). Valid edge but not maximum 
+conviction. Trade smaller to reflect the missing factor. 
+Q15 
+B 
+The A/B/C distribution reveals discipline. A professional should be 70%+ A-grade. 
+More than 20% B-grade means impatience. Any C-grade means discipline failure. 
+Q16 
+C 
+If price has moved more than 50% of the planned trade distance without your entry, 
+the trade is missed. Chasing at 1.0860 gives a worse RR and a structurally unsound 
+stop. Log it and wait for the next setup. 
+Q17 
+B 
+The HTF screenshot captures WHY you were in the trade. Without it, the M15 entry 
+screenshot is meaningless in review: you cannot reconstruct the reasoning. The 
+HTF context IS the trade thesis. 
+Q18 
+C 
+Q-end rebalancing weeks (last week of Mar/Jun/Sep/Dec) require awareness, not 
+avoidance. The filter says trade with awareness: do not add new positions late in 
+the week, but existing setups in early week can proceed.
+
+--- Page 45 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 6: Trade Planning and Confluence 
+© Forex Study Program  |  Module 6 — Trade Planning and Confluence 
+Page 45 
+Q 
+Answer 
+Explanation 
+Q19 
+C 
+40% win rate over 10 trades = 4 wins × $300 profit (3:1 RR) = $1,200 gross. 6 
+losses × $100 = $600 gross loss. Net = $1,200 − $600 = $600 profit. 
+Q20 
+B 
+Unscheduled, non-Tier-1 news headlines are noise. The trade plan accounts for 
+structural moves. Continue managing according to plan. Only exit if structural 
+invalidation is hit, the setup genuinely fails, or an actual Tier 1 event now becomes 
+imminent. 
+ 
+MODULE COMPLETION: Trade Planning and Confluence 
+Congratulations on completing Module 6: Trade Planning and Confluence. 
+Recommended quiz score before proceeding: 17/20 or higher. 
+If you scored below 15/20, review Sections 6 (structural invalidation), 9 (position sizing), 12 (checklist 
+and grading), and 15 (common mistakes). 
+This module is the bridge between studying and trading. Every concept from Modules 1–5 now has a 
+place in the process. Use the checklist on every trade. Keep the journal on every trade. Grade every 
+setup before entry. 
+Next: Module 7: Risk Management and Trading Psychology 
+ 
+Next: Module 7: Risk Management and Trading Psychology 
+Forex Market Analysis: Complete Study Program  |  Module 6 of 7

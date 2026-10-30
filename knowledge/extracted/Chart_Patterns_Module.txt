@@ -1,0 +1,2190 @@
+--- Page 1 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 1 
+FOREX MARKET ANALYSIS 
+Complete Study Program 
+ 
+MODULE 3 
+Chart Patterns 
+Intermediate Level  |  GBP/USD · EUR/USD · USD/JPY · XAU/USD  |  Study Notes + Patterns + 
+Exercises + Quiz 
+Reversal Patterns 
+Continuation 
+Patterns 
+Triangle Patterns 
+Measurement & 
+Confluence 
+ 
+ 
+Sections in This Module 
+Pattern Classification  •  Reversal Patterns  •  Continuation Patterns  •  Triangle Patterns  •  Wedge Patterns 
+Measurement Techniques  •  Pattern Failures  •  Candlestick Confluence  •  Multi-Timeframe Analysis 
+Sample Trade Setup  •  Pre-Trade Checklist  •  Exercises  •  Quiz
+
+--- Page 2 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 2 
+Table of Contents 
+Table of Contents ....................................................................................................................... 2 
+1. Introduction to Chart Patterns ................................................................................................ 4 
+1.1  The Three Pattern Categories ......................................................................................... 4 
+1.2  Universal Pattern Rules ................................................................................................... 4 
+1.3  Pattern Anatomy Terms ................................................................................................... 5 
+2. Reversal Patterns .................................................................................................................. 6 
+2.1  Head & Shoulders (H&S) ................................................................................................. 6 
+2.2  Inverse Head & Shoulders (IH&S) ................................................................................... 7 
+2.3  Double Top ...................................................................................................................... 8 
+2.4  Double Bottom ................................................................................................................. 9 
+2.5  Triple Top & Triple Bottom ............................................................................................... 9 
+2.6  Rounding Bottom (Saucer Bottom) .................................................................................10 
+2.7  Rounding Top .................................................................................................................11 
+2.8  Diamond Reversal Pattern ..............................................................................................11 
+3. Continuation Patterns ............................................................................................................13 
+3.1  Flag Pattern ....................................................................................................................13 
+3.2  Pennant Pattern ..............................................................................................................13 
+3.3  Rectangle (Range) Pattern .............................................................................................15 
+3.4  Cup and Handle ..............................................................................................................15 
+4. Triangle Patterns ...................................................................................................................17 
+4.1  Ascending Triangle .........................................................................................................17 
+4.2  Descending Triangle .......................................................................................................17 
+4.3  Symmetrical Triangle ......................................................................................................18 
+5. Wedge Patterns ....................................................................................................................20 
+5.1  Rising Wedge .................................................................................................................20 
+5.2  Falling Wedge.................................................................................................................20 
+5.3  Wedge vs. Channel vs. Triangle: Comparison ................................................................21 
+6. Pattern Measurement Techniques ........................................................................................23 
+6.1  The Measured Move (Height Projection).........................................................................23 
+6.2  Worked Examples ..........................................................................................................24 
+Example A: EUR/USD Inverse H&S Target ........................................................................24 
+Example B: GBP/USD Bull Flag Target ..............................................................................24 
+6.3  Multi-Target Approach ....................................................................................................24 
+7. Pattern Failure Modes & False Breaks ..................................................................................26 
+7.1  Common Failure Reasons ..............................................................................................26
+
+--- Page 3 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 3 
+7.2  The Failed Pattern Reversal Setup .................................................................................26 
+7.3  Pattern Reliability Summary ............................................................................................28 
+8. Chart Pattern + Candlestick Confluence ...............................................................................30 
+8.1  Entry Timing with Candlestick Confirmation ....................................................................30 
+8.2  Optimal Candlestick-Pattern Pairings .............................................................................30 
+9. Multi-Timeframe Pattern Analysis ..........................................................................................33 
+9.1  Timeframe Hierarchy for Pattern Trading ........................................................................33 
+9.2  The Pattern Within a Pattern Approach ..........................................................................33 
+9.3  Multi-Timeframe Pattern Checklist ..................................................................................34 
+10. Sample Trade Setup: EUR/USD Long (Inverse H&S) .........................................................35 
+10.1  Multi-Timeframe Context ..............................................................................................35 
+10.2  Pattern Confirmation .....................................................................................................35 
+10.3  Full Trade Plan .............................................................................................................36 
+11. Pre-Trade Checklist: Chart Patterns Edition ........................................................................37 
+12. Practice Exercises ...............................................................................................................39 
+Exercise 1: Pattern Identification & Classification ..................................................................39 
+Exercise 2: Measured Move Calculations ..............................................................................39 
+Exercise 3: Chart Analysis on Live Charts .............................................................................39 
+Exercise 4: Pattern Failure Trade Setup ................................................................................40 
+13. Module 3 Quiz: 15 Questions ..............................................................................................41 
+Quiz Answer Key ......................................................................................................................44
+
+--- Page 4 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 4 
+  SECTION 1    Introduction & Pattern Classification 
+1. Introduction to Chart Patterns 
+ 
+Chart patterns are recurring formations on price charts that reflect the collective psychology of all 
+market participants. They form because human behaviour: and therefore institutional order flow: is 
+predictable under similar market conditions. Recognising these patterns allows traders to 
+anticipate probable price direction before the move completes. 
+Chart patterns are not magic; they are probability tools. A valid pattern at a key level with 
+candlestick confirmation and volume support carries high probability. A pattern in isolation, mid-
+chart, with no context, is noise. 
+ 
+1.1  The Three Pattern Categories 
+Category 
+Definition 
+Examples 
+Trading Bias 
+Reversal 
+Patterns 
+Signal the end of an 
+existing trend and the 
+beginning of a move 
+in the opposite 
+direction 
+H&S, Inv H&S, Double 
+Top/Bottom, Triple 
+Top/Bottom, Rounding, 
+Diamond 
+Fade the prior trend; enter 
+in the new direction after 
+confirmation 
+Continuation 
+Patterns 
+Signal a pause within 
+an existing trend 
+followed by 
+resumption in the 
+original direction 
+Flags, Pennants, 
+Rectangles, Rising/Falling 
+Wedge (context-
+dependent) 
+Trade in direction of the 
+prevailing trend after the 
+consolidation resolves 
+Bilateral Patterns 
+Can break in either 
+direction; price 
+compressed, direction 
+uncertain until the 
+break 
+Symmetrical Triangle, 
+Diamond (sometimes), 
+Wedges (sometimes) 
+Wait for the confirmed 
+breakout direction before 
+trading; can pre-set OCO 
+orders 
+ 
+1.2  Universal Pattern Rules 
+These rules apply to EVERY chart pattern without exception: 
+ 
+# 
+Rule 
+1 
+A pattern is not valid until it is COMPLETE. Never enter a trade based on an incomplete 
+pattern; wait for completione pattern can fail mid-formation. 
+2 
+Confirmation requires a CLOSE beyond the pattern boundary: not just a wick pierce. One 
+close beyond = minimum confirmation. 
+3 
+Volume should increase on the breakout candle. A low-volume break is suspicious; high 
+probability of false breakf false break.
+
+--- Page 5 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 5 
+# 
+Rule 
+4 
+The most reliable patterns form over longer timeframes. A H&S on the Daily chart outweighs 
+one on the 15-minute chart. 
+5 
+Location matters more than pattern perfection. An imperfect H&S at a monthly resistance is 
+more valuable than a perfect one mid-chart. 
+6 
+Every pattern has a measured move target. Calculate the target BEFORE entering and 
+ensure RR is at least 1.5:1. 
+7 
+Always combine patterns with candlestick signals and market structure from Module 2. Never 
+trade a pattern in isolation. 
+8 
+False breaks are part of pattern trading. A stop above/below the pattern structure protects you 
+when the pattern fails. 
+ 
+1.3  Pattern Anatomy Terms 
+Term 
+Definition 
+Neckline 
+The key horizontal (or slightly angled) level that defines the boundary of a 
+pattern. Breaking the neckline confirms the pattern. 
+Breakout 
+When price closes decisively beyond the pattern boundary (neckline, trendline, 
+or range boundary). 
+Retest 
+Price returning to test the broken level from the other side after the breakout. 
+Provides a lower-risk entry opportunity. 
+Measured Move 
+The projected distance price is expected to travel after a breakout, based on the 
+height of the pattern. 
+Flagpole 
+The impulsive price move that precedes a Flag or Pennant consolidation. Used 
+to project the measured move. 
+Pattern Height 
+The vertical distance from the highest point to the lowest point of the pattern: 
+used for target projectionojection. 
+Left Shoulder / 
+Right Shoulder 
+The two symmetrical peaks (or troughs) flanking the Head in a Head and 
+Shoulders pattern. 
+Volume Contraction 
+Declining volume during pattern formation (especially in continuation patterns): 
+expected and healthyhy.
+
+--- Page 6 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 6 
+  SECTION 2    Reversal Patterns 
+2. Reversal Patterns 
+ 
+Reversal patterns form at the end of a trend and mark the transition to a new directional move. 
+They require a clear prior trend to be valid: a reversal pattern in the middle of a consolidation or 
+with no established trend carries no predictive value. 
+ 
+2.1  Head & Shoulders (H&S) 
+The Head and Shoulders is widely regarded as the most reliable reversal pattern in technical 
+analysis. It forms at market tops after an uptrend and signals a bearish reversal. Its mirror image, 
+the Inverse Head and Shoulders, forms at market bottoms. 
+ 
+Element 
+Detail 
+Prior Trend Required 
+Uptrend (for H&S top). The prior trend must be clearly established: minimum 2 
+months on Daily charthart. 
+Left Shoulder 
+Price rallies to a new high, then pulls back, forming the left peak. This is still 
+inside the uptrend. 
+Head 
+Price rallies to a HIGHER high (above the left shoulder) then pulls back again, 
+confirming a new HH. 
+Right Shoulder 
+Price rallies again but FAILS to reach the Head's high: forms a LOWER HIGH. 
+This is the first structural sign of weaknesstural warning (CHoCH). 
+Neckline 
+A horizontal (or slightly angled) line connecting the two troughs between the 
+Left Shoulder–Head and Head–Right Shoulder. 
+Confirmation 
+Price closes BELOW the neckline after the right shoulder forms. This is the 
+official pattern trigger. 
+Measured Move 
+Height of the Head above the neckline, projected DOWNWARD from the 
+neckline break point. 
+Retest Opportunity 
+After neckline break, price often retests the neckline from below (now 
+resistance). Bearish candle at retest = second entry. 
+Stop Loss Placement 
+Above the Right Shoulder high (for neckline break entry) or above the 
+neckline (for retest entry). 
+Reliability 
+Very High: especially on Daily/Weekly timeframes with volume declining on 
+Right Shoulder rally. 
+Instrument Example 
+GBP/USD Daily: H&S forms at major resistance with Right Shoulder lower 
+than Left. Neckline break at 1.2600.
+
+--- Page 7 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 7 
+2.2  Inverse Head & Shoulders (IH&S) 
+The mirror image of H&S: forms at market bottoms after a downtrend. One of the most powerful 
+bullish reversal setups in Forex. 
+ 
+Element 
+Detail 
+Prior Trend Required 
+Downtrend: must be clearly established before the pattern begins. 
+Left Shoulder 
+Price drops to a new low, then bounces, forming the left trough. 
+Head 
+Price drops to a LOWER LOW (below the left shoulder) then bounces; this is 
+the deepest point of the pattern. 
+Right Shoulder 
+Price drops again but FAILS to reach the Head's low: forms a HIGHER LOW. 
+First structural bullish signalign. 
+Neckline 
+Line connecting the two peaks between the Left Shoulder–Head and Head–
+Right Shoulder. 
+Confirmation 
+Price closes ABOVE the neckline after the right shoulder. Official bullish 
+trigger. 
+Measured Move 
+Height of the Head below the neckline, projected UPWARD from the neckline 
+breakout point. 
+Volume Pattern 
+Ideally: highest volume at Left Shoulder, decreasing at Head, lowest at Right 
+Shoulder: then surge on neckline breakon breakout. 
+Instrument Example 
+EUR/USD Daily: IH&S forms after prolonged downtrend. Neckline at 1.0850. 
+Head at 1.0600. Target: 1.0850 + (1.0850 − 1.0600) = 1.1100. 
+Stop Loss Placement 
+Below the Right Shoulder low (for neckline break entry) or below the neckline 
+(for retest entry). 
+ 
+KEY CONCEPT: Symmetry 
+The most reliable Head and Shoulders patterns have roughly symmetrical shoulders (similar height 
+and timing) width). An extremely skewed right shoulder (much lower or much narrower than the left) 
+reduces reliability. The neckline should be relatively horizontal: a neckline with a steep angle requires 
+extra confirmation before trading.
+
+--- Page 8 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 8 
+ 
+Fig 2.1: Head and Shoulders (Bearish) and Inverse Head and Shoulders (Bullish) 
+2.3  Double Top 
+The Double Top is one of the most common and recognisable reversal patterns. It forms after an 
+uptrend when price tests the same resistance level twice and fails both times, creating an 'M' 
+shape. 
+ 
+Element 
+Detail 
+Shape 
+'M' pattern: two peaks at approximately the same price level, separated by a 
+trough. 
+Prior Trend 
+Uptrend. Must have a clear bullish move before the first top forms. 
+Peak Symmetry 
+The two peaks should be at roughly the same price (within a few pips). The 
+second peak does not need to be identical to be identical: slightly lower 
+second peak = stronger signal. 
+Trough (Valley) 
+The low between the two peaks. The neckline is drawn at this trough level. 
+Neckline 
+Horizontal line at the valley low between the two peaks. 
+Confirmation 
+Close BELOW the neckline. Do not short at the second peak; wait for the 
+neckline break. 
+Measured Move 
+Height from the peaks to the neckline, projected DOWNWARD from the 
+neckline break. 
+Minimum Peak 
+Separation 
+The two tops should be separated by a meaningful pullback: at least 20–30 
+pip trough on H4, ideally a full corrective move. 
+Instrument Example 
+USD/JPY H4: Two peaks at 150.20 and 150.15. Neckline at 148.60. Pattern 
+height 160 pips. Target: 148.60 − 1.60 = 146.60 (approximately: using pips for 
+USD/JPY).
+
+--- Page 9 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 9 
+Element 
+Detail 
+Volume Pattern 
+Volume on the second peak rally should be lower than on the first; shows 
+diminishing bullish momentumum. 
+Reliability 
+High at key resistance; Moderate in mid-chart. 
+ 
+2.4  Double Bottom 
+The bullish mirror of the Double Top: a 'W' shape. Forms after a downtrend when price tests the 
+same support level twice and bounces both times. 
+ 
+Element 
+Detail 
+Shape 
+'W' pattern: two troughs at approximately the same price, separated by a 
+peak. 
+Prior Trend 
+Downtrend. Must have a clear bearish move before the first bottom. 
+Neckline 
+Horizontal line at the peak between the two troughs. 
+Confirmation 
+Close ABOVE the neckline. Do not buy at the second bottom; wait for 
+neckline break. 
+Measured Move 
+Height from troughs to neckline, projected UPWARD from the neckline break. 
+Second Trough 
+Second trough slightly higher than first = additional bullish sign (higher low 
+forming). 
+Instrument Example 
+GBP/USD Daily: Two troughs at 1.2450 and 1.2465. Neckline at 1.2620. 
+Height = 170 pips. Target: 1.2620 + 170 = 1.2790. 
+Reliability 
+High when at established support or Demand Zone. Add Tweezer Bottom 
+candle pattern for extra confirmation. 
+ 
+2.5  Triple Top & Triple Bottom 
+The Triple Top and Triple Bottom are extended versions of the Double Top/Bottom, testing the 
+same level three times. Less common but highly reliable when they do form: three failed attempts 
+to break a level signals extreme supply or demand. 
+ 
+Pattern 
+Type 
+Prior 
+Trend 
+Signal 
+Reliability 
+Notes & Measured Move 
+Triple Top 
+Reversal 
+Uptrend 
+Bearish: 3 
+rejections 
+at 
+resistance 
+Very High 
+Three peaks at ~same level. 
+Neckline = lowest trough. Break 
+below neckline confirms. 
+Measured move = pattern height 
+projected down. GBP/USD: 
+Three rejections at 1.2800 → 
+neckline at 1.2580.
+
+--- Page 10 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 10 
+Pattern 
+Type 
+Prior 
+Trend 
+Signal 
+Reliability 
+Notes & Measured Move 
+Triple Bottom 
+Reversal 
+Downtrend 
+Bullish: 3 
+tests of 
+support 
+Very High 
+Three troughs at ~same level. 
+Neckline = highest peak. Close 
+above neckline confirms. 
+Measured move = pattern height 
+projected up. XAU/USD: Three 
+tests of $2,000 → neckline at 
+$2,080. 
+ 
+BEST PRACTICE: Double & Triple Tops/Bottoms 
+Never enter at the second or third peak/trough. Wait for the neckline break + one candle close 
+beyondd it. The most common mistake is shorting a Double Top at the second peak without neckline 
+confirmation: price can consolidate at the highs and break out upward. The pattern only becomes a 
+confirmed Double Top when the neckline breaks. 
+ 
+ 
+Fig 2.2: Double Top, Double Bottom, Triple Top and Triple Bottom Patterns 
+2.6  Rounding Bottom (Saucer Bottom) 
+The Rounding Bottom is a slow, gradual reversal pattern that forms over weeks or months. It 
+represents a slow shift from selling pressure to buying pressure: institutions quietly accumulating 
+while retail sentiment is still bearish.
+
+--- Page 11 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 11 
+Element 
+Detail 
+Shape 
+Smooth, curved U-shape. No sharp V-reversals; the transition from selling to 
+buying is gradual. 
+Timeframe 
+Most effective on Daily and Weekly charts. Rarely tradeable below H4. 
+Volume Pattern 
+Volume decreases as price approaches the bottom, then gradually increases 
+as the saucer forms and price rises. 
+Confirmation 
+Price closes above the 'rim' (the resistance level at the start of the pattern, 
+equivalent to the neckline). 
+Measured Move 
+Height of the saucer (from rim to the deepest trough), projected upward from 
+the rim breakout. 
+Instrument Example 
+EUR/USD Weekly: Slow U-turn over 6 months. Volume increases on right 
+side as bulls regain control. 
+Reliability 
+High when confirmed on Weekly chart. Slow formation = genuine sentiment 
+shift. 
+ 
+2.7  Rounding Top 
+The mirror of the Rounding Bottom: a slow, gradual distribution pattern forming a dome-shape. 
+Price rises on decreasing volume, rounds over, then falls on increasing volume. 
+ 
+Element 
+Detail 
+Shape 
+Smooth, curved inverted U-shape (dome). Gradual transition from buying to 
+selling. 
+Volume Pattern 
+Volume declines as price rises toward the top, then increases as price rounds 
+lower. 
+Confirmation 
+Price closes below the 'rim' support level. Bearish break of the rounded 
+structure. 
+Measured Move 
+Height of the dome, projected downward from the rim breakdown. 
+Instrument Example 
+USD/JPY Weekly: Slow dome after extended uptrend. Increasing sell volume 
+on descent confirms distribution. 
+Reliability 
+High when confirmed with declining volume during ascent and a decisive rim 
+break with volume. 
+ 
+2.8  Diamond Reversal Pattern 
+The Diamond pattern is rare but highly reliable. It begins as a Broadening Formation (expanding 
+price range) then contracts into a symmetrical triangle: creating a diamond shape. It typically forms 
+at major market tops.
+
+--- Page 12 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 12 
+Element 
+Detail 
+Shape 
+Diamond / rhombus shape. Left half = widening highs and lows. Right half = 
+converging highs and lows. 
+Formation Time 
+Slow formation: typically 4–8+ weeks on Daily chart. 
+Breakout Direction 
+Bearish at tops (Diamond Top); Bullish at bottoms (Diamond Bottom: very 
+rare). 
+Confirmation 
+Close beyond the right-side trendline of the diamond. 
+Measured Move 
+Height of the widest part of the diamond, projected from the breakout point. 
+Instrument Example 
+XAU/USD Daily: Diamond top forms over 6 weeks at a major resistance zone. 
+Bearish break = strong sell signal. 
+Reliability 
+Very High when properly formed. Rarity increases its significance: institutions 
+are aware of this patternattern. 
+ 
+Fig 2.3: Rounding Bottom, Rounding Top and Diamond Pattern
+
+--- Page 13 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 13 
+  SECTION 3    Continuation Patterns 
+3. Continuation Patterns 
+ 
+Continuation patterns represent temporary consolidations or pauses within a strong trend. The 
+prevailing trend is expected to resume after the pattern completes. Volume typically contracts 
+during the formation and expands sharply on the breakout in the trend direction. 
+ 
+3.1  Flag Pattern 
+The Flag is one of the most powerful and frequently occurring continuation patterns in Forex. It 
+forms after a sharp, impulsive move (the flagpole), then consolidates in a tight rectangular channel 
+that moves slightly against the prior trend, before resuming the original direction. 
+ 
+Element 
+Detail 
+Flagpole 
+The sharp, near-vertical price move that precedes the flag. Must be impulsive, 
+not gradual. The longer and steeper the flagpole, the more powerful the 
+continuation. 
+Flag Body 
+A shallow rectangular consolidation that moves AGAINST the prior trend 
+(slight counter-trend drift). Bounded by two parallel trendlines. 
+Bull Flag 
+Flagpole is bullish (sharp up move) → Flag body drifts slightly lower → 
+Breakout continues upward. 
+Bear Flag 
+Flagpole is bearish (sharp down move) → Flag body drifts slightly higher → 
+Breakout continues downward. 
+Volume Pattern 
+High volume on flagpole. Volume contracts during flag body formation. 
+Volume expands on breakout. 
+Confirmation 
+Close beyond the upper trendline (bull flag) or lower trendline (bear flag) of 
+the flag body. 
+Measured Move 
+The flagpole height, projected from the breakout point in the trend direction. 
+Ideal Duration 
+3–20 candles on the trigger timeframe. A flag that consolidates too long loses 
+momentum. 
+Stop Loss 
+Below the flag body low (bull flag) or above the flag body high (bear flag). 
+Instrument Example 
+GBP/USD H4 Bull Flag: Sharp 200-pip bullish flagpole. Flag body pulls back 
+50 pips over 8 candles. Breakoutreakout above flag: target: flagpole distance 
+= +200 pips from breakout. 
+Reliability 
+Very High: one of the most reliable continuation patterns in trending markets. 
+ 
+3.2  Pennant Pattern 
+The Pennant is similar to the Flag but instead of a parallel rectangular channel, the consolidation 
+forms a symmetrical triangle (converging trendlines). It requires the same flagpole as the Flag.
+
+--- Page 14 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 14 
+ 
+Element 
+Detail 
+Flagpole 
+Same as Flag: sharp impulsive move preceding the consolidation. 
+Pennant Body 
+A small symmetrical triangle with converging trendlines (not parallel like a 
+Flag). Slightly smaller price range with each swing. 
+Bull Pennant 
+Upward flagpole → converging triangle → bullish breakout resumes. 
+Bear Pennant 
+Downward flagpole → converging triangle → bearish breakout resumes. 
+Volume Pattern 
+High on flagpole, contracting sharply through the pennant body, expanding on 
+breakout. 
+Duration 
+Typically shorter than a Flag: 5–15 candles. Pennants are tight, compressed 
+patterns. 
+Measured Move 
+Flagpole height projected from the pennant breakout point. 
+Key Difference from 
+Flag 
+Pennant has converging lines (triangle shape); Flag has parallel lines 
+(channel shape). 
+Instrument Example 
+USD/JPY H1 Bear Pennant: 80-pip bearish flagpole, followed by 5-candle 
+converging triangle. Bear break continues: target: 80 pips below breakout. 
+Reliability 
+Very High: particularly on H1–H4 timeframes during trending sessions. 
+ 
+FLAG vs PENNANT: Key Distinction 
+A Flag has two PARALLEL trendlines forming a rectangle/channel. A Pennant has two CONVERGING 
+trendlines forming a triangle. Both require a clear flagpole. Both have the same measured move 
+calculation (flagpole height from breakout). The Pennant tends to break out faster due to the tighter 
+price compression. 
+ 
+ 
+Fig 3.1: Bull Flag, Bear Flag, Bull Pennant and Bear Pennant
+
+--- Page 15 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 15 
+3.3  Rectangle (Range) Pattern 
+The Rectangle forms when price consolidates between two horizontal support and resistance 
+lines. It represents a period of indecision and balance. When the trend is strong, it resolves as a 
+continuation in the prior trend direction. 
+ 
+Element 
+Detail 
+Shape 
+Two parallel horizontal lines: one acting as support, one as resistance. 
+Continuation use 
+In an uptrend: bullish rectangle = price consolidates before breaking higher. In 
+a downtrend: bearish rectangle = price consolidates before breaking lower. 
+Range trading use 
+Within the rectangle, price oscillates: buy support, sell resistance. Valid until 
+the breakout occursrs. 
+Breakout direction 
+In a trend context: break in the direction of the prior trend is higher probability. 
+Requires volume confirmation. 
+Measured Move 
+Height of the rectangle projected from the breakout candle. 
+Number of touches 
+Ideally 2+ touches of both support and resistance lines. More touches = 
+better-defined rectangle. 
+Stop Loss 
+Beyond the opposite side of the rectangle from the breakout direction. 
+Instrument Example 
+EUR/USD H4: Price consolidates between 1.0800 and 1.0870 (70 pip 
+rectangle) in uptrend. Bullish break above 1.0870 targets 1.0940. 
+Reliability 
+Moderate-High in trend context. Lower if breakout direction is against the 
+trend. 
+ 
+3.4  Cup and Handle 
+The Cup and Handle is a bullish continuation pattern. The 'cup' is a rounded bottom (U-shape), 
+followed by a smaller consolidation called the 'handle', before a bullish breakout. 
+ 
+Element 
+Detail 
+Cup 
+A rounded, U-shaped correction after an uptrend. Should be smooth, not 
+sharp V-bottoms. Typically retraces 30–50% of the prior uptrend. 
+Handle 
+A smaller consolidation or downward drift after the cup rim is reached. The 
+handle should be contained within the upper 50% of the cup depth. 
+Rim Level 
+The resistance level at the top of the cup (where price previously paused 
+before the cup formed). The breakout occurs above the rim. 
+Confirmation 
+Close above the rim level after the handle forms. Volume should increase on 
+the breakout. 
+Measured Move 
+Depth of the cup projected upward from the rim breakout point. 
+Timeframe 
+Most effective on Daily and Weekly charts. Forms over weeks to months. 
+Instrument Example 
+XAU/USD Daily: Cup formation over 3 months. Handle forms over 2 weeks. 
+Rim at $2,080. Cup depth $150. Target: $2,080 + $150 = $2,230.
+
+--- Page 16 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 16 
+Element 
+Detail 
+Reliability 
+High on Daily/Weekly. Rare pattern; when properly formed, high-conviction 
+bullish signal. 
+ 
+Fig 3.2: Rectangle Continuation Pattern and Cup and Handle
+
+--- Page 17 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 17 
+  SECTION 4    Triangle Patterns 
+4. Triangle Patterns 
+ 
+Triangles are formed by converging trendlines; at least one of which must be diagonal. Price 
+makes progressively smaller swings until it is compressed into the apex, at which point a breakout 
+occurs. The direction of the breakout depends on the type of triangle and the broader trend 
+context. 
+ 
+4.1  Ascending Triangle 
+An Ascending Triangle has a flat resistance line at the top (horizontal) and a rising support 
+trendline at the bottom. Price makes equal highs but progressively higher lows: bulls are gaining 
+ground, building pressure against resistance. 
+ 
+Element 
+Detail 
+Upper line 
+Flat horizontal resistance: price tests the same level multiple times and is 
+rejected. 
+Lower line 
+Rising trendline connecting progressively higher lows; bulls stepping in earlier 
+each time. 
+Bias 
+Bullish: the pattern builds pressure against resistance. Higher probability of 
+upward breakout. 
+Confirmation 
+Close ABOVE the flat resistance line with volume surge. 
+Measured Move 
+Height of the widest part of the triangle (left edge) projected upward from the 
+breakout. 
+False Break Risk 
+Price can briefly pierce the resistance, trap bulls, then reverse. Require a full 
+candle CLOSE above resistance. 
+Reliability 
+High as a continuation pattern in an uptrend. Moderate as a standalone bottom 
+reversal. 
+Instrument 
+Example 
+EUR/USD H4: Flat resistance at 1.0900 tested 4 times. Rising lows from 1.0820 
+→ 1.0850 → 1.0870. Breakout above 1.0900 targets 1.0900 + triangle height. 
+Stop Loss 
+Below the last Higher Low inside the triangle (or below the rising trendline). 
+ 
+4.2  Descending Triangle 
+The mirror of the Ascending Triangle: flat support at the bottom with a descending resistance line 
+at the top. Bears are gaining ground, building pressure against support.
+
+--- Page 18 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 18 
+Element 
+Detail 
+Lower line 
+Flat horizontal support: price tests the same level multiple times and bounces. 
+Upper line 
+Descending trendline connecting progressively lower highs; sellers stepping in 
+earlier each time. 
+Bias 
+Bearish: pressure builds against support. Higher probability of downward 
+breakout. 
+Confirmation 
+Close BELOW the flat support line with volume surge. 
+Measured Move 
+Height of the widest part of the triangle projected downward from the 
+breakdown. 
+Reliability 
+High as continuation in a downtrend. Can also form as a top reversal pattern. 
+Instrument 
+Example 
+GBP/USD H4: Flat support at 1.2600 tested 3 times. Descending highs: 1.2720 
+→ 1.2680 → 1.2640. Break below 1.2600 targets measured distance downward. 
+Stop Loss 
+Above the last Lower High inside the triangle (or above the descending 
+trendline). 
+ 
+4.3  Symmetrical Triangle 
+The Symmetrical Triangle has both converging trendlines: a descending resistance and an 
+ascending support. This is a bilateral pattern: the breakout can go either way. The trend prior to 
+the triangle determines the higher-probability direction. 
+ 
+Element 
+Detail 
+Upper line 
+Descending trendline: lower highs. 
+Lower line 
+Ascending trendline: higher lows. 
+Bias 
+Neutral on its own. Higher probability breakout in the direction of the prior trend 
+(continuation). 
+Minimum swings 
+At least 2 touches on each trendline (4 swings total) to confirm the triangle. 
+Breakout timing 
+Usually occurs between 66–75% of the way to the apex. Breakouts near the 
+apex itself are weaker. 
+Confirmation 
+Close beyond either trendline with volume surge. Can set OCO pending orders 
+above and below. 
+Measured Move 
+Height of the widest part (left edge) of the triangle, projected from the breakout 
+point. 
+Instrument 
+Example 
+USD/JPY Daily: Price in symmetrical compression. Prior trend was bullish. 
+Bullish breakout above descending trendline. Target = left edge height projected 
+upward. 
+Reliability 
+Moderate (bilateral) → High when breakout aligns with prior trend direction. 
+Stop Loss 
+Below the breakout candle's low (bull break) or above the breakout candle's 
+high (bear break).
+
+--- Page 19 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 19 
+ 
+Fig 4.1: Ascending, Descending and Symmetrical Triangles 
+TRIANGLE COMPARISON: Quick Reference 
+Ascending: Flat top + Rising bottom → Bullish bias. Descending: Flat bottom + Falling top → Bearish 
+bias. Symmetrical: Falling top + Rising bottom → Neutral (trend-following bias). In ALL three: require 
+volume surge on breakout. All use the same measured move calculation (widest height projected from 
+breakout).
+
+--- Page 20 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 20 
+  SECTION 5    Wedge Patterns 
+5. Wedge Patterns 
+ 
+Wedges are defined by two converging trendlines that both slope in the same direction (unlike a 
+Symmetrical Triangleetrical Triangle where one slopes up and one down). The key characteristic 
+of a wedge is that price moves against the broader trend while both lines slope the same way: 
+making the eventual breakout a counter-directional move. 
+ 
+5.1  Rising Wedge 
+The Rising Wedge forms when price makes higher highs AND higher lows, but with both trendlines 
+converging upward. Despite the upward direction, this is a bearish pattern: the shrinking range 
+signals exhausting bullish momentum. 
+ 
+Element 
+Detail 
+Both lines slope 
+Upward: both resistance and support trendlines slope up. 
+Lines converging 
+The support rises faster than the resistance; squeezing price into a tightening 
+upward channel. 
+As Reversal Pattern 
+Forms after an uptrend. Price grinds higher on declining volume → exhaustion 
+→ bearish break. 
+As Continuation 
+Pattern 
+Forms during a pullback in a downtrend (counter-trend wedge). Resolves with 
+continuation of the downtrend. 
+Confirmation 
+Close BELOW the lower trendline (support). This is a bearish break despite 
+the overall upward slope. 
+Volume Pattern 
+Volume decreases as the wedge rises: a key sign of exhausting bullish 
+conviction. 
+Measured Move 
+Height of the widest part of the wedge, projected downward from the break 
+point. Alternatively: target the start of the wedge. 
+Instrument Example 
+EUR/USD H4: Rising Wedge forms over 3 days at the top of a rally. Volume 
+declining. Break below lower trendliner wedge line: target = start of wedge. 
+Stop Loss 
+Above the most recent high inside the wedge (just above the upper trendline). 
+Reliability 
+High as a reversal at market tops; High as continuation in downtrend pullback. 
+ 
+5.2  Falling Wedge 
+The Falling Wedge is the bullish mirror: price makes lower highs and lower lows, but both 
+trendlines converge downward. Despite falling, it's a bullish pattern: shrinking bearish momentum 
+signals exhaustion.
+
+--- Page 21 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 21 
+Element 
+Detail 
+Both lines slope 
+Downward: both resistance and support trendlines slope down. 
+Lines converging 
+Support falls faster than resistance; compressing price into a tightening 
+downward channel. 
+As Reversal Pattern 
+Forms after a downtrend. Price grinds lower on declining volume → 
+exhaustion → bullish break. 
+As Continuation 
+Pattern 
+Forms during a pullback in an uptrend (counter-trend wedge). Resolves with 
+continuation of the uptrend. 
+Confirmation 
+Close ABOVE the upper trendline. Bullish break despite the overall downward 
+slope. 
+Volume Pattern 
+Volume decreases as the wedge falls: classic sign of exhausting bearish 
+momentum. 
+Measured Move 
+Height of widest part, projected upward from break. Alternatively: target the 
+start of the wedge. 
+Instrument Example 
+XAU/USD H4: Falling Wedge forms after sharp decline. Volume contracting. 
+Break above upper trendline: bullish continuation or reversal target. 
+Stop Loss 
+Below the most recent low inside the wedge. 
+Reliability 
+Very High as bullish reversal at market bottoms. High as continuation in 
+uptrend pullback. 
+ 
+5.3  Wedge vs. Channel vs. Triangle: Comparison 
+Pattern 
+Trendline 
+Direction 
+Lines 
+Bias 
+Breakout Direction 
+Rising Wedge 
+Both slope UP 
+Converging 
+Bearish 
+Downward break 
+(bearish) 
+Falling Wedge 
+Both slope 
+DOWN 
+Converging 
+Bullish 
+Upward break 
+(bullish) 
+Ascending 
+Triangle 
+Flat top, rising 
+bottom 
+Converging 
+Bullish 
+Upward break 
+preferred 
+Descending 
+Triangle 
+Flat bottom, 
+falling top 
+Converging 
+Bearish 
+Downward break 
+preferred 
+Symmetrical 
+Triangle 
+One up, one 
+down 
+Converging 
+Neutral 
+Either direction 
+Bull Channel 
+Both slope UP 
+Parallel 
+Bullish (trend) 
+Upward 
+(continuation) or 
+Downward (break = 
+reversal) 
+Flag (Bull) 
+Slightly down 
+Parallel 
+Bullish 
+Upward break 
+resumes trend 
+Pennant (Bull) 
+One up, one 
+down 
+Converging 
+(small) 
+Bullish 
+Upward break 
+resumes trend
+
+--- Page 22 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 22 
+ 
+Fig 5.1: Rising Wedge (Bearish) and Falling Wedge (Bullish)
+
+--- Page 23 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 23 
+  SECTION 6    Pattern Measurement Techniques 
+6. Pattern Measurement Techniques 
+ 
+Every chart pattern has a systematic way to project the expected price move after the breakout. 
+Understanding measurement techniques is not optional: without a target, you cannot calculate 
+your risk/reward ratio, and without RR, you cannot determine position size. 
+ 
+6.1  The Measured Move (Height Projection) 
+The most universal measurement technique: calculate the height of the pattern, then project that 
+distance from the breakout point. 
+ 
+Pattern 
+How to Measure Height 
+Where to Project 
+Head & Shoulders 
+Distance from neckline to the top 
+of the Head 
+Project DOWN from neckline break point 
+Inv. Head & 
+Shoulders 
+Distance from neckline to bottom 
+of Head 
+Project UP from neckline break point 
+Double Top 
+Distance from the two peaks to 
+the neckline (valley) 
+Project DOWN from neckline break point 
+Double Bottom 
+Distance from two troughs to the 
+neckline (peak) 
+Project UP from neckline break point 
+Triple Top / Bottom 
+Same as Double Top/Bottom logic 
+Same projection direction 
+Flag / Pennant 
+Flagpole length (start to end of 
+impulse move) 
+Project in trend direction from breakout 
+candle 
+Rectangle 
+Height of the rectangle (top to 
+bottom) 
+Project from breakout in breakout direction 
+All Triangles 
+Height of the widest part (leftmost 
+edge) 
+Project from the breakout point 
+Wedge 
+Height of the widest part OR 
+project to wedge origin 
+Project from break in the breakout direction 
+Cup & Handle 
+Depth of the cup (rim to trough) 
+Project UP from the rim breakout
+
+--- Page 24 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 24 
+6.2  Worked Examples 
+ 
+Example A: EUR/USD Inverse H&S Target 
+ 
+Measurement Element 
+Value 
+Neckline Level 
+1.08500 
+Head Low 
+1.06200 
+Pattern Height 
+1.08500 − 1.06200 = 0.02300 = 230 pips 
+Neckline Break Point 
+1.08500 (same level, close above confirms) 
+Measured Move Target 
+1.08500 + 0.02300 = 1.10800 
+Stop Loss 
+Below Right Shoulder low at 1.07200 = 130 pips 
+Risk/Reward (full target) 
+230 pip target ÷ 130 pip stop = 1.77:1 RR 
+Partial TP (half target) 
+1.08500 + 0.01150 = 1.09650 = 115 pips (0.88:1; use as TP1, move SL 
+to BE) 
+ 
+Example B: GBP/USD Bull Flag Target 
+Measurement Element 
+Value 
+Flagpole Start 
+1.24200 
+Flagpole End (top of pole) 
+1.26400 
+Flagpole Height 
+1.26400 − 1.24200 = 0.02200 = 220 pips 
+Flag Body Range 
+1.25900 – 1.25500 (40 pip consolidation) 
+Breakout Level 
+Close above 1.25900 (flag upper line) 
+Measured Move Target 
+1.25900 + 0.02200 = 1.28100 
+Stop Loss 
+Below flag body low at 1.25450 = 45 pips 
+Risk/Reward 
+220 pip target ÷ 45 pip stop = 4.9:1 RR: exceptional 
+ 
+6.3  Multi-Target Approach 
+Never rely on a single measured move target. Use a tiered approach: 
+ 
+• 
+TP1: 50% of measured move distance (close half the position, move SL to breakeven) 
+• 
+TP2: 100% of measured move distance (close remaining portion) 
+• 
+TP3: 150–200% extension (only hold if trend is extremely strong and structure confirms; 
+trail stop) 
+• 
+Alternative targets: next major S/R level, round number, or Fibonacci extension at 127.2% 
+or 161.8% of pattern height
+
+--- Page 25 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 25 
+ 
+Fig 6.1: Measured Move Technique: H and S Projection and Flag Projection 
+CAUTION: Measured Moves are Targets, Not Guarantees 
+The measured move is a MINIMUM expectation, not a ceiling. In strong trends (e.g., a powerful bull 
+run),un in XAU/USD), the actual move can far exceed the measured target. Conversely, in choppy 
+markets, price may reverse well before the target. Always have a trade management plan that 
+includes partial profits at TP1 and a break-even stop: don't let a winner become a loser.
+
+--- Page 26 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 26 
+  SECTION 7    Pattern Failure Modes & False Breaks 
+7. Pattern Failure Modes & False Breaks 
+ 
+No chart pattern works 100% of the time. Understanding how and why patterns fail is as important 
+as knowing the pattern itself. Pattern failures can actually provide powerful reverse-direction 
+trading opportunities: the 'failed pattern' setup. 
+ 
+7.1  Common Failure Reasons 
+Failure Cause 
+Explanation & Prevention 
+Counter-trend pattern 
+Trading a reversal pattern against a very strong trend (e.g., trying to short 
+an H&S in a powerful Weekly uptrend). Prevention: always check higher-
+timeframe structure. 
+Low-volume breakout 
+A breakout with no volume surge: institutions are not participating. High 
+probability of false break. Prevention: require volume confirmation on every 
+breakout. 
+High-impact news event 
+A red-folder news event (NFP, CPI, FOMC) breaks through pattern 
+boundaries artificially. Prevention: check economic calendar; avoid being in 
+a pattern trade during major news. 
+Stop hunt / manipulation 
+Smart money deliberately pushes price briefly beyond a pattern boundary to 
+collect retail stops before reversing. Prevention: add a 5–10 pip buffer 
+beyond the pattern boundary for stops. 
+Premature pattern 
+Entering before the pattern fully completes. The right shoulder is still 
+forming; the flag is still formingbuilding. Prevention: wait for the confirming 
+candle close: never anticipate. 
+Incorrect pattern 
+identification 
+Forcing a pattern onto a chart where it doesn't clearly exist. Prevention: if 
+you need to squint or force it, it is not a patternjustify why a pattern 'kind of' 
+fits: it doesn't fit. Move on. 
+Neckline too steep 
+A steeply angled neckline on an H&S or Double Top reduces reliability 
+significantly. Prevention: prefer horizontal or very mildly sloped necklines. 
+ 
+7.2  The Failed Pattern Reversal Setup 
+When a well-defined pattern breaks out but immediately reverses (false break), the resulting failed 
+patternpattern trade can be more powerful than the original setup. This is because all the traders 
+who entered on the original breakout are now trapped: their stop losses fuel the move in the 
+opposite direction.
+
+--- Page 27 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 27 
+Failed Pattern 
+Setup 
+Example 
+Failed Bearish H&S 
+H&S forms, neckline breaks below, 
+then price reverses back above 
+neckline strongly. All the H&S shorts 
+are trapped → buy the re-break 
+above neckline. 
+GBP/USD: H&S neckline breaks at 
+1.2600, drops to 1.2570, then 
+surges back above 1.2600 with 
+strong bullish candle. Buy with stop 
+below 1.2570. 
+Failed Double Top 
+Double Top breaks neckline, drops 
+briefly, then reverses above 
+neckline and above the pattern 
+peaks; all the shorts are stopped out 
+and price accelerates up. 
+EUR/USD: Double Top neckline 
+break fails, price reverses above the 
+two peaks. Bull trap converted to 
+strong breakout continuation. 
+Failed Ascending 
+Triangle Breakout 
+Price breaks above flat resistance 
+(expected bullish), immediately 
+reverses back inside the triangle 
+then breaks below the rising 
+support. 
+USD/JPY: Ascending triangle 
+breakout fails above resistance, 
+price collapses below rising support; 
+trapped bulls fuel the bearish move. 
+ 
+WARNING: False Break Rules 
+A failed pattern trade should only be taken when: (1) The false break occurs and price closes back 
+insidenside the pattern, (2) A candlestick reversal signal appears on the close back inside (Engulfing, 
+Pin Bar etc.), (3) The failed break direction aligns with the higher-timeframe trend. Never fade a 
+pattern break just because the move looks stretched: wait for the confirming close back inside. 
+ 
+ 
+Fig 7.1: Pattern Failures: False Break Bull Trap and Failed H and S Bear Trap
+
+--- Page 28 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 28 
+7.3  Pattern Reliability Summary 
+Pattern 
+Direction 
+Timeframe 
+Reliability 
+Notes 
+REVERSAL PATTERNS 
+Head & Shoulders 
+Bearish 
+Daily/H4 
+Very High 
+Most reliable reversal; 
+requires clear prior uptrend 
+Inverse H&S 
+Bullish 
+Daily/H4 
+Very High 
+Mirror of H&S; volume 
+pattern key for extra 
+confirmation 
+Double Top 
+Bearish 
+Daily/H4 
+High 
+Neckline break required; 
+never short at second peak 
+alone 
+Double Bottom 
+Bullish 
+Daily/H4 
+High 
+Neckline break required; 
+second bottom slightly higher 
+= extra strength 
+Triple Top 
+Bearish 
+Daily 
+Very High 
+Three failures = extreme 
+resistance. Rare but 
+powerful. 
+Triple Bottom 
+Bullish 
+Daily 
+Very High 
+Three tests of support = 
+extreme demand. Rare but 
+powerful. 
+Rounding Bottom 
+Bullish 
+Weekly/Daily 
+High 
+Long formation = genuine 
+sentiment shift 
+Diamond Top/Bottom 
+Bearish/Bullish 
+Daily 
+Very High 
+Very rare: extreme reliability 
+when correctly identified 
+CONTINUATION PATTERNS 
+Bull/Bear Flag 
+With trend 
+H1/H4 
+Very High 
+One of most reliable 
+patterns; requires clear 
+flagpole 
+Bull/Bear Pennant 
+With trend 
+H1/H4 
+Very High 
+Slightly shorter duration than 
+flag; same measured move 
+Rectangle 
+(continuation) 
+With trend 
+H4/Daily 
+High 
+Requires clear prior trend; 
+volume breakout 
+confirmation 
+Cup and Handle 
+Bullish 
+Daily/Weekly 
+High 
+Rare; long formation; best on 
+higher timeframes 
+TRIANGLE & WEDGE PATTERNS 
+Ascending Triangle 
+Bullish bias 
+H4/Daily 
+High 
+Flat top + rising lows; break 
+above flat resistance 
+Descending Triangle 
+Bearish bias 
+H4/Daily 
+High 
+Flat bottom + falling highs; 
+break below flat support 
+Symmetrical Triangle 
+Bilateral 
+H4/Daily 
+Moderate-
+High 
+Trend-following breakout 
+preferred; both directions 
+possible
+
+--- Page 29 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 29 
+Pattern 
+Direction 
+Timeframe 
+Reliability 
+Notes 
+Rising Wedge 
+Bearish 
+H4/Daily 
+High 
+Both lines up but converging; 
+bearish break 
+Falling Wedge 
+Bullish 
+H4/Daily 
+Very High 
+Both lines down but 
+converging; bullish break
+
+--- Page 30 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 30 
+  SECTION 8    Chart Pattern + Candlestick Confluence 
+8. Chart Pattern + Candlestick Confluence 
+ 
+Combining the chart patterns from this module with the candlestick patterns from Module 2 creates 
+a powerful two-layer confirmation system. A chart pattern defines WHERE to look for a trade; a 
+candlestick pattern at the breakout level tells you WHEN to enter. 
+ 
+8.1  Entry Timing with Candlestick Confirmation 
+The standard two-step approach for pattern + candlestick confluence trading: 
+ 
+• 
+STEP 1: Identify and validate the chart pattern (confirmed complete, with measured move 
+calculated) 
+• 
+STEP 2: Wait for price to reach the breakout level (neckline, flag trendline, triangle 
+boundary) 
+• 
+STEP 3: Look for a confirming candlestick signal AT that level before entering 
+• 
+STEP 4: Enter on the candle close, place stop beyond the pattern structure, target the 
+measured move 
+ 
+8.2  Optimal Candlestick-Pattern Pairings 
+Chart Pattern 
+At What Level 
+Best Confirming 
+Candle 
+Instrument Example 
+REVERSAL PATTERNS + CANDLESTICK SIGNALS 
+H&S Neckline Break 
+Neckline support breaks 
+Bearish Engulfing or 
+Bearish Marubozu on 
+neckline break 
+GBP/USD: H&S neckline 
+at 1.2600 breaks with 
+large red Marubozu 
+H&S Neckline Retest 
+Neckline retested as 
+resistance 
+Evening Star or 
+Bearish Engulfing on 
+retest 
+EUR/USD: Neckline 
+retest produces 3-candle 
+Evening Star → short 
+entry 
+Inv. H&S Neckline 
+Break 
+Neckline resistance 
+breaks 
+Bullish Engulfing or 
+Bullish Marubozu on 
+neckline break 
+EUR/USD: IH&S neckline 
+break; large bullish engulf 
+confirms 
+Double Bottom 
+Neckline 
+Neckline breaks upward 
+Morning Star or 
+Bullish Engulfing at 
+neckline 
+GBP/USD: Double 
+Bottom neckline; Morning 
+Star confirms bullish 
+break 
+Double Top Right 
+Peak 
+At right peak (second 
+peak) 
+Shooting Star or 
+Evening Doji Star at 
+right peak 
+USD/JPY: Shooting Star 
+at the exact level of 
+second Double Top peak
+
+--- Page 31 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 31 
+Chart Pattern 
+At What Level 
+Best Confirming 
+Candle 
+Instrument Example 
+Rounding Bottom Rim 
+At rim breakout level 
+Bullish Engulfing or 
+Three White Soldiers 
+at rim 
+XAU/USD: Three White 
+Soldiers at saucer rim = 
+powerful breakout 
+confirmation 
+CONTINUATION PATTERNS + CANDLESTICK SIGNALS 
+Bull Flag Upper Line 
+At flag upper trendline 
+Bullish Engulfing or 
+Marubozu on break 
+GBP/USD H4: Large 
+bullish Marubozu closes 
+above flag upper line 
+Bear Flag Lower Line 
+At flag lower trendline 
+Bearish Engulfing or 
+Marubozu on break 
+EUR/USD H4: Bearish 
+Marubozu closes below 
+bear flag lower line 
+Pennant Apex Break 
+At pennant trendline 
+Any large momentum 
+candle in trend 
+direction 
+USD/JPY H1: Large bull 
+candle closes above 
+pennant; measured move 
+begins 
+TRIANGLE/WEDGE + CANDLESTICK SIGNALS 
+Ascending Triangle 
+Flat Top 
+At flat resistance 
+Bullish Engulfing or 
+Three Outside Up 
+EUR/USD: Three Outside 
+Up pattern at flat 
+resistance → confirm 
+break 
+Descending Triangle 
+Flat Bottom 
+At flat support 
+Bearish Engulfing or 
+Three Black Crows 
+GBP/USD: Three Black 
+Crows forms at flat 
+support → bearish break 
+Rising Wedge Lower 
+Trendline 
+At support trendline 
+break 
+Bearish Engulfing 
+below support 
+trendline 
+XAU/USD: Bearish 
+Engulfing closes below 
+rising wedge support → 
+short 
+Falling Wedge Upper 
+Trendline 
+At resistance trendline 
+break 
+Bullish Engulfing 
+above resistance 
+trendline 
+USD/JPY: Bull Engulfing 
+closes above falling 
+wedge resistance → long
+
+--- Page 32 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 32 
+ 
+Fig 8.1: Chart Pattern and Candlestick Confluence: Three High-Probability Entry Examples 
+BEST PRACTICE: Three-Layer Confluence 
+The highest-probability entries in chart pattern trading combine three layers: (1) Chart Pattern (e.g., 
+Inverse H&S), (2) Candlestick Signal (e.g., Bullish Engulfing on neckline retest), (3) Market Structure 
+(e.g., Daily Higher Low forming). When all three align, the trade has institutional-grade confluence: 
+these are the setups worth sizing up on.
+
+--- Page 33 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 33 
+  SECTION 9    Multi-Timeframe Pattern Analysis 
+9. Multi-Timeframe Pattern Analysis 
+ 
+Chart patterns exist on all timeframes simultaneously. A pattern on a higher timeframe carries 
+more weight but provides a less precise entry. A pattern on a lower timeframe offers precision but 
+is less reliable. The most powerful approach combines both: using higher-timeframe patterns for 
+context and lower-timeframe patterns for entry. 
+ 
+9.1  Timeframe Hierarchy for Pattern Trading 
+Timeframe 
+Pattern Role 
+What to Look For 
+Instruments 
+Monthly / 
+Weekly 
+Macro context 
+Major H&S, Double Tops/Bottoms 
+spanning months. These define the 
+macro trend phase. Rarely traded 
+directly. 
+All 4 pairs; check for major 
+reversal zones 
+Daily 
+Primary signal 
+Main pattern identification. H&S, 
+IH&S, Wedges, Rectangles. Risk 
+defined by daily ATR. 
+EUR/USD, GBP/USD primary 
+H4 
+Intermediate 
+signal 
+Flags, Pennants, Triangles within 
+the daily trend. Refines Daily pattern 
+entry zones. 
+GBP/USD, USD/JPY 
+H1 
+Entry trigger 
+Small flags, triangles, pennants for 
+precise entry timing. Candlestick 
+confirmation at H4/Daily levels. 
+XAU/USD, EUR/USD 
+ 
+9.2  The Pattern Within a Pattern Approach 
+This is one of the most powerful advanced techniques in chart pattern trading: using a smaller 
+continuation pattern to enter a larger reversal pattern at optimal risk/reward. 
+ 
+Scenario 
+Larger Pattern (Daily) 
+Smaller Entry Pattern (H4/H1) 
+Inv. H&S + Bull Flag 
+EUR/USD Daily: IH&S neckline 
+break in progress 
+H4: After neckline break, a Bull Flag 
+forms. Enter on flag breakout 
+instead of chasing the initial 
+neckline break. Better RR. 
+H&S + Bear Pennant 
+GBP/USD Daily: H&S neckline 
+broken, sharp initial fall 
+H4: Bear Pennant forms during the 
+first pullback. Enter the pennant 
+break for continuation. Measured 
+move adds to H&S target. 
+Double Bottom + 
+Ascending Triangle 
+USD/JPY Daily: Double Bottom 
+neckline about to break 
+H4: An Ascending Triangle forms 
+just below the neckline. The triangle
+
+--- Page 34 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 34 
+Scenario 
+Larger Pattern (Daily) 
+Smaller Entry Pattern (H4/H1) 
+break and the neckline break occur 
+simultaneously: double confirmation. 
+Rising Wedge + 
+Rectangle Top 
+XAU/USD Daily: Rising Wedge at 
+major resistance 
+H4: A small Rectangle forms inside 
+the wedge just below resistance. 
+Rectangle break DOWN triggers the 
+entrye wedge breakdown: entry with 
+tight stop. 
+ 
+9.3  Multi-Timeframe Pattern Checklist 
+• 
+Have I identified the pattern on the HIGHEST relevant timeframe first? 
+• 
+Does the lower-timeframe entry pattern align with the higher-timeframe context? 
+• 
+Am I using the higher-TF pattern for targets and the lower-TF for entry precision? 
+• 
+Is the measured move from the higher-TF pattern large enough to justify the lower-TF entry 
+risk? 
+• 
+Have I confirmed that no higher-TF pattern is opposing my trade direction? 
+ 
+CAUTION: Conflicting Patterns 
+It is possible for a bullish pattern to exist on H4 while a bearish pattern is forming on the Daily chart. In 
+this case, ALWAYS defer to the higher timeframe. A bullish H4 Flag within a Daily H&S right shoulder 
+means the H4 flag breakout is into the teeth of a much larger bearish pattern: trade with caution or 
+skip the trade entirely.
+
+--- Page 35 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 35 
+  SECTION 10    Sample Trade Setup 
+10. Sample Trade Setup: EUR/USD Long (Inverse H&S) 
+ 
+This setup demonstrates a complete Inverse Head and Shoulders trade on EUR/USD, combining 
+chart pattern analysis with candlestick confirmation, market structure, and precise position sizing. 
+All decisions traceable to concepts covered in Modules 2 and 3. 
+ 
+10.1  Multi-Timeframe Context 
+Timeframe 
+Analysis 
+Weekly 
+EUR/USD in a long-term downtrend on Weekly (LH → LL sequence). However, 
+price has reached a major multi-month Demand Zone (1.0580–1.0640). Weekly 
+bias: cautiously bullish reversal watch. 
+Daily 
+Inverse H&S pattern forming over 8 weeks. Left Shoulder at 1.0650, Head at 
+1.0580 (deepest low), Right Shoulder at 1.0640 (Higher Low than Head). Neckline 
+at 1.0850. 
+H4 
+After the Right Shoulder forms, price consolidates in a tight Bull Flag (4 candles, 
+30-pip range). This is the pattern within a pattern: H4 Bull Flag inside the larger 
+IH&S. 
+Market Structure 
+Daily chart shows CHoCH: the first Higher Low has formed (Right Shoulder > 
+Head). Waiting for neckline break to confirm full structural reversal. 
+Key Level 
+Neckline at 1.0850 coincides with a Demand-turned-Supply-turned-Demand flip 
+zone from 6 weeks ago. 
+ 
+10.2  Pattern Confirmation 
+Confirmation Layer 
+Detail 
+IH&S Structure 
+Left Shoulder (1.0650), Head (1.0580: lowest point), Right Shoulder 
+(1.0640: Higher Low). Neckline: 1.0850. 
+Volume Pattern 
+Volume on Right Shoulder rally is lower than Left Shoulder: classic IH&S 
+volume signature. Bullish momentum building quietly. 
+H4 Bull Flag 
+4-candle Bull Flag: 80-pip flagpole (Right Shoulder rally from 1.0640 to 
+1.0820), followed by 3-candle pullback to 1.0790. Flag range = 30 pips. 
+Breakout Candle 
+H4 candle closes at 1.0824; above the flag upper trendline. Bullish 
+Marubozu (no upper wick). Volume 75% above 20-period average. 
+Neckline Proximity 
+Flag breakout at 1.0824 is 26 pips below the IH&S neckline (1.0850). Price 
+now approaching neckline with momentum. 
+Additional Confluence 
+Daily Demand Zone 1.0580–1.0640 held as the Head. Weekly structure 
+support. Round number at 1.0800 held as minor support.
+
+--- Page 36 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 36 
+10.3  Full Trade Plan 
+Trade Element 
+Detail 
+Instrument 
+EUR/USD 
+Direction 
+LONG (Buy) 
+Pattern 
+Inverse Head and Shoulders (Daily) + Bull Flag (H4) entry 
+Entry Method 
+Buy Limit at 1.08000: entering on the minor pullback after the flag break, 
+just above the round number 
+Alternatively 
+Market order on the neckline close above 1.0850 (second entry 
+opportunity after IH&S neckline break) 
+Stop Loss 
+1.07700: below the Bull Flag body low (1.0790) with 9-pip buffer = 30 
+pips 
+Take Profit 1 (TP1) 
+1.0850: IH&S neckline (major resistance level) = 50 pips (1.67:1 RR) 
+Take Profit 2 (TP2) 
+IH&S Measured Move: Neckline (1.0850) + Head depth (1.0850 − 1.0580 
+= 270 pips) = 1.1120 = 320 pips from entry (10.67:1 RR) 
+TP2 Adjusted 
+Conservative: target 1.0850 + 135 pips (50% of measured move) = 
+1.0985 = 185 pips from entry (6.17:1 RR) 
+Account Size 
+$5,000 
+Risk Per Trade 
+1% = $50 
+Position Size 
+$50 ÷ (30 pips × $10/pip) = 0.17 lots → use 0.15 lots 
+Actual $ Risk 
+30 pips × $1.50/pip (0.15 lots) = $45 
+Trade Management 
+At TP1 (1.0850): Close 50% (0.075 lots), move SL to breakeven (1.0800). 
+Let remainder run to TP2 (1.0985). 
+Invalidation 
+H4 candle close below 1.0780 (below the Head of the H4 Bull Flag) = 
+pattern invalidated. Exit immediately. 
+News Check 
+Check for ECB rate decisions or US CPI within 48 hours. Plan to close 
+before or be prepared for gap risk. 
+Confluence Summary 
+IH&S (Daily) + Bull Flag (H4) + Daily Demand Zone + Market Structure 
+CHoCH + Volume confirmation + Round number support 
+ 
+GOOD PRACTICE: Pattern Within Pattern 
+Entering on the H4 Bull Flag (instead of waiting for the daily neckline break) provides a significantly 
+better entry price and tighter stop: improving the overall RR from the full IH&S setup. The flag is a 
+lower-risk entry mechanism into the larger reversal pattern. However, be aware: if the neckline breaks 
+upward, a second entry at the neckline retest (if it occurs) is equally valid and even higher-conviction.
+
+--- Page 37 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 37 
+  SECTION 11    Pre-Trade Checklist: Chart Patterns Edition 
+11. Pre-Trade Checklist: Chart Patterns Edition 
+ 
+This checklist builds on Modules 1 and 2, adding chart pattern-specific verification before entry. 
+Complete every applicable item before committing to a pattern-based trade. 
+ 
+ 
+CHART PATTERNS PRE-TRADE CHECKLIST 
+1. Pattern Identification 
+[ ] 
+I have named the specific chart pattern (write it: ____________) and confirmed it is complete, 
+not incompletestill forming 
+[ ] 
+The pattern has at least the minimum required touches on each trendline / level (e.g., 2 peaks 
+for Double Top, 3 swings for Triangle) 
+[ ] 
+The pattern has formed on H4 or higher timeframe (patterns below H4 require extra confluence) 
+[ ] 
+The pattern type matches the prior trend: Reversal patterns need a clear prior trend; 
+Continuation patterns need a clear trend 
+2. Neckline / Breakout Level 
+[ ] 
+I have drawn the neckline or breakout trendline clearly and know the exact price of confirmation 
+[ ] 
+A candle has CLOSED beyond the neckline/boundary: not just a wick pierce, confirming the 
+pattern 
+[ ] 
+Volume on the breakout candle is above the 20-period average: confirming institutional 
+participationn 
+[ ] 
+If entering on a retest: a candlestick reversal signal (Engulfing, Star, Hammer) has confirmed at 
+the retest level 
+3. Measured Move & Risk/Reward 
+[ ] 
+I have calculated the pattern height and projected the measured move target 
+[ ] 
+Measured move target: _______  |  Stop Loss: _______  |  RR Ratio: _______  (minimum 1.5:1) 
+[ ] 
+I have identified TP1 (50% of measured move) and TP2 (full measured move) levels 
+[ ] 
+I have checked whether the measured move target aligns with or is blocked by a major S/R level 
+or Supply/Demand Zone 
+4. Multi-Timeframe Alignment 
+[ ] 
+The higher-timeframe (Weekly/Daily) trend or structure supports the pattern's breakout direction 
+[ ] 
+No conflicting pattern on the higher timeframe is pointing in the opposite direction of my trade 
+[ ] 
+Market structure on the Daily chart aligns with the pattern signal (e.g., CHoCH forming for 
+reversal patterns) 
+5. Candlestick + Pattern Confluence 
+[ ] 
+A candlestick pattern (from Module 2) confirms the breakout or retest at the pattern boundary 
+[ ] 
+The confirming candle's body-to-range ratio is at least 50%; showing conviction, not indecision
+
+--- Page 38 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 38 
+ 
+CHART PATTERNS PRE-TRADE CHECKLIST 
+6. Risk Management 
+[ ] 
+Stop loss is placed beyond the pattern structure: not inside it: with a 5–10 pip buffer 
+[ ] 
+Position size calculated based on 1–2% account risk to the stop loss level 
+[ ] 
+Economic calendar checked: no red-folder event within 4 hours 
+[ ] 
+Trade management plan is written: when to take TP1, when to move SL to BE, when to trail stop
+
+--- Page 39 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 39 
+  SECTION 12    Practice Exercises 
+12. Practice Exercises 
+ 
+Exercise 1: Pattern Identification & Classification 
+Name the chart pattern described and classify it (Reversal / Continuation / Bilateral): 
+ 
+1. EUR/USD Daily: Price in a strong uptrend, then forms two peaks at 1.0950 and 1.0945, 
+with a valley at 1.0880 between them. Pattern: ___________  Type: ___________ 
+2. GBP/USD H4: After a sharp 180-pip bearish move, price consolidates in a tight 25-pip 
+range drifting slightly upward over 6 candles, bounded by two slightly rising parallel 
+trendlines. Pattern: ___________  Type: ___________ 
+3. USD/JPY Daily: Price has lower highs and lower lows but with both trendlines converging 
+downward. Both support and resistance are declining in the same direction. Pattern: 
+___________  Breakout bias: ___________ 
+4. XAU/USD Daily: After a downtrend, price forms a trough at $2,020, rallies to $2,100, drops 
+back to $2,025 (slightly above first trough), then breaks above $2,100. Pattern: 
+___________  Type: ___________ 
+5. EUR/USD Weekly: Over 4 months, price forms lower highs flanking a central extreme low, 
+with two roughly similar-height peaks on either side of the extreme low. Pattern: 
+___________  Expected direction after neckline break: ___________ 
+6. GBP/USD H4: Price in uptrend. Forms flat resistance at 1.2700 (tested 4 times) with rising 
+lows (1.2630 → 1.2650 → 1.2670). Pattern: ___________  Type: ___________ 
+ 
+Exercise 2: Measured Move Calculations 
+Calculate the measured move target for each scenario: 
+ 
+7. H&S on GBP/USD Daily: Head high = 1.2900. Neckline = 1.2650. Neckline breaks 
+downward. What is the measured move target? 
+◦ 
+Pattern height: 1.2900 − 1.2650 = _______ pips 
+◦ 
+Target: 1.2650 − _______ pips = _______ 
+8. Ascending Triangle on EUR/USD H4: Flat resistance at 1.0920. Widest triangle height (left 
+edge) = 90 pips. Breakout above 1.0920. Target: _______ 
+9. Bull Flag on USD/JPY H1: Flagpole from 148.50 → 150.30 (180 pips). Flag body from 
+149.90–149.50. Breakout above 149.90. Target: _______ 
+10. Double Bottom on XAU/USD Daily: Two troughs at $2,020. Neckline (peak between 
+troughs) at $2,095. Neckline breaks upward. Target: _______ 
+ 
+Exercise 3: Chart Analysis on Live Charts
+
+--- Page 40 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 40 
+Open a live EUR/USD Daily chart and a GBP/USD H4 chart. For each chart: 
+ 
+11. Identify one pattern that has either completed or is in the process of completing. Name it. 
+12. Draw the neckline or boundary trendline(s) on the chart. 
+13. Mark the confirmation price (where you would enter). 
+14. Mark the measured move target. 
+15. Mark your stop loss placement with reasoning (e.g., 'below right shoulder low'). 
+16. State the candlestick pattern you would need to see for additional confirmation. 
+17. Calculate the RR ratio for the setup. 
+ 
+Exercise 4: Pattern Failure Trade Setup 
+Using the failed pattern concept from Section 7, document a hypothetical failed pattern setup on 
+USD/JPY H4: 
+ 
+Original Pattern: _______  |  Expected Breakout Direction: _______ 
+False Break Level: _______  |  False Break Candle Type: _______ 
+Confirmation of Failure (reversal signal): _______ 
+Failed Pattern Trade Direction: _______  |  Entry: _______ 
+Stop Loss: _______ (reasoning: _______________________) 
+Target: _______  |  RR: _______ 
+Why is this a valid trade setup? 
+_______________________________________________________
+
+--- Page 41 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 41 
+  SECTION 13    Module Quiz 
+13. Module 3 Quiz: 15 Questions 
+ 
+Circle the correct answer. Check your answers in the Answer Key on the final page. 
+Q1. An Inverse Head and Shoulders pattern forms on EUR/USD Daily. Where is the 
+measured move target projected FROM? 
+A) From the Head (the lowest point) downward 
+B) From the neckline break point upward, by the height of the Head below the neckline 
+C) From the Right Shoulder low upward 
+D) From the Left Shoulder high upward 
+ 
+Q2. A Double Top forms on USD/JPY H4. When is the correct time to enter a short trade? 
+A) At the second peak, as soon as it forms at the same level as the first peak 
+B) Immediately after the first peak: anticipate the second peak 
+C) After price closes BELOW the neckline (the valley between the two peaks) 
+D) After the second peak forms a Doji: no neckline break required 
+ 
+Q3. A Bull Flag on GBP/USD H4 has a flagpole from 1.2400 to 1.2600 (200 pips). The flag 
+body consolidates between 1.2540 and 1.2570. Breakout above 1.2570. What is the 
+measured move target? 
+A) 1.2770 
+B) 1.2670 
+C) 1.2600 (top of flagpole) 
+D) 1.2740 
+ 
+Q4. A Symmetrical Triangle forms on EUR/USD H4 after a strong uptrend. The prior trend 
+was bullish. Which direction is the higher-probability breakout? 
+A) Downward: symmetrical triangles always break down 
+B) Upward: the prior bullish trend makes an upward break more probable 
+C) The triangle must be treated as a reversal pattern 
+D) Either direction equally: do not trade symmetrical triangles 
+ 
+Q5. What is the key structural difference between a Rising Wedge and a Bull Flag? 
+A) A Rising Wedge has parallel trendlines; a Bull Flag has converging trendlines 
+B) A Rising Wedge has converging trendlines and is BEARISH despite rising; a Bull Flag has 
+parallel trendlines and is a bullish continuation 
+C) A Rising Wedge is a continuation pattern; a Bull Flag is a reversal pattern 
+D) There is no meaningful difference between the two patterns
+
+--- Page 42 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 42 
+Q6. A Head and Shoulders pattern forms on GBP/USD Daily. Volume on the Right Shoulder 
+rally is significantly higher than on the Left Shoulder. How does this affect the pattern? 
+A) It makes the pattern more reliable: high volume confirms the right shoulder 
+B) It reduces reliability; the right shoulder should ideally have LOWER volume than the left 
+shoulder, showing fading bullish momentum 
+C) Volume is irrelevant to the reliability of an H&S pattern 
+D) High volume on the right shoulder confirms the pattern has already failed 
+ 
+Q7. An Ascending Triangle on USD/JPY breaks above the flat resistance line with a very 
+small candle and below-average volume. What should you do? 
+A) Enter long immediately: an ascending triangle always breaks upward 
+B) Be cautious; low volume on the break suggests a potential false break; wait for a second 
+confirming candle or volume surge 
+C) Enter short: the ascending triangle is about to reverse 
+D) Place a stop buy order above the small candle's high to catch the continuation 
+ 
+Q8. On XAU/USD Daily, a Rounding Bottom 'saucer' completes its U-shape. Which event 
+CONFIRMS the pattern and triggers a buy? 
+A) Price reaching the centre of the saucer (the lowest point) 
+B) Price closing back to where it started the saucer (the left edge) 
+C) Price closing ABOVE the 'rim' level (the resistance at the top of the saucer) 
+D) Volume reaching its lowest point during the saucer formation 
+ 
+Q9. EUR/USD forms a Bearish Head & Shoulders. Neckline breaks downward. Price then 
+rallies back up to the neckline from below. What is the ideal action? 
+A) Close the trade: the breakdown has failed 
+B) Add to the short position; the neckline retest is a second, lower-risk entry opportunity. Look 
+for a bearish candle at the neckline. 
+C) This invalidates the H&S pattern entirely 
+D) Buy the retest: price returning to the neckline means the pattern is reversing 
+ 
+Q10. A Falling Wedge forms on GBP/USD H4. Both trendlines slope downward and 
+converge. What is the expected breakout direction? 
+A) Downward: the pattern is falling 
+B) Upward: the Falling Wedge is a bullish pattern regardless of its downward slope 
+C) Sideways: converging patterns never produce directional moves 
+D) Downward only if in a downtrend; upward only if in an uptrend
+
+--- Page 43 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 43 
+Q11. A Diamond Top pattern forms on EUR/USD Daily at a major resistance zone. How is 
+the measured move calculated? 
+A) From the neckline to the highest point of the diamond, projected upward 
+B) From the breakout point, projecting the height of the narrowest part of the diamond 
+C) From the breakout point downward, projecting the height of the WIDEST part of the 
+diamond 
+D) Diamond patterns do not have a measured move; exit on the next resistance level 
+ 
+Q12. Which of the following is a FALSE statement about chart pattern confirmation? 
+A) Require a candle CLOSE beyond the pattern boundary, not just a wick 
+B) Volume should increase on the breakout candle for higher reliability 
+C) A wick pierce of the neckline on an H&S is sufficient confirmation; you can enter when the 
+wick touches 
+D) Waiting for a retest of the broken neckline provides a second, lower-risk entry 
+ 
+Q13. A Bull Pennant forms on USD/JPY H1 after a 100-pip bullish flagpole. The pennant 
+breaks upward. What is the approximate measured move target? 
+A) 50 pips above the breakout 
+B) 100 pips above the breakout (flagpole height) 
+C) 200 pips above the breakout 
+D) The height of the pennant itself (not the flagpole) 
+ 
+Q14. When a well-formed pattern fails (false break), what does the trapped-traders dynamic 
+mean for the opposite direction? 
+A) The pattern should be completely ignored; false breaks mean the analysis was wrong 
+B) Traders who entered the false break direction now have stop losses that will fuel the move 
+in the opposite directionposite direction: the 'failed pattern' can produce a powerful reversal 
+move 
+C) False breaks indicate the market is choppy; do not trade in either direction 
+D) The market maker is deliberately preventing the pattern from working: report to the broker 
+ 
+Q15. EUR/USD forms an Inverse H&S on the Daily chart. Before the neckline breaks, H4 
+shows a small Ascending Triangle forming just below the neckline. What does this 
+combination represent? 
+A) A conflict: the Ascending Triangle cancels out the IH&S signal 
+B) A pattern within a pattern; using the H4 Ascending Triangle breakout as a lower-risk entry 
+into the larger Daily IH&S setup 
+C) The IH&S is invalid if there is a smaller pattern forming inside it 
+D) Wait for both patterns to break at the exact same time before entering
+
+--- Page 44 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 44 
+Quiz Answer Key 
+ 
+Q 
+Answer 
+Explanation 
+Q1 
+B 
+IH&S measured move: neckline level PLUS the height from neckline to Head (the 
+deepest trough). Projected upward from the neckline break point. 
+Q2 
+C 
+Never short at the second peak: this is a common mistake. The Double Top is only 
+confirmed when price closes BELOW the neckline (valley between the peaks). 
+Q3 
+A 
+Flagpole = 200 pips. Breakout at 1.2570. Target = 1.2570 + 0.0200 = 1.2770. 
+Q4 
+B 
+The Symmetrical Triangle is bilateral but the prior trend context gives a directional 
+edge. After a strong uptrend, an upward break is the higher-probability outcome. 
+Q5 
+B 
+Rising Wedge: both trendlines slope UP with converging lines; bearish pattern. 
+Bull Flag: parallel lines with a slight downward drift: bullish continuation. Opposite 
+signals despite both 'going up'. 
+Q6 
+B 
+In a valid H&S, the right shoulder rally should show DECLINING volume versus 
+the left shoulder; confirming that bullish momentum is fading. High volume on the 
+right shoulder is a bearish signal for the pattern's reliability. 
+Q7 
+B 
+Low-volume breakouts on any pattern are suspicious. Wait for a second 
+confirming candle or volume surge. The ascending triangle can still resolve 
+upward: but don't chase a weak, low-conviction break. 
+Q8 
+C 
+The Rounding Bottom is confirmed when price closes ABOVE the rim level: the 
+resistance at the beginning of the saucer. This is the official trigger, equivalent to a 
+neckline break. 
+Q9 
+B 
+A neckline retest is one of the most powerful entry setups in pattern trading. All the 
+traders who bought the retest hoping the break had failed are now trapped: their 
+stops fuel the continuation. Enter short at the retest with a bearish candle 
+confirmation. 
+Q10 
+B 
+Falling Wedge is always a bullish pattern: regardless of direction. Both trendlines 
+fall but converge, and the breakout is upward. Counter-intuitive but consistent. 
+Q11 
+C 
+Diamond pattern: measure the HEIGHT of the WIDEST part of the diamond. 
+Project that distance DOWNWARD (for Diamond Top) from the breakout point. 
+Q12 
+C 
+A wick pierce of the neckline is NOT sufficient confirmation. Only a full candle 
+CLOSE beyond the boundary counts. Wicks penetrating the neckline are common 
+noise: requiring a close prevents false entries. 
+Q13 
+B 
+Pennant measured move = flagpole height projected from the breakout. Flagpole = 
+100 pips → target = 100 pips above the pennant breakout point. 
+Q14 
+B 
+The failed pattern trade is a professional-level strategy. Traders entering the false 
+break now have stops on the other side: those stops become fuel for the opposite 
+move. The failure itself becomes the signal. 
+Q15 
+B 
+Pattern within a pattern is an advanced multi-timeframe technique. The H4 
+Ascending Triangle provides a lower-risk, tighter-stop entry into the bigger Daily 
+IH&S move: combining precision with the larger context.
+
+--- Page 45 ---
+FOREX MARKET ANALYSIS — COMPLETE STUDY PROGRAM 
+Module 3: Chart Patterns 
+© Forex Study Program  |  Module 3 — Chart Patterns 
+Page 45 
+MODULE COMPLETION: Chart Patterns 
+Congratulations on completing Module 3: Chart Patterns! 
+Recommended score before proceeding: 12/15 or higher. 
+If you scored below 10/15, revisit Sections 2–5 (pattern library) and Section 6 (measurement 
+techniques). 
+Modules 2 and 3 together form the Price Action foundation for Module 4 (ICT Concepts): the 
+deepestmodule in this program. 
+Next: Module 4: ICT Concepts (Smart Money, Order Blocks, Fair Value Gaps, Liquidity, Kill Zones) 
+ 
+Next: Module 4: ICT Concepts (Deep Focus) 
+Forex Market Analysis: Complete Study Program  |  Module 3 of 7
