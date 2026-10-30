@@ -4,7 +4,8 @@ from typing import Callable
 
 import pandas as pd
 
-from analysis.smc_patterns import find_fair_value_gaps
+from analysis.market_structure import analyse_structure
+from analysis.smc_patterns import analyze_market_context
 from analysis.top_down import TopDownAnalyzer
 from strategy.models import SourcePassage, StrategyDecision
 
@@ -26,7 +27,6 @@ class StrategyEngine:
         self,
         source_search: Callable | None = None,
     ):
-        # Injection makes the evaluator independently testable.
         self.source_search = source_search
 
     def evaluate(
@@ -45,93 +45,84 @@ class StrategyEngine:
 
         fundamental_bias = str(fundamental_bias).strip().lower()
         if fundamental_bias not in VALID_DIRECTIONS:
-            raise ValueError(
-                "fundamental_bias must be bullish, bearish or neutral."
-            )
+            raise ValueError("fundamental_bias must be bullish, bearish or neutral.")
 
         required = {"open", "high", "low", "close"}
         for timeframe, dataframe in datasets.items():
             if not isinstance(dataframe, pd.DataFrame):
-                raise ValueError(
-                    f"Dataset for {timeframe} must be a pandas DataFrame."
-                )
+                raise ValueError(f"Dataset for {timeframe} must be a pandas DataFrame.")
             if dataframe.empty:
                 raise ValueError(f"Dataset for {timeframe} is empty.")
             missing = required - set(dataframe.columns)
             if missing:
                 raise ValueError(
-                    f"Dataset for {timeframe} is missing columns: "
-                    f"{sorted(missing)}"
+                    f"Dataset for {timeframe} is missing columns: {sorted(missing)}"
                 )
 
         if execution_timeframe is None:
             execution_timeframe = list(datasets)[-1]
         if execution_timeframe not in datasets:
-            raise ValueError(
-                f"Unknown execution timeframe: {execution_timeframe}"
-            )
+            raise ValueError(f"Unknown execution timeframe: {execution_timeframe}")
 
         top_down = TopDownAnalyzer().analyse(datasets)
         alignment = str(top_down.alignment).lower()
-        trends = {
-            str(item.timeframe): str(item.trend).lower()
-            for item in top_down.analyses
-        }
+        trends = {str(item.timeframe): str(item.trend).lower() for item in top_down.analyses}
 
         direction = alignment if alignment in {"bullish", "bearish"} else "neutral"
         reasons = []
-        score = sum(
-            1 for trend in trends.values()
-            if direction != "neutral" and trend == direction
-        )
+        score = sum(1 for trend in trends.values() if direction != "neutral" and trend == direction)
 
         for timeframe, trend in trends.items():
             reasons.append(f"{timeframe} market structure: {trend}.")
 
         if direction == "neutral":
-            reasons.append(
-                "No clear directional top-down alignment; "
-                "a directional candidate is not justified."
-            )
+            reasons.append("No clear directional top-down alignment; a directional candidate is not justified.")
         else:
-            reasons.append(
-                f"Top-down alignment is {direction}."
-            )
+            reasons.append(f"Top-down alignment is {direction}.")
 
         dataframe = datasets[execution_timeframe]
-        gaps = find_fair_value_gaps(dataframe)
-        latest_gap = gaps[-1] if gaps else None
-        gap_summary = None
+        market_context = analyze_market_context(dataframe, execution_timeframe)
 
-        if latest_gap is None:
-            reasons.append(
-                f"No fair value gap was detected on {execution_timeframe}."
-            )
-        else:
-            age = max(
-                0,
-                len(dataframe) - 1 - int(latest_gap.index),
-            )
-            gap_summary = {
-                "index": int(latest_gap.index),
-                "direction": str(latest_gap.direction),
-                "lower": float(latest_gap.lower),
-                "upper": float(latest_gap.upper),
-                "age_candles": age,
-                "timeframe": execution_timeframe,
-            }
+        session_reason = (
+            "Session is active and valid for directional execution."
+            if market_context.session in {"london", "new_york", "london_new_york_overlap"}
+            else "Session is off the active kill-zone window; trade is not preferred."
+        )
+        reasons.append(session_reason)
+        reasons.extend(market_context.reasons)
 
-            if direction != "neutral" and latest_gap.direction == direction:
-                score += 1
+        if market_context.distribution and direction == "bullish":
+            reasons.append("Distribution is active; waiting for deeper confirmation is required before long entries.")
+        if market_context.distribution and direction == "bearish":
+            reasons.append("Distribution is active; waiting for deeper confirmation is required before short entries.")
+        if market_context.consolidation:
+            reasons.append("Consolidation indicates the market is building energy, so only a confirmed breakout or sweep candidate should be traded.")
+
+        gap_direction = None
+        if market_context.fair_value_gaps:
+            gap_direction = market_context.fair_value_gaps[-1].direction
+            if gap_direction == direction:
+                score += 2
                 reasons.append(
-                    f"{direction.capitalize()} fair value gap detected "
-                    f"on {execution_timeframe}; age {age} candles."
+                    f"Latest fair value gap confirms {direction} intent on {execution_timeframe}."
                 )
             else:
                 reasons.append(
-                    "The latest detected fair value gap does not confirm "
-                    "the top-down direction."
+                    "The latest fair value gap disagrees with the top-down direction; wait for confirmation."
                 )
+        else:
+            reasons.append(f"No fair value gap was detected on {execution_timeframe}.")
+
+        if market_context.liquidity:
+            latest_sweep = market_context.liquidity[-1]
+            reasons.append(
+                f"Latest liquidity sweep is {latest_sweep.direction} at {latest_sweep.level:.5f}, which matters for entry context."
+            )
+
+        if market_context.premium_discount != "neutral":
+            reasons.append(
+                f"Current premium/discount state is {market_context.premium_discount}; entries should be aligned to this zone."
+            )
 
         conflict = (
             direction != "neutral"
@@ -141,25 +132,23 @@ class StrategyEngine:
 
         if conflict:
             reasons.append(
-                f"Fundamental bias ({fundamental_bias}) conflicts "
-                f"with technical direction ({direction})."
+                f"Fundamental bias ({fundamental_bias}) conflicts with technical direction ({direction})."
             )
         elif fundamental_bias == direction and direction != "neutral":
             score += 1
-            reasons.append(
-                "Supplied fundamental bias agrees with technical direction."
-            )
+            reasons.append("Supplied fundamental bias agrees with technical direction.")
         else:
-            reasons.append(
-                "Fundamental bias is neutral or there is no directional "
-                "technical setup; fundamental confirmation is absent."
-            )
+            reasons.append("Fundamental bias is neutral or there is no directional technical setup; fundamental confirmation is absent.")
+
+        if market_context.distribution and direction != "neutral":
+            direction = "neutral"
+            reasons.append("Distribution status makes the setup invalid until a clean confirmation arrives.")
 
         technical_candidate = (
             direction in {"bullish", "bearish"}
-            and latest_gap is not None
-            and latest_gap.direction == direction
+            and gap_direction == direction
             and not conflict
+            and market_context.session in {"london", "new_york", "london_new_york_overlap"}
         )
 
         passages = ()
@@ -172,28 +161,22 @@ class StrategyEngine:
         if not technical_candidate:
             status = "rejected"
             rule_status = "not_qualified"
-            reasons.append(
-                "The current evidence does not meet the candidate criteria."
-            )
+            reasons.append("The current evidence does not meet the candidate criteria.")
         elif not has_pdf_and_video:
             status = "needs_source_evidence"
             rule_status = "incomplete_source_coverage"
             reasons.append(
-                "Both PDF and video source passages are required for this "
-                "research candidate. Retrieved passages must still be reviewed."
+                "Both PDF and video source passages are required for this research candidate. Retrieved passages must still be reviewed."
             )
         else:
             status = "research_candidate"
             rule_status = "source_passages_found_rules_unvalidated"
             reasons.append(
-                "PDF and video passages were retrieved for review. Their "
-                "presence does not establish that the rule is profitable."
+                "PDF and video passages were retrieved for review. Their presence does not establish that the rule is profitable."
             )
 
         reasons.append(
-            "Not ready for backtesting or execution: source-specific "
-            "entry, invalidation, stop-loss and exit rules have not yet "
-            "been registered and validated by this engine."
+            "Not ready for backtesting or execution: source-specific entry, invalidation, stop-loss and exit rules have not yet been registered and validated by this engine."
         )
 
         return StrategyDecision(
@@ -203,7 +186,12 @@ class StrategyEngine:
             score=score,
             timeframe_trends=trends,
             top_down_alignment=alignment,
-            fair_value_gap=gap_summary,
+            fair_value_gap={
+                "index": market_context.fair_value_gaps[-1].index,
+                "direction": market_context.fair_value_gaps[-1].direction,
+                "lower": market_context.fair_value_gaps[-1].lower,
+                "upper": market_context.fair_value_gaps[-1].upper,
+            } if market_context.fair_value_gaps else None,
             fundamental_bias=fundamental_bias,
             reasons=tuple(reasons),
             source_passages=passages,
@@ -226,6 +214,8 @@ class StrategyEngine:
             f"{direction} fair value gap",
             f"{direction} market structure",
             "risk management stop loss take profit",
+            "liquidity sweep confirmation",
+            "smart money liquidity and session",
         ]
 
         found = []
@@ -235,16 +225,13 @@ class StrategyEngine:
             try:
                 results = search(query, limit=4) or []
             except Exception:
-                # A search problem must never turn into trade permission.
                 continue
 
             for result in results:
                 if not isinstance(result, dict):
                     continue
 
-                source_type = str(
-                    result.get("source_type") or result.get("type") or ""
-                ).strip().lower()
+                source_type = str(result.get("source_type") or result.get("type") or "").strip().lower()
                 if source_type not in {"pdf", "video"}:
                     continue
 
