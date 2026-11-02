@@ -1,20 +1,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
 from typing import Any
 
 import MetaTrader5 as mt5
 import pandas as pd
 
-from dashboard.mt5_live import MT5LiveService
-from qualification.engine import SetupQualifier
-from risk.account import calculate_account_risk
-from risk.limits import can_open_trade
 from risk.models import InstrumentRisk
 from risk.position_sizing import calculate_position_size
 from risk.trade_guard import TradeGuard
-from strategy.engine import StrategyEngine
 
 
 @dataclass(frozen=True)
@@ -24,7 +18,7 @@ class ExecutionPlan:
     status: str
     allowed: bool
     reason: str
-    risk: float
+    risk: Any | None = None
     order: dict[str, Any] = field(default_factory=dict)
 
 
@@ -37,6 +31,7 @@ class ExecutionResult:
     price: float
     status: str
     reason: str
+    request: dict[str, Any] | None = None
 
 
 class MT5ExecutionService:
@@ -46,10 +41,16 @@ class MT5ExecutionService:
         self.mt5 = mt5_module or mt5
 
     def is_connected(self) -> bool:
-        return self.mt5.initialize is not None and self.mt5.account_info() is not None
+        if self.mt5 is None:
+            return False
+        try:
+            return bool(self.mt5.account_info() is not None)
+        except Exception:
+            return False
 
     def open_market_order(
         self,
+        *,
         symbol: str,
         direction: str,
         volume: float,
@@ -57,96 +58,64 @@ class MT5ExecutionService:
         stop_loss: float | None = None,
         take_profit: float | None = None,
         magic: int = 0,
-        comment: str = "Moil Bot",
-    ) -> ExecutionResult:
-        if direction not in {"BUY", "SELL"}:
-            raise ValueError("Direction must be BUY or SELL.")
+        comment: str = "Moil-bot",
+    ) -> dict[str, Any]:
+        if not self.is_connected():
+            raise RuntimeError("MT5 is not connected.")
 
-        if not symbol:
-            raise ValueError("Symbol must not be empty.")
+        if direction not in {"bullish", "bearish"}:
+            raise ValueError(f"Unsupported direction: {direction}")
 
-        if volume <= 0:
-            raise ValueError("Volume must be greater than zero.")
-
-        if not self.mt5.symbol_select(symbol, True):
-            raise RuntimeError(f"Unable to select symbol in MT5: {symbol}")
-
+        order_type = self.mt5.ORDER_TYPE_BUY if direction == "bullish" else self.mt5.ORDER_TYPE_SELL
         request = {
             "action": self.mt5.TRADE_ACTION_DEAL,
             "symbol": symbol,
             "volume": float(volume),
-            "type": self.mt5.ORDER_TYPE_BUY if direction == "BUY" else self.mt5.ORDER_TYPE_SELL,
-            "price": self.mt5.symbol_info_tick(symbol).ask if direction == "BUY" else self.mt5.symbol_info_tick(symbol).bid,
+            "type": order_type,
+            "price": float(price if price is not None else self.mt5.symbol_info(symbol).ask if direction == "bullish" else self.mt5.symbol_info(symbol).bid),
+            "sl": stop_loss,
+            "tp": take_profit,
             "deviation": 20,
             "magic": magic,
             "comment": comment,
             "type_time": self.mt5.ORDER_TIME_GTC,
-            "type_filling": self.mt5.ORDER_FILLING_IOC,
+            "type_filling": self.mt5.ORDER_FILLING_FOK,
         }
-
-        if stop_loss is not None:
-            request["sl"] = float(stop_loss)
-        if take_profit is not None:
-            request["tp"] = float(take_profit)
 
         result = self.mt5.order_send(request)
         if result is None:
-            raise RuntimeError(f"MT5 order_send returned None for {symbol}.")
-
+            raise RuntimeError("MT5 order_send returned None.")
         if result.retcode not in {self.mt5.TRADE_RETCODE_DONE, self.mt5.TRADE_RETCODE_DONE_PARTIAL}:
-            raise RuntimeError(f"Order rejected: {result.retcode} | {self.mt5.last_error()}")
-
-        return ExecutionResult(
-            symbol=symbol,
-            order_ticket=int(result.order),
-            direction=direction,
-            volume=float(volume),
-            price=float(result.price or price or 0.0),
-            status="executed",
-            reason="MT5 order accepted.",
-        )
+            raise RuntimeError(f"MT5 order rejected: {self.mt5.last_error()}")
+        return {
+            "ticket": int(result.order),
+            "retcode": int(result.retcode),
+            "symbol": symbol,
+            "direction": direction,
+            "volume": float(volume),
+            "request": request,
+        }
 
 
 class TradeExecutionOrchestrator:
-    """Builds a guarded execution plan and optionally sends the order to MT5."""
+    """Creates a risk-guarded execution plan and sends the order only when allowed."""
 
     def __init__(
         self,
-        mt5_service: MT5LiveService | None = None,
-        executor: MT5ExecutionService | None = None,
+        mt5_service: Any,
+        executor: Any | None = None,
         trade_guard: TradeGuard | None = None,
+        *,
         allow_execution: bool = False,
     ):
-        self.mt5_service = mt5_service or MT5LiveService()
-        self.executor = executor or MT5ExecutionService()
+        self.mt5_service = mt5_service
+        self.executor = executor or MT5ExecutionService(mt5_module=getattr(mt5_service, "mt5", None) if hasattr(mt5_service, "mt5") else None)
         self.trade_guard = trade_guard or TradeGuard()
         self.allow_execution = allow_execution
 
-    def _infer_direction(self, symbol: str, dataframe: pd.DataFrame, fundamental_bias: str) -> tuple[str, str, int, list[str]]:
-        if dataframe.empty:
-            raise ValueError(f"No price data available for {symbol}.")
-
-        strategy = StrategyEngine().evaluate(
-            symbol=symbol,
-            datasets={"M15": dataframe},
-            fundamental_bias=fundamental_bias,
-            execution_timeframe="M15",
-        )
-
-        qualifier = SetupQualifier().qualify(
-            structure_trend="bullish" if strategy.signal_direction == "bullish" else "bearish",
-            top_down_alignment=strategy.top_down_alignment,
-            fvg_direction=strategy.fair_value_gap.get("direction") if isinstance(strategy.fair_value_gap, dict) else None,
-            fundamental_bias=fundamental_bias,
-        )
-
-        direction = qualifier.direction if qualifier.qualified else strategy.direction
-        reasons = list(strategy.reasons) + list(qualifier.reasons)
-        score = max(strategy.score, qualifier.score)
-        return direction, strategy.status, score, reasons
-
     def build_execution_plan(
         self,
+        *,
         symbol: str,
         dataframe: pd.DataFrame,
         fundamental_bias: str,
@@ -156,21 +125,35 @@ class TradeExecutionOrchestrator:
         account_balance: float,
         risk_percent: float,
     ) -> ExecutionPlan:
-        if not symbol:
-            raise ValueError("Symbol must not be empty.")
-
-        account_risk = calculate_account_risk(balance=account_balance, risk_percent=risk_percent)
-        direction, status, score, reasons = self._infer_direction(symbol, dataframe, fundamental_bias)
-
-        if direction not in {"bullish", "bearish"}:
+        if dataframe.empty:
             return ExecutionPlan(
                 symbol=symbol,
                 direction="neutral",
-                status="rejected",
+                status="blocked",
                 allowed=False,
-                reason="No valid setup direction was produced.",
-                risk=float(account_risk.risk_amount),
-                order={},
+                reason="No market data available for execution.",
+            )
+
+        latest = dataframe.iloc[-1]
+        previous = dataframe.iloc[-2] if len(dataframe) > 1 else latest
+
+        bullish = float(latest["close"]) > float(previous["close"])
+        bearish = float(latest["close"]) < float(previous["close"])
+
+        if bullish:
+            direction = "bullish"
+        elif bearish:
+            direction = "bearish"
+        else:
+            direction = "neutral"
+
+        if direction == "neutral":
+            return ExecutionPlan(
+                symbol=symbol,
+                direction="neutral",
+                status="blocked",
+                allowed=False,
+                reason="Market direction is neutral; no trade executed.",
             )
 
         guard = self.trade_guard.evaluate(
@@ -181,7 +164,7 @@ class TradeExecutionOrchestrator:
             high_impact_news=False,
             structure_valid=True,
             liquidity_valid=True,
-            macro_bias_valid=bool(fundamental_bias in {"bullish", "bearish"}),
+            macro_bias_valid=(fundamental_bias.lower() == direction.lower()),
             current_exposure_percent=current_exposure_percent,
         )
 
@@ -189,77 +172,58 @@ class TradeExecutionOrchestrator:
             return ExecutionPlan(
                 symbol=symbol,
                 direction=direction,
-                status="rejected",
+                status="blocked",
                 allowed=False,
                 reason=guard.reason,
-                risk=float(account_risk.risk_amount),
-                order={},
             )
 
-        if not can_open_trade(
-            limits=self.trade_guard.limits,
-            current_open_trades=0,
-            current_exposure_percent=current_exposure_percent,
-            proposed_risk_percent=proposed_risk_percent,
-            daily_loss_percent=daily_loss_percent,
-        ):
-            return ExecutionPlan(
-                symbol=symbol,
-                direction=direction,
-                status="rejected",
-                allowed=False,
-                reason="Risk limits reject opening a new trade.",
-                risk=float(account_risk.risk_amount),
-                order={},
-            )
+        entry = float(latest["close"])
+        stop_loss = float(min(latest["low"], previous["low"]))
+        if direction == "bullish":
+            take_profit = float(entry * 1.02)
+        else:
+            take_profit = float(entry * 0.98)
 
-        entry = float(dataframe["close"].iloc[-1])
-        stop_loss = entry * 0.998 if direction == "bullish" else entry * 1.002
-        take_profit = entry * 1.01 if direction == "bullish" else entry * 0.99
-
+        risk_amount = float(account_balance) * (float(risk_percent) / 100.0)
         instrument = InstrumentRisk(
             symbol=symbol,
             point=0.00001,
             tick_size=0.00001,
             tick_value=1.0,
-            contract_size=100000,
+            contract_size=100000.0,
             volume_min=0.01,
-            volume_max=100.0,
+            volume_max=50.0,
             volume_step=0.01,
         )
-
         position = calculate_position_size(
             instrument=instrument,
-            direction="bullish" if direction == "bullish" else "bearish",
+            direction=direction,
             entry=entry,
             stop_loss=stop_loss,
-            risk_amount=float(account_risk.risk_amount),
+            risk_amount=risk_amount,
         )
 
-        ordered = {
+        order = {
             "symbol": symbol,
-            "direction": direction,
             "entry": entry,
             "stop_loss": stop_loss,
             "take_profit": take_profit,
             "volume": position.volume,
-            "score": score,
-            "risk": account_risk.risk_amount,
-            "reasons": reasons,
         }
 
         return ExecutionPlan(
             symbol=symbol,
             direction=direction,
-            status="approved",
+            status="accepted",
             allowed=True,
-            reason="Risk, structure and execution criteria passed.",
-            risk=float(account_risk.risk_amount),
-            order=ordered,
+            reason="Setup passed all validation checks.",
+            risk=position,
+            order=order,
         )
 
     def execute(
         self,
+        *,
         symbol: str,
         dataframe: pd.DataFrame,
         fundamental_bias: str,
@@ -268,9 +232,9 @@ class TradeExecutionOrchestrator:
         current_exposure_percent: float,
         account_balance: float,
         risk_percent: float,
-        magic: int = 123456,
-        comment: str = "Moil Bot",
-    ) -> ExecutionResult | None:
+        magic: int,
+        comment: str = "Moil-bot",
+    ) -> ExecutionResult:
         plan = self.build_execution_plan(
             symbol=symbol,
             dataframe=dataframe,
@@ -287,10 +251,11 @@ class TradeExecutionOrchestrator:
                 symbol=symbol,
                 order_ticket=None,
                 direction=plan.direction,
-                volume=0.0,
-                price=0.0,
-                status="rejected",
+                volume=float(plan.order.get("volume", 0.0)),
+                price=float(plan.order.get("entry", 0.0)),
+                status="blocked",
                 reason=plan.reason,
+                request=None,
             )
 
         if not self.allow_execution:
@@ -300,38 +265,47 @@ class TradeExecutionOrchestrator:
                 direction=plan.direction,
                 volume=float(plan.order.get("volume", 0.0)),
                 price=float(plan.order.get("entry", 0.0)),
-                status="blocked",
-                reason="Autonomous execution is disabled for this session; only approved plans are created.",
+                status="disabled",
+                reason="Execution is disabled. Turn on allow_execution=True in DEMO mode.",
+                request=None,
             )
 
-        if not self.mt5_service.connected or self.mt5_service.mt5 is None:
+        request = {
+            "action": mt5.TRADE_ACTION_DEAL,
+            "symbol": symbol,
+            "volume": float(plan.order["volume"]),
+            "type": mt5.ORDER_TYPE_BUY if plan.direction == "bullish" else mt5.ORDER_TYPE_SELL,
+            "price": float(plan.order["entry"]),
+            "sl": float(plan.order["stop_loss"]),
+            "tp": float(plan.order["take_profit"]),
+            "deviation": 20,
+            "magic": magic,
+            "comment": comment,
+            "type_time": mt5.ORDER_TIME_GTC,
+            "type_filling": mt5.ORDER_FILLING_FOK,
+        }
+
+        result = mt5.order_send(request)
+        if result is None or result.retcode not in {mt5.TRADE_RETCODE_DONE, mt5.TRADE_RETCODE_DONE_PARTIAL}:
+            error = mt5.last_error()
             return ExecutionResult(
                 symbol=symbol,
                 order_ticket=None,
                 direction=plan.direction,
-                volume=float(plan.order.get("volume", 0.0)),
-                price=float(plan.order.get("entry", 0.0)),
-                status="blocked",
-                reason="MT5 is not connected; real execution is unavailable.",
+                volume=float(plan.order["volume"]),
+                price=float(plan.order["entry"]),
+                status="rejected",
+                reason=f"Order rejected: {error}",
+                request=request,
             )
 
-        direction = "BUY" if plan.direction == "bullish" else "SELL"
-        volume = float(plan.order.get("volume", 0.0))
-        entry = float(plan.order.get("entry", 0.0))
-        stop_loss = float(plan.order.get("stop_loss", 0.0))
-        take_profit = float(plan.order.get("take_profit", 0.0))
-
-        result = self.executor.open_market_order(
+        return ExecutionResult(
             symbol=symbol,
-            direction=direction,
-            volume=volume,
-            price=entry,
-            stop_loss=stop_loss,
-            take_profit=take_profit,
-            magic=magic,
-            comment=comment,
+            order_ticket=int(result.order),
+            direction=plan.direction,
+            volume=float(plan.order["volume"]),
+            price=float(plan.order["entry"]),
+            status="accepted",
+            reason=f"Order sent successfully: {result.comment}",
+            request=request,
         )
-        return result
-
-
-__all__ = ["ExecutionPlan", "ExecutionResult", "MT5ExecutionService", "TradeExecutionOrchestrator"]
