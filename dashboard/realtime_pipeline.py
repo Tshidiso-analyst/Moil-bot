@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
 from typing import Any
 
 import pandas as pd
 
 from analysis.market_structure import analyse_structure
 from analysis.smc_patterns import analyze_market_context
+from market_data.live_data import load_live_market_datasets
 from market_data.mt5_history import MT5History
 from qualification.engine import SetupQualifier
 from risk.account import calculate_account_risk
@@ -43,34 +43,15 @@ class RealtimeTradingPipeline:
             raise ValueError("Symbol must not be empty.")
 
         try:
-            import MetaTrader5 as mt5
-        except ImportError:
-            return pd.DataFrame()
-
-        end = datetime.now(timezone.utc)
-        start = end - timedelta(days=bars * 2)
-
-        try:
-            if not mt5.initialize(path=self.mt5_path or r"C:\Program Files\MetaTrader 5\terminal64.exe"):
-                return pd.DataFrame()
-            if not mt5.symbol_select(symbol, True):
-                return pd.DataFrame()
-            rates = mt5.copy_rates_range(symbol, getattr(mt5, f"TIMEFRAME_{timeframe.upper()}", None), start, end)
-            if not rates:
-                return pd.DataFrame()
-            frame = pd.DataFrame(rates)
-            if frame.empty:
-                return frame
-            frame["time"] = pd.to_datetime(frame["time"], unit="s", utc=True)
-            frame = frame.rename(columns={"time": "timestamp", "tick_volume": "volume"})
-            return frame[["timestamp", "open", "high", "low", "close", "volume"]].copy()
+            datasets = load_live_market_datasets(
+                symbol=symbol,
+                timeframes=(timeframe,),
+                bars=bars,
+                mt5_path=self.mt5_path,
+            )
+            return datasets.get(timeframe, pd.DataFrame())
         except Exception:
             return pd.DataFrame()
-        finally:
-            try:
-                mt5.shutdown()
-            except Exception:
-                pass
 
     def _build_datasets(self, symbol: str) -> dict[str, pd.DataFrame]:
         datasets: dict[str, pd.DataFrame] = {}
