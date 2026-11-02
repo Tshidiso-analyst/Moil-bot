@@ -76,33 +76,72 @@ def nav_layout(title: str, content: str, active: str = "Overview") -> str:
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Moil Bot — {esc(title)}</title>
         <style>
-            body {{ font-family: Arial, sans-serif; background: #06111f; color: #eaf2ff; margin: 0; }}
-            a {{ color: #7bd7ff; text-decoration: none; }}
+            :root {{
+                --bg-deep: #05131d;
+                --bg-panel: rgba(7, 19, 30, 0.76);
+                --bg-panel-strong: rgba(10, 22, 35, 0.88);
+                --bg-card: rgba(13, 27, 40, 0.72);
+                --border-soft: rgba(155, 201, 255, 0.18);
+                --text-main: #edf7ff;
+                --text-soft: #b7cfe6;
+                --accent: #3fa9ff;
+                --accent-2: #11d2c2;
+                --success: #79f0b3;
+                --danger: #ff8c8c;
+                --warning: #ffd980;
+            }}
+
+            * {{ box-sizing: border-box; }}
+            html, body {{ min-height: 100%; }}
+            body {{ 
+                font-family: Arial, sans-serif; 
+                margin: 0; 
+                color: var(--text-main); 
+                background:
+                    linear-gradient(135deg, rgba(3, 11, 18, 0.82), rgba(10, 22, 35, 0.74)),
+                    url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat fixed;
+            }}
+            a {{ color: #8ed7ff; text-decoration: none; }}
             .shell {{ display: flex; min-height: 100vh; }}
-            .sidebar {{ width: 230px; background: #0d1725; border-right: 1px solid #1e2d3d; padding: 18px 14px; }}
+            .sidebar {{ 
+                width: 230px; 
+                background: rgba(7, 18, 28, 0.80);
+                border-right: 1px solid var(--border-soft); 
+                padding: 18px 14px; 
+                backdrop-filter: blur(10px);
+                box-shadow: 14px 0 28px rgba(0,0,0,0.16);
+            }}
             .brand {{ text-align: center; margin-bottom: 18px; }}
-            .brand h1 {{ font-size: 28px; letter-spacing: 2px; margin: 6px 0; }}
-            .nav a {{ display: block; padding: 12px 14px; margin: 6px 0; border-radius: 10px; color: #dfefff; }}
-            .nav a.active {{ background: linear-gradient(135deg, #0d6efd, #7b61ff); }}
+            .brand h1 {{ font-size: 28px; letter-spacing: 2px; margin: 6px 0; color: #f4fbff; }}
+            .nav a {{ display: block; padding: 12px 14px; margin: 6px 0; border-radius: 10px; color: #dfefff; border: 1px solid transparent; }}
+            .nav a.active {{ background: linear-gradient(135deg, rgba(63,169,255,0.28), rgba(17,210,194,0.22)); border-color: rgba(143,214,255,0.32); }}
             .main {{ flex: 1; padding: 24px; }}
             .topbar {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }}
-            .card {{ background: linear-gradient(180deg, #0d1a2b, #0b1522); border: 1px solid #1e2d3d; border-radius: 12px; padding: 18px; margin-bottom: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); }}
+            .card {{ 
+                background: var(--bg-card); 
+                border: 1px solid var(--border-soft); 
+                border-radius: 14px; 
+                padding: 18px; 
+                margin-bottom: 18px; 
+                box-shadow: 0 12px 26px rgba(0,0,0,0.18);
+                backdrop-filter: blur(8px);
+            }}
             .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }}
             .metric {{ font-size: 28px; font-weight: 700; }}
-            .muted {{ color: #9bb2cf; }}
+            .muted {{ color: var(--text-soft); }}
             .status {{ display: inline-block; padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; }}
-            .status.online {{ background: rgba(33, 203, 123, 0.14); color: #7ef0b0; }}
-            .status.offline {{ background: rgba(255, 67, 67, 0.12); color: #ff8e8e; }}
-            .pill {{ display: inline-block; background: rgba(123, 109, 255, 0.14); color: #d7d1ff; padding: 8px 12px; border-radius: 999px; margin-right: 8px; }}
+            .status.online {{ background: rgba(33, 203, 123, 0.14); color: var(--success); }}
+            .status.offline {{ background: rgba(255, 67, 67, 0.12); color: var(--danger); }}
+            .pill {{ display: inline-block; background: rgba(63,169,255,0.14); color: #d6efff; padding: 8px 12px; border-radius: 999px; margin-right: 8px; border: 1px solid rgba(143,214,255,0.22); }}
             input, select, button {{ font: inherit; }}
-            input, select {{ width: 100%; padding: 12px; margin-bottom: 14px; border-radius: 8px; border: 1px solid #2c415b; background: #091725; color: #eef6ff; box-sizing: border-box; }}
-            button {{ background: linear-gradient(135deg, #0d6efd, #7b61ff); color: white; border: none; border-radius: 8px; padding: 11px 16px; cursor: pointer; }}
+            input, select {{ width: 100%; padding: 12px; margin-bottom: 14px; border-radius: 10px; border: 1px solid rgba(143,214,255,0.18); background: rgba(7, 17, 25, 0.82); color: #eef6ff; box-sizing: border-box; }}
+            button {{ background: linear-gradient(135deg, #3fa9ff, #0d6efd); color: white; border: none; border-radius: 10px; padding: 11px 16px; cursor: pointer; box-shadow: 0 10px 20px rgba(33, 108, 216, 0.3); }}
             table {{ width: 100%; border-collapse: collapse; }}
-            th, td {{ border-bottom: 1px solid #1d2e42; padding: 12px; text-align: left; }}
-            .warn {{ color: #ffd480; }}
-            .danger {{ color: #ff9a9a; }}
-            .positive {{ color: #7ef0b0; }}
-            .negative {{ color: #ff7d7d; }}
+            th, td {{ border-bottom: 1px solid rgba(155, 201, 255, 0.12); padding: 12px; text-align: left; }}
+            .warn {{ color: var(--warning); }}
+            .danger {{ color: var(--danger); }}
+            .positive {{ color: var(--success); }}
+            .negative {{ color: var(--danger); }}
             @media (max-width: 800px) {{ .shell {{ display: block; }} .sidebar {{ width: auto; }} .main {{ padding: 14px; }} }}
         </style>
     </head>
