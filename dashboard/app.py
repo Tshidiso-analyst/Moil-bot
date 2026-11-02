@@ -29,6 +29,8 @@ SESSION: dict[str, Any] = {
     "connected": False,
     "account": None,
     "mode": None,
+    "operating": False,
+    "chat": [],
 }
 
 
@@ -84,7 +86,7 @@ def nav_layout(title: str, content: str, active: str = "Overview") -> str:
             .nav a.active {{ background: linear-gradient(135deg, #0d6efd, #7b61ff); }}
             .main {{ flex: 1; padding: 24px; }}
             .topbar {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }}
-            .card {{ background: linear-gradient(180deg, #0d1a2b, #0b1522); border: 1px solid #1e2d3d; border-radius: 12px; padding: 18px; margin-bottom: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0[...]
+            .card {{ background: linear-gradient(180deg, #0d1a2b, #0b1522); border: 1px solid #1e2d3d; border-radius: 12px; padding: 18px; margin-bottom: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); }}
             .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }}
             .metric {{ font-size: 28px; font-weight: 700; }}
             .muted {{ color: #9bb2cf; }}
@@ -156,6 +158,67 @@ def connection_form(message: str = "") -> str:
 
 def get_account() -> Any:
     return SESSION.get("account")
+
+
+def mode_switch_html() -> str:
+    if SESSION.get("operating"):
+        return """
+        <form method="POST" action="/set_mode">
+            <input type="hidden" name="mode" value="standby" />
+            <button type="submit">Standby</button>
+        </form>
+        """
+    return """
+    <form method="POST" action="/set_mode">
+        <input type="hidden" name="mode" value="operate" />
+        <button type="submit">Operate</button>
+    </form>
+    """
+
+
+def tradingview_chart(symbol: str) -> str:
+    encoded = urllib.parse.quote(symbol)
+    src = (
+        "https://s.tradingview.com/widgetembed/"
+        f"?frameElementId=tv_{encoded}&symbol=OANDA%3A{encoded}"
+        "&interval=15&theme=dark&style=1&locale=en"
+        "&toolbarbg=%230b1726&hide_top_toolbar=0"
+        "&save_image=0&studies=[]"
+    )
+    return f"""
+    <div class="card">
+        <h3>TradingView — {esc(symbol)}</h3>
+        <iframe
+            src="{src}"
+            style="width:100%;height:520px;border:none;"
+            title="TradingView chart for {esc(symbol)}">
+        </iframe>
+    </div>
+    """
+
+
+def chat_panel(symbol: str) -> str:
+    items = SESSION.get("chat", [])
+    messages = "".join(
+        f"""
+        <div class="card">
+            <strong>{esc(item['role'].title())}</strong>
+            <p class="muted">{esc(item['text'])}</p>
+        </div>
+        """ for item in items[-8:]
+    ) if items else "<div class='card'><p class='muted'>Ask about EURUSD.</p></div>"
+
+    return f"""
+    <div class="card">
+        <h3>Moil Bot Chat — {esc(symbol)}</h3>
+        <form method="POST" action="/chat">
+            <input type="hidden" name="symbol" value="{esc(symbol)}" />
+            <input type="text" name="message" placeholder="Ask about EURUSD setup, bias, risk, or chart structure..." required />
+            <button type="submit">Send</button>
+        </form>
+        <div style="margin-top: 14px;">{messages}</div>
+    </div>
+    """
 
 
 def build_live_alerts() -> list:
@@ -264,8 +327,8 @@ def overview_page() -> str:
         </div>
         <div class="card">
             <h3>Execution Mode</h3>
-            <div class="status online">READ-ONLY</div>
-            <p class="muted">Dashboard monitoring is enabled. Orders are not sent automatically.</p>
+            <div class="status {'online' if SESSION.get('operating') else 'offline'}">{'OPERATE' if SESSION.get('operating') else 'STANDBY'}</div>
+            <p class="muted">The terminal is connected. Execution is gated by the operate switch and the risk engine.</p>
         </div>
     </div>
     """
@@ -311,6 +374,8 @@ def analysis_page(query: dict[str, list[str]]) -> str:
         market = None
         decision = None
 
+    mode_html = mode_switch_html()
+
     market_cards = "" if market is None else f"""
     <div class="grid">
         <div class="card"><div class="muted">MT5 BID</div><div class="metric">{market['bid']:.{market['digits']}f}</div></div>
@@ -321,8 +386,9 @@ def analysis_page(query: dict[str, list[str]]) -> str:
 
     decision_block = "" if decision is None else f"""
     <div class="card">
-        <h3>AI Decision</h3>
+        <h3>Moil Bot Analysis</h3>
         <div class="status {'online' if decision.qualified else 'offline'}">{esc(decision.status.upper())}</div>
+        <p><strong>Symbol:</strong> {esc(decision.symbol)}</p>
         <p><strong>Direction:</strong> {esc(decision.direction)}</p>
         <p><strong>Score:</strong> {esc(decision.score)}</p>
         <p><strong>Entry:</strong> {esc(decision.entry) if decision.entry is not None else 'n/a'}</p>
@@ -336,11 +402,17 @@ def analysis_page(query: dict[str, list[str]]) -> str:
 
     content = f"""
     <div class="card">
-        <h3>{esc(symbol)} Analysis</h3>
-        <p class="muted">AI-driven technical analysis is connected to the live MT5 feed and the strategy pipeline.</p>
+        <h3>Execution Mode</h3>
+        {mode_html}
+        <p class="muted">Operate enables the live execution gate. Standby keeps monitoring only.</p>
     </div>
+
+    {tradingview_chart(symbol)}
     {market_cards}
-    {decision_block}
+    <div class="grid">
+        {decision_block}
+    </div>
+    {chat_panel(symbol)}
     """
     return nav_layout("Analysis", content, "Analysis")
 
@@ -557,6 +629,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
             SESSION["connected"] = False
             SESSION["account"] = None
             SESSION["mode"] = None
+            SESSION["operating"] = False
             mt5_service.shutdown()
             self.redirect("/")
             return
@@ -581,6 +654,30 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                 page = alerts_page(str(exc))
                 self.send_html(page, 400)
                 return
+
+        if path == "/set_mode":
+            length = int(self.headers.get("Content-Length", "0"))
+            form = parse_form(self.rfile.read(length))
+            mode = (form.get("mode") or "standby").lower()
+            SESSION["operating"] = (mode == "operate")
+            self.redirect("/analysis?symbol=EURUSD")
+            return
+
+        if path == "/chat":
+            length = int(self.headers.get("Content-Length", "0"))
+            form = parse_form(self.rfile.read(length))
+            symbol = (form.get("symbol") or "EURUSD").upper()
+            message = (form.get("message") or "").strip()
+            if message:
+                SESSION.setdefault("chat", []).append({"role": "user", "text": f"{symbol}: {message}"})
+                response = (
+                    f"{symbol} context: I am monitoring the live MT5 feed and the strategy pipeline. "
+                    f"Current mode is {'OPERATE' if SESSION.get('operating') else 'STANDBY'}. "
+                    "Use the analysis page for the live signal, structure, and risk status."
+                )
+                SESSION["chat"].append({"role": "assistant", "text": response})
+            self.redirect(f"/analysis?symbol={urllib.parse.quote(symbol)}")
+            return
 
         if path != "/connect":
             self.send_html("<h1>404</h1>", 404)
