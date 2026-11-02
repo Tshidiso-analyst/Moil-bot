@@ -7,16 +7,14 @@ from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
-import pandas as pd
-
 from alerts.engine import AlertEngine
 from alerts.models import AlertEvent
 from dashboard.alerts_ui import handle_alert_action, render_alerts_content
 from dashboard.mt5_live import MT5LiveService
 from dashboard.realtime_pipeline import RealtimeTradingPipeline
-from execution.orchestrator import TradeExecutionOrchestrator
 from fundamentals.analyzer import FundamentalAnalyzer
 from fundamentals.models import NewsItem
+from fundamentals.news_reader import NewsReader
 from knowledge.unified_search import search_all_knowledge
 from risk.account import calculate_account_risk
 
@@ -44,90 +42,6 @@ def money(value: Any, currency: str = "") -> str:
         return f"{currency} {amount:,.2f}".strip()
     except (TypeError, ValueError):
         return f"{currency} 0.00".strip()
-
-
-def render_market_chart(symbol: str, *, bars: int = 60) -> str:
-    """Render a lightweight SVG candlestick chart for the selected market."""
-    try:
-        import MetaTrader5 as mt5
-    except Exception:
-        return "<div class='card'><p class='muted'>Chart preview unavailable because the MT5 Python package is not available in this environment.</p></div>"
-
-    if not mt5_service.connected or mt5_service.mt5 is None:
-        return "<div class='card'><p class='muted'>Connect MT5 to render a live chart.</p></div>"
-
-    try:
-        now = datetime.now(timezone.utc)
-        candle_start = now - timedelta(hours=(bars * 15) / 60)
-        rates = mt5.copy_rates_range(symbol, mt5.TIMEFRAME_M15, candle_start, now)
-        if not rates:
-            return "<div class='card'><p class='muted'>No market candles were returned for this symbol.</p></div>"
-        frame = pd.DataFrame(rates)
-        if frame.empty:
-            return "<div class='card'><p class='muted'>No valid candle data available.</p></div>"
-        frame["time"] = pd.to_datetime(frame["time"], unit="s", utc=True)
-        frame = frame[["time", "open", "high", "low", "close"]].copy()
-    except Exception:
-        return "<div class='card'><p class='muted'>Unable to build a live candle chart from the connected MT5 feed.</p></div>"
-
-    width = 920
-    height = 300
-    padding = 28
-    min_price = float(frame["low"].min())
-    max_price = float(frame["high"].max())
-    if min_price == max_price:
-        min_price *= 0.999
-        max_price *= 1.001
-    price_span = max_price - min_price or 1.0
-
-    def x_for(i: int) -> float:
-        return padding + (i / max(len(frame) - 1, 1)) * (width - padding * 2)
-
-    def y_for(price: float) -> float:
-        share = (max_price - price) / price_span
-        return padding + share * (height - padding * 2)
-
-    candles: list[str] = []
-    for idx, row in frame.iterrows():
-        x = x_for(idx)
-        open_price = float(row["open"])
-        close_price = float(row["close"])
-        high_price = float(row["high"])
-        low_price = float(row["low"])
-        body_top = y_for(max(open_price, close_price))
-        body_bottom = y_for(min(open_price, close_price))
-        body_height = max(2.0, abs(body_bottom - body_top))
-        body_x = x - 4.0
-        body_y = min(body_top, body_bottom)
-        wick_top = y_for(high_price)
-        wick_bottom = y_for(low_price)
-        color = "#34d399" if close_price >= open_price else "#f87171"
-        candles.append(f'<line x1="{x:.2f}" y1="{wick_top:.2f}" x2="{x:.2f}" y2="{wick_bottom:.2f}" stroke="{color}" stroke-width="1.2" />')
-        candles.append(f'<rect x="{body_x:.2f}" y="{body_y:.2f}" width="8.0" height="{body_height:.2f}" fill="{color}" opacity="0.9" rx="1.5" />')
-
-    grid_lines = []
-    for i in range(5):
-        y = padding + (i / 4) * (height - padding * 2)
-        grid_lines.append(f'<line x1="{padding}" y1="{y:.2f}" x2="{width-padding}" y2="{y:.2f}" stroke="#23364d" stroke-width="1" />')
-
-    last_price = float(frame["close"].iloc[-1])
-    marker_y = y_for(last_price)
-    marker_html = (
-        f'<line x1="{padding}" y1="{marker_y:.2f}" x2="{width-padding}" y2="{marker_y:.2f}" '
-        'stroke="#7dd3fc" stroke-dasharray="4 4" stroke-width="1" />'
-    )
-
-    return f"""
-    <div class="card">
-      <h3>{esc(symbol)} price chart</h3>
-      <svg viewBox="0 0 {width} {height}" width="100%" height="300" style="background:#081621;border-radius:12px;border:1px solid #1e2d3d;">
-        {''.join(grid_lines)}
-        {marker_html}
-        {''.join(candles)}
-      </svg>
-      <p class="muted">Last close: {last_price:.5f} • Execution-enabled demo mode</p>
-    </div>
-    """
 
 
 def nav_layout(title: str, content: str, active: str = "Overview") -> str:
@@ -170,7 +84,7 @@ def nav_layout(title: str, content: str, active: str = "Overview") -> str:
             .nav a.active {{ background: linear-gradient(135deg, #0d6efd, #7b61ff); }}
             .main {{ flex: 1; padding: 24px; }}
             .topbar {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }}
-            .card {{ background: linear-gradient(180deg, #0d1a2b, #0b1522); border: 1px solid #1e2d3d; border-radius: 12px; padding: 18px; margin-bottom: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0.18); }}
+            .card {{ background: linear-gradient(180deg, #0d1a2b, #0b1522); border: 1px solid #1e2d3d; border-radius: 12px; padding: 18px; margin-bottom: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0[...]
             .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }}
             .metric {{ font-size: 28px; font-weight: 700; }}
             .muted {{ color: #9bb2cf; }}
@@ -268,8 +182,8 @@ def build_live_alerts() -> list:
     return alert_engine.get_all_alerts()
 
 
-def build_fundamentals_context() -> tuple[dict, list[NewsItem]]:
-    sample_news = [
+def build_fundamentals_context(symbol: str = "EURUSD") -> tuple[dict, list[NewsItem]]:
+    fallback_news = [
         NewsItem(
             title="US treasury yields soften as growth outlook cools",
             source="Reuters",
@@ -295,8 +209,16 @@ def build_fundamentals_context() -> tuple[dict, list[NewsItem]]:
             impact="medium",
         ),
     ]
-    context = FundamentalAnalyzer().analyse("EURUSD", sample_news)
-    return context, sample_news
+
+    try:
+        news = NewsReader().fetch_symbol_news(symbol=symbol)
+        if not news:
+            raise RuntimeError("No live news returned.")
+    except Exception:
+        news = fallback_news
+
+    context = FundamentalAnalyzer().analyse(symbol, news)
+    return context, news
 
 
 def overview_page() -> str:
@@ -342,8 +264,8 @@ def overview_page() -> str:
         </div>
         <div class="card">
             <h3>Execution Mode</h3>
-            <div class="status online">EXECUTION ENABLED</div>
-            <p class="muted">Demo execution is enabled in the risk-controlled orchestration path.</p>
+            <div class="status online">READ-ONLY</div>
+            <p class="muted">Dashboard monitoring is enabled. Orders are not sent automatically.</p>
         </div>
     </div>
     """
@@ -381,49 +303,13 @@ def markets_page() -> str:
 
 def analysis_page(query: dict[str, list[str]]) -> str:
     symbol = (query.get("symbol", ["EURUSD"])[0] or "EURUSD").upper()
-    chart_html = render_market_chart(symbol)
-
     if SESSION.get("connected"):
         market = mt5_service.symbol(symbol)
         pipeline = RealtimeTradingPipeline()
         decision = pipeline.evaluate(symbol, float(get_account().balance), risk_percent=1.0)
-        orchestrator = TradeExecutionOrchestrator(
-            mt5_service=mt5_service,
-            executor=None,
-            trade_guard=None,
-            allow_execution=True,
-        )
-        try:
-            import MetaTrader5 as mt5
-            end = datetime.now(timezone.utc)
-            start = end - timedelta(hours=8)
-            candles = mt5.copy_rates_range(symbol, mt5.TIMEFRAME_M15, start, end)
-            if candles:
-                df = pd.DataFrame(candles)
-                df["time"] = pd.to_datetime(df["time"], unit="s", utc=True)
-                df = df[["time", "open", "high", "low", "close"]].copy()
-                plan = orchestrator.build_execution_plan(
-                    symbol=symbol,
-                    dataframe=df,
-                    fundamental_bias="neutral",
-                    proposed_risk_percent=1.0,
-                    daily_loss_percent=0.0,
-                    current_exposure_percent=0.0,
-                    account_balance=float(get_account().balance),
-                    risk_percent=1.0,
-                )
-                execution_state = (
-                    f"<div class='card'><h3>Execution Status</h3><p><strong>Allowed:</strong> {str(plan.allowed)}</p><p><strong>Direction:</strong> {esc(plan.direction)}</p><p><strong>Status:</strong> {esc(plan.status)}</p><p><strong>Reason:</strong> {esc(plan.reason)}</p></div>"
-                    if plan else "<div class='card'><p class='muted'>No execution plan was generated.</p></div>"
-                )
-            else:
-                execution_state = "<div class='card'><p class='muted'>No live MT5 candles were available for the execution plan.</p></div>"
-        except Exception as exc:
-            execution_state = f"<div class='card'><p class='danger'>Execution evaluation error: {esc(str(exc))}</p></div>"
     else:
         market = None
         decision = None
-        execution_state = "<div class='card'><p class='muted'>Connect MT5 to enable live execution analysis.</p></div>"
 
     market_cards = "" if market is None else f"""
     <div class="grid">
@@ -451,11 +337,9 @@ def analysis_page(query: dict[str, list[str]]) -> str:
     content = f"""
     <div class="card">
         <h3>{esc(symbol)} Analysis</h3>
-        <p class="muted">AI-driven technical analysis and execution approval are enabled for the connected MT5 account.</p>
+        <p class="muted">AI-driven technical analysis is connected to the live MT5 feed and the strategy pipeline.</p>
     </div>
-    {chart_html}
     {market_cards}
-    {execution_state}
     {decision_block}
     """
     return nav_layout("Analysis", content, "Analysis")
@@ -744,7 +628,7 @@ def main() -> None:
     print("\n=== MOIL BOT ===")
     print(f"Dashboard running at http://{HOST}:{PORT}")
     print("MT5 mode: local desktop terminal")
-    print("Order execution: demo execution enabled in analysis pipeline")
+    print("Order execution: disabled (read-only)")
     print("AI modules: fundamentals, alerts, strategy and risk enabled")
     try:
         server.serve_forever()
