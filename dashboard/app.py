@@ -98,11 +98,30 @@ def nav_layout(title: str, content: str, active: str = "Overview") -> str:
                 margin: 0; 
                 color: var(--text-main); 
                 background:
-                    linear-gradient(135deg, rgba(3, 11, 18, 0.82), rgba(10, 22, 35, 0.74)),
-                    url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat fixed;
+                    radial-gradient(ellipse at 70% 20%, rgba(75, 35, 120, 0.28), transparent 42%),
+                    radial-gradient(ellipse at 24% 32%, rgba(25, 104, 164, 0.20), transparent 28%),
+                    linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.72)),
+                    url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat fixed;
+            }}
+            body::after {{
+                content: "🤖";
+                position: fixed;
+                right: 2.5vw;
+                bottom: 1.5vh;
+                z-index: 0;
+                pointer-events: none;
+                font-size: clamp(90px, 15vw, 220px);
+                opacity: 0.78;
+                filter: drop-shadow(0 0 10px rgba(255, 106, 0, 0.95)) drop-shadow(0 0 34px rgba(255, 34, 0, 0.9));
+                transform-origin: 50% 80%;
+                animation: robot-dance 1.5s ease-in-out infinite;
+            }}
+            @keyframes robot-dance {{
+                0%, 100% {{ transform: rotate(-8deg) translateY(0); }}
+                50% {{ transform: rotate(8deg) translateY(-16px); }}
             }}
             a {{ color: #8ed7ff; text-decoration: none; }}
-            .shell {{ display: flex; min-height: 100vh; }}
+            .shell {{ display: flex; min-height: 100vh; position: relative; z-index: 1; }}
             .sidebar {{ 
                 width: 230px; 
                 background: rgba(7, 18, 28, 0.80);
@@ -134,7 +153,7 @@ def nav_layout(title: str, content: str, active: str = "Overview") -> str:
             .status.offline {{ background: rgba(255, 67, 67, 0.12); color: var(--danger); }}
             .pill {{ display: inline-block; background: rgba(63,169,255,0.14); color: #d6efff; padding: 8px 12px; border-radius: 999px; margin-right: 8px; border: 1px solid rgba(143,214,255,0.22); }}
             input, select, button {{ font: inherit; }}
-            input, select {{ width: 100%; padding: 12px; margin-bottom: 14px; border-radius: 10px; border: 1px solid rgba(143,214,255,0.18); background: rgba(7, 17, 25, 0.82); color: #eef6ff; box-sizing: border-box; }}
+            input, select {{ width: 100%; padding: 12px; margin-bottom: 14px; border-radius: 10px; border: 1px solid rgba(143,214,255,0.18); background: rgba(7, 17, 25, 0.82); color: #eef6ff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.12); }}
             button {{ background: linear-gradient(135deg, #3fa9ff, #0d6efd); color: white; border: none; border-radius: 10px; padding: 11px 16px; cursor: pointer; box-shadow: 0 10px 20px rgba(33, 108, 216, 0.3); }}
             table {{ width: 100%; border-collapse: collapse; }}
             th, td {{ border-bottom: 1px solid rgba(155, 201, 255, 0.12); padding: 12px; text-align: left; }}
