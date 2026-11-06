@@ -14,9 +14,10 @@ def fetch_live_candle_data(
     bars: int = 250,
     mt5_path: str | None = None,
 ) -> pd.DataFrame:
-    """Fetch a valid OHLCV dataset from local MT5 if available.
+    """Fetch a valid OHLCV dataset from the active local MT5 terminal.
 
-    Returns an empty DataFrame when there is no MT5 installation or no live feed.
+    If the dashboard has already initialized and logged in to MT5, reuse that
+    connection. Only shut MT5 down when this function initialized it itself.
     """
     symbol = str(symbol or "").strip().upper()
     if not symbol:
@@ -30,11 +31,23 @@ def fetch_live_candle_data(
 
     end = datetime.now(timezone.utc)
     start = end - timedelta(days=max(1, bars * 2))
+    initialized_here = False
 
     try:
-        mt5_path = mt5_path or os.getenv("MT5_PATH", r"C:\Program Files\MetaTrader 5\terminal64.exe")
-        if not mt5.initialize(path=mt5_path):
-            return pd.DataFrame()
+        # MT5 exposes a process-wide connection. Reinitializing and then
+        # unconditionally calling shutdown() would disconnect the dashboard's
+        # logged-in service after evaluating a strategy/alert.
+        try:
+            already_initialized = mt5.terminal_info() is not None
+        except Exception:
+            already_initialized = False
+
+        if not already_initialized:
+            mt5_path = mt5_path or os.getenv("MT5_PATH", r"C:\Program Files\MetaTrader 5\terminal64.exe")
+            if not mt5.initialize(path=mt5_path):
+                return pd.DataFrame()
+            initialized_here = True
+
         if not mt5.symbol_select(symbol, True):
             return pd.DataFrame()
 
@@ -43,14 +56,11 @@ def fetch_live_candle_data(
             return pd.DataFrame()
 
         rates = mt5.copy_rates_range(symbol, tf, start, end)
-        if not rates:
+        if rates is None or len(rates) == 0:
             return pd.DataFrame()
 
         frame = pd.DataFrame(rates)
-        if frame.empty:
-            return frame
-
-        if "time" not in frame.columns:
+        if frame.empty or "time" not in frame.columns:
             return pd.DataFrame()
 
         frame["time"] = pd.to_datetime(frame["time"], unit="s", utc=True)
@@ -68,10 +78,11 @@ def fetch_live_candle_data(
     except Exception:
         return pd.DataFrame()
     finally:
-        try:
-            mt5.shutdown()
-        except Exception:
-            pass
+        if initialized_here:
+            try:
+                mt5.shutdown()
+            except Exception:
+                pass
 
 
 def load_live_market_datasets(
