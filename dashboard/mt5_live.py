@@ -266,6 +266,37 @@ class MT5LiveService:
             and getattr(deal, "type", None) in trade_types
         )
 
+    def today_loss_percent(self) -> float:
+        """Estimate today's realized plus floating loss as a percent of start balance."""
+        if self.mt5 is None or not self.connected:
+            raise RuntimeError("MT5 must be connected to verify today's loss limit.")
+        history = getattr(self.mt5, "history_deals_get", None)
+        if history is None:
+            raise RuntimeError("This MT5 package cannot verify today's loss.")
+        now = datetime.now()
+        start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        deals = history(start, now)
+        if deals is None:
+            raise RuntimeError(f"MT5 could not verify today's P/L history: {self.mt5.last_error()}")
+        realized = sum(
+            float(getattr(deal, "profit", 0.0) or 0.0)
+            + float(getattr(deal, "commission", 0.0) or 0.0)
+            + float(getattr(deal, "swap", 0.0) or 0.0)
+            + float(getattr(deal, "fee", 0.0) or 0.0)
+            for deal in deals
+        )
+        account = self.mt5.account_info()
+        if account is None:
+            raise RuntimeError("MT5 account balance is unavailable for daily loss calculation.")
+        raw_positions = self.mt5.positions_get()
+        if raw_positions is None:
+            raise RuntimeError("MT5 open positions are unavailable for daily loss calculation.")
+        floating = sum(float(getattr(position, "profit", 0.0) or 0.0) for position in raw_positions)
+        start_balance = float(getattr(account, "balance", 0.0) or 0.0) - realized
+        if start_balance <= 0:
+            raise RuntimeError("Start-of-day account balance is invalid.")
+        return max(0.0, -(realized + floating) / start_balance * 100.0)
+
     def open_trade_count(self) -> int:
         return len(self.positions()) if self.connected and self.mt5 is not None else 0
 
