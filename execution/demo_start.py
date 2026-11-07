@@ -248,8 +248,9 @@ class DemoStartController:
                 dry_run=True,
             )
 
-        # Hard gate: registry execution_enabled must be true for order send.
-        if not bool(matched.get("execution_enabled")):
+        # Demo forward-testing has its own approval flag. This is deliberately
+        # separate from execution_enabled, which remains false for real money.
+        if not bool(matched.get("demo_execution_enabled")):
             return DemoStartResult(
                 symbol=clean_symbol,
                 mode=mode,
@@ -257,8 +258,8 @@ class DemoStartController:
                 allowed=False,
                 direction=assessment.direction,
                 reason=(
-                    f"Rule '{matched.get('name')}' is reviewed but execution_enabled=false. "
-                    "Enable it only after explicit human approval."
+                    f"Rule '{matched.get('name')}' has not been approved for DEMO forward-testing. "
+                    "Use the explicit demo approval control first."
                 ),
                 rule_id=str(matched.get("rule_id") or ""),
                 rule_name=str(matched.get("name") or ""),
