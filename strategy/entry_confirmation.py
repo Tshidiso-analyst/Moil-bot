@@ -58,6 +58,17 @@ class EntryConfirmationEvaluator:
             raise ValueError("direction must be bullish or bearish.")
         if assessed_at.tzinfo is None or assessed_at.utcoffset() is None:
             raise ValueError("assessed_at must be timezone-aware.")
+        boolean_fields = {
+            "event_calendar_verified": event_calendar_verified,
+            "macro_bias_valid": macro_bias_valid,
+            "liquidity_sweep_confirmed": liquidity_sweep_confirmed,
+            "bos_body_close_confirmed": bos_body_close_confirmed,
+            "fvg_retracement_confirmed": fvg_retracement_confirmed,
+            "order_block_retest_confirmed": order_block_retest_confirmed,
+        }
+        for field_name, value in boolean_fields.items():
+            if not isinstance(value, bool):
+                raise ValueError(f"{field_name} must be a boolean.")
         if isinstance(daily_trade_count, bool) or not isinstance(daily_trade_count, int) or daily_trade_count < 0:
             raise ValueError("daily_trade_count must be a non-negative integer.")
         if isinstance(risk_percent, bool) or not isinstance(risk_percent, (int, float)) or not math.isfinite(float(risk_percent)):
