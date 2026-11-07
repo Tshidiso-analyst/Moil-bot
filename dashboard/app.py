@@ -368,7 +368,10 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                 self.redirect("/strategy?notice=" + urllib.parse.quote("Order blocked: verified DEMO account and explicit order confirmation are required."))
                 return
             try:
-                high_impact_news = calendar_monitor.has_active_high_impact(symbol)
+                high_impact_news = (
+                    calendar_monitor.has_active_high_impact(symbol)
+                    or calendar_monitor.has_high_impact_today(symbol)
+                )
                 if execute_demo and not calendar_monitor.is_verified():
                     raise RuntimeError("Economic calendar is not verified or is stale; demo execution is blocked.")
                 if execute_demo and high_impact_news:
