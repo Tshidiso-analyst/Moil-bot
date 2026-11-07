@@ -87,3 +87,58 @@ def test_monitor_generates_event_alerts_for_configured_symbols():
 
     assert monitor.refresh_once(now=NOW) is True
     assert engine.process.call_count == 2
+
+def test_monitor_exposes_release_component_analysis_only_for_verified_snapshot():
+    events = [
+        EconomicEvent(
+            name="Nonfarm Payrolls",
+            currency="USD",
+            scheduled_at=NOW + timedelta(days=1),
+            impact="high",
+            actual=220,
+            forecast=180,
+            previous=150,
+        ),
+        EconomicEvent(
+            name="Unemployment Rate",
+            currency="USD",
+            scheduled_at=NOW + timedelta(days=1),
+            impact="high",
+            actual=4.1,
+            forecast=4.2,
+            previous=4.3,
+        ),
+    ]
+    provider = Mock()
+    provider.fetch.return_value = snapshot(events)
+    provider.max_age = timedelta(minutes=15)
+    monitor = EconomicCalendarMonitor(provider=provider, symbols=[])
+
+    assert monitor.refresh_once(now=NOW) is True
+    status = monitor.status(now=NOW)
+    assert status["release_analysis"][0]["release_type"] == "NFP"
+    assert status["release_analysis"][0]["assessment"] == "mixed"
+    assert status["release_analysis"][0]["macro_bias"] == "unverified"
+    assert status["release_analysis"][0]["trade_approval"] is False
+
+
+def test_monitor_does_not_expose_release_analysis_from_stale_snapshot():
+    events = [
+        EconomicEvent(
+            name="US CPI",
+            currency="USD",
+            scheduled_at=NOW + timedelta(days=1),
+            impact="high",
+            actual=3.2,
+            forecast=3.0,
+        )
+    ]
+    provider = Mock()
+    provider.fetch.return_value = snapshot(events)
+    provider.max_age = timedelta(minutes=15)
+    monitor = EconomicCalendarMonitor(provider=provider, symbols=[])
+
+    assert monitor.refresh_once(now=NOW) is True
+    status = monitor.status(now=NOW + timedelta(minutes=20))
+    assert status["verified"] is False
+    assert status["release_analysis"] == []
