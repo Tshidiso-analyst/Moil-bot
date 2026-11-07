@@ -194,6 +194,11 @@ def test_demo_start_executes_only_after_separate_demo_rule_approval():
         account_mode="DEMO",
         allow_execution=True,
         proposed_risk_percent=0.5,
+        daily_loss_percent=0.0,
+        open_trades=0,
+        daily_trade_count=0,
+        high_impact_news=False,
+        calendar_verified=True,
         executor=executor,
         account_balance=10000.0,
     )
