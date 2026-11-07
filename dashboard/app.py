@@ -13,6 +13,7 @@ from dashboard.alerts_ui import handle_alert_action, render_alerts_content
 from dashboard.mt5_live import MT5LiveService
 from dashboard.realtime_pipeline import RealtimeTradingPipeline
 from fundamentals.analyzer import FundamentalAnalyzer
+from fundamentals.calendar_monitor import EconomicCalendarMonitor
 from fundamentals.models import NewsItem
 from fundamentals.news_reader import NewsReader
 from knowledge.unified_search import search_all_knowledge
@@ -24,6 +25,7 @@ CLOUD_MODE = os.environ.get("MOILBOT_CLOUD_MODE", "").lower() in {"1", "true", "
 
 mt5_service = MT5LiveService()
 alert_engine = AlertEngine()
+calendar_monitor = EconomicCalendarMonitor(alert_engine=alert_engine)
 
 SESSION: dict[str, Any] = {
     "connected": False,
@@ -427,7 +429,16 @@ def analysis_page(query: dict[str, list[str]]) -> str:
     if SESSION.get("connected"):
         market = mt5_service.symbol(symbol)
         pipeline = RealtimeTradingPipeline()
-        decision = pipeline.evaluate(symbol, float(get_account().balance), risk_percent=1.0)
+        calendar_verified = calendar_monitor.is_verified()
+        high_impact_news = calendar_monitor.has_active_high_impact(symbol) if calendar_verified else False
+        decision = pipeline.evaluate(
+            symbol,
+            float(get_account().balance),
+            risk_percent=1.0,
+            event_calendar_verified=calendar_verified,
+            high_impact_news=high_impact_news,
+            macro_bias_valid=False,
+        )
     else:
         market = None
         decision = None
@@ -458,6 +469,22 @@ def analysis_page(query: dict[str, list[str]]) -> str:
     </div>
     """
 
+    calendar_status = calendar_monitor.status()
+    calendar_label = "VERIFIED" if calendar_status["verified"] else "UNVERIFIED"
+    calendar_detail = (
+        f"Source: {esc(calendar_status['source'])}; "
+        f"events loaded: {esc(calendar_status['event_count'])}."
+        if calendar_status["verified"]
+        else f"Calendar unavailable or stale. {esc(calendar_status['error'] or 'No verified feed has been received.')}"
+    )
+    calendar_card = f"""
+    <div class="card">
+        <h3>Economic Calendar: {esc(calendar_label)}</h3>
+        <p class="muted">{calendar_detail}</p>
+        <p class="muted">New-trade approval remains blocked until calendar coverage and macro bias are verified.</p>
+    </div>
+    """
+
     content = f"""
     <div class="card">
         <h3>Execution Mode</h3>
@@ -465,6 +492,7 @@ def analysis_page(query: dict[str, list[str]]) -> str:
         <p class="muted">Operate enables the live execution gate. Standby keeps monitoring only.</p>
     </div>
 
+    {calendar_card}
     {tradingview_chart(symbol)}
     {market_cards}
     <div class="grid">
@@ -780,6 +808,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
 
 def main() -> None:
     server = ThreadingHTTPServer((HOST, PORT), MoilBotHandler)
+    calendar_monitor.start()
     print("\n=== MOIL BOT ===")
     print(f"Dashboard running at http://{HOST}:{PORT}")
     print("MT5 mode: local desktop terminal")
@@ -790,6 +819,7 @@ def main() -> None:
     except KeyboardInterrupt:
         print("Stopping Moil Bot dashboard...")
     finally:
+        calendar_monitor.stop()
         mt5_service.shutdown()
         server.server_close()
 
