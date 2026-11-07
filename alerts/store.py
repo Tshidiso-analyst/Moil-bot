@@ -96,6 +96,7 @@ class AlertStore:
             created_at=alert.created_at,
             status="resolved",
             decision_id=alert.decision_id,
+            dedupe_key=alert.dedupe_key,
         )
 
         self._alerts[alert_id] = updated
