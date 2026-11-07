@@ -110,6 +110,17 @@ class DemoStartController:
             raise ValueError("symbol must not be empty")
 
         mode = str(account_mode or "").strip().upper() or "UNKNOWN"
+        if mode == "PAPER" and allow_execution:
+            return DemoStartResult(
+                symbol=clean_symbol,
+                mode=mode,
+                status="blocked",
+                allowed=False,
+                direction="neutral",
+                reason="Broker order execution requires a verified MT5 DEMO account; PAPER is simulation-only.",
+                dry_run=True,
+            )
+
         if mode not in {"DEMO", "PAPER"}:
             return DemoStartResult(
                 symbol=clean_symbol,
