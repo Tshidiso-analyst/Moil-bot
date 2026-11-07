@@ -1,4 +1,3 @@
-from .emailer import send_email, send_sms
 from .service import (
     ContactPreferences,
     Notification,
@@ -13,6 +12,4 @@ __all__ = [
     "NotificationDelivery",
     "NotificationService",
     "notification_service",
-    "send_email",
-    "send_sms",
 ]
