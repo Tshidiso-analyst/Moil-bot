@@ -34,12 +34,16 @@ class EconomicEvent:
     source_url: str = ""
 
     def __post_init__(self) -> None:
-        if not self.name.strip():
-            raise ValueError("Event name must not be empty.")
-        if not self.currency.strip():
-            raise ValueError("Event currency must not be empty.")
-        if self.scheduled_at.tzinfo is None or self.scheduled_at.utcoffset() is None:
-            raise ValueError("scheduled_at must be timezone-aware.")
+        if not isinstance(self.name, str) or not self.name.strip():
+            raise ValueError("Event name must be a non-empty string.")
+        if not isinstance(self.currency, str) or not self.currency.strip():
+            raise ValueError("Event currency must be a non-empty string.")
+        if (
+            not isinstance(self.scheduled_at, datetime)
+            or self.scheduled_at.tzinfo is None
+            or self.scheduled_at.utcoffset() is None
+        ):
+            raise ValueError("scheduled_at must be a timezone-aware datetime.")
         if self.impact not in {"high", "medium", "low", "unknown"}:
             raise ValueError("impact must be high, medium, low or unknown.")
         if self.surprise_bias not in {
