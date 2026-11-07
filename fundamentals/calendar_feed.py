@@ -266,8 +266,12 @@ class FmpEconomicCalendarProvider:
                 # FMP documents economic-calendar timestamps as UTC.
                 if scheduled_at.tzinfo is None or scheduled_at.utcoffset() is None:
                     scheduled_at = scheduled_at.replace(tzinfo=timezone.utc)
-                impact_value = str(item.get("impact", "unknown")).strip().lower()
-                impact = impact_value if impact_value in {"high", "medium", "low"} else "unknown"
+                impact_value = str(item.get("impact", "")).strip().lower()
+                if impact_value not in {"high", "medium", "low"}:
+                    raise CalendarFeedError(
+                        f"FMP events[{index}].impact is missing or unrecognized; refusing to verify event risk."
+                    )
+                impact = impact_value
                 events.append(
                     EconomicEvent(
                         name=name,
