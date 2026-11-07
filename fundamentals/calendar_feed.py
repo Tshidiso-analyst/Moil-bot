@@ -37,6 +37,12 @@ def parse_timestamp(value: Any, field_name: str) -> datetime:
     return parsed.astimezone(timezone.utc)
 
 
+def _required_text(value: Any, field_name: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise CalendarFeedError(f"{field_name} must be a non-empty string.")
+    return value.strip()
+
+
 def _optional_number(value: Any, field_name: str) -> float | None:
     if value is None or value == "":
         return None
@@ -140,8 +146,8 @@ class HttpEconomicCalendarProvider:
             try:
                 events.append(
                     EconomicEvent(
-                        name=str(item.get("name", "")),
-                        currency=str(item.get("currency", "")),
+                        name=_required_text(item.get("name"), f"events[{index}].name"),
+                        currency=_required_text(item.get("currency"), f"events[{index}].currency").upper(),
                         scheduled_at=parse_timestamp(item.get("scheduled_at"), f"events[{index}].scheduled_at"),
                         impact=item.get("impact", "unknown"),
                         actual=_optional_number(item.get("actual"), f"events[{index}].actual"),
@@ -254,8 +260,8 @@ class FmpEconomicCalendarProvider:
             if not isinstance(item, dict):
                 raise CalendarFeedError(f"FMP events[{index}] must be an object.")
             try:
-                name = str(item.get("event", "")).strip()
-                currency = str(item.get("currency", "")).strip().upper()
+                name = _required_text(item.get("event"), f"FMP events[{index}].event")
+                currency = _required_text(item.get("currency"), f"FMP events[{index}].currency").upper()
                 raw_date = item.get("date")
                 if not isinstance(raw_date, str) or not raw_date.strip():
                     raise CalendarFeedError(f"FMP events[{index}].date is required.")
