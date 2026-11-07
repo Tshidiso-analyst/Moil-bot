@@ -28,12 +28,17 @@ The modules are not yet one fully integrated, validated trading intelligence sys
 
 Tests are in `fundamentals/tests/test_event_risk.py`.
 
-### Not yet implemented by this module
+### Added in the alert integration increment
 
-- It does not fetch an economic calendar. A trusted calendar provider or user-supplied event feed must be connected.
-- It does not infer missing actual, forecast, previous, revisions, unemployment, wages, central-bank guidance or market expectations.
-- It does not claim a CPI/NFP/FOMC release predicts price direction.
-- It is not yet wired into the dashboard real-time pipeline or alert scheduler.
+`alerts/event_alerts.py` converts caller-supplied high-impact events into warning alerts (upcoming) or critical alerts (inside the blackout window). Alerts are limited to symbols containing the event currency, retain source details, and use a stable event key so repeated scheduler calls do not resend the same alert during one process lifetime. `AlertEngine` stores alerts even when delivery is disabled and suppresses duplicate notifications for a matching key.
+
+### Not yet implemented by these modules
+
+- They do not fetch an economic calendar. A trusted calendar provider or user-supplied event feed must be connected and scheduled by the application.
+- They do not persist the alert deduplication index across process restarts; the current alert store is in-memory.
+- They do not infer missing actual, forecast, previous, revisions, unemployment, wages, central-bank guidance or market expectations.
+- They do not claim a CPI/NFP/FOMC release predicts price direction.
+- The dashboard does not yet run a calendar polling/scheduling loop. Until that is implemented, event alerts are a tested integration point, not a live feed.
 
 ## Completion workstreams and acceptance criteria
 
