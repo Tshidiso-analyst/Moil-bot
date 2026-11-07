@@ -65,6 +65,11 @@ class AlertEngine:
         Notification settings control delivery only. This keeps alert
         history available even when notifications are paused.
         """
+        if event.dedupe_key:
+            existing = self.store.by_dedupe_key(event.dedupe_key)
+            if existing is not None:
+                return AlertDispatch(alert=existing, notifications=[])
+
         alert_id = self._generate_alert_id()
 
         alert = self.store.create(

@@ -1,0 +1,91 @@
+{
+  "input_path": "knowledge/reports/strategy_source_evidence.json",
+  "input_record_count": 2,
+  "assessment_count": 4,
+  "summary_by_query": {
+    "fair value gap entry conditions": {
+      "direct": 2
+    },
+    "liquidity and liquidity sweeps": {
+      "direct": 1
+    },
+    "trading sessions and kill zones": {
+      "direct": 1
+    }
+  },
+  "relevance_policy": "Human-reviewed seed for the first draft rule. Direct means accepted as supporting evidence for a draft only, not live execution.",
+  "assessments": [
+    {
+      "evidence_id": "nyfvg001pdfpage12",
+      "source_type": "pdf",
+      "title": "ICT Market Structure Notes",
+      "locator": "page 12",
+      "url": "",
+      "video_id": "",
+      "page": 12,
+      "query": "fair value gap entry conditions",
+      "topic": "fair_value_gap",
+      "relevance": "direct",
+      "matched_terms": ["fair value gap", "entry", "displacement", "invalidation"],
+      "reason": "Specific FVG entry and invalidation context found.",
+      "search_score": 42.0,
+      "snippet": "A bullish fair value gap forms after bullish displacement. Entry is considered on the retracement into the gap during the New York session when higher-timeframe bias remains bullish. Invalidation is a candle-body close below the gap low.",
+      "review_status": "human_reviewed",
+      "rule_status": "candidate_for_draft"
+    },
+    {
+      "evidence_id": "nyfvg001pdfpage12",
+      "source_type": "pdf",
+      "title": "ICT Market Structure Notes",
+      "locator": "page 12",
+      "url": "",
+      "video_id": "",
+      "page": 12,
+      "query": "trading sessions and kill zones",
+      "topic": "sessions",
+      "relevance": "direct",
+      "matched_terms": ["new york session", "entry"],
+      "reason": "Session-specific entry context found.",
+      "search_score": 42.0,
+      "snippet": "Entry is considered on the retracement into the gap during the New York session when higher-timeframe bias remains bullish.",
+      "review_status": "human_reviewed",
+      "rule_status": "candidate_for_draft"
+    },
+    {
+      "evidence_id": "liqswp002videoless",
+      "source_type": "video",
+      "title": "Liquidity Sweep Continuation Lesson",
+      "locator": "video ID demo-liq-001",
+      "url": "",
+      "video_id": "demo-liq-001",
+      "page": null,
+      "query": "liquidity and liquidity sweeps",
+      "topic": "liquidity",
+      "relevance": "direct",
+      "matched_terms": ["liquidity", "sell-side liquidity", "sweep"],
+      "reason": "Specific liquidity-sweep continuation context found.",
+      "search_score": 38.0,
+      "snippet": "After sell-side liquidity is swept and price reclaims the level with a bullish body close, look for continuation into an imbalance or fair value gap.",
+      "review_status": "human_reviewed",
+      "rule_status": "candidate_for_draft"
+    },
+    {
+      "evidence_id": "liqswp002videoless",
+      "source_type": "video",
+      "title": "Liquidity Sweep Continuation Lesson",
+      "locator": "video ID demo-liq-001",
+      "url": "",
+      "video_id": "demo-liq-001",
+      "page": null,
+      "query": "fair value gap entry conditions",
+      "topic": "fair_value_gap",
+      "relevance": "direct",
+      "matched_terms": ["fair value gap", "entry"],
+      "reason": "Sweep-to-FVG continuation context found.",
+      "search_score": 38.0,
+      "snippet": "look for continuation into an imbalance or fair value gap. Risk is defined beyond the sweep extreme.",
+      "review_status": "human_reviewed",
+      "rule_status": "candidate_for_draft"
+    }
+  ]
+}

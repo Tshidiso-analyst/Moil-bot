@@ -32,19 +32,24 @@ Tests are in `fundamentals/tests/test_event_risk.py`.
 
 `alerts/event_alerts.py` converts caller-supplied high-impact events into warning alerts (upcoming) or critical alerts (inside the blackout window). Alerts are limited to symbols containing the event currency, retain source details, and use a stable event key so repeated scheduler calls do not resend the same alert during one process lifetime. `AlertEngine` stores alerts even when delivery is disabled and suppresses duplicate notifications for a matching key.
 
-### Added: configurable calendar feed and dashboard monitor
+### Added: explainable macro release component analysis
 
-`fundamentals/calendar_feed.py` reads a configured JSON endpoint, requires source identity and explicit coverage bounds, validates timezone-aware event times and numeric fields, rejects stale or oversized responses, and requires HTTPS except for localhost development. `fundamentals/calendar_monitor.py` polls the feed in a background thread, verifies freshness and coverage, generates alerts for configured symbols, and exposes status to the dashboard. `dashboard/app.py` starts/stops the monitor with the server, displays calendar verification status, and passes verified calendar/high-impact state into the real-time pipeline. `.env.example` and `docs/ECONOMIC_CALENDAR_PROVIDER.md` describe the provider contract and setup.
+`fundamentals/release_analysis.py` groups calendar records by currency, UTC release date and release family, then reports the available actual-versus-forecast comparisons for:
+- NFP: headline payrolls, unemployment rate, average hourly earnings and labor-force participation.
+- CPI: headline, core, monthly and annual inflation components.
+- FOMC: policy-rate records, statements, projections and press-conference records when the provider exposes them.
 
-The dashboard no longer substitutes fabricated example headlines when live news retrieval fails; it shows neutral, unverified fundamentals instead.
+The result distinguishes above forecast, below forecast, in-line, mixed, partial and unavailable releases. It deliberately keeps `macro_bias=unverified`, `trade_direction=none` and `trade_approval=false`. A numeric surprise is not automatically a currency signal; revisions, policy reaction, expectations and price confirmation still matter.
 
-### Remaining limitations
+Tests are in `fundamentals/tests/test_release_analysis.py` and are included in the focused fundamentals test directory.
 
-- No vendor feed URL or API token is configured in the repository. The adapter is ready, but the calendar remains unverified until the user configures a licensed provider endpoint that returns the documented contract.
-- Alert deduplication and alert history are in-memory and do not survive process restarts.
-- The macro-bias gate remains closed until a separate, verified and aligned macro assessment is supplied; a calendar event alone never determines direction.
-- The feed adapter does not infer missing actual, forecast, previous, revisions, unemployment, wages, central-bank guidance or market expectations.
-- No provider licence or entitlement is assumed. Select a provider whose terms permit the intended use.
+### Not yet implemented by these modules
+
+- The generic HTTP and optional FMP adapters plus a background monitor are implemented, but no live provider is configured in the repository. A valid provider subscription/key and a successful authenticated refresh are still required before the dashboard can verify calendar coverage.
+- They do not persist the alert deduplication index across process restarts; the current alert store is in-memory.
+- They do not infer missing actual, forecast, previous, revisions, unemployment, wages, central-bank guidance or market expectations.
+- They do not claim a CPI/NFP/FOMC release predicts price direction.
+- The dashboard starts the calendar polling loop only when a provider is configured. Without a successful fresh refresh, the calendar remains unverified and event coverage cannot be assumed.
 
 ## Completion workstreams and acceptance criteria
 
@@ -56,6 +61,18 @@ The dashboard no longer substitutes fabricated example headlines when live news 
 - A setup remains a research candidate until its exact rule version has source review and out-of-sample backtesting.
 
 Acceptance: deterministic tests cover bullish, bearish, mixed, consolidation, distribution, sweep-without-confirmation, conflicting timeframes, session exclusion and invalidation.
+
+### Added: conservative NY opening-hour confirmation gate
+
+`strategy/entry_confirmation.py` provides a separate, deterministic research checklist for the user's stated guardrails:
+- Uses the `America/New_York` timezone, including daylight-saving changes, and restricts the setup window to 09:30–10:30 New York time on weekdays.
+- Enforces no more than one trade per day and a maximum planned risk of 1%.
+- Requires verified calendar coverage and blocks the whole New York date when a high-impact event affecting a symbol currency is scheduled.
+- Requires a liquidity-sweep confirmation, matching BOS direction confirmed by candle-body close, and either an FVG retracement or order-block retest.
+- Requires a separately verified aligned macro bias.
+- Returns research qualification only; `execution_approved` is always false.
+
+The evaluator is deliberately not wired to auto-detect or approve entries yet. The existing sweep labels, order-block detector, FVG retracement detector, daily-trade persistence and macro-bias model need independent validation before the dashboard can supply these confirmations. Tests are in `strategy/tests/test_entry_confirmation.py`.
 
 ### 2. PDF and video knowledge ingestion
 - Keep source metadata, page numbers, video IDs, URLs, transcript language and retrieval timestamps.
@@ -102,4 +119,4 @@ Acceptance: no order API is reachable from the analysis dashboard; risk rejectio
 
 ## Validation status
 
-The focused GitHub Actions suite currently passes **70 tests** across `fundamentals/tests`, `alerts/tests` and `dashboard/tests/test_realtime_pipeline_calendar.py` on Python 3.10. The full project test suite and Windows/MT5-specific checks remain outstanding. The CI setup also exposed and removed two malformed duplicate paths under `notifications/`; the correctly named source files were preserved.
+The last confirmed focused GitHub Actions run passed **85 tests** before the latest FMP adapter, release-analysis and dashboard additions. The new tests are included in the focused workflow, but a CI result for the latest head has not yet been confirmed. The full project test suite and Windows/MT5-specific checks remain outstanding. The CI setup also exposed and removed two malformed duplicate paths under `notifications/`; the correctly named source files were preserved.

@@ -1,10 +1,3 @@
-$target = "qualification/ict_rules.py"
-
-if (Test-Path $target) {
-    throw "STOP: $target already exists. Nothing was changed."
-}
-
-@'
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
@@ -258,6 +251,3 @@ class ICTSetupQualifier:
             status="research_qualified" if qualified else "rejected",
             execution_enabled=False,
         )
-'@ | Set-Content -Path $target -Encoding UTF8
-
-Write-Host "Created $target" -ForegroundColor Green

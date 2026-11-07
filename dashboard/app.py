@@ -1,22 +1,29 @@
 from __future__ import annotations
 
 import html
+import ipaddress
 import os
 import urllib.parse
-from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
 from alerts.engine import AlertEngine
-from alerts.models import AlertEvent
-from dashboard.alerts_ui import handle_alert_action, render_alerts_content
 from dashboard.mt5_live import MT5LiveService
 from dashboard.realtime_pipeline import RealtimeTradingPipeline
-from fundamentals.analyzer import FundamentalAnalyzer
-from fundamentals.models import NewsItem
-from fundamentals.news_reader import NewsReader
+from fundamentals.calendar_monitor import EconomicCalendarMonitor
 from knowledge.unified_search import search_all_knowledge
 from risk.account import calculate_account_risk
+from execution.demo_start import DemoStartController
+from execution.mt5_executor import MT5ExecutionService
+from strategy.rule_registry import StrategyRuleRegistry
+from chat.execution_bridge import post_demo_start_result
+from chat.service import chat_service
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 HOST = os.environ.get("HOST", "127.0.0.1")
 PORT = int(os.environ.get("PORT", "8501"))
@@ -24,6 +31,7 @@ CLOUD_MODE = os.environ.get("MOILBOT_CLOUD_MODE", "").lower() in {"1", "true", "
 
 mt5_service = MT5LiveService()
 alert_engine = AlertEngine()
+calendar_monitor = EconomicCalendarMonitor(alert_engine=alert_engine)
 
 SESSION: dict[str, Any] = {
     "connected": False,
@@ -31,6 +39,7 @@ SESSION: dict[str, Any] = {
     "mode": None,
     "operating": False,
     "chat": [],
+    "last_demo_start": None,
 }
 
 
@@ -40,591 +49,263 @@ def esc(value: Any) -> str:
 
 def money(value: Any, currency: str = "") -> str:
     try:
-        amount = float(value)
-        return f"{currency} {amount:,.2f}".strip()
+        return f"{currency} {float(value):,.2f}".strip()
     except (TypeError, ValueError):
         return f"{currency} 0.00".strip()
 
 
+def parse_form(body: bytes) -> dict[str, str]:
+    data = urllib.parse.parse_qs(body.decode("utf-8", errors="replace"))
+    return {key: values[0] if values else "" for key, values in data.items()}
+
+
 def nav_layout(title: str, content: str, active: str = "Overview") -> str:
-    nav_items = [
+    items = [
         ("Overview", "/"),
         ("Markets", "/markets"),
         ("Analysis", "/analysis"),
         ("Knowledge", "/knowledge"),
-        ("Trades", "/trades"),
-        ("Alerts", "/alerts"),
-        ("Fundamentals", "/fundamentals"),
         ("Strategy", "/strategy"),
         ("Risk", "/risk"),
     ]
-    nav_html = "".join(
-        f'<a class="{"active" if name == active else ""}" href="{url}"><span>{name[0]}</span>{esc(name)}</a>'
-        for name, url in [(n, u) for n, u in nav_items]
+    nav = "".join(
+        f'<a class="{"active" if name == active else ""}" href="{url}">{esc(name)}</a>'
+        for name, url in items
     )
-
-    if SESSION.get("connected") and SESSION.get("account"):
-        status = '<span class="status online">MT5 Connected</span>'
-    else:
-        status = '<span class="status offline">MT5 Offline</span>'
-
-    return f"""
-    <!doctype html>
-    <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Moil Bot — {esc(title)}</title>
-        <style>
-            :root {{
-                --bg-deep: #05131d;
-                --bg-panel: rgba(7, 19, 30, 0.76);
-                --bg-panel-strong: rgba(10, 22, 35, 0.88);
-                --bg-card: rgba(13, 27, 40, 0.72);
-                --border-soft: rgba(155, 201, 255, 0.18);
-                --text-main: #edf7ff;
-                --text-soft: #b7cfe6;
-                --accent: #3fa9ff;
-                --accent-2: #11d2c2;
-                --success: #79f0b3;
-                --danger: #ff8c8c;
-                --warning: #ffd980;
-            }}
-
-            * {{ box-sizing: border-box; }}
-            html, body {{ min-height: 100%; }}
-            body {{ 
-                font-family: Arial, sans-serif; 
-                margin: 0; 
-                color: var(--text-main); 
-                background:
-                    radial-gradient(ellipse at 70% 20%, rgba(75, 35, 120, 0.28), transparent 42%),
-                    radial-gradient(ellipse at 24% 32%, rgba(25, 104, 164, 0.20), transparent 28%),
-                    linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.72)),
-                    url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat fixed;
-            }}
-            body::after {{
-                content: "🤖";
-                position: fixed;
-                right: 2.5vw;
-                bottom: 1.5vh;
-                z-index: 0;
-                pointer-events: none;
-                font-size: clamp(90px, 15vw, 220px);
-                opacity: 0.78;
-                filter: drop-shadow(0 0 10px rgba(255, 106, 0, 0.95)) drop-shadow(0 0 34px rgba(255, 34, 0, 0.9));
-                transform-origin: 50% 80%;
-                animation: robot-dance 1.5s ease-in-out infinite;
-            }}
-            @keyframes robot-dance {{
-                0%, 100% {{ transform: rotate(-8deg) translateY(0); }}
-                50% {{ transform: rotate(8deg) translateY(-16px); }}
-            }}
-            a {{ color: #8ed7ff; text-decoration: none; }}
-            .shell {{ display: flex; min-height: 100vh; position: relative; z-index: 1; }}
-            .sidebar {{ 
-                width: 230px; 
-                background: rgba(7, 18, 28, 0.80);
-                border-right: 1px solid var(--border-soft); 
-                padding: 18px 14px; 
-                backdrop-filter: blur(10px);
-                box-shadow: 14px 0 28px rgba(0,0,0,0.16);
-            }}
-            .brand {{ text-align: center; margin-bottom: 18px; }}
-            .brand h1 {{ font-size: 28px; letter-spacing: 2px; margin: 6px 0; color: #f4fbff; }}
-            .nav a {{ display: block; padding: 12px 14px; margin: 6px 0; border-radius: 10px; color: #dfefff; border: 1px solid transparent; }}
-            .nav a.active {{ background: linear-gradient(135deg, rgba(63,169,255,0.28), rgba(17,210,194,0.22)); border-color: rgba(143,214,255,0.32); }}
-            .main {{ flex: 1; padding: 24px; }}
-            .topbar {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }}
-            .card {{ 
-                background: var(--bg-card); 
-                border: 1px solid var(--border-soft); 
-                border-radius: 14px; 
-                padding: 18px; 
-                margin-bottom: 18px; 
-                box-shadow: 0 12px 26px rgba(0,0,0,0.18);
-                backdrop-filter: blur(8px);
-            }}
-            .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }}
-            .metric {{ font-size: 28px; font-weight: 700; }}
-            .muted {{ color: var(--text-soft); }}
-            .status {{ display: inline-block; padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; }}
-            .status.online {{ background: rgba(33, 203, 123, 0.14); color: var(--success); }}
-            .status.offline {{ background: rgba(255, 67, 67, 0.12); color: var(--danger); }}
-            .pill {{ display: inline-block; background: rgba(63,169,255,0.14); color: #d6efff; padding: 8px 12px; border-radius: 999px; margin-right: 8px; border: 1px solid rgba(143,214,255,0.22); }}
-            input, select, button {{ font: inherit; }}
-            input, select {{ width: 100%; padding: 12px; margin-bottom: 14px; border-radius: 10px; border: 1px solid rgba(143,214,255,0.18); background: rgba(7, 17, 25, 0.82); color: #eef6ff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.12); }}
-            button {{ background: linear-gradient(135deg, #3fa9ff, #0d6efd); color: white; border: none; border-radius: 10px; padding: 11px 16px; cursor: pointer; box-shadow: 0 10px 20px rgba(33, 108, 216, 0.3); }}
-            table {{ width: 100%; border-collapse: collapse; }}
-            th, td {{ border-bottom: 1px solid rgba(155, 201, 255, 0.12); padding: 12px; text-align: left; }}
-            .warn {{ color: var(--warning); }}
-            .danger {{ color: var(--danger); }}
-            .positive {{ color: var(--success); }}
-            .negative {{ color: var(--danger); }}
-            @media (max-width: 800px) {{ .shell {{ display: block; }} .sidebar {{ width: auto; }} .main {{ padding: 14px; }} }}
-        </style>
-    </head>
-    <body>
-        <div class="shell">
-            <aside class="sidebar">
-                <div class="brand">
-                    <div style="font-size:40px;">💀</div>
-                    <h1>MOIL BOT</h1>
-                    <div class="muted">AI TRADING INTELLIGENCE</div>
-                </div>
-                <nav class="nav">{nav_html}</nav>
-                <div style="padding-top: 24px;">{status}</div>
-            </aside>
-            <main class="main">
-                <div class="topbar">
-                    <h2>{esc(title)}</h2>
-                    {status}
-                </div>
-                {content}
-            </main>
-        </div>
-    </body>
-    </html>
-    """
+    status = (
+        '<span class="status online">MT5 Connected</span>'
+        if SESSION.get("connected") and SESSION.get("account")
+        else '<span class="status offline">MT5 Offline</span>'
+    )
+    return f"""<!doctype html>
+<html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Moil Bot — {esc(title)}</title>
+<style>
+body{{margin:0;font-family:Arial,sans-serif;background:#07121c;color:#edf7ff}}
+.shell{{display:flex;min-height:100vh}}
+.sidebar{{width:220px;background:#0a1722;padding:16px;border-right:1px solid #234}}
+.nav a{{display:block;color:#dfefff;padding:10px;margin:4px 0;border-radius:8px;text-decoration:none}}
+.nav a.active{{background:#1b3b55}}
+.main{{flex:1;padding:20px}}
+.card{{background:#102033;border:1px solid #2a4a66;border-radius:12px;padding:16px;margin-bottom:16px}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}}
+.metric{{font-size:24px;font-weight:700}}
+.muted{{color:#9fb6cc}}
+.status{{padding:6px 10px;border-radius:999px;font-size:12px}}
+.status.online{{background:#143;color:#79f0b3}}
+.status.offline{{background:#411;color:#ff8c8c}}
+input,select,button{{font:inherit;width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #345;background:#0b1824;color:#eef6ff}}
+button{{background:#1d6fd8;border:none;cursor:pointer}}
+table{{width:100%;border-collapse:collapse}}
+th,td{{border-bottom:1px solid #243b53;padding:8px;text-align:left}}
+.danger{{color:#ff8c8c}}
+</style></head>
+<body><div class="shell"><aside class="sidebar"><h1>MOIL BOT</h1><nav class="nav">{nav}</nav><div>{status}</div></aside>
+<main class="main"><h2>{esc(title)}</h2>{content}</main></div></body></html>"""
 
 
 def connection_form(message: str = "") -> str:
-    msg = "" if not message else f'<div class="card"><strong>Connection message</strong><div class="muted">{esc(message)}</div></div>'
-    return f"""
-    {msg}
+    msg = f'<div class="card"><strong>Connection:</strong> {esc(message)}</div>' if message else ""
+    return msg + """
     <div class="card">
-        <h3>Connect MT5 Account</h3>
-        <p class="muted">Connect your local MetaTrader 5 desktop terminal to enable market data, positions and decisioning.</p>
-        <form method="POST" action="/connect">
-            <label>Account Mode</label>
-            <select name="mode" required>
-                <option value="DEMO">DEMO</option>
-                <option value="REAL">REAL</option>
-            </select>
-            <label>MT5 Login</label>
-            <input type="number" name="login" placeholder="MT5 login" required />
-            <label>MT5 Server</label>
-            <input type="text" name="server" placeholder="Exness-MT5Trial9" required />
-            <label>Password</label>
-            <input type="password" name="password" placeholder="MT5 password" required />
-            <button type="submit">CONNECT MT5</button>
-        </form>
-        <p class="muted">Use the local MT5 desktop account, not the Exness web terminal URL.</p>
-    </div>
-    """
+      <h3>Connect MT5 Account</h3>
+      <form method="POST" action="/connect">
+        <label>Account Mode</label>
+        <select name="mode"><option value="DEMO">DEMO</option><option value="REAL">REAL</option></select>
+        <label>MT5 Login</label><input type="number" name="login" required/>
+        <label>MT5 Server</label><input type="text" name="server" required/>
+        <label>Password</label><input type="password" name="password" required/>
+        <button type="submit">CONNECT MT5</button>
+      </form>
+    </div>"""
 
 
 def get_account() -> Any:
     return SESSION.get("account")
 
 
-def mode_switch_html() -> str:
-    if SESSION.get("operating"):
-        return """
-        <form method="POST" action="/set_mode">
-            <input type="hidden" name="mode" value="standby" />
-            <button type="submit">Standby</button>
-        </form>
-        """
-    return """
-    <form method="POST" action="/set_mode">
-        <input type="hidden" name="mode" value="operate" />
-        <button type="submit">Operate</button>
-    </form>
-    """
-
-
-def tradingview_chart(symbol: str) -> str:
-    encoded = urllib.parse.quote(symbol)
-    src = (
-        "https://s.tradingview.com/widgetembed/"
-        f"?frameElementId=tv_{encoded}&symbol=OANDA%3A{encoded}"
-        "&interval=15&theme=dark&style=1&locale=en"
-        "&toolbarbg=%230b1726&hide_top_toolbar=0"
-        "&save_image=0&studies=[]"
-    )
-    return f"""
-    <div class="card">
-        <h3>TradingView — {esc(symbol)}</h3>
-        <iframe
-            src="{src}"
-            style="width:100%;height:520px;border:none;"
-            title="TradingView chart for {esc(symbol)}">
-        </iframe>
-    </div>
-    """
-
-
-def chat_panel(symbol: str) -> str:
-    items = SESSION.get("chat", [])
-    messages = "".join(
-        f"""
-        <div class="card">
-            <strong>{esc(item['role'].title())}</strong>
-            <p class="muted">{esc(item['text'])}</p>
-        </div>
-        """ for item in items[-8:]
-    ) if items else "<div class='card'><p class='muted'>Ask about EURUSD.</p></div>"
-
-    return f"""
-    <div class="card">
-        <h3>Moil Bot Chat — {esc(symbol)}</h3>
-        <form method="POST" action="/chat">
-            <input type="hidden" name="symbol" value="{esc(symbol)}" />
-            <input type="text" name="message" placeholder="Ask about EURUSD setup, bias, risk, or chart structure..." required />
-            <button type="submit">Send</button>
-        </form>
-        <div style="margin-top: 14px;">{messages}</div>
-    </div>
-    """
-
-
-def build_live_alerts() -> list:
-    if not SESSION.get("connected"):
-        return []
-    account = get_account()
-    if account is None:
-        return []
-    try:
-        pipeline = RealtimeTradingPipeline()
-        result = pipeline.evaluate("EURUSD", float(account.balance), risk_percent=1.0)
-        if result.status in {"accepted", "watch", "rejected"}:
-            event = AlertEvent(
-                symbol=result.symbol,
-                alert_type="setup_qualified" if result.status == "accepted" else "risk_warning",
-                severity="info" if result.status == "accepted" else "warning",
-                title=f"{result.symbol} pipeline {result.status}",
-                message=": ".join(result.reasons[:2]) if result.reasons else "Pipeline evaluation completed.",
-            )
-            alert_engine.process(event)
-            return alert_engine.get_all_alerts()
-    except Exception:
-        pass
-    return alert_engine.get_all_alerts()
-
-
-def build_fundamentals_context(symbol: str = "EURUSD") -> tuple[dict, list[NewsItem]]:
-    fallback_news = [
-        NewsItem(
-            title="US treasury yields soften as growth outlook cools",
-            source="Reuters",
-            published_at=datetime.now(timezone.utc) - timedelta(hours=3),
-            url="https://example.com/news/1",
-            summary="Bond yields ease and market participants expect a slower pace of tightening.",
-            impact="high",
-        ),
-        NewsItem(
-            title="Eurozone inflation prints softer than expected",
-            source="Bloomberg",
-            published_at=datetime.now(timezone.utc) - timedelta(hours=5),
-            url="https://example.com/news/2",
-            summary="Lower inflation supports a more dovish European Central Bank posture.",
-            impact="high",
-        ),
-        NewsItem(
-            title="Fed speakers signal patient approach to rates",
-            source="CNBC",
-            published_at=datetime.now(timezone.utc) - timedelta(hours=8),
-            url="https://example.com/news/3",
-            summary="Policy remains data dependent and the broader tone is less hawkish.",
-            impact="medium",
-        ),
-    ]
-
-    try:
-        news = NewsReader().fetch_symbol_news(symbol=symbol)
-        if not news:
-            raise RuntimeError("No live news returned.")
-    except Exception:
-        news = fallback_news
-
-    context = FundamentalAnalyzer().analyse(symbol, news)
-    return context, news
-
-
 def overview_page() -> str:
     account = get_account()
     if not SESSION.get("connected") or not account:
-        content = f"""
-        <div class="card">
-            <span class="pill">AI TRADING TERMINAL</span>
-            <h3 style="font-size: 46px; margin: 12px 0;">MOIL BOT IS ONLINE</h3>
-            <p class="muted">Connect your local Exness MT5 account to unlock live data, AI analysis, fundamentals, alerts and decisioning.</p>
-            <a href="#connect"><button>CONNECT ACCOUNT</button></a>
-        </div>
-        {connection_form()}
-        """
-        return nav_layout("Overview", content, "Overview")
-
-    balance = float(account.balance)
-    risk = calculate_account_risk(balance=balance, risk_percent=1.0)
-
+        return nav_layout("Overview", connection_form(), "Overview")
+    risk = calculate_account_risk(balance=float(account.balance), risk_percent=1.0)
     content = f"""
-    <div class="card">
-        <span class="pill">MT5 LIVE DATA</span>
-        <h3 style="font-size: 42px; margin: 12px 0;">MOIL BOT CONNECTED</h3>
-        <p class="muted">Account {esc(account.login)} • {esc(account.server)} • {esc(account.account_type)}</p>
-    </div>
     <div class="grid">
-        <div class="card"><div class="muted">BALANCE</div><div class="metric">{money(account.balance, account.currency)}</div></div>
-        <div class="card"><div class="muted">EQUITY</div><div class="metric">{money(account.equity, account.currency)}</div></div>
-        <div class="card"><div class="muted">FREE MARGIN</div><div class="metric">{money(account.free_margin, account.currency)}</div></div>
-        <div class="card"><div class="muted">FLOATING P/L</div><div class="metric {'positive' if account.profit >= 0 else 'negative'}">{money(account.profit, account.currency)}</div></div>
+      <div class="card"><div class="muted">BALANCE</div><div class="metric">{money(account.balance, account.currency)}</div></div>
+      <div class="card"><div class="muted">EQUITY</div><div class="metric">{money(account.equity, account.currency)}</div></div>
+      <div class="card"><div class="muted">RISK 1%</div><div class="metric">{money(risk.risk_amount, account.currency)}</div></div>
     </div>
-    <div class="grid">
-        <div class="card">
-            <h3>AI Analytics</h3>
-            <p class="muted">Strategy and market intelligence are active for the connected account.</p>
-            <div class="pill">decisioning online</div>
-            <div class="pill">risk guard armed</div>
-        </div>
-        <div class="card">
-            <h3>Risk Status</h3>
-            <p class="muted">1.0% risk budget selected</p>
-            <div class="metric">{money(risk.risk_amount, account.currency)}</div>
-        </div>
-        <div class="card">
-            <h3>Execution Mode</h3>
-            <div class="status {'online' if SESSION.get('operating') else 'offline'}">{'OPERATE' if SESSION.get('operating') else 'STANDBY'}</div>
-            <p class="muted">The terminal is connected. Execution is gated by the operate switch and the risk engine.</p>
-        </div>
-    </div>
-    """
+    <div class="card"><p class="muted">Account {esc(account.login)} on {esc(account.server)} ({esc(SESSION.get('mode'))})</p>
+    <p><a href="/strategy">Open Strategy / Demo Start</a></p></div>"""
     return nav_layout("Overview", content, "Overview")
 
 
 def markets_page() -> str:
     if not SESSION.get("connected"):
-        return nav_layout("Markets", connection_form("Connect an MT5 account to load real market prices."), "Markets")
+        return nav_layout("Markets", connection_form("Connect MT5 first."), "Markets")
     symbols = mt5_service.symbols()
     rows = "".join(
-        f"""
-        <tr>
-            <td>{esc(item['symbol'])}</td>
-            <td>{esc(item.get('description', ''))}</td>
-            <td>{item['bid']:.{item['digits']}f}</td>
-            <td>{item['ask']:.{item['digits']}f}</td>
-            <td>{item['spread']:.{item['digits']}f}</td>
-            <td><a href="/analysis?symbol={urllib.parse.quote(item['symbol'])}">Analyse</a></td>
-        </tr>
-        """ for item in symbols[:25]
-    ) or '<tr><td colspan="6">No visible symbols returned.</td></tr>'
-    content = f"""
-    <div class="card">
-        <h3>Live MT5 Market Watch</h3>
-        <p class="muted">Symbols are read directly from your connected local MetaTrader 5 terminal.</p>
-        <table>
-            <thead><tr><th>Symbol</th><th>Description</th><th>Bid</th><th>Ask</th><th>Spread</th><th>Analysis</th></tr></thead>
-            <tbody>{rows}</tbody>
-        </table>
-    </div>
-    """
-    return nav_layout("Markets", content, "Markets")
+        f"<tr><td>{esc(i['symbol'])}</td><td>{i['bid']}</td><td>{i['ask']}</td>"
+        f"<td><a href='/analysis?symbol={urllib.parse.quote(i['symbol'])}'>Analyse</a></td></tr>"
+        for i in symbols[:25]
+    ) or '<tr><td colspan="4">No symbols</td></tr>'
+    return nav_layout("Markets", f'<div class="card"><table><thead><tr><th>Symbol</th><th>Bid</th><th>Ask</th><th></th></tr></thead><tbody>{rows}</tbody></table></div>', "Markets")
 
 
 def analysis_page(query: dict[str, list[str]]) -> str:
     symbol = (query.get("symbol", ["EURUSD"])[0] or "EURUSD").upper()
-    if SESSION.get("connected"):
-        market = mt5_service.symbol(symbol)
-        pipeline = RealtimeTradingPipeline()
-        decision = pipeline.evaluate(symbol, float(get_account().balance), risk_percent=1.0)
-    else:
-        market = None
-        decision = None
-
-    mode_html = mode_switch_html()
-
-    market_cards = "" if market is None else f"""
-    <div class="grid">
-        <div class="card"><div class="muted">MT5 BID</div><div class="metric">{market['bid']:.{market['digits']}f}</div></div>
-        <div class="card"><div class="muted">MT5 ASK</div><div class="metric">{market['ask']:.{market['digits']}f}</div></div>
-        <div class="card"><div class="muted">MT5 SPREAD</div><div class="metric">{market['spread']:.{market['digits']}f}</div></div>
-    </div>
-    """
-
-    decision_block = "" if decision is None else f"""
-    <div class="card">
-        <h3>Moil Bot Analysis</h3>
-        <div class="status {'online' if decision.qualified else 'offline'}">{esc(decision.status.upper())}</div>
-        <p><strong>Symbol:</strong> {esc(decision.symbol)}</p>
-        <p><strong>Direction:</strong> {esc(decision.direction)}</p>
-        <p><strong>Score:</strong> {esc(decision.score)}</p>
-        <p><strong>Entry:</strong> {esc(decision.entry) if decision.entry is not None else 'n/a'}</p>
-        <p><strong>Stop:</strong> {esc(decision.stop_loss) if decision.stop_loss is not None else 'n/a'}</p>
-        <p><strong>Take Profit:</strong> {esc(decision.take_profit) if decision.take_profit is not None else 'n/a'}</p>
-        <ul>
-            {''.join(f'<li>{esc(item)}</li>' for item in decision.reasons[:6])}
-        </ul>
-    </div>
-    """
-
+    if not SESSION.get("connected"):
+        return nav_layout("Analysis", connection_form("Connect MT5 first."), "Analysis")
+    pipeline = RealtimeTradingPipeline()
+    decision = pipeline.evaluate(symbol, float(get_account().balance), risk_percent=1.0)
     content = f"""
     <div class="card">
-        <h3>Execution Mode</h3>
-        {mode_html}
-        <p class="muted">Operate enables the live execution gate. Standby keeps monitoring only.</p>
-    </div>
-
-    {tradingview_chart(symbol)}
-    {market_cards}
-    <div class="grid">
-        {decision_block}
-    </div>
-    {chat_panel(symbol)}
-    """
+      <h3>{esc(decision.symbol)} analysis</h3>
+      <p>Status: {esc(decision.status)} · Direction: {esc(decision.direction)} · Score: {esc(decision.score)}</p>
+      <p class="muted">{esc(' | '.join(decision.reasons[:5]))}</p>
+      <p>Entry {esc(decision.entry)} · SL {esc(decision.stop_loss)} · TP {esc(decision.take_profit)}</p>
+    </div>"""
     return nav_layout("Analysis", content, "Analysis")
 
 
-def trades_page() -> str:
-    if not SESSION.get("connected"):
-        return nav_layout("Trades", connection_form("Connect an MT5 account to view live positions."), "Trades")
-    positions = mt5_service.positions()
-    rows = "".join(
-        f"""
-        <tr>
-            <td>{esc(item['ticket'])}</td>
-            <td>{esc(item['symbol'])}</td>
-            <td>{esc(item['type'])}</td>
-            <td>{item['volume']:.2f}</td>
-            <td>{item['price_open']}</td>
-            <td>{item['price_current']}</td>
-            <td class="{'positive' if item['profit'] >= 0 else 'negative'}">{money(item['profit'], get_account().currency)}</td>
-        </tr>
-        """ for item in positions
-    ) or '<tr><td colspan="7">No open positions.</td></tr>'
-    content = f"""
-    <div class="card">
-        <h3>Live MT5 Positions</h3>
-        <table>
-            <thead><tr><th>Ticket</th><th>Symbol</th><th>Type</th><th>Volume</th><th>Open</th><th>Current</th><th>P/L</th></tr></thead>
-            <tbody>{rows}</tbody>
-        </table>
-    </div>
-    """
-    return nav_layout("Trades", content, "Trades")
-
-
-def alerts_page(notice: str = "") -> str:
-    alert_items = build_live_alerts()
-    if notice:
-        alert_box = f'<div class="card"><strong>Notice:</strong> {esc(notice)}</div>'
-    else:
-        alert_box = ""
-    status_cards = "".join(
-        f'<div class="card"><div class="muted">{status.title()}</div><h3>{sum(1 for a in alert_items if a.status == status)}</h3></div>'
-        for status in ("new", "acknowledged", "resolved")
+def knowledge_page(query: dict[str, list[str]] | None = None) -> str:
+    q = ""
+    if query:
+        q = (query.get("q", [""])[0] or "").strip()
+    form = (
+        '<div class="card"><form method="GET" action="/knowledge">'
+        f'<input name="q" placeholder="Search PDF/video knowledge" value="{esc(q)}"/>'
+        '<button type="submit">Search</button></form></div>'
     )
-    result_cards = "".join(
-        f"""
-        <div class="card">
-            <div><strong>{esc(item.title)}</strong> <span class="pill">{esc(item.severity)}</span></div>
-            <p class="muted">{esc(item.message)}</p>
-            <small>{esc(item.symbol)} • {esc(item.alert_type)} • {esc(item.created_at.strftime('%Y-%m-%d %H:%M UTC'))}</small>
-        </div>
-        """ for item in sorted(alert_items, key=lambda x: x.created_at, reverse=True)[:10]
-    ) or '<div class="card"><p class="muted">No alerts have been generated yet. When the MT5 account is connected, the pipeline creates live alert events.</p></div>'
-
-    content = f"""
-    {alert_box}
-    <div class="grid">{status_cards}</div>
-    <div class="card">
-        <h3>Automatic alert monitoring</h3>
-        <p class="muted">The alert engine is now active and connected to live trading decisions. The feed is retained in memory for this session.</p>
-    </div>
-    {result_cards}
-    """
-    return nav_layout("Alerts", content, "Alerts")
+    results_html = ""
+    if q:
+        try:
+            results = search_all_knowledge(q, limit=8)
+            results_html = "".join(
+                f"<div class='card'><strong>{esc(r.get('title'))}</strong>"
+                f"<div class='muted'>{esc(r.get('source_type'))} {esc(r.get('page') or r.get('video_id') or '')}</div>"
+                f"<p>{esc(r.get('snippet'))}</p></div>"
+                for r in results
+            ) or "<div class='card'><p class='muted'>No matches</p></div>"
+        except Exception as exc:
+            results_html = f"<div class='card'><p class='danger'>{esc(exc)}</p></div>"
+    return nav_layout("Knowledge", form + results_html, "Knowledge")
 
 
-def fundamentals_page() -> str:
-    context, news = build_fundamentals_context()
-    rows = "".join(
-        f"""
-        <tr>
-            <td>{esc(item.title)}</td>
-            <td>{esc(item.source)}</td>
-            <td>{esc(item.impact)}</td>
-            <td>{esc(item.published_at.strftime('%Y-%m-%d %H:%M UTC'))}</td>
-        </tr>
-        """ for item in news
-    )
-    content = f"""
-    <div class="card">
-        <h3>Fundamental Bias</h3>
-        <div class="pill">{esc(context.bias.upper())}</div>
-        <p class="muted">{esc(context.summary)}</p>
-        <p><strong>High Impact Events:</strong> {esc(context.high_impact_events)}</p>
-        <p><strong>News Count:</strong> {esc(context.news_count)}</p>
-    </div>
-    <div class="card">
-        <h3>Market News Feed</h3>
-        <table>
-            <thead><tr><th>Headline</th><th>Source</th><th>Impact</th><th>Published</th></tr></thead>
-            <tbody>{rows}</tbody>
-        </table>
-    </div>
-    """
-    return nav_layout("Fundamentals", content, "Fundamentals")
-
-
-def strategy_page() -> str:
+def strategy_page(notice: str = "") -> str:
     if not SESSION.get("connected"):
-        return nav_layout("Strategy", connection_form("Connect MT5 to evaluate live strategy decisions."), "Strategy")
+        return nav_layout("Strategy", connection_form("Connect MT5 first."), "Strategy")
     account = get_account()
-    pipeline = RealtimeTradingPipeline()
-    decision = pipeline.evaluate("EURUSD", float(account.balance), risk_percent=1.0)
+    decision = RealtimeTradingPipeline().evaluate("EURUSD", float(account.balance), risk_percent=1.0)
+    try:
+        rules = DemoStartController().reviewed_rules()
+        rules_error = ""
+    except Exception as exc:
+        rules = []
+        rules_error = str(exc)
+    rows = "".join(
+        f"<tr><td>{esc(r.get('rule_id'))}</td><td>{esc(r.get('name'))}</td>"
+        f"<td>{esc(r.get('direction'))}</td><td>{esc(r.get('status'))}</td>"
+        f"<td>{'yes' if r.get('demo_execution_enabled') else 'no'}</td></tr>"
+        for r in rules
+    ) or '<tr><td colspan="5">No reviewed rules found</td></tr>'
+    last = SESSION.get("last_demo_start")
+    last_html = (
+        f"<div class='card'><h3>Last Demo Start</h3>"
+        f"<p>{esc(last.get('status'))} · {esc(last.get('direction'))} · {esc(last.get('rule_name') or last.get('rule_id'))}</p>"
+        f"<p class='muted'>{esc(last.get('reason'))}</p></div>"
+        if last else "<div class='card'><p class='muted'>No demo start in this session yet.</p></div>"
+    )
+    notice_html = f"<div class='card'><strong>Notice:</strong> {esc(notice)}</div>" if notice else ""
+    err_html = f"<div class='card'><p class='danger'>{esc(rules_error)}</p></div>" if rules_error else ""
     content = f"""
+    {notice_html}{err_html}
     <div class="card">
-        <h3>Strategy Decision</h3>
-        <div class="status {'online' if decision.qualified else 'offline'}">{esc(decision.status.upper())}</div>
-        <p><strong>Symbol:</strong> {esc(decision.symbol)}</p>
-        <p><strong>Direction:</strong> {esc(decision.direction)}</p>
-        <p><strong>Score:</strong> {esc(decision.score)}</p>
-        <p><strong>Execution Plan:</strong> {esc(decision.status)}</p>
-        <p class="muted">{esc(' '.join(decision.reasons[:4]))}</p>
+      <h3>Strategy Decision</h3>
+      <p>{esc(decision.symbol)} · {esc(decision.status)} · {esc(decision.direction)} · score {esc(decision.score)}</p>
+      <p class="muted">{esc(' | '.join(decision.reasons[:4]))}</p>
+      <p>Entry {esc(decision.entry)} · SL {esc(decision.stop_loss)} · TP {esc(decision.take_profit)}</p>
     </div>
     <div class="card">
-        <h3>Execution Plan</h3>
-        <p><strong>Entry:</strong> {esc(decision.entry) if decision.entry is not None else 'n/a'}</p>
-        <p><strong>Stop Loss:</strong> {esc(decision.stop_loss) if decision.stop_loss is not None else 'n/a'}</p>
-        <p><strong>Take Profit:</strong> {esc(decision.take_profit) if decision.take_profit is not None else 'n/a'}</p>
-        <p><strong>Risk Amount:</strong> {money(decision.risk_amount, account.currency)}</p>
+      <h3>Human-reviewed rules</h3>
+      <table><thead><tr><th>ID</th><th>Name</th><th>Direction</th><th>Status</th><th>Demo Exec</th></tr></thead>
+      <tbody>{rows}</tbody></table>
     </div>
+    <div class="card">
+      <h3>Demo Start — strategy dry run</h3>
+      <p class="muted">Evaluates reviewed strategy rules without sending an order.</p>
+      <form method="POST" action="/demo_start">
+        <label>Symbol</label><input type="text" name="symbol" value="EURUSD" required/>
+        <button type="submit">ANALYSE DEMO SETUP</button>
+      </form>
+    </div>
+    <div class="card">
+      <h3>Approve a rule for DEMO forward-testing</h3>
+      <p class="muted">This approval is only for a verified DEMO account. It does not enable real-money execution. Review the rule and its sources before approving.</p>
+      <form method="POST" action="/enable_demo_rule">
+        <label>Reviewed rule</label>
+        <select name="rule_id" required>
+          {''.join(f'<option value="{esc(r.get("rule_id"))}">{esc(r.get("name"))} ({esc(r.get("rule_id"))})</option>' for r in rules)}
+        </select>
+        <label>Type ENABLE DEMO EXECUTION</label>
+        <input name="confirmation_phrase" type="text" required autocomplete="off"/>
+        <button type="submit" {'disabled' if SESSION.get('mode') != 'DEMO' or not rules else ''}>APPROVE DEMO FORWARD-TESTING</button>
+      </form>
+    </div>
+    <div class="card">
+      <h3>Place a DEMO market order</h3>
+      <p class="muted">Requires a verified DEMO account, an approved demo rule, a fresh verified economic calendar, valid setup confirmation, broker-based position sizing, stop loss and take profit, and your explicit confirmation. Maximum planned risk: 0.5%.</p>
+      <form method="POST" action="/demo_start">
+        <label>Symbol</label><input type="text" name="symbol" value="EURUSD" required/>
+        <input type="hidden" name="execute_demo" value="yes"/>
+        <label><input type="checkbox" name="confirm_demo_order" value="yes" required style="width:auto"/> I confirm that this may send a market order on my MT5 DEMO account.</label>
+        <button type="submit" {'disabled' if SESSION.get('mode') != 'DEMO' else ''}>SEND DEMO MARKET ORDER</button>
+      </form>
+    </div>
+    {last_html}
     """
     return nav_layout("Strategy", content, "Strategy")
 
 
 def risk_page() -> str:
     if not SESSION.get("connected"):
-        return nav_layout("Risk", connection_form("Connect MT5 to view risk and exposure."), "Risk")
+        return nav_layout("Risk", connection_form("Connect MT5 first."), "Risk")
     account = get_account()
     risk = calculate_account_risk(balance=float(account.balance), risk_percent=1.0)
     content = f"""
     <div class="grid">
-        <div class="card"><div class="muted">BALANCE</div><div class="metric">{money(account.balance, account.currency)}</div></div>
-        <div class="card"><div class="muted">RISK %</div><div class="metric">1.00%</div></div>
-        <div class="card"><div class="muted">RISK AMOUNT</div><div class="metric">{money(risk.risk_amount, account.currency)}</div></div>
-        <div class="card"><div class="muted">EXPOSURE</div><div class="metric">0.00%</div></div>
+      <div class="card"><div class="muted">BALANCE</div><div class="metric">{money(account.balance, account.currency)}</div></div>
+      <div class="card"><div class="muted">RISK AMOUNT</div><div class="metric">{money(risk.risk_amount, account.currency)}</div></div>
     </div>
-    <div class="card">
-        <h3>Risk Controls</h3>
-        <ul>
-            <li>Max risk per trade: 1.00%</li>
-            <li>Max open trades: 3</li>
-            <li>Max total exposure: 3.00%</li>
-            <li>Daily loss cap: 5.00%</li>
-        </ul>
-    </div>
-    """
+    <div class="card"><ul>
+      <li>Demo risk per trade: 0.5% by default; hard cap 1%</li>
+      <li>Maximum one new trade per local day</li>
+      <li>Maximum one open position</li>
+      <li>Daily loss stop: 1%</li>
+      <li>No new entries on a high-impact event date</li>
+      <li>Real-money order execution remains disabled</li>
+    </ul></div>"""
     return nav_layout("Risk", content, "Risk")
 
 
-def parse_form(body: bytes) -> dict[str, str]:
-    parsed = urllib.parse.parse_qs(body.decode("utf-8"))
-    return {k: v[0] for k, v in parsed.items()}
-
-
 class MoilBotHandler(BaseHTTPRequestHandler):
+    def is_local_dashboard_request(self) -> bool:
+        try:
+            if not ipaddress.ip_address(self.client_address[0]).is_loopback:
+                return False
+            origin = urllib.parse.urlparse(self.headers.get("Origin", ""))
+            host = urllib.parse.urlparse("//" + self.headers.get("Host", ""))
+            allowed_hosts = {"127.0.0.1", "localhost", "::1"}
+            return (
+                origin.scheme == "http"
+                and origin.hostname in allowed_hosts
+                and origin.port == PORT
+                and host.hostname in allowed_hosts
+                and host.port == PORT
+            )
+        except (ValueError, TypeError):
+            return False
+
     def send_html(self, page: str, status: int = 200) -> None:
         data = page.encode("utf-8")
         self.send_response(status)
@@ -634,7 +315,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         self.wfile.write(data)
 
     def redirect(self, location: str) -> None:
-        self.send_response(303)
+        self.send_response(302)
         self.send_header("Location", location)
         self.end_headers()
 
@@ -642,7 +323,6 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
         query = urllib.parse.parse_qs(parsed.query)
-
         if path == "/":
             page = overview_page()
         elif path == "/markets":
@@ -650,129 +330,147 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         elif path == "/analysis":
             page = analysis_page(query)
         elif path == "/knowledge":
-            search_text = (query.get("q") or [""])[0].strip()
-            if not search_text:
-                content = """
-                <div class="card">
-                    <h3>Knowledge Search</h3>
-                    <p class="muted">Search your training, PDFs and research notes for trading concepts and evidence.</p>
-                    <form method="GET" action="/knowledge">
-                        <input type="search" name="q" placeholder="Search knowledge base" />
-                        <button type="submit">Search</button>
-                    </form>
-                </div>
-                """
-                page = nav_layout("Knowledge", content, "Knowledge")
-            else:
-                try:
-                    results = search_all_knowledge(search_text, limit=10)
-                    rows = "".join(
-                        f"<div class='card'><h3>{esc(r.get('title','Untitled'))}</h3><p class='muted'>{esc(r.get('snippet',''))}</p></div>" for r in results[:10]
-                    ) or '<div class="card"><p class="muted">No knowledge results found.</p></div>'
-                    page = nav_layout("Knowledge", f'<div class="card"><h3>Results for: {esc(search_text)}</h3>{rows}</div>', "Knowledge")
-                except Exception as exc:
-                    page = nav_layout("Knowledge", f'<div class="card"><p class="danger">Knowledge error: {esc(str(exc))}</p></div>', "Knowledge")
-        elif path == "/trades":
-            page = trades_page()
-        elif path == "/alerts":
-            notice = query.get("notice", [""])[0]
-            page = alerts_page(notice)
-        elif path == "/fundamentals":
-            page = fundamentals_page()
+            page = knowledge_page(query)
         elif path == "/strategy":
-            page = strategy_page()
+            page = strategy_page(query.get("notice", [""])[0])
         elif path == "/risk":
             page = risk_page()
         elif path == "/disconnect":
-            SESSION["connected"] = False
-            SESSION["account"] = None
-            SESSION["mode"] = None
-            SESSION["operating"] = False
+            SESSION.update({"connected": False, "account": None, "mode": None, "operating": False})
             mt5_service.shutdown()
             self.redirect("/")
             return
         else:
             self.send_html("<h1>404</h1>", 404)
             return
-
         self.send_html(page)
 
     def do_POST(self) -> None:
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
+        length = int(self.headers.get("Content-Length", "0"))
+        form = parse_form(self.rfile.read(length))
 
-        if path == "/alerts/action":
-            length = int(self.headers.get("Content-Length", "0"))
-            form = parse_form(self.rfile.read(length))
+        if path == "/enable_demo_rule":
+            if not self.is_local_dashboard_request():
+                self.redirect("/strategy?notice=" + urllib.parse.quote("Demo rule approval requires a same-origin local dashboard request."))
+                return
+            if not SESSION.get("connected") or SESSION.get("mode") != "DEMO":
+                self.redirect("/strategy?notice=" + urllib.parse.quote("Rule approval is available only on a verified DEMO account."))
+                return
             try:
-                notice = handle_alert_action(form)
-                self.redirect("/alerts?notice=" + urllib.parse.quote(notice))
-                return
+                registry = StrategyRuleRegistry()
+                registry.enable_demo_execution(
+                    rule_id=(form.get("rule_id") or "").strip(),
+                    confirmation_phrase=(form.get("confirmation_phrase") or "").strip(),
+                )
+                notice = "Rule approved for DEMO forward-testing only. Real-money execution remains disabled."
             except Exception as exc:
-                page = alerts_page(str(exc))
-                self.send_html(page, 400)
-                return
-
-        if path == "/set_mode":
-            length = int(self.headers.get("Content-Length", "0"))
-            form = parse_form(self.rfile.read(length))
-            mode = (form.get("mode") or "standby").lower()
-            SESSION["operating"] = (mode == "operate")
-            self.redirect("/analysis?symbol=EURUSD")
+                notice = f"Demo rule approval failed: {exc}"
+            self.redirect("/strategy?notice=" + urllib.parse.quote(notice))
             return
 
-        if path == "/chat":
-            length = int(self.headers.get("Content-Length", "0"))
-            form = parse_form(self.rfile.read(length))
-            symbol = (form.get("symbol") or "EURUSD").upper()
-            message = (form.get("message") or "").strip()
-            if message:
-                SESSION.setdefault("chat", []).append({"role": "user", "text": f"{symbol}: {message}"})
-                response = (
-                    f"{symbol} context: I am monitoring the live MT5 feed and the strategy pipeline. "
-                    f"Current mode is {'OPERATE' if SESSION.get('operating') else 'STANDBY'}. "
-                    "Use the analysis page for the live signal, structure, and risk status."
+        if path == "/demo_start":
+            symbol = (form.get("symbol") or "EURUSD").strip().upper()
+            execute_demo = form.get("execute_demo") == "yes"
+            if not SESSION.get("connected"):
+                self.redirect("/strategy?notice=" + urllib.parse.quote("Connect MT5 before Demo Start."))
+                return
+            account = get_account()
+            actual_mode = str(getattr(account, "account_type", "") or SESSION.get("mode") or "UNKNOWN").upper()
+            if execute_demo and (
+                not self.is_local_dashboard_request()
+                or actual_mode != "DEMO"
+                or str(SESSION.get("mode") or "").upper() != "DEMO"
+                or form.get("confirm_demo_order") != "yes"
+            ):
+                self.redirect("/strategy?notice=" + urllib.parse.quote("Order blocked: verified DEMO account and explicit order confirmation are required."))
+                return
+            try:
+                calendar_verified = calendar_monitor.is_verified()
+                high_impact_news = (
+                    calendar_monitor.has_active_high_impact(symbol)
+                    or calendar_monitor.has_high_impact_today(symbol)
                 )
-                SESSION["chat"].append({"role": "assistant", "text": response})
-            self.redirect(f"/analysis?symbol={urllib.parse.quote(symbol)}")
+                if execute_demo and not calendar_verified:
+                    raise RuntimeError("Economic calendar is not verified or is stale; demo execution is blocked.")
+                if execute_demo and high_impact_news:
+                    raise RuntimeError("High-impact economic event blackout is active for this symbol.")
+                today_entries = mt5_service.today_entry_count() if execute_demo else 0
+                if execute_demo and today_entries >= 1:
+                    raise RuntimeError("One-trade-per-day limit reached. No additional order will be sent today.")
+                if execute_demo and mt5_service.open_trade_count() >= 1:
+                    raise RuntimeError("An MT5 position is already open. Close/manage it before another entry.")
+                pipeline = RealtimeTradingPipeline()
+                actual_symbol, datasets = pipeline._build_datasets(symbol)
+                frame = datasets.get("M15")
+                if frame is None or getattr(frame, "empty", True):
+                    raise ValueError(f"No M15 data available for {symbol}.")
+                if "timestamp" not in frame.columns and "time" in frame.columns:
+                    frame = frame.copy()
+                    frame["timestamp"] = frame["time"]
+                executor = None
+                if execute_demo:
+                    executor = MT5ExecutionService(mt5_module=mt5_service.mt5)
+                    executor.adopt_existing_connection()
+                result = DemoStartController().start(
+                    symbol=actual_symbol,
+                    dataframe=frame,
+                    account_mode=actual_mode,
+                    allow_execution=execute_demo,
+                    proposed_risk_percent=0.5,
+                    daily_loss_percent=mt5_service.today_loss_percent() if execute_demo else 0.0,
+                    open_trades=mt5_service.open_trade_count(),
+                    daily_trade_count=today_entries,
+                    fundamental_bias="neutral",
+                    high_impact_news=high_impact_news,
+                    calendar_verified=calendar_verified,
+                    executor=executor,
+                    account_balance=float(account.balance),
+                )
+                SESSION["last_demo_start"] = {
+                    "status": result.status,
+                    "direction": result.direction,
+                    "reason": result.reason,
+                    "rule_id": result.rule_id,
+                    "rule_name": result.rule_name,
+                    "dry_run": result.dry_run,
+                    "symbol": result.symbol,
+                    "order_ticket": result.order_ticket,
+                }
+                try:
+                    post_demo_start_result(result)
+                except Exception:
+                    pass
+                notice = result.reason
+            except Exception as exc:
+                notice = f"Demo Start failed: {exc}"
+            self.redirect("/strategy?notice=" + urllib.parse.quote(notice))
             return
 
         if path != "/connect":
             self.send_html("<h1>404</h1>", 404)
             return
-
         if CLOUD_MODE:
             self.send_html("<h1>MT5 connections are disabled on the hosted cloud version.</h1>", 503)
             return
-
-        length = int(self.headers.get("Content-Length", "0"))
-        body = self.rfile.read(length)
-        form = parse_form(body)
-        mode = form.get("mode", "DEMO").upper()
-        login = int(form.get("login", "0"))
-        password = form.get("password", "")
-        server = form.get("server", "")
-
         try:
-            result = mt5_service.connect(login=login, password=password, server=server, requested_mode=mode)
+            mode = (form.get("mode") or "DEMO").upper()
+            result = mt5_service.connect(
+                login=int(form.get("login") or "0"),
+                password=form.get("password") or "",
+                server=form.get("server") or "",
+                requested_mode=mode,
+            )
             if result.connected:
                 SESSION["connected"] = True
                 SESSION["account"] = result
-                SESSION["mode"] = mode
-                build_live_alerts()
+                SESSION["mode"] = result.account_type
                 self.redirect("/")
                 return
-            SESSION["connected"] = False
-            SESSION["account"] = None
-            SESSION["mode"] = None
             self.send_html(nav_layout("Connection", connection_form(result.message), "Overview"), 401)
-            return
-        except ValueError:
-            self.send_html(nav_layout("Connection", connection_form("MT5 login must be a valid number."), "Overview"), 400)
-            return
         except Exception as exc:
-            self.send_html(nav_layout("Connection", connection_form(f"Connection error: {exc}"), "Overview"), 500)
-            return
+            self.send_html(nav_layout("Connection", connection_form(str(exc)), "Overview"), 500)
 
     def log_message(self, format: str, *args: Any) -> None:
         print(f"[MOIL BOT] {format % args}")
@@ -780,16 +478,15 @@ class MoilBotHandler(BaseHTTPRequestHandler):
 
 def main() -> None:
     server = ThreadingHTTPServer((HOST, PORT), MoilBotHandler)
-    print("\n=== MOIL BOT ===")
+    calendar_monitor.start()
     print(f"Dashboard running at http://{HOST}:{PORT}")
-    print("MT5 mode: local desktop terminal")
-    print("Order execution: disabled (read-only)")
-    print("AI modules: fundamentals, alerts, strategy and risk enabled")
+    print("Demo Start: reviewed-rule DEMO market orders available after explicit confirmation; REAL accounts blocked")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print("Stopping Moil Bot dashboard...")
+        print("Stopping...")
     finally:
+        calendar_monitor.stop()
         mt5_service.shutdown()
         server.server_close()
 

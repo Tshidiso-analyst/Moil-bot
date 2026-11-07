@@ -1,7 +1,9 @@
 from dataclasses import dataclass
+import os
 from typing import Protocol
 
 from alerts.models import Alert, NotificationSettings
+from notifications.emailer import send_email, send_sms
 
 
 @dataclass(frozen=True)
@@ -35,51 +37,90 @@ class EmailNotificationChannel:
     def __init__(
         self,
         smtp_host: str = "",
-        smtp_port: int = 587,
+        smtp_port: int | None = None,
         username: str = "",
         password: str = "",
         recipient: str = "",
     ):
-        self.smtp_host = smtp_host
-        self.smtp_port = smtp_port
-        self.username = username
-        self.password = password
-        self.recipient = recipient
+        self.smtp_host = smtp_host or os.getenv("SMTP_HOST", "").strip()
+        self.smtp_port = int(os.getenv("SMTP_PORT", "587")) if smtp_port is None else int(smtp_port)
+        self.username = username or os.getenv("SMTP_USER", "").strip()
+        self.password = password or os.getenv("SMTP_PASSWORD", "")
+        self.recipient = recipient or os.getenv(
+            "MOILBOT_ALERT_EMAIL_TO",
+            os.getenv("ALERT_EMAIL_TO", ""),
+        ).strip()
 
     def send(self, alert: Alert) -> NotificationResult:
-        if not all(
-            [
-                self.smtp_host,
-                self.username,
-                self.password,
-                self.recipient,
-            ]
-        ):
+        if not self.recipient:
             return NotificationResult(
                 channel=self.name,
                 sent=False,
-                message="Email configuration is incomplete.",
+                message="Email recipient is not configured.",
             )
-
-        # SMTP delivery will be enabled when valid credentials
-        # are supplied through the application's environment.
+        try:
+            delivered = send_email(
+                self.recipient,
+                alert.title,
+                alert.message,
+                smtp_host=self.smtp_host,
+                smtp_port=self.smtp_port,
+                smtp_user=self.username,
+                smtp_password=self.password,
+            )
+            if not delivered:
+                return NotificationResult(
+                    channel=self.name,
+                    sent=False,
+                    message="Email preview only; SMTP delivery is not configured.",
+                )
+        except Exception as exc:
+            return NotificationResult(
+                channel=self.name,
+                sent=False,
+                message=f"Email delivery failed: {exc}",
+            )
         return NotificationResult(
             channel=self.name,
-            sent=False,
-            message="SMTP delivery is configured but not yet dispatched.",
+            sent=True,
+            message=f"Email delivered to {self.recipient}.",
         )
 
 
 class MessageNotificationChannel:
     name = "message"
 
+    def __init__(self, recipient: str = ""):
+        self.recipient = recipient or os.getenv(
+            "MOILBOT_ALERT_SMS_TO",
+            os.getenv("ALERT_SMS_TO", ""),
+        ).strip()
+
     def send(self, alert: Alert) -> NotificationResult:
+        if not self.recipient:
+            return NotificationResult(
+                channel=self.name,
+                sent=False,
+                message="SMS recipient is not configured.",
+            )
+        try:
+            delivered = send_sms(self.recipient, f"{alert.title}: {alert.message}")
+            if not delivered:
+                return NotificationResult(
+                    channel=self.name,
+                    sent=False,
+                    message="SMS preview only; Twilio delivery is not configured.",
+                )
+        except Exception as exc:
+            return NotificationResult(
+                channel=self.name,
+                sent=False,
+                message=f"SMS delivery failed: {exc}",
+            )
         return NotificationResult(
             channel=self.name,
-            sent=False,
-            message=(
-                "External messaging provider is not configured."
-            ),
+            sent=True,
+            message=f"SMS delivered to {self.recipient}.",
         )
 
 
@@ -90,17 +131,13 @@ class NotificationService:
         channels: dict[str, NotificationChannel] | None = None,
     ):
         self.settings = settings or NotificationSettings()
-
         self.channels = channels or {
             "in_app": InAppNotificationChannel(),
             "email": EmailNotificationChannel(),
             "message": MessageNotificationChannel(),
         }
 
-    def update_settings(
-        self,
-        settings: NotificationSettings,
-    ) -> None:
+    def update_settings(self, settings: NotificationSettings) -> None:
         self.settings = settings
 
     def send(self, alert: Alert) -> list[NotificationResult]:
@@ -108,10 +145,8 @@ class NotificationService:
             return []
 
         results = []
-
         for channel_name in self.settings.enabled_channels():
             channel = self.channels.get(channel_name)
-
             if channel is None:
                 results.append(
                     NotificationResult(
@@ -121,7 +156,5 @@ class NotificationService:
                     )
                 )
                 continue
-
             results.append(channel.send(alert))
-
         return results

@@ -217,6 +217,7 @@ class Alert:
     created_at: datetime
     status: str = "new"
     decision_id: str | None = None
+    dedupe_key: str | None = None
 
     def __post_init__(self):
         if not self.alert_id.strip():
@@ -255,6 +256,7 @@ class AlertEvent:
     title: str
     message: str
     decision_id: str | None = None
+    dedupe_key: str | None = None
 
     def __post_init__(self):
         if not self.symbol.strip():

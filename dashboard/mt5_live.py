@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from datetime import datetime
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -44,7 +45,6 @@ class MT5LiveService:
         requested_mode: str = "DEMO",
     ) -> MT5ConnectionResult:
         """Initialize and log in to the local MetaTrader 5 terminal."""
-        del requested_mode  # Account mode is determined by the MT5 account itself.
         if self.mt5 is None:
             self.connected = False
             self.last_error = "MetaTrader5 package is not installed in this Python environment."
@@ -82,9 +82,25 @@ class MT5LiveService:
         self.connected = True
         self.account = info
         self.last_error = ""
-        account_type = getattr(info, "trade_mode", "")
-        mode_map = {0: "DEMO", 1: "REAL", 2: "CONTEST", 3: "FUTURES"}
-        account_type = mode_map.get(account_type, str(account_type))
+        # MetaTrader5 ACCOUNT_TRADE_MODE values are DEMO=0, CONTEST=1, REAL=2.
+        # Never trust the mode selected in the dashboard form.
+        trade_mode = getattr(info, "trade_mode", None)
+        mode_map = {
+            getattr(self.mt5, "ACCOUNT_TRADE_MODE_DEMO", 0): "DEMO",
+            getattr(self.mt5, "ACCOUNT_TRADE_MODE_CONTEST", 1): "CONTEST",
+            getattr(self.mt5, "ACCOUNT_TRADE_MODE_REAL", 2): "REAL",
+        }
+        account_type = mode_map.get(trade_mode, "UNKNOWN")
+        requested = str(requested_mode or "DEMO").strip().upper()
+        if requested in {"DEMO", "REAL"} and account_type != requested:
+            self.mt5.shutdown()
+            self.connected = False
+            self.account = None
+            self.last_error = (
+                f"Selected {requested} mode does not match the connected MT5 "
+                f"account type ({account_type}). No session was created."
+            )
+            return MT5ConnectionResult(connected=False, message=self.last_error)
         values = {
             "login": int(getattr(info, "login", login) or login),
             "server": str(getattr(info, "server", server) or server),
@@ -219,6 +235,67 @@ class MT5LiveService:
         except Exception as exc:
             self.last_error = f"MT5 positions lookup failed: {exc}"
             return []
+
+    def today_entry_count(self) -> int:
+        """Count today's opening deals across the connected account.
+
+        If MT5 cannot provide deal history, fail closed instead of silently
+        bypassing the one-new-trade-per-day rule.
+        """
+        if self.mt5 is None or not self.connected:
+            raise RuntimeError("MT5 must be connected to check today's trade limit.")
+        history = getattr(self.mt5, "history_deals_get", None)
+        if history is None:
+            raise RuntimeError("This MT5 package cannot verify today's trade count.")
+        now = datetime.now()
+        start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        deals = history(start, now)
+        if deals is None:
+            raise RuntimeError(f"MT5 could not verify today's deal history: {self.mt5.last_error()}")
+        entry_values = {
+            getattr(self.mt5, "DEAL_ENTRY_IN", 0),
+            getattr(self.mt5, "DEAL_ENTRY_INOUT", 2),
+        }
+        trade_types = {
+            getattr(self.mt5, "DEAL_TYPE_BUY", 0),
+            getattr(self.mt5, "DEAL_TYPE_SELL", 1),
+        }
+        return sum(
+            1 for deal in deals
+            if getattr(deal, "entry", None) in entry_values
+            and getattr(deal, "type", None) in trade_types
+        )
+
+    def today_loss_percent(self) -> float:
+        """Estimate today's realized plus floating loss as a percent of start balance."""
+        if self.mt5 is None or not self.connected:
+            raise RuntimeError("MT5 must be connected to verify today's loss limit.")
+        history = getattr(self.mt5, "history_deals_get", None)
+        if history is None:
+            raise RuntimeError("This MT5 package cannot verify today's loss.")
+        now = datetime.now()
+        start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        deals = history(start, now)
+        if deals is None:
+            raise RuntimeError(f"MT5 could not verify today's P/L history: {self.mt5.last_error()}")
+        realized = sum(
+            float(getattr(deal, "profit", 0.0) or 0.0)
+            + float(getattr(deal, "commission", 0.0) or 0.0)
+            + float(getattr(deal, "swap", 0.0) or 0.0)
+            + float(getattr(deal, "fee", 0.0) or 0.0)
+            for deal in deals
+        )
+        account = self.mt5.account_info()
+        if account is None:
+            raise RuntimeError("MT5 account balance is unavailable for daily loss calculation.")
+        raw_positions = self.mt5.positions_get()
+        if raw_positions is None:
+            raise RuntimeError("MT5 open positions are unavailable for daily loss calculation.")
+        floating = sum(float(getattr(position, "profit", 0.0) or 0.0) for position in raw_positions)
+        start_balance = float(getattr(account, "balance", 0.0) or 0.0) - realized
+        if start_balance <= 0:
+            raise RuntimeError("Start-of-day account balance is invalid.")
+        return max(0.0, -(realized + floating) / start_balance * 100.0)
 
     def open_trade_count(self) -> int:
         return len(self.positions()) if self.connected and self.mt5 is not None else 0
