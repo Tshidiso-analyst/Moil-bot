@@ -132,3 +132,25 @@ def test_results_are_stably_sorted():
     assert [(item.currency, item.release_type) for item in results] == [
         ("EUR", "CPI"), ("USD", "NFP")
     ]
+
+
+def test_above_forecast_and_in_line_components_are_mixed_not_partial():
+    release = EconomicReleaseAnalyzer().analyze([
+        event("CPI YoY", 3.2, 3.0),
+        event("Core CPI YoY", 3.4, 3.4),
+    ])[0]
+
+    assert release.assessment == "mixed"
+    assert "in_line" in release.observations[0]
+    assert "above_forecast" in release.observations[0]
+
+
+def test_below_forecast_and_in_line_components_are_mixed_not_partial():
+    release = EconomicReleaseAnalyzer().analyze([
+        event("CPI YoY", 2.8, 3.0),
+        event("Core CPI YoY", 3.4, 3.4),
+    ])[0]
+
+    assert release.assessment == "mixed"
+    assert "in_line" in release.observations[0]
+    assert "below_forecast" in release.observations[0]
