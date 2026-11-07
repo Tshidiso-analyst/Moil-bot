@@ -1,0 +1,50 @@
+{
+  "generated_at_utc": "2026-11-07T16:05:00+00:00",
+  "queries": [
+    "fair value gap entry conditions",
+    "liquidity and liquidity sweeps",
+    "trading sessions and kill zones"
+  ],
+  "record_count": 2,
+  "source_counts": {
+    "pdf": 1,
+    "video": 1
+  },
+  "errors": [],
+  "records": [
+    {
+      "evidence_id": "nyfvg001pdfpage12",
+      "source_type": "pdf",
+      "title": "ICT Market Structure Notes",
+      "locator": "page 12",
+      "page": 12,
+      "video_id": null,
+      "url": "",
+      "snippet": "A bullish fair value gap forms after bullish displacement. Entry is considered on the retracement into the gap during the New York session when higher-timeframe bias remains bullish. Invalidation is a candle-body close below the gap low.",
+      "search_score": 42.0,
+      "matched_queries": [
+        "fair value gap entry conditions",
+        "trading sessions and kill zones"
+      ],
+      "review_status": "human_reviewed",
+      "rule_status": "candidate_for_draft"
+    },
+    {
+      "evidence_id": "liqswp002videoless",
+      "source_type": "video",
+      "title": "Liquidity Sweep Continuation Lesson",
+      "locator": "video ID demo-liq-001",
+      "page": null,
+      "video_id": "demo-liq-001",
+      "url": "",
+      "snippet": "After sell-side liquidity is swept and price reclaims the level with a bullish body close, look for continuation into an imbalance or fair value gap. Risk is defined beyond the sweep extreme.",
+      "search_score": 38.0,
+      "matched_queries": [
+        "liquidity and liquidity sweeps",
+        "fair value gap entry conditions"
+      ],
+      "review_status": "human_reviewed",
+      "rule_status": "candidate_for_draft"
+    }
+  ]
+}
