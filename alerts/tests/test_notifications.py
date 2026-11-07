@@ -123,7 +123,7 @@ def test_email_channel_dispatches_through_configured_provider(monkeypatch):
 def test_email_channel_reports_provider_failure(monkeypatch):
     from alerts.notifications import EmailNotificationChannel
 
-    def fail(*args):
+    def fail(*args, **kwargs):
         raise RuntimeError("SMTP unavailable")
 
     monkeypatch.setattr("alerts.notifications.send_email", fail)
