@@ -32,6 +32,17 @@ Tests are in `fundamentals/tests/test_event_risk.py`.
 
 `alerts/event_alerts.py` converts caller-supplied high-impact events into warning alerts (upcoming) or critical alerts (inside the blackout window). Alerts are limited to symbols containing the event currency, retain source details, and use a stable event key so repeated scheduler calls do not resend the same alert during one process lifetime. `AlertEngine` stores alerts even when delivery is disabled and suppresses duplicate notifications for a matching key.
 
+### Added: explainable macro release component analysis
+
+`fundamentals/release_analysis.py` groups calendar records by currency, UTC release date and release family, then reports the available actual-versus-forecast comparisons for:
+- NFP: headline payrolls, unemployment rate, average hourly earnings and labor-force participation.
+- CPI: headline, core, monthly and annual inflation components.
+- FOMC: policy-rate records, statements, projections and press-conference records when the provider exposes them.
+
+The result distinguishes above forecast, below forecast, in-line, mixed, partial and unavailable releases. It deliberately keeps `macro_bias=unverified`, `trade_direction=none` and `trade_approval=false`. A numeric surprise is not automatically a currency signal; revisions, policy reaction, expectations and price confirmation still matter.
+
+Tests are in `fundamentals/tests/test_release_analysis.py` and are included in the focused fundamentals test directory.
+
 ### Not yet implemented by these modules
 
 - They do not fetch an economic calendar. A trusted calendar provider or user-supplied event feed must be connected and scheduled by the application.
