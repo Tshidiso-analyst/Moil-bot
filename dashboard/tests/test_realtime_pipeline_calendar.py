@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 import pandas as pd
+import pytest
 
 from dashboard.realtime_pipeline import RealtimeTradingPipeline
 
