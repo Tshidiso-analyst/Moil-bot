@@ -31,12 +31,21 @@ class AlertStore:
             message=event.message,
             created_at=created_at,
             decision_id=event.decision_id,
+            dedupe_key=event.dedupe_key,
         )
 
         return self.add(alert)
 
     def get(self, alert_id: str) -> Alert | None:
         return self._alerts.get(alert_id)
+
+    def by_dedupe_key(self, dedupe_key: str) -> Alert | None:
+        if not dedupe_key:
+            return None
+        return next(
+            (alert for alert in self._alerts.values() if alert.dedupe_key == dedupe_key),
+            None,
+        )
 
     def all(self) -> list[Alert]:
         return list(self._alerts.values())
@@ -68,6 +77,7 @@ class AlertStore:
             created_at=alert.created_at,
             status="acknowledged",
             decision_id=alert.decision_id,
+            dedupe_key=alert.dedupe_key,
         )
 
         self._alerts[alert_id] = updated
