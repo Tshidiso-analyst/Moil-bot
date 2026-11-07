@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from datetime import datetime
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -234,6 +235,36 @@ class MT5LiveService:
         except Exception as exc:
             self.last_error = f"MT5 positions lookup failed: {exc}"
             return []
+
+    def today_entry_count(self) -> int:
+        """Count today's opening deals across the connected account.
+
+        If MT5 cannot provide deal history, fail closed instead of silently
+        bypassing the one-new-trade-per-day rule.
+        """
+        if self.mt5 is None or not self.connected:
+            raise RuntimeError("MT5 must be connected to check today's trade limit.")
+        history = getattr(self.mt5, "history_deals_get", None)
+        if history is None:
+            raise RuntimeError("This MT5 package cannot verify today's trade count.")
+        now = datetime.now()
+        start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        deals = history(start, now)
+        if deals is None:
+            raise RuntimeError(f"MT5 could not verify today's deal history: {self.mt5.last_error()}")
+        entry_values = {
+            getattr(self.mt5, "DEAL_ENTRY_IN", 0),
+            getattr(self.mt5, "DEAL_ENTRY_INOUT", 2),
+        }
+        trade_types = {
+            getattr(self.mt5, "DEAL_TYPE_BUY", 0),
+            getattr(self.mt5, "DEAL_TYPE_SELL", 1),
+        }
+        return sum(
+            1 for deal in deals
+            if getattr(deal, "entry", None) in entry_values
+            and getattr(deal, "type", None) in trade_types
+        )
 
     def open_trade_count(self) -> int:
         return len(self.positions()) if self.connected and self.mt5 is not None else 0
