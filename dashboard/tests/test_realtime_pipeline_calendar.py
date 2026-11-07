@@ -116,3 +116,23 @@ def test_pipeline_blocks_when_high_impact_event_is_active(monkeypatch):
 
     assert result.status == "rejected"
     assert FakeGuard.calls[-1]["high_impact_news"] is True
+
+
+def test_pipeline_rejects_string_calendar_verification_flags():
+    pipeline = RealtimeTradingPipeline()
+    with pytest.raises(ValueError, match="event_calendar_verified must be a boolean"):
+        pipeline.evaluate(
+            "EURUSD",
+            balance=10_000,
+            event_calendar_verified="false",
+        )
+
+
+def test_pipeline_rejects_non_boolean_macro_and_news_flags():
+    pipeline = RealtimeTradingPipeline()
+    with pytest.raises(ValueError, match="high_impact_news must be a boolean"):
+        pipeline.evaluate(
+            "EURUSD",
+            balance=10_000,
+            high_impact_news="false",
+        )
