@@ -37,13 +37,13 @@ class EmailNotificationChannel:
     def __init__(
         self,
         smtp_host: str = "",
-        smtp_port: int = 587,
+        smtp_port: int | None = None,
         username: str = "",
         password: str = "",
         recipient: str = "",
     ):
         self.smtp_host = smtp_host or os.getenv("SMTP_HOST", "").strip()
-        self.smtp_port = smtp_port
+        self.smtp_port = int(os.getenv("SMTP_PORT", "587")) if smtp_port is None else int(smtp_port)
         self.username = username or os.getenv("SMTP_USER", "").strip()
         self.password = password or os.getenv("SMTP_PASSWORD", "")
         self.recipient = recipient or os.getenv(
@@ -59,7 +59,15 @@ class EmailNotificationChannel:
                 message="Email recipient is not configured.",
             )
         try:
-            send_email(self.recipient, alert.title, alert.message)
+            send_email(
+                self.recipient,
+                alert.title,
+                alert.message,
+                smtp_host=self.smtp_host,
+                smtp_port=self.smtp_port,
+                smtp_user=self.username,
+                smtp_password=self.password,
+            )
         except Exception as exc:
             return NotificationResult(
                 channel=self.name,
