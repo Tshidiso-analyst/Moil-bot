@@ -30,14 +30,8 @@ def build_economic_event_alerts(
         raise ValueError("now must be timezone-aware.")
 
     event_list = list(events)
-    assessment = (analyzer or EconomicEventAnalyzer()).assess(
-        event_list,
-        now=assessed_at,
-    )
-    assessed_by_key = {
-        (item.name, item.currency, item.minutes_until_release): item
-        for item in assessment.high_impact_events
-    }
+    event_analyzer = analyzer or EconomicEventAnalyzer()
+    assessment = event_analyzer.assess(event_list, now=assessed_at)
 
     alerts = []
     for event in event_list:
@@ -51,9 +45,9 @@ def build_economic_event_alerts(
             continue
 
         active = (
-            event.scheduled_at - (analyzer or EconomicEventAnalyzer()).blackout_before
+            event.scheduled_at - event_analyzer.blackout_before
             <= assessed_at
-            <= event.scheduled_at + (analyzer or EconomicEventAnalyzer()).blackout_after
+            <= event.scheduled_at + event_analyzer.blackout_after
         )
         severity = "critical" if active else "warning"
         phase = "blackout active" if active else "approaching"
