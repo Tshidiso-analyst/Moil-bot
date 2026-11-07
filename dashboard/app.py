@@ -459,7 +459,7 @@ def main() -> None:
     server = ThreadingHTTPServer((HOST, PORT), MoilBotHandler)
     calendar_monitor.start()
     print(f"Dashboard running at http://{HOST}:{PORT}")
-    print("Demo Start: dry-run only; reviewed rules required")
+    print("Demo Start: reviewed-rule DEMO market orders available after explicit confirmation; REAL accounts blocked")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
