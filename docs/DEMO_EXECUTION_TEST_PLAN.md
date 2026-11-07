@@ -78,7 +78,8 @@ every order and close request.
 - A REAL account must not send or close orders even if the dashboard is
   manipulated to display DEMO.
 - An unapproved rule must not submit an order.
-- An unverified/stale calendar or high-impact event must block new entries.
+- An unverified/stale calendar or any high-impact event scheduled for the
+  current local calendar date must block new entries.
 - A second trade on the same local day must be blocked.
 - An existing open position must block a new strategy entry.
 - A stop/target on the wrong side of the live quote must be rejected.
