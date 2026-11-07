@@ -11,6 +11,7 @@ from .knowledge_bridge import (
     post_ingestion_health,
     post_knowledge_search,
 )
+from .execution_bridge import format_demo_start_result, post_demo_start_result
 
 __all__ = [
     "ChatBoardService",
@@ -26,4 +27,6 @@ __all__ = [
     "format_ingestion_health",
     "post_ingestion_health",
     "post_knowledge_search",
+    "format_demo_start_result",
+    "post_demo_start_result",
 ]
