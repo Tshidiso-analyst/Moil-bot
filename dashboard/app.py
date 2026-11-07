@@ -19,6 +19,13 @@ from fundamentals.news_reader import NewsReader
 from knowledge.unified_search import search_all_knowledge
 from risk.account import calculate_account_risk
 
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv()
+except ImportError:  # pragma: no cover - optional local configuration helper
+    pass
+
 HOST = os.environ.get("HOST", "127.0.0.1")
 PORT = int(os.environ.get("PORT", "8501"))
 CLOUD_MODE = os.environ.get("MOILBOT_CLOUD_MODE", "").lower() in {"1", "true", "yes"}
