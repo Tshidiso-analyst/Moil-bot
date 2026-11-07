@@ -12,7 +12,7 @@ def event(**overrides):
     values = {
         "name": "CPI",
         "currency": "USD",
-        "scheduled_at": NOW + timedelta(minutes=20),
+        "scheduled_at": NOW + timedelta(minutes=45),
         "impact": "high",
         "source": "fixture-calendar",
         "source_url": "https://example.test/calendar",
