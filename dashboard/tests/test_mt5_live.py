@@ -89,3 +89,25 @@ def test_today_loss_percent_calculates_realized_loss():
     service.connected = True
     loss = service.today_loss_percent()
     assert 0.9 < loss < 1.1
+
+
+
+def test_connection_reuses_already_logged_in_terminal_without_credentials():
+    fake = FakeMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+
+    result = service.connect(requested_mode="DEMO")
+
+    assert result.connected is True
+    assert result.account_type == "DEMO"
+    assert result.login == 12345
+    assert result.server == "Broker-Demo"
+
+
+def test_existing_real_terminal_account_is_rejected_in_demo_mode():
+    service = MT5LiveService(mt5_module=FakeMT5(trade_mode=2))
+
+    result = service.connect(requested_mode="DEMO")
+
+    assert result.connected is False
+    assert "does not match" in result.message
