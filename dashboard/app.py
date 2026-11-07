@@ -387,11 +387,12 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                 self.redirect("/strategy?notice=" + urllib.parse.quote("Order blocked: verified DEMO account and explicit order confirmation are required."))
                 return
             try:
+                calendar_verified = calendar_monitor.is_verified()
                 high_impact_news = (
                     calendar_monitor.has_active_high_impact(symbol)
                     or calendar_monitor.has_high_impact_today(symbol)
                 )
-                if execute_demo and not calendar_monitor.is_verified():
+                if execute_demo and not calendar_verified:
                     raise RuntimeError("Economic calendar is not verified or is stale; demo execution is blocked.")
                 if execute_demo and high_impact_news:
                     raise RuntimeError("High-impact economic event blackout is active for this symbol.")
@@ -423,6 +424,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                     daily_trade_count=today_entries,
                     fundamental_bias="neutral",
                     high_impact_news=high_impact_news,
+                    calendar_verified=calendar_verified,
                     executor=executor,
                     account_balance=float(account.balance),
                 )
