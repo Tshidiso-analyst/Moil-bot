@@ -45,11 +45,11 @@ Tests are in `fundamentals/tests/test_release_analysis.py` and are included in t
 
 ### Not yet implemented by these modules
 
-- They do not fetch an economic calendar. A trusted calendar provider or user-supplied event feed must be connected and scheduled by the application.
+- The generic HTTP and optional FMP adapters plus a background monitor are implemented, but no live provider is configured in the repository. A valid provider subscription/key and a successful authenticated refresh are still required before the dashboard can verify calendar coverage.
 - They do not persist the alert deduplication index across process restarts; the current alert store is in-memory.
 - They do not infer missing actual, forecast, previous, revisions, unemployment, wages, central-bank guidance or market expectations.
 - They do not claim a CPI/NFP/FOMC release predicts price direction.
-- The dashboard does not yet run a calendar polling/scheduling loop. Until that is implemented, event alerts are a tested integration point, not a live feed.
+- The dashboard starts the calendar polling loop only when a provider is configured. Without a successful fresh refresh, the calendar remains unverified and event coverage cannot be assumed.
 
 ## Completion workstreams and acceptance criteria
 
@@ -107,4 +107,4 @@ Acceptance: no order API is reachable from the analysis dashboard; risk rejectio
 
 ## Validation status
 
-The focused GitHub Actions suite currently passes **70 tests** across `fundamentals/tests`, `alerts/tests` and `dashboard/tests/test_realtime_pipeline_calendar.py` on Python 3.10. The full project test suite and Windows/MT5-specific checks remain outstanding. The CI setup also exposed and removed two malformed duplicate paths under `notifications/`; the correctly named source files were preserved.
+The last confirmed focused GitHub Actions run passed **85 tests** before the latest FMP adapter, release-analysis and dashboard additions. The new tests are included in the focused workflow, but a CI result for the latest head has not yet been confirmed. The full project test suite and Windows/MT5-specific checks remain outstanding. The CI setup also exposed and removed two malformed duplicate paths under `notifications/`; the correctly named source files were preserved.
