@@ -103,7 +103,7 @@ def test_email_channel_dispatches_through_configured_provider(monkeypatch):
     sent = []
     monkeypatch.setattr(
         "alerts.notifications.send_email",
-        lambda recipient, subject, body, **settings: sent.append((recipient, subject, body, settings)),
+        lambda recipient, subject, body, **settings: (sent.append((recipient, subject, body, settings)) or True),
     )
     channel = EmailNotificationChannel(recipient="trader@example.test")
 
@@ -137,7 +137,7 @@ def test_message_channel_dispatches_sms_through_configured_provider(monkeypatch)
     sent = []
     monkeypatch.setattr(
         "alerts.notifications.send_sms",
-        lambda recipient, body: sent.append((recipient, body)),
+        lambda recipient, body: (sent.append((recipient, body)) or True),
     )
     channel = MessageNotificationChannel(recipient="+15551234567")
 
@@ -168,6 +168,7 @@ def test_email_channel_passes_explicit_smtp_configuration(monkeypatch):
     captured = {}
     def fake_send_email(recipient, subject, body, **settings):
         captured.update(settings)
+        return True
 
     monkeypatch.setattr("alerts.notifications.send_email", fake_send_email)
     channel = EmailNotificationChannel(
