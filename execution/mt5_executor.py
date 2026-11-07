@@ -146,7 +146,11 @@ class MT5ExecutionService:
             raise RuntimeError(f"Broker volume limits are invalid for {symbol}.")
         risk_cash = float(balance) * (float(risk_percent) / 100.0)
         raw = risk_cash / abs(float(loss_one_lot))
-        volume = floor(raw / step) * step
+        if raw < minimum:
+            raise RuntimeError(
+                f"Minimum broker volume {minimum:g} would exceed the {risk_percent:g}% risk budget; trade blocked."
+            )
+        volume = minimum + floor((raw - minimum) / step) * step
         if volume < minimum:
             raise RuntimeError(
                 f"Minimum broker volume {minimum:g} would exceed the {risk_percent:g}% risk budget; trade blocked."
@@ -224,7 +228,7 @@ class MT5ExecutionService:
             "magic": int(magic),
             "comment": str(comment)[:31],
             "type_time": self.mt5.ORDER_TIME_GTC,
-            "type_filling": getattr(info, "filling_mode", self.mt5.ORDER_FILLING_RETURN),
+            "type_filling": self.mt5.ORDER_FILLING_RETURN,
         }
         result = self.mt5.order_send(request)
         if result is None:
