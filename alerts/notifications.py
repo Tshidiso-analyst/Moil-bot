@@ -59,7 +59,7 @@ class EmailNotificationChannel:
                 message="Email recipient is not configured.",
             )
         try:
-            send_email(
+            delivered = send_email(
                 self.recipient,
                 alert.title,
                 alert.message,
@@ -68,6 +68,12 @@ class EmailNotificationChannel:
                 smtp_user=self.username,
                 smtp_password=self.password,
             )
+            if not delivered:
+                return NotificationResult(
+                    channel=self.name,
+                    sent=False,
+                    message="Email preview only; SMTP delivery is not configured.",
+                )
         except Exception as exc:
             return NotificationResult(
                 channel=self.name,
@@ -98,7 +104,13 @@ class MessageNotificationChannel:
                 message="SMS recipient is not configured.",
             )
         try:
-            send_sms(self.recipient, f"{alert.title}: {alert.message}")
+            delivered = send_sms(self.recipient, f"{alert.title}: {alert.message}")
+            if not delivered:
+                return NotificationResult(
+                    channel=self.name,
+                    sent=False,
+                    message="SMS preview only; Twilio delivery is not configured.",
+                )
         except Exception as exc:
             return NotificationResult(
                 channel=self.name,
