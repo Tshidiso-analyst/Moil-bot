@@ -98,6 +98,14 @@ class RealtimeTradingPipeline:
         if not requested_symbol:
             raise ValueError("Symbol must not be empty.")
 
+        for field_name, value in (
+            ("event_calendar_verified", event_calendar_verified),
+            ("high_impact_news", high_impact_news),
+            ("macro_bias_valid", macro_bias_valid),
+        ):
+            if not isinstance(value, bool):
+                raise ValueError(f"{field_name} must be a boolean.")
+
         try:
             actual_symbol, datasets = self._build_datasets(requested_symbol)
             strategy = StrategyEngine().evaluate(
