@@ -163,3 +163,11 @@ def test_naive_timestamp_is_rejected():
 def test_invalid_direction_is_rejected():
     with pytest.raises(ValueError, match="bullish or bearish"):
         evaluate(direction="neutral")
+
+def test_new_york_dst_conversion_uses_the_correct_opening_hour():
+    # March 9, 2026 is after the US daylight-saving transition:
+    # 09:45 in New York is 13:45 UTC (not 14:45 UTC).
+    utc_time = datetime(2026, 3, 9, 13, 45, tzinfo=timezone.utc)
+    decision = evaluate(assessed_at=utc_time)
+
+    assert decision.qualified is True
