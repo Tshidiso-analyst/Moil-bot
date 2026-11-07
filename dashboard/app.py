@@ -378,7 +378,8 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                     raise RuntimeError("Economic calendar is not verified or is stale; demo execution is blocked.")
                 if execute_demo and high_impact_news:
                     raise RuntimeError("High-impact economic event blackout is active for this symbol.")
-                if execute_demo and mt5_service.today_entry_count() >= 1:
+                today_entries = mt5_service.today_entry_count() if execute_demo else 0
+                if execute_demo and today_entries >= 1:
                     raise RuntimeError("One-trade-per-day limit reached. No additional order will be sent today.")
                 if execute_demo and mt5_service.open_trade_count() >= 1:
                     raise RuntimeError("An MT5 position is already open. Close/manage it before another entry.")
@@ -402,6 +403,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                     proposed_risk_percent=0.5,
                     daily_loss_percent=mt5_service.today_loss_percent() if execute_demo else 0.0,
                     open_trades=mt5_service.open_trade_count(),
+                    daily_trade_count=today_entries,
                     fundamental_bias="neutral",
                     high_impact_news=high_impact_news,
                     executor=executor,
