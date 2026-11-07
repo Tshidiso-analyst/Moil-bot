@@ -6,7 +6,7 @@ Moil-bot supports a provider through a small JSON-over-HTTPS contract and includ
 
 FMP documents the endpoint `https://financialmodelingprep.com/stable/economic-calendar`. Its response includes event date, country, event name, currency, previous, estimate, actual and impact. FMP documents event timestamps as UTC and limits each requested date range to 90 days.
 
-FMP calendar access is not included in its Basic/free plan. Confirm that your subscription includes the Economic Data Releases Calendar endpoint before configuring it. Do not assume that creating a free API key grants access.
+FMP calendar access is not included in its Basic/free plan. Its current pricing matrix lists the Economic Data Releases Calendar on Starter with a date range of up to one year, and broader access on Premium and Ultimate. Pricing currently lists Starter at US$19/month when billed annually (regular monthly price shown as US$29); prices and entitlements can change, so verify the live pricing matrix before subscribing. FMP also states that displaying or redistributing its data requires a specific Data Display and Licensing Agreement. Confirm that your intended private or public Moil-bot deployment is permitted before showing provider data to other users. Do not assume that creating a free API key grants access.
 
 Set these values in your local `.env` file:
 
