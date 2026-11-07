@@ -171,3 +171,19 @@ def test_new_york_dst_conversion_uses_the_correct_opening_hour():
     decision = evaluate(assessed_at=utc_time)
 
     assert decision.qualified is True
+
+
+@pytest.mark.parametrize(
+    "field_name",
+    [
+        "event_calendar_verified",
+        "macro_bias_valid",
+        "liquidity_sweep_confirmed",
+        "bos_body_close_confirmed",
+        "fvg_retracement_confirmed",
+        "order_block_retest_confirmed",
+    ],
+)
+def test_confirmation_flags_must_be_real_booleans(field_name):
+    with pytest.raises(ValueError, match="must be a boolean"):
+        evaluate(**{field_name: "false"})
