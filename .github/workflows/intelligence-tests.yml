@@ -45,4 +45,5 @@ jobs:
           alerts/tests
           dashboard/tests/test_realtime_pipeline_calendar.py
           strategy/tests/test_entry_confirmation.py
+          strategy/tests/test_engine.py
           -q
