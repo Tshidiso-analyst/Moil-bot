@@ -16,8 +16,8 @@ def send_email(
     smtp_user: str | None = None,
     smtp_password: str | None = None,
     from_email: str | None = None,
-) -> None:
-    """Send email over SMTP with STARTTLS, or print a local development preview."""
+) -> bool:
+    """Send email over SMTP; return False when only a development preview is printed."""
     if not str(to_email or "").strip():
         raise ValueError("to_email must not be empty.")
     if not str(subject or "").strip():
@@ -29,7 +29,7 @@ def send_email(
         print(f"To: {to_email}")
         print(f"Subject: {subject}")
         print(body)
-        return
+        return False
 
     port = int(os.getenv("SMTP_PORT", "587")) if smtp_port is None else int(smtp_port)
     username = (os.getenv("SMTP_USER", "") if smtp_user is None else smtp_user).strip()
@@ -56,9 +56,10 @@ def send_email(
         if username:
             server.login(username, password)
         server.send_message(message)
+    return True
 
 
-def send_sms(to_phone: str, message: str) -> None:
+def send_sms(to_phone: str, message: str) -> bool:
     """Send SMS through Twilio, or print a local development preview."""
     if not str(to_phone or "").strip():
         raise ValueError("to_phone must not be empty.")
@@ -74,7 +75,7 @@ def send_sms(to_phone: str, message: str) -> None:
         print("[SMS DEV MODE]")
         print(f"To: {to_phone}")
         print(message)
-        return
+        return False
     if not all(configured):
         raise ValueError(
             "TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN and TWILIO_FROM_NUMBER "
@@ -88,6 +89,7 @@ def send_sms(to_phone: str, message: str) -> None:
 
     client = Client(account_sid, auth_token)
     client.messages.create(body=message, from_=from_number, to=to_phone)
+    return True
 
 
 __all__ = ["send_email", "send_sms"]
