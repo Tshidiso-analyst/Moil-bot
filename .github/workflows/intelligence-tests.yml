@@ -8,6 +8,7 @@ on:
     paths:
       - "alerts/**"
       - "fundamentals/**"
+      - "strategy/**"
       - "notifications/**"
       - "dashboard/realtime_pipeline.py"
       - "dashboard/app.py"
