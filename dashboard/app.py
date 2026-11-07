@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+import ipaddress
 import os
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -332,6 +333,9 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         form = parse_form(self.rfile.read(length))
 
         if path == "/enable_demo_rule":
+            if not ipaddress.ip_address(self.client_address[0]).is_loopback:
+                self.redirect("/strategy?notice=" + urllib.parse.quote("Demo rule approval is restricted to the local computer."))
+                return
             if not SESSION.get("connected") or SESSION.get("mode") != "DEMO":
                 self.redirect("/strategy?notice=" + urllib.parse.quote("Rule approval is available only on a verified DEMO account."))
                 return
@@ -356,7 +360,8 @@ class MoilBotHandler(BaseHTTPRequestHandler):
             account = get_account()
             actual_mode = str(getattr(account, "account_type", "") or SESSION.get("mode") or "UNKNOWN").upper()
             if execute_demo and (
-                actual_mode != "DEMO"
+                not ipaddress.ip_address(self.client_address[0]).is_loopback
+                or actual_mode != "DEMO"
                 or str(SESSION.get("mode") or "").upper() != "DEMO"
                 or form.get("confirm_demo_order") != "yes"
             ):
