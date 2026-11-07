@@ -8,6 +8,7 @@ import pandas as pd
 
 from strategy.rule_registry import StrategyRuleRegistry
 from strategy.trade_decision import TradeDecisionEngine
+from risk.trade_guard import TradeGuard
 
 
 @dataclass(frozen=True)
@@ -49,7 +50,14 @@ class DemoStartController:
     ):
         self._registry = registry
         self._registry_factory = registry_factory
-        self.decision_engine = decision_engine or TradeDecisionEngine()
+        self.decision_engine = decision_engine or TradeDecisionEngine(
+            risk_guard=TradeGuard(
+                max_risk_per_trade=1.0,
+                max_open_trades=1,
+                max_total_exposure_percent=1.0,
+                max_daily_loss=1.0,
+            )
+        )
 
     def _load_registry(self) -> StrategyRuleRegistry:
         if self._registry is not None:
