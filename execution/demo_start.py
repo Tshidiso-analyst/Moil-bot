@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
+from math import isfinite
 from typing import Any, Callable
 
 import pandas as pd
@@ -97,10 +98,11 @@ class DemoStartController:
         account_mode: str = "DEMO",
         allow_execution: bool = False,
         proposed_risk_percent: float = 0.5,
-        daily_loss_percent: float = 0.0,
-        open_trades: int = 0,
-        daily_trade_count: int = 0,
+        daily_loss_percent: float | None = None,
+        open_trades: int | None = None,
+        daily_trade_count: int | None = None,
         high_impact_news: bool = False,
+        calendar_verified: bool = False,
         fundamental_bias: str = "neutral",
         executor: Any | None = None,
         volume: float | None = None,
@@ -147,16 +149,78 @@ class DemoStartController:
                 dry_run=True,
             )
 
-        if allow_execution and daily_trade_count >= 1:
-            return DemoStartResult(
-                symbol=clean_symbol,
-                mode=mode,
-                status="blocked",
-                allowed=False,
-                direction="neutral",
-                reason="One-trade-per-day limit reached. No additional demo order will be sent today.",
-                dry_run=True,
-            )
+        if allow_execution:
+            if calendar_verified is not True:
+                return DemoStartResult(
+                    symbol=clean_symbol, mode=mode, status="blocked", allowed=False,
+                    direction="neutral",
+                    reason="Economic calendar is not verified and fresh; DEMO execution is blocked.",
+                    dry_run=True,
+                )
+            if high_impact_news is not False:
+                return DemoStartResult(
+                    symbol=clean_symbol, mode=mode, status="blocked", allowed=False,
+                    direction="neutral",
+                    reason="High-impact economic event blackout is active; DEMO execution is blocked.",
+                    dry_run=True,
+                )
+            risk_facts = {
+                "daily_loss_percent": daily_loss_percent,
+                "open_trades": open_trades,
+                "daily_trade_count": daily_trade_count,
+            }
+            if any(value is None for value in risk_facts.values()):
+                missing = ", ".join(name for name, value in risk_facts.items() if value is None)
+                return DemoStartResult(
+                    symbol=clean_symbol, mode=mode, status="blocked", allowed=False,
+                    direction="neutral",
+                    reason=f"MT5 risk history is incomplete ({missing}); DEMO execution is blocked.",
+                    dry_run=True,
+                )
+            try:
+                loss_value = float(daily_loss_percent)
+                open_value = int(open_trades)
+                entries_value = int(daily_trade_count)
+                if (
+                    isinstance(daily_loss_percent, bool)
+                    or not isfinite(loss_value)
+                    or loss_value < 0
+                    or isinstance(open_trades, bool)
+                    or open_value != open_trades
+                    or open_value < 0
+                    or isinstance(daily_trade_count, bool)
+                    or entries_value != daily_trade_count
+                    or entries_value < 0
+                ):
+                    raise ValueError
+            except (TypeError, ValueError, OverflowError):
+                return DemoStartResult(
+                    symbol=clean_symbol, mode=mode, status="blocked", allowed=False,
+                    direction="neutral",
+                    reason="MT5 risk history contains invalid values; DEMO execution is blocked.",
+                    dry_run=True,
+                )
+            if entries_value >= 1:
+                return DemoStartResult(
+                    symbol=clean_symbol, mode=mode, status="blocked", allowed=False,
+                    direction="neutral",
+                    reason="One-trade-per-day limit reached. No additional demo order will be sent today.",
+                    dry_run=True,
+                )
+            if open_value >= 1:
+                return DemoStartResult(
+                    symbol=clean_symbol, mode=mode, status="blocked", allowed=False,
+                    direction="neutral",
+                    reason="An MT5 position is already open. DEMO execution is blocked.",
+                    dry_run=True,
+                )
+            if loss_value >= 1.0:
+                return DemoStartResult(
+                    symbol=clean_symbol, mode=mode, status="blocked", allowed=False,
+                    direction="neutral",
+                    reason="The 1% daily loss limit has been reached; DEMO execution is blocked.",
+                    dry_run=True,
+                )
 
         if allow_execution and (account_balance is None or float(account_balance) <= 0):
             return DemoStartResult(
@@ -189,8 +253,8 @@ class DemoStartController:
             dataframe=dataframe,
             fundamental_bias=fundamental_bias,
             proposed_risk_percent=proposed_risk_percent,
-            daily_loss_percent=daily_loss_percent,
-            open_trades=open_trades,
+            daily_loss_percent=float(daily_loss_percent) if daily_loss_percent is not None else 0.0,
+            open_trades=int(open_trades) if open_trades is not None else 0,
             high_impact_news=high_impact_news,
         )
 
