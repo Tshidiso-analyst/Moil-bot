@@ -112,9 +112,10 @@ def connection_form(message: str = "") -> str:
       <form method="POST" action="/connect">
         <label>Account Mode</label>
         <select name="mode"><option value="DEMO">DEMO</option><option value="REAL">REAL</option></select>
-        <label>MT5 Login</label><input type="number" name="login" required/>
-        <label>MT5 Server</label><input type="text" name="server" required/>
-        <label>Password</label><input type="password" name="password" required/>
+        <p class="muted">Use the account already signed in to your open MT5 terminal, or enter credentials to switch accounts.</p>
+        <label>MT5 Login (optional)</label><input type="number" name="login" placeholder="Leave blank to use the signed-in terminal"/>
+        <label>MT5 Server (optional)</label><input type="text" name="server" placeholder="Required only when entering login credentials"/>
+        <label>Password (optional)</label><input type="password" name="password" placeholder="Required only when entering login credentials"/>
         <button type="submit">CONNECT MT5</button>
       </form>
     </div>"""
@@ -456,10 +457,15 @@ class MoilBotHandler(BaseHTTPRequestHandler):
             return
         try:
             mode = (form.get("mode") or "DEMO").upper()
+            raw_login = (form.get("login") or "").strip()
+            password = form.get("password") or ""
+            server = (form.get("server") or "").strip()
+            if raw_login and (not password or not server):
+                raise ValueError("Enter the MT5 password and server with the login, or leave all three blank to use the signed-in terminal.")
             result = mt5_service.connect(
-                login=int(form.get("login") or "0"),
-                password=form.get("password") or "",
-                server=form.get("server") or "",
+                login=int(raw_login) if raw_login else None,
+                password=password,
+                server=server,
                 requested_mode=mode,
             )
             if result.connected:
