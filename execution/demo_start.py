@@ -95,6 +95,7 @@ class DemoStartController:
         fundamental_bias: str = "neutral",
         executor: Any | None = None,
         volume: float | None = None,
+        account_balance: float | None = None,
     ) -> DemoStartResult:
         clean_symbol = str(symbol or "").strip().upper()
         if not clean_symbol:
@@ -182,6 +183,48 @@ class DemoStartController:
             )
 
         planned_volume = float(volume) if volume is not None else 0.01
+        if allow_execution and volume is None:
+            if account_balance is None or not hasattr(executor, "calculate_volume_for_risk"):
+                return DemoStartResult(
+                    symbol=clean_symbol,
+                    mode=mode,
+                    status="blocked",
+                    allowed=False,
+                    direction=assessment.direction,
+                    reason="Demo execution requires account balance and broker-based risk sizing.",
+                    rule_id=str(matched.get("rule_id") or ""),
+                    rule_name=str(matched.get("name") or ""),
+                    entry=assessment.entry,
+                    stop_loss=assessment.stop_loss,
+                    take_profit=assessment.take_profit,
+                    reasons=list(assessment.reasons),
+                    dry_run=True,
+                )
+            try:
+                planned_volume = float(executor.calculate_volume_for_risk(
+                    symbol=clean_symbol,
+                    direction=assessment.direction,
+                    entry=float(assessment.entry),
+                    stop_loss=float(assessment.stop_loss),
+                    balance=float(account_balance),
+                    risk_percent=min(float(proposed_risk_percent), 1.0),
+                ))
+            except Exception as exc:
+                return DemoStartResult(
+                    symbol=clean_symbol,
+                    mode=mode,
+                    status="blocked",
+                    allowed=False,
+                    direction=assessment.direction,
+                    reason=f"Demo risk sizing failed: {exc}",
+                    rule_id=str(matched.get("rule_id") or ""),
+                    rule_name=str(matched.get("name") or ""),
+                    entry=assessment.entry,
+                    stop_loss=assessment.stop_loss,
+                    take_profit=assessment.take_profit,
+                    reasons=list(assessment.reasons),
+                    dry_run=True,
+                )
         dry_run = not bool(allow_execution)
 
         if dry_run:
@@ -248,6 +291,10 @@ class DemoStartController:
                 stop_loss=assessment.stop_loss,
                 take_profit=assessment.take_profit,
                 comment=f"Moil demo start rule={matched.get('rule_id')}",
+                max_risk_amount=(
+                    float(account_balance) * min(float(proposed_risk_percent), 1.0) / 100.0
+                    if account_balance is not None else None
+                ),
             )
         except Exception as exc:
             return DemoStartResult(
