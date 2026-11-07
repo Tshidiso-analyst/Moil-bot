@@ -99,6 +99,7 @@ class DemoStartController:
         proposed_risk_percent: float = 0.5,
         daily_loss_percent: float = 0.0,
         open_trades: int = 0,
+        daily_trade_count: int = 0,
         high_impact_news: bool = False,
         fundamental_bias: str = "neutral",
         executor: Any | None = None,
@@ -143,6 +144,28 @@ class DemoStartController:
                 allowed=False,
                 direction="neutral",
                 reason="No market data available for demo start.",
+                dry_run=True,
+            )
+
+        if allow_execution and daily_trade_count >= 1:
+            return DemoStartResult(
+                symbol=clean_symbol,
+                mode=mode,
+                status="blocked",
+                allowed=False,
+                direction="neutral",
+                reason="One-trade-per-day limit reached. No additional demo order will be sent today.",
+                dry_run=True,
+            )
+
+        if allow_execution and (account_balance is None or float(account_balance) <= 0):
+            return DemoStartResult(
+                symbol=clean_symbol,
+                mode=mode,
+                status="blocked",
+                allowed=False,
+                direction="neutral",
+                reason="Demo execution requires a verified positive account balance for risk enforcement.",
                 dry_run=True,
             )
 
