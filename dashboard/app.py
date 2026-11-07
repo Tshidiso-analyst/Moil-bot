@@ -306,43 +306,24 @@ def build_live_alerts() -> list:
 
 
 def build_fundamentals_context(symbol: str = "EURUSD") -> tuple[dict, list[NewsItem]]:
-    fallback_news = [
-        NewsItem(
-            title="US treasury yields soften as growth outlook cools",
-            source="Reuters",
-            published_at=datetime.now(timezone.utc) - timedelta(hours=3),
-            url="https://example.com/news/1",
-            summary="Bond yields ease and market participants expect a slower pace of tightening.",
-            impact="high",
-        ),
-        NewsItem(
-            title="Eurozone inflation prints softer than expected",
-            source="Bloomberg",
-            published_at=datetime.now(timezone.utc) - timedelta(hours=5),
-            url="https://example.com/news/2",
-            summary="Lower inflation supports a more dovish European Central Bank posture.",
-            impact="high",
-        ),
-        NewsItem(
-            title="Fed speakers signal patient approach to rates",
-            source="CNBC",
-            published_at=datetime.now(timezone.utc) - timedelta(hours=8),
-            url="https://example.com/news/3",
-            summary="Policy remains data dependent and the broader tone is less hawkish.",
-            impact="medium",
-        ),
-    ]
-
+    """Return source-retrieved news only; never substitute fabricated headlines."""
     try:
         news = NewsReader().fetch_symbol_news(symbol=symbol)
-        if not news:
-            raise RuntimeError("No live news returned.")
     except Exception:
-        news = fallback_news
+        news = []
 
     context = FundamentalAnalyzer().analyse(symbol, news)
-    return context, news
+    if not news:
+        from fundamentals.models import FundamentalContext
 
+        context = FundamentalContext(
+            symbol=symbol,
+            bias="neutral",
+            high_impact_events=0,
+            news_count=0,
+            summary="No current news was retrieved. Fundamental bias is unverified.",
+        )
+    return context, news
 
 def overview_page() -> str:
     account = get_account()
