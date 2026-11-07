@@ -81,10 +81,11 @@ def test_feed_without_current_coverage_is_rejected():
             provider().fetch(now=NOW)
 
 
-def test_feed_must_identify_source_and_coverage():
-    missing = payload(source="")
+@pytest.mark.parametrize("source", [None, ""])
+def test_feed_must_identify_source_and_coverage(source):
+    missing = payload(source=source)
     with patch("fundamentals.calendar_feed.urlopen", return_value=FakeResponse(json.dumps(missing).encode())):
-        with pytest.raises(CalendarFeedError, match="identify its source"):
+        with pytest.raises(CalendarFeedError, match="source must be a non-empty string"):
             provider().fetch(now=NOW)
 
 
