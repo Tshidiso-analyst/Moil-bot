@@ -144,3 +144,103 @@ def test_demo_start_dry_run_with_reviewed_rule():
     assert result.dry_run is True
     assert result.rule_id == "fvg_ny_1"
     assert result.order_ticket is None
+
+
+class _FakeDemoExecutor:
+    def __init__(self):
+        self.order = None
+
+    def calculate_volume_for_risk(self, **kwargs):
+        assert kwargs["risk_percent"] <= 1.0
+        return 0.01
+
+    def place_market_order(self, **kwargs):
+        self.order = kwargs
+        return {"ticket": 445566, "price": 1.15, "volume": kwargs["volume"]}
+
+
+def test_demo_start_executes_only_after_separate_demo_rule_approval():
+    rules = [{
+        "rule_id": "fvg_ny_1",
+        "name": "NY FVG continuation",
+        "direction": "bullish",
+        "execution_enabled": False,
+        "demo_execution_enabled": True,
+        "sources": [{"human_review_confirmed": True, "page": 12}],
+    }]
+    executor = _FakeDemoExecutor()
+    controller = DemoStartController(
+        registry=_FakeRegistry(rules),
+        decision_engine=_FakeDecisionEngine(
+            _FakeAssessment(
+                symbol="EURUSD",
+                direction="bullish",
+                session="new_york",
+                trend="bullish",
+                setup_valid=True,
+                confirmation=True,
+                reasons=["confirmed"],
+                entry=1.15,
+                stop_loss=1.14,
+                take_profit=1.17,
+                risk_percent=0.5,
+            )
+        ),
+    )
+
+    result = controller.start(
+        symbol="EURUSD",
+        dataframe=_sample_frame(),
+        account_mode="DEMO",
+        allow_execution=True,
+        proposed_risk_percent=0.5,
+        executor=executor,
+        account_balance=10000.0,
+    )
+
+    assert result.status == "executed"
+    assert result.dry_run is False
+    assert result.order_ticket == 445566
+    assert executor.order["max_risk_amount"] == 50.0
+
+
+def test_demo_start_refuses_unapproved_rule_even_when_execution_requested():
+    rules = [{
+        "rule_id": "fvg_ny_1",
+        "name": "NY FVG continuation",
+        "direction": "bullish",
+        "execution_enabled": True,
+        "demo_execution_enabled": False,
+        "sources": [{"human_review_confirmed": True, "page": 12}],
+    }]
+    executor = _FakeDemoExecutor()
+    controller = DemoStartController(
+        registry=_FakeRegistry(rules),
+        decision_engine=_FakeDecisionEngine(
+            _FakeAssessment(
+                symbol="EURUSD",
+                direction="bullish",
+                session="new_york",
+                trend="bullish",
+                setup_valid=True,
+                confirmation=True,
+                reasons=["confirmed"],
+                entry=1.15,
+                stop_loss=1.14,
+                take_profit=1.17,
+                risk_percent=0.5,
+            )
+        ),
+    )
+
+    result = controller.start(
+        symbol="EURUSD",
+        dataframe=_sample_frame(),
+        account_mode="DEMO",
+        allow_execution=True,
+        executor=executor,
+        account_balance=10000.0,
+    )
+
+    assert result.status == "blocked"
+    assert executor.order is None
