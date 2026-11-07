@@ -49,24 +49,28 @@ class MT5LiveService:
             self.connected = False
             self.last_error = "MetaTrader5 package is not installed in this Python environment."
             return MT5ConnectionResult(connected=False, message=self.last_error)
-        if login is None:
-            self.connected = False
-            self.last_error = "MT5 login is required."
-            return MT5ConnectionResult(connected=False, message=self.last_error)
-
         try:
             if not self.mt5.initialize(path=self.path):
                 self.connected = False
                 self.last_error = f"MT5 initialization failed: {self.mt5.last_error()}"
                 return MT5ConnectionResult(connected=False, message=self.last_error)
-            if not self.mt5.login(int(login), password=password, server=server, timeout=60000):
-                self.last_error = f"MT5 login failed: {self.mt5.last_error()}"
-                self.mt5.shutdown()
-                self.connected = False
-                return MT5ConnectionResult(connected=False, message=self.last_error)
+
+            # If credentials are supplied, explicitly log in. Otherwise reuse
+            # the account already authenticated in the running MT5 terminal.
+            if login is not None:
+                if not self.mt5.login(int(login), password=password, server=server, timeout=60000):
+                    self.last_error = f"MT5 login failed: {self.mt5.last_error()}"
+                    self.mt5.shutdown()
+                    self.connected = False
+                    return MT5ConnectionResult(connected=False, message=self.last_error)
+
             info = self.mt5.account_info()
             if info is None:
-                self.last_error = f"MT5 login succeeded but account info is unavailable: {self.mt5.last_error()}"
+                self.last_error = (
+                    "No MT5 account is logged in. Open the MT5 terminal and sign in, "
+                    "or provide login, password, and server."
+                    f" MT5 detail: {self.mt5.last_error()}"
+                )
                 self.mt5.shutdown()
                 self.connected = False
                 return MT5ConnectionResult(connected=False, message=self.last_error)
@@ -102,8 +106,8 @@ class MT5LiveService:
             )
             return MT5ConnectionResult(connected=False, message=self.last_error)
         values = {
-            "login": int(getattr(info, "login", login) or login),
-            "server": str(getattr(info, "server", server) or server),
+            "login": int(getattr(info, "login", login) or login or 0),
+            "server": str(getattr(info, "server", server) or server or ""),
             "account_type": account_type,
             "balance": float(getattr(info, "balance", 0.0) or 0.0),
             "equity": float(getattr(info, "equity", 0.0) or 0.0),
