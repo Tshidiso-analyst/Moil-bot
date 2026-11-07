@@ -289,6 +289,23 @@ def risk_page() -> str:
 
 
 class MoilBotHandler(BaseHTTPRequestHandler):
+    def is_local_dashboard_request(self) -> bool:
+        try:
+            if not ipaddress.ip_address(self.client_address[0]).is_loopback:
+                return False
+            origin = urllib.parse.urlparse(self.headers.get("Origin", ""))
+            host = urllib.parse.urlparse("//" + self.headers.get("Host", ""))
+            allowed_hosts = {"127.0.0.1", "localhost", "::1"}
+            return (
+                origin.scheme == "http"
+                and origin.hostname in allowed_hosts
+                and origin.port == PORT
+                and host.hostname in allowed_hosts
+                and host.port == PORT
+            )
+        except (ValueError, TypeError):
+            return False
+
     def send_html(self, page: str, status: int = 200) -> None:
         data = page.encode("utf-8")
         self.send_response(status)
@@ -335,8 +352,8 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         form = parse_form(self.rfile.read(length))
 
         if path == "/enable_demo_rule":
-            if not ipaddress.ip_address(self.client_address[0]).is_loopback:
-                self.redirect("/strategy?notice=" + urllib.parse.quote("Demo rule approval is restricted to the local computer."))
+            if not self.is_local_dashboard_request():
+                self.redirect("/strategy?notice=" + urllib.parse.quote("Demo rule approval requires a same-origin local dashboard request."))
                 return
             if not SESSION.get("connected") or SESSION.get("mode") != "DEMO":
                 self.redirect("/strategy?notice=" + urllib.parse.quote("Rule approval is available only on a verified DEMO account."))
@@ -362,7 +379,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
             account = get_account()
             actual_mode = str(getattr(account, "account_type", "") or SESSION.get("mode") or "UNKNOWN").upper()
             if execute_demo and (
-                not ipaddress.ip_address(self.client_address[0]).is_loopback
+                not self.is_local_dashboard_request()
                 or actual_mode != "DEMO"
                 or str(SESSION.get("mode") or "").upper() != "DEMO"
                 or form.get("confirm_demo_order") != "yes"
