@@ -1,11 +1,13 @@
 import json
 from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
+from urllib.parse import urlparse, parse_qs
 
 import pytest
 
 from fundamentals.calendar_feed import (
     CalendarFeedError,
+    FmpEconomicCalendarProvider,
     HttpEconomicCalendarProvider,
 )
 
@@ -119,3 +121,65 @@ def test_plain_http_is_rejected_for_non_local_calendar_hosts():
 
 def test_localhost_http_is_allowed_for_development():
     assert HttpEconomicCalendarProvider("http://localhost:8080/calendar")
+
+
+def test_fmp_maps_documented_utc_calendar_fields():
+    body = json.dumps([{
+        "date": "2026-11-10 13:30:00",
+        "country": "US",
+        "event": "Consumer Price Index",
+        "currency": "USD",
+        "previous": 3.0,
+        "estimate": 3.1,
+        "actual": None,
+        "impact": "High",
+    }]).encode()
+    fmp = FmpEconomicCalendarProvider("test-secret", days_ahead=7)
+    with patch("fundamentals.calendar_feed.urlopen", return_value=FakeResponse(body)) as request:
+        snapshot = fmp.fetch(now=NOW)
+
+    assert snapshot.source == "Financial Modeling Prep"
+    assert snapshot.events[0].name == "Consumer Price Index"
+    assert snapshot.events[0].impact == "high"
+    assert snapshot.events[0].forecast == 3.1
+    assert snapshot.events[0].scheduled_at == datetime(2026, 11, 10, 13, 30, tzinfo=timezone.utc)
+    query = parse_qs(urlparse(request.call_args.args[0].full_url).query)
+    assert query["apikey"] == ["test-secret"]
+    assert query["from"] == ["2026-11-07"]
+    assert query["to"] == ["2026-11-14"]
+
+
+def test_fmp_rejects_missing_api_key():
+    with pytest.raises(CalendarFeedError, match="API key is required"):
+        FmpEconomicCalendarProvider(" ")
+
+
+def test_fmp_rejects_windows_over_documented_90_day_limit():
+    with pytest.raises(ValueError, match="between 1 and 90"):
+        FmpEconomicCalendarProvider("secret", days_ahead=91)
+
+
+def test_fmp_rejects_non_array_error_payload():
+    fmp = FmpEconomicCalendarProvider("secret")
+    with patch("fundamentals.calendar_feed.urlopen", return_value=FakeResponse(b'{"Error Message":"invalid key"}')):
+        with pytest.raises(CalendarFeedError, match="JSON array"):
+            fmp.fetch(now=NOW)
+
+
+def test_fmp_rejects_malformed_event_instead_of_silently_dropping_it():
+    fmp = FmpEconomicCalendarProvider("secret")
+    with patch("fundamentals.calendar_feed.urlopen", return_value=FakeResponse(b'[{"event":"CPI","currency":"USD"}]')):
+        with pytest.raises(CalendarFeedError, match="date is required"):
+            fmp.fetch(now=NOW)
+
+
+def test_fmp_environment_selection_requires_a_key(monkeypatch):
+    monkeypatch.setenv("MOILBOT_CALENDAR_PROVIDER", "fmp")
+    monkeypatch.delenv("MOILBOT_FMP_API_KEY", raising=False)
+    assert HttpEconomicCalendarProvider.from_environment() is None
+
+
+def test_unknown_provider_selection_is_rejected(monkeypatch):
+    monkeypatch.setenv("MOILBOT_CALENDAR_PROVIDER", "unknown")
+    with pytest.raises(CalendarFeedError, match="must be 'http' or 'fmp'"):
+        HttpEconomicCalendarProvider.from_environment()
