@@ -18,6 +18,7 @@ on:
     paths:
       - "alerts/**"
       - "fundamentals/**"
+      - "strategy/**"
       - "dashboard/app.py"
       - "dashboard/realtime_pipeline.py"
       - "dashboard/tests/test_realtime_pipeline_calendar.py"
