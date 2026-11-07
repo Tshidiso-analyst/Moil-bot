@@ -78,6 +78,7 @@ def build_economic_event_alerts(
                 ),
                 dedupe_key=(
                     "economic-event:"
+                    f"{normalized_symbol}:"
                     f"{event.currency.upper()}:"
                     f"{event.name.strip().lower()}:"
                     f"{event.scheduled_at.isoformat()}"
