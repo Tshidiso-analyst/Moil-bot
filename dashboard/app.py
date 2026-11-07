@@ -13,6 +13,8 @@ from fundamentals.calendar_monitor import EconomicCalendarMonitor
 from knowledge.unified_search import search_all_knowledge
 from risk.account import calculate_account_risk
 from execution.demo_start import DemoStartController
+from execution.mt5_executor import MT5ExecutionService
+from strategy.rule_registry import StrategyRuleRegistry
 from chat.execution_bridge import post_demo_start_result
 from chat.service import chat_service
 
@@ -229,13 +231,34 @@ def strategy_page(notice: str = "") -> str:
       <tbody>{rows}</tbody></table>
     </div>
     <div class="card">
-      <h3>Demo Start</h3>
-      <p class="muted">Dry-run only. Uses reviewed rules. Real accounts are blocked. No broker order is sent.</p>
+      <h3>Demo Start — strategy dry run</h3>
+      <p class="muted">Evaluates reviewed strategy rules without sending an order.</p>
       <form method="POST" action="/demo_start">
         <label>Symbol</label><input type="text" name="symbol" value="EURUSD" required/>
-        <label>Account mode</label>
-        <select name="account_mode"><option value="DEMO" selected>DEMO</option><option value="PAPER">PAPER</option></select>
-        <button type="submit">START DEMO (DRY RUN)</button>
+        <button type="submit">ANALYSE DEMO SETUP</button>
+      </form>
+    </div>
+    <div class="card">
+      <h3>Approve a rule for DEMO forward-testing</h3>
+      <p class="muted">This approval is only for a verified DEMO account. It does not enable real-money execution. Review the rule and its sources before approving.</p>
+      <form method="POST" action="/enable_demo_rule">
+        <label>Reviewed rule</label>
+        <select name="rule_id" required>
+          {''.join(f'<option value="{esc(r.get("rule_id"))}">{esc(r.get("name"))} ({esc(r.get("rule_id"))})</option>' for r in rules)}
+        </select>
+        <label>Type ENABLE DEMO EXECUTION</label>
+        <input name="confirmation_phrase" type="text" required autocomplete="off"/>
+        <button type="submit" {'disabled' if SESSION.get('mode') != 'DEMO' or not rules else ''}>APPROVE DEMO FORWARD-TESTING</button>
+      </form>
+    </div>
+    <div class="card">
+      <h3>Place a DEMO market order</h3>
+      <p class="muted">Requires a verified DEMO account, an approved demo rule, a fresh verified economic calendar, valid setup confirmation, broker-based position sizing, stop loss and take profit, and your explicit confirmation. Maximum planned risk: 0.5%.</p>
+      <form method="POST" action="/demo_start">
+        <label>Symbol</label><input type="text" name="symbol" value="EURUSD" required/>
+        <input type="hidden" name="execute_demo" value="yes"/>
+        <label><input type="checkbox" name="confirm_demo_order" value="yes" required style="width:auto"/> I confirm that this may send a market order on my MT5 DEMO account.</label>
+        <button type="submit" {'disabled' if SESSION.get('mode') != 'DEMO' else ''}>SEND DEMO MARKET ORDER</button>
       </form>
     </div>
     {last_html}
@@ -308,13 +331,47 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", "0"))
         form = parse_form(self.rfile.read(length))
 
+        if path == "/enable_demo_rule":
+            if not SESSION.get("connected") or SESSION.get("mode") != "DEMO":
+                self.redirect("/strategy?notice=" + urllib.parse.quote("Rule approval is available only on a verified DEMO account."))
+                return
+            try:
+                registry = StrategyRuleRegistry()
+                registry.enable_demo_execution(
+                    rule_id=(form.get("rule_id") or "").strip(),
+                    confirmation_phrase=(form.get("confirmation_phrase") or "").strip(),
+                )
+                notice = "Rule approved for DEMO forward-testing only. Real-money execution remains disabled."
+            except Exception as exc:
+                notice = f"Demo rule approval failed: {exc}"
+            self.redirect("/strategy?notice=" + urllib.parse.quote(notice))
+            return
+
         if path == "/demo_start":
             symbol = (form.get("symbol") or "EURUSD").strip().upper()
-            account_mode = (form.get("account_mode") or SESSION.get("mode") or "DEMO").strip().upper()
+            execute_demo = form.get("execute_demo") == "yes"
             if not SESSION.get("connected"):
                 self.redirect("/strategy?notice=" + urllib.parse.quote("Connect MT5 before Demo Start."))
                 return
+            account = get_account()
+            actual_mode = str(getattr(account, "account_type", "") or SESSION.get("mode") or "UNKNOWN").upper()
+            if execute_demo and (
+                actual_mode != "DEMO"
+                or str(SESSION.get("mode") or "").upper() != "DEMO"
+                or form.get("confirm_demo_order") != "yes"
+            ):
+                self.redirect("/strategy?notice=" + urllib.parse.quote("Order blocked: verified DEMO account and explicit order confirmation are required."))
+                return
             try:
+                high_impact_news = calendar_monitor.has_active_high_impact(symbol)
+                if execute_demo and not calendar_monitor.is_verified():
+                    raise RuntimeError("Economic calendar is not verified or is stale; demo execution is blocked.")
+                if execute_demo and high_impact_news:
+                    raise RuntimeError("High-impact economic event blackout is active for this symbol.")
+                if execute_demo and mt5_service.today_entry_count() >= 1:
+                    raise RuntimeError("One-trade-per-day limit reached. No additional order will be sent today.")
+                if execute_demo and mt5_service.open_trade_count() >= 1:
+                    raise RuntimeError("An MT5 position is already open. Close/manage it before another entry.")
                 pipeline = RealtimeTradingPipeline()
                 actual_symbol, datasets = pipeline._build_datasets(symbol)
                 frame = datasets.get("M15")
@@ -323,14 +380,22 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                 if "timestamp" not in frame.columns and "time" in frame.columns:
                     frame = frame.copy()
                     frame["timestamp"] = frame["time"]
+                executor = None
+                if execute_demo:
+                    executor = MT5ExecutionService(mt5_module=mt5_service.mt5)
+                    executor.adopt_existing_connection()
                 result = DemoStartController().start(
                     symbol=actual_symbol,
                     dataframe=frame,
-                    account_mode=account_mode,
-                    allow_execution=False,
+                    account_mode=actual_mode,
+                    allow_execution=execute_demo,
                     proposed_risk_percent=0.5,
+                    daily_loss_percent=0.0,
+                    open_trades=mt5_service.open_trade_count(),
                     fundamental_bias="neutral",
-                    high_impact_news=False,
+                    high_impact_news=high_impact_news,
+                    executor=executor,
+                    account_balance=float(account.balance),
                 )
                 SESSION["last_demo_start"] = {
                     "status": result.status,
@@ -340,6 +405,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                     "rule_name": result.rule_name,
                     "dry_run": result.dry_run,
                     "symbol": result.symbol,
+                    "order_ticket": result.order_ticket,
                 }
                 try:
                     post_demo_start_result(result)
@@ -368,7 +434,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
             if result.connected:
                 SESSION["connected"] = True
                 SESSION["account"] = result
-                SESSION["mode"] = mode
+                SESSION["mode"] = result.account_type
                 self.redirect("/")
                 return
             self.send_html(nav_layout("Connection", connection_form(result.message), "Overview"), 401)
