@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlparse
+from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 
 from fundamentals.event_risk import EconomicEvent
@@ -46,26 +46,7 @@ def _optional_number(value: Any, field_name: str) -> float | None:
 
 
 class HttpEconomicCalendarProvider:
-    """Read a documented JSON calendar endpoint; never scrapes or guesses events.
-
-    Expected response:
-      {
-        "source": "provider-name",
-        "fetched_at": "2026-11-07T12:00:00Z",
-        "coverage_start": "2026-11-07T00:00:00Z",
-        "coverage_end": "2026-11-14T00:00:00Z",
-        "events": [{
-          "name": "US CPI", "currency": "USD",
-          "scheduled_at": "2026-11-10T13:30:00Z",
-          "impact": "high", "actual": null, "forecast": null,
-          "previous": null, "surprise_bias": "context_dependent",
-          "source_url": "https://provider.example/event/123"
-        }]
-      }
-
-    The provider must explicitly certify the interval it covers. A successful
-    HTTP response alone is not proof that the requested period is complete.
-    """
+    """Read a documented JSON calendar endpoint; never scrapes or guesses events."""
 
     def __init__(
         self,
@@ -94,7 +75,12 @@ class HttpEconomicCalendarProvider:
         self.max_bytes = max_bytes
 
     @classmethod
-    def from_environment(cls) -> "HttpEconomicCalendarProvider | None":
+    def from_environment(cls) -> "HttpEconomicCalendarProvider | FmpEconomicCalendarProvider | None":
+        selected = os.getenv("MOILBOT_CALENDAR_PROVIDER", "http").strip().lower()
+        if selected == "fmp":
+            return FmpEconomicCalendarProvider.from_environment()
+        if selected != "http":
+            raise CalendarFeedError("MOILBOT_CALENDAR_PROVIDER must be 'http' or 'fmp'.")
         url = os.getenv("MOILBOT_CALENDAR_URL", "").strip()
         if not url:
             return None
@@ -178,9 +164,139 @@ class HttpEconomicCalendarProvider:
         )
 
 
+class FmpEconomicCalendarProvider:
+    """Adapter for FMP's documented UTC economic-calendar endpoint.
+
+    FMP does not return retrieval or coverage metadata. This adapter records the
+    successful request time and the exact requested UTC date window as coverage;
+    it rejects malformed responses and never treats a failed request as verified.
+    """
+
+    endpoint = "https://financialmodelingprep.com/stable/economic-calendar"
+
+    def __init__(
+        self,
+        api_key: str,
+        timeout_seconds: float = 8.0,
+        max_age: timedelta = timedelta(minutes=15),
+        days_ahead: int = 7,
+        country: str = "",
+        max_bytes: int = 2_000_000,
+    ) -> None:
+        if not api_key.strip():
+            raise CalendarFeedError("FMP API key is required.")
+        if not 1 <= days_ahead <= 90:
+            raise ValueError("FMP calendar days ahead must be between 1 and 90.")
+        if timeout_seconds <= 0 or max_age <= timedelta(0) or max_bytes <= 0:
+            raise ValueError("Timeout, maximum age and response size must be positive.")
+        self.api_key = api_key.strip()
+        self.timeout_seconds = timeout_seconds
+        self.max_age = max_age
+        self.days_ahead = days_ahead
+        self.country = country.strip().upper()
+        self.max_bytes = max_bytes
+
+    @classmethod
+    def from_environment(cls) -> "FmpEconomicCalendarProvider | None":
+        api_key = os.getenv("MOILBOT_FMP_API_KEY", "").strip()
+        if not api_key:
+            return None
+        return cls(
+            api_key=api_key,
+            timeout_seconds=float(os.getenv("MOILBOT_CALENDAR_TIMEOUT", "8")),
+            max_age=timedelta(seconds=int(os.getenv("MOILBOT_CALENDAR_MAX_AGE_SECONDS", "900"))),
+            days_ahead=int(os.getenv("MOILBOT_FMP_CALENDAR_DAYS", "7")),
+            country=os.getenv("MOILBOT_FMP_CALENDAR_COUNTRY", ""),
+        )
+
+    def fetch(self, now: datetime | None = None) -> CalendarSnapshot:
+        checked_at = now or datetime.now(timezone.utc)
+        if checked_at.tzinfo is None or checked_at.utcoffset() is None:
+            raise ValueError("now must be timezone-aware.")
+        checked_at = checked_at.astimezone(timezone.utc)
+        start_date = checked_at.date()
+        end_date = start_date + timedelta(days=self.days_ahead)
+        coverage_start = datetime.combine(start_date, datetime.min.time(), tzinfo=timezone.utc)
+        coverage_end = datetime.combine(end_date + timedelta(days=1), datetime.min.time(), tzinfo=timezone.utc)
+        params = {
+            "from": start_date.isoformat(),
+            "to": end_date.isoformat(),
+            "apikey": self.api_key,
+        }
+        if self.country:
+            params["country"] = self.country
+        url = f"{self.endpoint}?{urlencode(params)}"
+        request = Request(
+            url,
+            headers={"Accept": "application/json", "User-Agent": "MoilBot-EconomicCalendar/1.0"},
+            method="GET",
+        )
+        try:
+            with urlopen(request, timeout=self.timeout_seconds) as response:
+                raw = response.read(self.max_bytes + 1)
+        except HTTPError as exc:
+            raise CalendarFeedError(f"FMP calendar returned HTTP {exc.code}.") from exc
+        except (URLError, TimeoutError, OSError) as exc:
+            raise CalendarFeedError(f"FMP calendar request failed: {exc}") from exc
+        if len(raw) > self.max_bytes:
+            raise CalendarFeedError("FMP calendar response exceeded the configured size limit.")
+        try:
+            payload = json.loads(raw.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise CalendarFeedError("FMP calendar did not return valid UTF-8 JSON.") from exc
+        if not isinstance(payload, list):
+            raise CalendarFeedError("FMP calendar response must be a JSON array.")
+        if not coverage_start <= checked_at < coverage_end:
+            raise CalendarFeedError("Requested FMP calendar window does not cover the current time.")
+
+        events: list[EconomicEvent] = []
+        for index, item in enumerate(payload):
+            if not isinstance(item, dict):
+                raise CalendarFeedError(f"FMP events[{index}] must be an object.")
+            try:
+                name = str(item.get("event", "")).strip()
+                currency = str(item.get("currency", "")).strip().upper()
+                raw_date = item.get("date")
+                if not isinstance(raw_date, str) or not raw_date.strip():
+                    raise CalendarFeedError(f"FMP events[{index}].date is required.")
+                try:
+                    scheduled_at = datetime.fromisoformat(raw_date.strip().replace("Z", "+00:00"))
+                except ValueError as exc:
+                    raise CalendarFeedError(f"FMP events[{index}].date is invalid.") from exc
+                # FMP documents economic-calendar timestamps as UTC.
+                if scheduled_at.tzinfo is None or scheduled_at.utcoffset() is None:
+                    scheduled_at = scheduled_at.replace(tzinfo=timezone.utc)
+                impact_value = str(item.get("impact", "unknown")).strip().lower()
+                impact = impact_value if impact_value in {"high", "medium", "low"} else "unknown"
+                events.append(
+                    EconomicEvent(
+                        name=name,
+                        currency=currency,
+                        scheduled_at=scheduled_at.astimezone(timezone.utc),
+                        impact=impact,
+                        actual=_optional_number(item.get("actual"), f"FMP events[{index}].actual"),
+                        forecast=_optional_number(item.get("estimate"), f"FMP events[{index}].estimate"),
+                        previous=_optional_number(item.get("previous"), f"FMP events[{index}].previous"),
+                        surprise_bias="context_dependent",
+                        source="Financial Modeling Prep",
+                    )
+                )
+            except (TypeError, ValueError) as exc:
+                raise CalendarFeedError(f"Invalid FMP calendar event at index {index}: {exc}") from exc
+
+        return CalendarSnapshot(
+            events=tuple(events),
+            fetched_at=checked_at,
+            coverage_start=coverage_start,
+            coverage_end=coverage_end,
+            source="Financial Modeling Prep",
+        )
+
+
 __all__ = [
     "CalendarFeedError",
     "CalendarSnapshot",
+    "FmpEconomicCalendarProvider",
     "HttpEconomicCalendarProvider",
     "parse_timestamp",
 ]
