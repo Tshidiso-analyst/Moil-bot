@@ -106,3 +106,15 @@ def test_negative_blackout_window_is_rejected():
 def test_naive_assessment_time_is_rejected():
     with pytest.raises(ValueError, match="timezone-aware"):
         EconomicEventAnalyzer().assess([], now=datetime(2026, 11, 7, 12, 0))
+
+
+@pytest.mark.parametrize("field_name", ["actual", "forecast", "previous"])
+@pytest.mark.parametrize("invalid_value", [True, float("nan"), float("inf"), float("-inf")])
+def test_non_finite_or_boolean_release_values_are_rejected(field_name, invalid_value):
+    with pytest.raises(ValueError):
+        event(**{field_name: invalid_value})
+
+
+def test_non_numeric_release_values_are_rejected():
+    with pytest.raises(ValueError, match="must be numeric"):
+        event(actual="3.2")
