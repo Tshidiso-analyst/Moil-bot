@@ -9,6 +9,7 @@ from alerts.engine import AlertEngine
 from alerts.event_alerts import build_economic_event_alerts
 from fundamentals.calendar_feed import CalendarFeedError, CalendarSnapshot, HttpEconomicCalendarProvider
 from fundamentals.event_risk import EconomicEventAnalyzer
+from fundamentals.release_analysis import EconomicReleaseAnalyzer
 
 
 class EconomicCalendarMonitor:
@@ -40,6 +41,7 @@ class EconomicCalendarMonitor:
         self.poll_seconds = poll_seconds
         self.alert_window = alert_window
         self.analyzer = EconomicEventAnalyzer()
+        self.release_analyzer = EconomicReleaseAnalyzer()
         self._snapshot: CalendarSnapshot | None = None
         self._last_error = "Calendar provider is not configured." if self.provider is None else ""
         self._last_attempt: datetime | None = None
@@ -113,6 +115,30 @@ class EconomicCalendarMonitor:
             error = self._last_error
             attempted = self._last_attempt
         verified = self.is_verified(now=now)
+        release_analysis = []
+        if snapshot is not None and verified:
+            for release in self.release_analyzer.analyze(snapshot.events):
+                release_analysis.append({
+                    "release_type": release.release_type,
+                    "currency": release.currency,
+                    "release_date": release.release_date.isoformat(),
+                    "assessment": release.assessment,
+                    "macro_bias": release.macro_bias,
+                    "trade_direction": release.trade_direction,
+                    "trade_approval": release.trade_approval,
+                    "components": [
+                        {
+                            "name": component.name,
+                            "category": component.category,
+                            "actual": component.actual,
+                            "forecast": component.forecast,
+                            "previous": component.previous,
+                            "comparison": component.comparison,
+                        }
+                        for component in release.components
+                    ],
+                    "observations": list(release.observations),
+                })
         return {
             "configured": self.provider is not None,
             "verified": verified,
@@ -121,6 +147,7 @@ class EconomicCalendarMonitor:
             "coverage_start": snapshot.coverage_start if snapshot else None,
             "coverage_end": snapshot.coverage_end if snapshot else None,
             "event_count": len(snapshot.events) if snapshot else 0,
+            "release_analysis": release_analysis,
             "last_attempt": attempted,
             "error": error,
         }
