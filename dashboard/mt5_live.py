@@ -44,8 +44,7 @@ class MT5LiveService:
         requested_mode: str = "DEMO",
     ) -> MT5ConnectionResult:
         """Initialize and log in to the local MetaTrader 5 terminal."""
-        del requested_mode  # Account mode is determined by the MT5 account itself.
-        if self.mt5 is None:
+         if self.mt5 is None:
             self.connected = False
             self.last_error = "MetaTrader5 package is not installed in this Python environment."
             return MT5ConnectionResult(connected=False, message=self.last_error)
@@ -82,9 +81,25 @@ class MT5LiveService:
         self.connected = True
         self.account = info
         self.last_error = ""
-        account_type = getattr(info, "trade_mode", "")
-        mode_map = {0: "DEMO", 1: "REAL", 2: "CONTEST", 3: "FUTURES"}
-        account_type = mode_map.get(account_type, str(account_type))
+        # MetaTrader5 ACCOUNT_TRADE_MODE values are DEMO=0, CONTEST=1, REAL=2.
+        # Never trust the mode selected in the dashboard form.
+        trade_mode = getattr(info, "trade_mode", None)
+        mode_map = {
+            getattr(self.mt5, "ACCOUNT_TRADE_MODE_DEMO", 0): "DEMO",
+            getattr(self.mt5, "ACCOUNT_TRADE_MODE_CONTEST", 1): "CONTEST",
+            getattr(self.mt5, "ACCOUNT_TRADE_MODE_REAL", 2): "REAL",
+        }
+        account_type = mode_map.get(trade_mode, "UNKNOWN")
+        requested = str(requested_mode or "DEMO").strip().upper()
+        if requested in {"DEMO", "REAL"} and account_type != requested:
+            self.mt5.shutdown()
+            self.connected = False
+            self.account = None
+            self.last_error = (
+                f"Selected {requested} mode does not match the connected MT5 "
+                f"account type ({account_type}). No session was created."
+            )
+            return MT5ConnectionResult(connected=False, message=self.last_error)
         values = {
             "login": int(getattr(info, "login", login) or login),
             "server": str(getattr(info, "server", server) or server),
