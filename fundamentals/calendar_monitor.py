@@ -7,7 +7,11 @@ from typing import Iterable
 
 from alerts.engine import AlertEngine
 from alerts.event_alerts import build_economic_event_alerts
-from fundamentals.calendar_feed import CalendarFeedError, CalendarSnapshot, HttpEconomicCalendarProvider
+from fundamentals.calendar_feed import (
+    CalendarSnapshot,
+    FmpEconomicCalendarProvider,
+    HttpEconomicCalendarProvider,
+)
 from fundamentals.event_risk import EconomicEventAnalyzer
 from fundamentals.release_analysis import EconomicReleaseAnalyzer
 
@@ -17,7 +21,7 @@ class EconomicCalendarMonitor:
 
     def __init__(
         self,
-        provider: HttpEconomicCalendarProvider | None = None,
+        provider: HttpEconomicCalendarProvider | FmpEconomicCalendarProvider | None = None,
         alert_engine: AlertEngine | None = None,
         symbols: Iterable[str] | None = None,
         poll_seconds: int | None = None,
