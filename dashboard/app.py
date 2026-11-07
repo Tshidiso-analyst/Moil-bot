@@ -465,6 +465,21 @@ def analysis_page(query: dict[str, list[str]]) -> str:
         if calendar_status["verified"]
         else f"Calendar unavailable or stale. {esc(calendar_status['error'] or 'No verified feed has been received.')}"
     )
+    release_rows = "".join(
+        f"<li><strong>{esc(item['release_type'])} ({esc(item['currency'])}) — "
+        f"{esc(item['assessment'].replace('_', ' ').upper())}</strong>: "
+        f"{esc('; '.join(item['observations']))} "
+        f"<span class='muted'>Components: "
+        f"{esc(', '.join(component['name'] + ' [' + component['comparison'].replace('_', ' ') + ']' for component in item['components']))}</span></li>"
+        for item in calendar_status.get("release_analysis", [])
+    ) or "<li>No classified NFP, CPI or FOMC release results are available in the verified calendar snapshot.</li>"
+    macro_card = f"""
+    <div class="card">
+        <h3>Macro Release Review</h3>
+        <ul>{release_rows}</ul>
+        <p class="muted">This is a factual actual-versus-forecast comparison, not a currency forecast. Macro bias remains unverified and trade approval is not granted by this report.</p>
+    </div>
+    """
     calendar_card = f"""
     <div class="card">
         <h3>Economic Calendar: {esc(calendar_label)}</h3>
@@ -481,6 +496,7 @@ def analysis_page(query: dict[str, list[str]]) -> str:
     </div>
 
     {calendar_card}
+    {macro_card}
     {tradingview_chart(symbol)}
     {market_cards}
     <div class="grid">
