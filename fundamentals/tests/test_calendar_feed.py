@@ -110,3 +110,12 @@ def test_empty_event_list_can_still_be_verified_if_provider_certifies_coverage()
 
     assert snapshot.events == ()
     assert snapshot.coverage_start <= NOW <= snapshot.coverage_end
+
+
+def test_plain_http_is_rejected_for_non_local_calendar_hosts():
+    with pytest.raises(CalendarFeedError, match="HTTPS"):
+        HttpEconomicCalendarProvider("http://calendar.example/api")
+
+
+def test_localhost_http_is_allowed_for_development():
+    assert HttpEconomicCalendarProvider("http://localhost:8080/calendar")
