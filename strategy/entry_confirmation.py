@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, time, timezone
+import math
 from typing import Iterable
 from zoneinfo import ZoneInfo
 
@@ -57,12 +58,10 @@ class EntryConfirmationEvaluator:
             raise ValueError("direction must be bullish or bearish.")
         if assessed_at.tzinfo is None or assessed_at.utcoffset() is None:
             raise ValueError("assessed_at must be timezone-aware.")
-        if isinstance(daily_trade_count, bool) or daily_trade_count < 0:
+        if isinstance(daily_trade_count, bool) or not isinstance(daily_trade_count, int) or daily_trade_count < 0:
             raise ValueError("daily_trade_count must be a non-negative integer.")
-        if isinstance(daily_trade_count, float) and not daily_trade_count.is_integer():
-            raise ValueError("daily_trade_count must be a non-negative integer.")
-        if isinstance(risk_percent, bool) or not isinstance(risk_percent, (int, float)):
-            raise ValueError("risk_percent must be numeric.")
+        if isinstance(risk_percent, bool) or not isinstance(risk_percent, (int, float)) or not math.isfinite(float(risk_percent)):
+            raise ValueError("risk_percent must be a finite number.")
         if risk_percent <= 0:
             raise ValueError("risk_percent must be greater than zero.")
 
