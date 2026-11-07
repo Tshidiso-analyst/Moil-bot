@@ -19,9 +19,14 @@ class EconomicCalendarMonitor:
         provider: HttpEconomicCalendarProvider | None = None,
         alert_engine: AlertEngine | None = None,
         symbols: Iterable[str] | None = None,
-        poll_seconds: int = 300,
+        poll_seconds: int | None = None,
         alert_window: timedelta = timedelta(minutes=60),
     ) -> None:
+        poll_seconds = (
+            int(os.getenv("MOILBOT_CALENDAR_POLL_SECONDS", "300"))
+            if poll_seconds is None
+            else poll_seconds
+        )
         if poll_seconds < 30:
             raise ValueError("Calendar poll interval must be at least 30 seconds.")
         self.provider = provider if provider is not None else HttpEconomicCalendarProvider.from_environment()
@@ -83,7 +88,7 @@ class EconomicCalendarMonitor:
             return False
         max_age = getattr(self.provider, "max_age", timedelta(minutes=15))
         return (
-            checked_at - snapshot.fetched_at <= max_age
+            timedelta(0) <= checked_at - snapshot.fetched_at <= max_age
             and snapshot.coverage_start <= checked_at <= snapshot.coverage_end
         )
 
