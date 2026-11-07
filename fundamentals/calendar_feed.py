@@ -76,8 +76,15 @@ class HttpEconomicCalendarProvider:
         max_bytes: int = 2_000_000,
     ) -> None:
         parsed = urlparse(url)
-        if parsed.scheme not in {"https", "http"} or not parsed.netloc:
-            raise CalendarFeedError("Calendar URL must be an absolute HTTP(S) URL.")
+        local_hosts = {"localhost", "127.0.0.1", "::1"}
+        if (
+            parsed.scheme not in {"https", "http"}
+            or not parsed.netloc
+            or (parsed.scheme == "http" and parsed.hostname not in local_hosts)
+        ):
+            raise CalendarFeedError(
+                "Calendar URL must use HTTPS; plain HTTP is allowed only for localhost development."
+            )
         if timeout_seconds <= 0 or max_age <= timedelta(0) or max_bytes <= 0:
             raise ValueError("Timeout, maximum age and response size must be positive.")
         self.url = url
