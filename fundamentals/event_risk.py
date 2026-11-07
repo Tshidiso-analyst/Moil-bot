@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 from datetime import datetime, timedelta, timezone
 from typing import Iterable, Literal
 
@@ -49,8 +50,16 @@ class EconomicEvent:
             raise ValueError("Unsupported surprise_bias.")
         for field_name in ("actual", "forecast", "previous"):
             value = getattr(self, field_name)
-            if value is not None and not isinstance(value, (int, float)):
+            if value is None:
+                continue
+            if isinstance(value, bool) or not isinstance(value, (int, float)):
                 raise ValueError(f"{field_name} must be numeric or None.")
+            try:
+                finite = math.isfinite(float(value))
+            except (OverflowError, ValueError):
+                finite = False
+            if not finite:
+                raise ValueError(f"{field_name} must be finite.")
 
 
 @dataclass(frozen=True)
