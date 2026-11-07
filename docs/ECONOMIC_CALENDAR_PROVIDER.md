@@ -1,21 +1,39 @@
 # Economic calendar provider integration
 
-Moil-bot accepts a provider through a small JSON-over-HTTPS contract. The repository does **not** claim a live calendar is connected until a provider URL is configured and the provider returns a fresh, coverage-certified response.
+Moil-bot supports a provider through a small JSON-over-HTTPS contract and includes an optional adapter for the Financial Modeling Prep (FMP) economic calendar. The repository does **not** claim a live calendar is connected until credentials are configured and a fresh response is validated.
 
-## Configure
+## FMP provider (recommended adapter)
+
+FMP documents the endpoint `https://financialmodelingprep.com/stable/economic-calendar`. Its response includes event date, country, event name, currency, previous, estimate, actual and impact. FMP documents event timestamps as UTC and limits each requested date range to 90 days.
+
+FMP calendar access is not included in its Basic/free plan. Confirm that your subscription includes the Economic Data Releases Calendar endpoint before configuring it. Do not assume that creating a free API key grants access.
+
+Set these values in your local `.env` file:
+
+- `MOILBOT_CALENDAR_PROVIDER=fmp`
+- `MOILBOT_FMP_API_KEY`: your FMP API key (never commit it).
+- `MOILBOT_FMP_CALENDAR_DAYS`: requested horizon from 1 to 90 days (default 7).
+- `MOILBOT_FMP_CALENDAR_COUNTRY`: optional ISO country code, e.g. `US`; blank requests all countries.
+- `MOILBOT_CALENDAR_TIMEOUT`: request timeout in seconds (default 8).
+- `MOILBOT_CALENDAR_MAX_AGE_SECONDS`: maximum accepted snapshot age (default 900 seconds).
+
+The adapter requests the current UTC date through the configured horizon, maps FMP's documented fields to Moil-bot's event model, and records the successful retrieval time. FMP does not return its own fetch timestamp or an explicit coverage certificate; the adapter therefore treats the successfully requested date range as the coverage window. A failed request, malformed response, missing key, stale snapshot or unknown impact classification cannot be used as verified high-impact event coverage. Confirm provider entitlements and data behaviour before relying on this integration in live decision workflows.
+
+## Generic HTTP provider
 
 Copy `.env.example` to `.env` and set:
 
-- `MOILBOT_CALENDAR_URL`: absolute HTTP(S) endpoint that returns the schema below. Use HTTPS for hosted providers.
+- `MOILBOT_CALENDAR_PROVIDER=http` (or leave the default).
+- `MOILBOT_CALENDAR_URL`: absolute HTTPS endpoint that returns the schema below.
 - `MOILBOT_CALENDAR_TOKEN`: optional bearer token, if required by the provider.
 - `MOILBOT_CALENDAR_TIMEOUT`: request timeout in seconds (default 8).
 - `MOILBOT_CALENDAR_MAX_AGE_SECONDS`: maximum age of the provider's `fetched_at` timestamp (default 900 seconds).
 - `MOILBOT_CALENDAR_SYMBOLS`: comma-separated symbols for event alerts (default EURUSD,GBPUSD,USDJPY,XAUUSD).
 - `MOILBOT_CALENDAR_POLL_SECONDS`: polling interval (default 300 seconds; minimum 30).
 
-Restart the dashboard after changing environment variables. The background monitor starts when a URL is configured. If the URL is blank, invalid, stale, incomplete or unreachable, the dashboard reports the calendar as unverified and the real-time pipeline blocks new-trade approval.
+The generic provider requires the upstream service to explicitly identify its source and certify its coverage interval.
 
-## Required response contract
+## Required generic response contract
 
 ```json
 {
@@ -39,7 +57,7 @@ Restart the dashboard after changing environment variables. The background monit
 }
 ```
 
-All timestamps must be ISO-8601 with an explicit timezone. Event impact must be `high`, `medium`, `low` or `unknown`. Actual, forecast and previous values are numeric or null. The provider must identify itself and explicitly certify the coverage interval. An empty events array is valid only when the provider certifies that interval.
+All timestamps must be ISO-8601 with an explicit timezone. Event impact must be `high`, `medium`, `low` or `unknown`. Actual, forecast and previous values are numeric or null.
 
 ## Runtime behaviour
 
@@ -51,7 +69,4 @@ All timestamps must be ISO-8601 with an explicit timezone. Event impact must be 
 - Passes verified calendar status and active high-impact event state to the real-time pipeline.
 - Does not infer a directional trade from the event. The macro-bias gate remains closed until a separately verified, aligned macro assessment is supplied.
 - Does not close existing positions and does not enable MT5 order execution.
-
-## Provider selection
-
-Choose a calendar vendor whose licence permits your intended use and whose data includes the currencies, event importance, release times, forecasts and revisions needed by the strategy. If the vendor does not return this exact response, place a small adapter service in front of it that maps its documented API response into this contract. Do not paste a vendor API key into source code or commit it to GitHub.
+- No provider is considered live until a real account entitlement and successful authenticated response have been verified.
