@@ -34,11 +34,12 @@ jobs:
       - name: Install test dependencies
         run: python -m pip install --upgrade pip pytest pandas numpy
       - name: Compile changed Python modules
-        run: python -m compileall -q fundamentals alerts dashboard/app.py dashboard/realtime_pipeline.py
+        run: python -m compileall -q fundamentals alerts strategy/entry_confirmation.py dashboard/app.py dashboard/realtime_pipeline.py
       - name: Run event, alert and pipeline tests
         run: >-
           python -m pytest
           fundamentals/tests
           alerts/tests
           dashboard/tests/test_realtime_pipeline_calendar.py
+          strategy/tests/test_entry_confirmation.py
           -q
