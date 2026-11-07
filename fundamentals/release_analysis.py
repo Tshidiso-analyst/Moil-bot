@@ -128,9 +128,13 @@ class EconomicReleaseAnalyzer:
                 )
 
             observed = {item.comparison for item in components if item.comparison != "unavailable"}
+            has_unavailable_components = any(item.comparison == "unavailable" for item in components)
             if not observed:
                 assessment = "unavailable"
                 observations = ("Actual-versus-forecast values are not available for this release.",)
+            elif has_unavailable_components:
+                assessment = "partial"
+                observations = ("Only some release components have actual-versus-forecast comparisons.",)
             elif "above_forecast" in observed and "below_forecast" in observed:
                 assessment = "mixed"
                 observations = ("Release components disagree: some were above forecast and others below forecast.",)
