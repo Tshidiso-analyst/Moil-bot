@@ -88,6 +88,31 @@ def test_feed_must_identify_source_and_coverage():
             provider().fetch(now=NOW)
 
 
+@pytest.mark.parametrize("field", ["name", "currency"])
+def test_http_feed_rejects_null_event_identity_fields(field):
+    event = payload()["events"][0].copy()
+    event[field] = None
+    body = json.dumps(payload(events=[event])).encode()
+    with patch("fundamentals.calendar_feed.urlopen", return_value=FakeResponse(body)):
+        with pytest.raises(CalendarFeedError, match="non-empty string"):
+            provider().fetch(now=NOW)
+
+
+@pytest.mark.parametrize("field", ["event", "currency"])
+def test_fmp_rejects_null_event_identity_fields(field):
+    event = {
+        "date": "2026-11-10 13:30:00",
+        "event": "Consumer Price Index",
+        "currency": "USD",
+        "impact": "High",
+    }
+    event[field] = None
+    body = json.dumps([event]).encode()
+    with patch("fundamentals.calendar_feed.urlopen", return_value=FakeResponse(body)):
+        with pytest.raises(CalendarFeedError, match="non-empty string"):
+            FmpEconomicCalendarProvider("secret").fetch(now=NOW)
+
+
 def test_naive_now_is_rejected():
     with pytest.raises(ValueError, match="timezone-aware"):
         provider().fetch(now=datetime(2026, 11, 7, 12, 0))
