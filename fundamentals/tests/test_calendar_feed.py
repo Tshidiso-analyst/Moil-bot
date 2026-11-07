@@ -149,6 +149,19 @@ def test_fmp_maps_documented_utc_calendar_fields():
     assert query["to"] == ["2026-11-14"]
 
 
+
+def test_fmp_rejects_missing_or_unrecognized_impact():
+    fmp = FmpEconomicCalendarProvider("secret")
+    body = json.dumps([{
+        "date": "2026-11-10 13:30:00",
+        "event": "Unclassified event",
+        "currency": "USD",
+        "impact": "None",
+    }]).encode()
+    with patch("fundamentals.calendar_feed.urlopen", return_value=FakeResponse(body)):
+        with pytest.raises(CalendarFeedError, match="impact is missing or unrecognized"):
+            fmp.fetch(now=NOW)
+
 def test_fmp_rejects_missing_api_key():
     with pytest.raises(CalendarFeedError, match="API key is required"):
         FmpEconomicCalendarProvider(" ")
