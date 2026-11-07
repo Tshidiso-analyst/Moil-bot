@@ -6,42 +6,55 @@ import ssl
 from email.message import EmailMessage
 
 
-def send_email(to_email: str, subject: str, body: str) -> None:
+def send_email(
+    to_email: str,
+    subject: str,
+    body: str,
+    *,
+    smtp_host: str | None = None,
+    smtp_port: int | None = None,
+    smtp_user: str | None = None,
+    smtp_password: str | None = None,
+    from_email: str | None = None,
+) -> None:
     """Send email over SMTP with STARTTLS, or print a local development preview."""
     if not str(to_email or "").strip():
         raise ValueError("to_email must not be empty.")
     if not str(subject or "").strip():
         raise ValueError("subject must not be empty.")
 
-    smtp_host = os.getenv("SMTP_HOST", "").strip()
-    if not smtp_host:
+    host = (os.getenv("SMTP_HOST", "") if smtp_host is None else smtp_host).strip()
+    if not host:
         print("[EMAIL DEV MODE]")
         print(f"To: {to_email}")
         print(f"Subject: {subject}")
         print(body)
         return
 
-    smtp_port = int(os.getenv("SMTP_PORT", "587"))
-    smtp_user = os.getenv("SMTP_USER", "").strip()
-    smtp_password = os.getenv("SMTP_PASSWORD", "")
-    from_email = os.getenv("FROM_EMAIL", smtp_user or "noreply@localhost").strip()
+    port = int(os.getenv("SMTP_PORT", "587")) if smtp_port is None else int(smtp_port)
+    username = (os.getenv("SMTP_USER", "") if smtp_user is None else smtp_user).strip()
+    password = os.getenv("SMTP_PASSWORD", "") if smtp_password is None else smtp_password
+    sender = (
+        os.getenv("FROM_EMAIL", username or "noreply@localhost")
+        if from_email is None else from_email
+    ).strip()
 
-    if bool(smtp_user) != bool(smtp_password):
+    if bool(username) != bool(password):
         raise ValueError("SMTP_USER and SMTP_PASSWORD must be configured together.")
 
     message = EmailMessage()
     message["Subject"] = subject
-    message["From"] = from_email
+    message["From"] = sender
     message["To"] = to_email
     message.set_content(body)
 
     context = ssl.create_default_context()
-    with smtplib.SMTP(smtp_host, smtp_port, timeout=15) as server:
+    with smtplib.SMTP(host, port, timeout=15) as server:
         server.ehlo()
         server.starttls(context=context)
         server.ehlo()
-        if smtp_user:
-            server.login(smtp_user, smtp_password)
+        if username:
+            server.login(username, password)
         server.send_message(message)
 
 
