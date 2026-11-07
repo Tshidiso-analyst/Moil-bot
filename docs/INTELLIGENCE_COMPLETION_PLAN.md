@@ -62,6 +62,18 @@ Tests are in `fundamentals/tests/test_release_analysis.py` and are included in t
 
 Acceptance: deterministic tests cover bullish, bearish, mixed, consolidation, distribution, sweep-without-confirmation, conflicting timeframes, session exclusion and invalidation.
 
+### Added: conservative NY opening-hour confirmation gate
+
+`strategy/entry_confirmation.py` provides a separate, deterministic research checklist for the user's stated guardrails:
+- Uses the `America/New_York` timezone, including daylight-saving changes, and restricts the setup window to 09:30–10:30 New York time on weekdays.
+- Enforces no more than one trade per day and a maximum planned risk of 1%.
+- Requires verified calendar coverage and blocks the whole New York date when a high-impact event affecting a symbol currency is scheduled.
+- Requires a liquidity-sweep confirmation, matching BOS direction confirmed by candle-body close, and either an FVG retracement or order-block retest.
+- Requires a separately verified aligned macro bias.
+- Returns research qualification only; `execution_approved` is always false.
+
+The evaluator is deliberately not wired to auto-detect or approve entries yet. The existing sweep labels, order-block detector, FVG retracement detector, daily-trade persistence and macro-bias model need independent validation before the dashboard can supply these confirmations. Tests are in `strategy/tests/test_entry_confirmation.py`.
+
 ### 2. PDF and video knowledge ingestion
 - Keep source metadata, page numbers, video IDs, URLs, transcript language and retrieval timestamps.
 - Detect missing, duplicate, scanned/image-only and failed sources without silently marking them learned.
