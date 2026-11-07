@@ -93,6 +93,17 @@ def test_missing_actual_or_forecast_has_no_directional_bias():
     assert item.directional_bias == "neutral"
 
 
+@pytest.mark.parametrize("field_name", ["name", "currency"])
+def test_event_identity_fields_must_be_nonempty_strings(field_name):
+    with pytest.raises(ValueError, match="non-empty string"):
+        event(**{field_name: None})
+
+
+def test_event_scheduled_at_must_be_a_timezone_aware_datetime():
+    with pytest.raises(ValueError, match="timezone-aware datetime"):
+        event(scheduled_at=None)
+
+
 def test_naive_datetimes_are_rejected():
     with pytest.raises(ValueError, match="timezone-aware"):
         event(scheduled_at=datetime(2026, 11, 7, 12, 0))
