@@ -124,9 +124,7 @@ class HttpEconomicCalendarProvider:
         if not isinstance(payload, dict) or not isinstance(payload.get("events"), list):
             raise CalendarFeedError("Calendar response must contain an events array.")
 
-        source = str(payload.get("source", "")).strip()
-        if not source:
-            raise CalendarFeedError("Calendar response must identify its source.")
+        source = _required_text(payload.get("source"), "source")
         fetched_at = parse_timestamp(payload.get("fetched_at"), "fetched_at")
         coverage_start = parse_timestamp(payload.get("coverage_start"), "coverage_start")
         coverage_end = parse_timestamp(payload.get("coverage_end"), "coverage_end")
