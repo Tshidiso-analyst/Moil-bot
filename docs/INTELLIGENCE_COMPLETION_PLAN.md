@@ -96,4 +96,4 @@ Acceptance: no order API is reachable from the analysis dashboard; risk rejectio
 
 ## Validation status
 
-The GitHub connector can write to the repository, but it cannot run the project's Python test suite in the user's local Windows/MT5 environment. CI should run the tests in a clean Linux environment; MT5-specific checks must be run locally on Windows with a demo terminal. No test pass is claimed by this document.
+The focused GitHub Actions suite currently passes **70 tests** across `fundamentals/tests`, `alerts/tests` and `dashboard/tests/test_realtime_pipeline_calendar.py` on Python 3.10. The full project test suite and Windows/MT5-specific checks remain outstanding. The CI setup also exposed and removed two malformed duplicate paths under `notifications/`; the correctly named source files were preserved.
