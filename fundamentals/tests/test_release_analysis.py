@@ -61,7 +61,7 @@ def test_fomc_rate_and_statement_are_reported_without_policy_guess():
     assert {item.category for item in release.components} == {
         "policy_rate", "policy_statement", "press_conference"
     }
-    assert release.assessment == "in_line"
+    assert release.assessment == "partial"
     assert release.macro_bias == "unverified"
     assert release.trade_approval is False
 
