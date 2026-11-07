@@ -135,9 +135,13 @@ class EconomicReleaseAnalyzer:
             elif has_unavailable_components:
                 assessment = "partial"
                 observations = ("Only some release components have actual-versus-forecast comparisons.",)
-            elif "above_forecast" in observed and "below_forecast" in observed:
+            elif len(observed) > 1:
                 assessment = "mixed"
-                observations = ("Release components disagree: some were above forecast and others below forecast.",)
+                labels = ", ".join(sorted(observed))
+                observations = (
+                    f"Release components have mixed comparisons ({labels}); "
+                    "the release does not have one consistent surprise direction.",
+                )
             elif observed == {"in_line"}:
                 assessment = "in_line"
                 observations = ("All comparable release components matched forecast.",)
