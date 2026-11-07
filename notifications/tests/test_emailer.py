@@ -49,7 +49,9 @@ def test_email_uses_starttls_and_sends_message(monkeypatch):
     monkeypatch.setenv("FROM_EMAIL", "mailer@example.test")
     monkeypatch.setattr("notifications.emailer.smtplib.SMTP", FakeSMTP)
 
-    send_email("user@example.test", "Moil-bot alert", "Test message")
+    delivered = send_email("user@example.test", "Moil-bot alert", "Test message")
+
+    assert delivered is True
 
     assert ("connect", "smtp.example.test", 587, 15) in calls
     assert any(call[0] == "starttls" for call in calls)
@@ -71,7 +73,9 @@ def test_email_rejects_partial_smtp_credentials(monkeypatch):
 def test_email_development_mode_is_explicit_when_smtp_is_not_configured(monkeypatch, capsys):
     monkeypatch.delenv("SMTP_HOST", raising=False)
 
-    send_email("user@example.test", "Alert", "Test message")
+    delivered = send_email("user@example.test", "Alert", "Test message")
+
+    assert delivered is False
 
     output = capsys.readouterr().out
     assert "[EMAIL DEV MODE]" in output
@@ -82,7 +86,9 @@ def test_sms_development_mode_is_explicit_when_twilio_is_not_configured(monkeypa
     for key in ("TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_FROM_NUMBER"):
         monkeypatch.delenv(key, raising=False)
 
-    send_sms("+15551234567", "Test message")
+    delivered = send_sms("+15551234567", "Test message")
+
+    assert delivered is False
 
     output = capsys.readouterr().out
     assert "[SMS DEV MODE]" in output
