@@ -102,6 +102,18 @@ class EconomicCalendarMonitor:
         events = self.events_for_symbol(symbol, now=now)
         return self.analyzer.assess(events, now=now).block_new_trades
 
+    def has_high_impact_today(self, symbol: str, now: datetime | None = None) -> bool:
+        """Apply the user's full-day no-trade rule to high-impact event dates."""
+        checked_at = now or datetime.now().astimezone()
+        if checked_at.tzinfo is None or checked_at.utcoffset() is None:
+            raise ValueError("now must be timezone-aware.")
+        local_date = checked_at.astimezone().date()
+        return any(
+            event.impact == "high"
+            and event.scheduled_at.astimezone().date() == local_date
+            for event in self.events_for_symbol(symbol, now=checked_at)
+        )
+
     def events_for_symbol(self, symbol: str, now: datetime | None = None):
         normalized = str(symbol or "").upper()
         with self._lock:
