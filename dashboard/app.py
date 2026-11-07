@@ -278,10 +278,12 @@ def risk_page() -> str:
       <div class="card"><div class="muted">RISK AMOUNT</div><div class="metric">{money(risk.risk_amount, account.currency)}</div></div>
     </div>
     <div class="card"><ul>
-      <li>Max risk per trade: 1%</li>
-      <li>Max open trades: 3</li>
-      <li>Daily loss cap: 5%</li>
-      <li>Demo Start execution_enabled remains false until explicit approval</li>
+      <li>Demo risk per trade: 0.5% by default; hard cap 1%</li>
+      <li>Maximum one new trade per local day</li>
+      <li>Maximum one open position</li>
+      <li>Daily loss stop: 1%</li>
+      <li>No new entries on a high-impact event date</li>
+      <li>Real-money order execution remains disabled</li>
     </ul></div>"""
     return nav_layout("Risk", content, "Risk")
 
