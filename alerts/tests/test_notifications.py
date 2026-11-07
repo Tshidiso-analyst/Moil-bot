@@ -95,3 +95,66 @@ def test_notification_result_is_immutable():
     )
 
     assert result.sent is True
+
+
+def test_email_channel_dispatches_through_configured_provider(monkeypatch):
+    from alerts.notifications import EmailNotificationChannel
+
+    sent = []
+    monkeypatch.setattr(
+        "alerts.notifications.send_email",
+        lambda recipient, subject, body: sent.append((recipient, subject, body)),
+    )
+    channel = EmailNotificationChannel(recipient="trader@example.test")
+
+    result = channel.send(make_alert())
+
+    assert result.sent is True
+    assert result.channel == "email"
+    assert sent == [(
+        "trader@example.test",
+        "Trade Entered",
+        "EURUSD BUY trade entered.",
+    )]
+
+
+def test_email_channel_reports_provider_failure(monkeypatch):
+    from alerts.notifications import EmailNotificationChannel
+
+    def fail(*args):
+        raise RuntimeError("SMTP unavailable")
+
+    monkeypatch.setattr("alerts.notifications.send_email", fail)
+    result = EmailNotificationChannel(recipient="trader@example.test").send(make_alert())
+
+    assert result.sent is False
+    assert "SMTP unavailable" in result.message
+
+
+def test_message_channel_dispatches_sms_through_configured_provider(monkeypatch):
+    sent = []
+    monkeypatch.setattr(
+        "alerts.notifications.send_sms",
+        lambda recipient, body: sent.append((recipient, body)),
+    )
+    channel = MessageNotificationChannel(recipient="+15551234567")
+
+    result = channel.send(make_alert())
+
+    assert result.sent is True
+    assert result.channel == "message"
+    assert sent == [(
+        "+15551234567",
+        "Trade Entered: EURUSD BUY trade entered.",
+    )]
+
+
+def test_message_channel_reports_provider_failure(monkeypatch):
+    def fail(*args):
+        raise RuntimeError("SMS provider unavailable")
+
+    monkeypatch.setattr("alerts.notifications.send_sms", fail)
+    result = MessageNotificationChannel(recipient="+15551234567").send(make_alert())
+
+    assert result.sent is False
+    assert "SMS provider unavailable" in result.message
