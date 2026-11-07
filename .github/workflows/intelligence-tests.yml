@@ -10,6 +10,7 @@ on:
       - "fundamentals/**"
       - "notifications/**"
       - "dashboard/realtime_pipeline.py"
+      - "dashboard/app.py"
       - "dashboard/tests/test_realtime_pipeline_calendar.py"
       - ".github/workflows/intelligence-tests.yml"
   pull_request:
