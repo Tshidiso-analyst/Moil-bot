@@ -206,7 +206,7 @@ def strategy_page(notice: str = "") -> str:
     rows = "".join(
         f"<tr><td>{esc(r.get('rule_id'))}</td><td>{esc(r.get('name'))}</td>"
         f"<td>{esc(r.get('direction'))}</td><td>{esc(r.get('status'))}</td>"
-        f"<td>{'yes' if r.get('execution_enabled') else 'no'}</td></tr>"
+        f"<td>{'yes' if r.get('demo_execution_enabled') else 'no'}</td></tr>"
         for r in rules
     ) or '<tr><td colspan="5">No reviewed rules found</td></tr>'
     last = SESSION.get("last_demo_start")
@@ -228,7 +228,7 @@ def strategy_page(notice: str = "") -> str:
     </div>
     <div class="card">
       <h3>Human-reviewed rules</h3>
-      <table><thead><tr><th>ID</th><th>Name</th><th>Direction</th><th>Status</th><th>Exec</th></tr></thead>
+      <table><thead><tr><th>ID</th><th>Name</th><th>Direction</th><th>Status</th><th>Demo Exec</th></tr></thead>
       <tbody>{rows}</tbody></table>
     </div>
     <div class="card">
@@ -395,7 +395,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                     account_mode=actual_mode,
                     allow_execution=execute_demo,
                     proposed_risk_percent=0.5,
-                    daily_loss_percent=0.0,
+                    daily_loss_percent=mt5_service.today_loss_percent() if execute_demo else 0.0,
                     open_trades=mt5_service.open_trade_count(),
                     fundamental_bias="neutral",
                     high_impact_news=high_impact_news,
