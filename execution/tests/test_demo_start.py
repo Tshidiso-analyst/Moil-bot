@@ -244,3 +244,67 @@ def test_demo_start_refuses_unapproved_rule_even_when_execution_requested():
 
     assert result.status == "blocked"
     assert executor.order is None
+
+
+def test_demo_start_blocks_second_trade_even_when_called_outside_dashboard():
+    rules = [{
+        "rule_id": "fvg_ny_1",
+        "name": "NY FVG continuation",
+        "direction": "bullish",
+        "execution_enabled": False,
+        "demo_execution_enabled": True,
+        "sources": [{"human_review_confirmed": True, "page": 12}],
+    }]
+    executor = _FakeDemoExecutor()
+    controller = DemoStartController(
+        registry=_FakeRegistry(rules),
+        decision_engine=_FakeDecisionEngine(
+            _FakeAssessment(
+                symbol="EURUSD", direction="bullish", session="new_york",
+                trend="bullish", setup_valid=True, confirmation=True,
+                reasons=["confirmed"], entry=1.15, stop_loss=1.14,
+                take_profit=1.17, risk_percent=0.5,
+            )
+        ),
+    )
+
+    result = controller.start(
+        symbol="EURUSD", dataframe=_sample_frame(), account_mode="DEMO",
+        allow_execution=True, proposed_risk_percent=0.5,
+        daily_trade_count=1, executor=executor, account_balance=10000.0,
+    )
+
+    assert result.status == "blocked"
+    assert executor.order is None
+
+
+def test_demo_start_requires_account_balance_even_if_volume_is_supplied():
+    rules = [{
+        "rule_id": "fvg_ny_1",
+        "name": "NY FVG continuation",
+        "direction": "bullish",
+        "execution_enabled": False,
+        "demo_execution_enabled": True,
+        "sources": [{"human_review_confirmed": True, "page": 12}],
+    }]
+    executor = _FakeDemoExecutor()
+    controller = DemoStartController(
+        registry=_FakeRegistry(rules),
+        decision_engine=_FakeDecisionEngine(
+            _FakeAssessment(
+                symbol="EURUSD", direction="bullish", session="new_york",
+                trend="bullish", setup_valid=True, confirmation=True,
+                reasons=["confirmed"], entry=1.15, stop_loss=1.14,
+                take_profit=1.17, risk_percent=0.5,
+            )
+        ),
+    )
+
+    result = controller.start(
+        symbol="EURUSD", dataframe=_sample_frame(), account_mode="DEMO",
+        allow_execution=True, volume=0.01, executor=executor,
+        account_balance=None,
+    )
+
+    assert result.status == "blocked"
+    assert executor.order is None
