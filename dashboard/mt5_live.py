@@ -45,7 +45,7 @@ class MT5LiveService:
         requested_mode: str = "DEMO",
     ) -> MT5ConnectionResult:
         """Initialize and log in to the local MetaTrader 5 terminal."""
-         if self.mt5 is None:
+        if self.mt5 is None:
             self.connected = False
             self.last_error = "MetaTrader5 package is not installed in this Python environment."
             return MT5ConnectionResult(connected=False, message=self.last_error)
