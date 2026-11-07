@@ -142,3 +142,35 @@ def test_monitor_does_not_expose_release_analysis_from_stale_snapshot():
     status = monitor.status(now=NOW + timedelta(minutes=20))
     assert status["verified"] is False
     assert status["release_analysis"] == []
+
+
+def test_monitor_blocks_the_entire_local_date_of_a_high_impact_event():
+    event = EconomicEvent(
+        name="US CPI",
+        currency="USD",
+        scheduled_at=NOW + timedelta(hours=5),
+        impact="high",
+    )
+    provider = Mock()
+    provider.fetch.return_value = snapshot([event])
+    provider.max_age = timedelta(minutes=15)
+    monitor = EconomicCalendarMonitor(provider=provider, symbols=["EURUSD"])
+
+    assert monitor.refresh_once(now=NOW) is True
+    assert monitor.has_high_impact_today("EURUSD", now=NOW) is True
+
+
+def test_monitor_does_not_block_the_previous_day_for_tomorrows_event():
+    event = EconomicEvent(
+        name="US CPI",
+        currency="USD",
+        scheduled_at=NOW + timedelta(days=1),
+        impact="high",
+    )
+    provider = Mock()
+    provider.fetch.return_value = snapshot([event])
+    provider.max_age = timedelta(minutes=15)
+    monitor = EconomicCalendarMonitor(provider=provider, symbols=["EURUSD"])
+
+    assert monitor.refresh_once(now=NOW) is True
+    assert monitor.has_high_impact_today("EURUSD", now=NOW) is False
