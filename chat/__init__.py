@@ -5,6 +5,12 @@ from .backtest_bridge import (
     format_simple_backtest,
     post_backtest_result,
 )
+from .knowledge_bridge import (
+    format_evidence_citations,
+    format_ingestion_health,
+    post_ingestion_health,
+    post_knowledge_search,
+)
 
 __all__ = [
     "ChatBoardService",
@@ -16,4 +22,8 @@ __all__ = [
     "format_simple_backtest",
     "format_cost_aware_backtest",
     "post_backtest_result",
+    "format_evidence_citations",
+    "format_ingestion_health",
+    "post_ingestion_health",
+    "post_knowledge_search",
 ]
