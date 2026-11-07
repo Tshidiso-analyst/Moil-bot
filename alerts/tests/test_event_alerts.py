@@ -29,7 +29,7 @@ def test_upcoming_high_impact_event_creates_warning_for_matching_symbol():
     assert alerts[0].alert_type == "fundamental_event"
     assert "CPI" in alerts[0].title
     assert "fixture-calendar" in alerts[0].message
-    assert alerts[0].dedupe_key.startswith("economic-event:USD:")
+    assert alerts[0].dedupe_key.startswith("economic-event:EURUSD:USD:")
 
 
 def test_event_inside_blackout_creates_critical_alert():
@@ -76,3 +76,16 @@ def test_repeated_event_alert_is_stored_and_not_resent():
 
 def test_empty_events_do_not_create_alerts():
     assert build_economic_event_alerts([], "EURUSD", now=NOW) == []
+
+
+def test_same_currency_event_can_alert_multiple_symbols():
+    engine = AlertEngine()
+    usd_event = event()
+    eur_alert = build_economic_event_alerts([usd_event], "EURUSD", now=NOW)[0]
+    gbp_alert = build_economic_event_alerts([usd_event], "GBPUSD", now=NOW)[0]
+
+    first = engine.process(eur_alert)
+    second = engine.process(gbp_alert)
+
+    assert first.alert.alert_id != second.alert.alert_id
+    assert len(engine.get_all_alerts()) == 2
