@@ -33,7 +33,7 @@ class ReleaseAnalysis:
 
 # Match specific labels before broad ones to avoid treating core CPI as headline CPI.
 _RELEASE_MATCHERS = (
-    ("NFP", ("nonfarm payroll", "non-farm payroll", "nonfarm employment", "non-farm employment", "payroll employment")),
+    ("NFP", ("nonfarm payroll", "non-farm payroll", "nonfarm employment", "non-farm employment", "payroll employment", "unemployment rate", "average hourly earnings", "hourly earnings", "labor force participation")),
     ("CPI", ("core cpi", "consumer price index", "cpi")),
     ("FOMC", ("federal funds rate", "fed funds rate", "fomc", "federal reserve interest rate")),
 )
