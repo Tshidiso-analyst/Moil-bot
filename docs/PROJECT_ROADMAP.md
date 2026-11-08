@@ -136,10 +136,12 @@ The milestone sequence below is mirrored by the GitHub issues linked in each sec
 **Status: Architecture direction defined; client packaging and production deployment not complete.**
 
 - [ ] Separate shared backend/API services from dashboard presentation.
-- [ ] Integrate the existing `auth/` services into every dashboard/API route; current `dashboard/app.py` does not enforce authentication.
+- [x] Integrate stored-session authentication into hosted dashboard routes; local dashboard remains loopback-first and cloud mode requires login.
 - [x] Add initial PostgreSQL authentication schema migration and document setup prerequisites.
 - [x] Harden session-cookie helpers with HttpOnly, SameSite=Lax, configurable Secure, Path and 24-hour expiry; add regression tests.
-- [ ] Add account ownership/authorization, CSRF and origin checks for state-changing routes, session revocation integration and persistent login rate limiting.
+- [x] Add login/logout, POST-only MT5 disconnect, same-origin checks for state-changing requests, security headers and a process-local login throttle.
+- [x] Add interactive first-user provisioning; public self-registration remains disabled by default.
+- [ ] Add per-user data ownership/isolation, persistent/distributed login rate limiting, email verification, password recovery, MFA, audit logging and a broader CSRF token strategy.
 - [ ] Keep public deployment blocked until authentication and authorization tests pass; Render currently binds to `0.0.0.0` and cloud mode alone is not an authentication boundary.
 - [ ] Define full application data storage, migrations, backups and secret-management model. Initial auth schema is in `database/migrations/001_authentication.sql`.
 - [ ] Build responsive/installable web experience.
