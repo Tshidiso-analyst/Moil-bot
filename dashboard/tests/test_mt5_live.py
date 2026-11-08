@@ -82,7 +82,7 @@ def test_today_entry_count_counts_only_entry_and_reversal_deals():
 def test_today_loss_percent_calculates_realized_loss():
     deals = [
         type("Deal", (), {
-            "profit": -100.0, "commission": -2.0, "swap": 0.0, "fee": 0.0
+            "type": 0, "profit": -100.0, "commission": -2.0, "swap": 0.0, "fee": 0.0
         })()
     ]
     service = MT5LiveService(mt5_module=FakeMT5(deals=deals))
