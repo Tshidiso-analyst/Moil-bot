@@ -68,12 +68,8 @@ class MT5LiveService:
             if not password:
                 self.last_error = "Enter the trading password for this MT5 account."
                 return MT5ConnectionResult(connected=False, message=self.last_error)
-            if not normalized_server:
-                self.last_error = (
-                    "Enter the exact MT5 server assigned to this account by the broker. "
-                    "Server names are account-specific; do not guess them."
-                )
-                return MT5ConnectionResult(connected=False, message=self.last_error)
+            # Empty server uses the server already configured in the selected MT5 terminal.
+            # This supports broker-branded terminals without guessing account-specific servers.
             if len(normalized_server) > 128 or any(ord(char) < 32 for char in normalized_server):
                 self.last_error = "MT5 server name is invalid."
                 return MT5ConnectionResult(connected=False, message=self.last_error)
@@ -123,14 +119,15 @@ class MT5LiveService:
                 except (TypeError, ValueError, OverflowError):
                     actual_login = 0
                 actual_server = str(getattr(info, "server", "") or "").strip()
-                if actual_login != login or actual_server.casefold() != server.casefold():
+                if actual_login != login or (server and actual_server.casefold() != server.casefold()) or not actual_server:
                     self.mt5.shutdown()
                     self.connected = False
                     self.account = None
                     self.last_error = (
                         "MT5 connected account identity does not match the requested login/server. "
-                        f"Requested login {login} on {server!r}; terminal reports login "
-                        f"{actual_login} on {actual_server!r}. No session was created."
+                        f"Requested login {login} on {server or 'the terminal-selected server'!r}; "
+                        f"terminal reports login {actual_login} on {actual_server!r}. "
+                        "No session was created."
                     )
                     return MT5ConnectionResult(connected=False, message=self.last_error)
         except Exception as exc:
