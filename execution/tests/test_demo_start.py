@@ -563,4 +563,7 @@ def test_demo_start_requires_explicit_macro_bias_verification():
 
     assert result.status == "blocked"
     assert evaluator.kwargs["macro_bias_valid"] is False
+    assert evaluator.kwargs["liquidity_sweep_confirmed"] is False
+    assert evaluator.kwargs["bos_body_close_confirmed"] is False
+    assert evaluator.kwargs["fvg_retracement_confirmed"] is False
     assert any("macro bias" in reason for reason in result.reasons)
