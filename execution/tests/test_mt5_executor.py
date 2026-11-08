@@ -254,7 +254,7 @@ def test_market_order_blocks_when_broker_margin_check_fails():
 
 def test_market_order_blocks_when_broker_margin_check_is_unavailable():
     mt5 = FakeMT5(trade_mode=0)
-    del mt5.order_check
+    mt5.order_check = None
     service = MT5ExecutionService(mt5)
     service.adopt_existing_connection()
 
