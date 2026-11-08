@@ -8,6 +8,7 @@ Back up the database first. Then apply the migration once using a PostgreSQL cli
 
 ```powershell
 psql "host=$env:DB_HOST port=$env:DB_PORT dbname=$env:DB_NAME user=$env:DB_USER" -f database/migrations/001_authentication.sql
+psql "host=$env:DB_HOST port=$env:DB_PORT dbname=$env:DB_NAME user=$env:DB_USER" -f database/migrations/002_persistent_alerts.sql
 ```
 
 The password should be entered through the PostgreSQL client's secure prompt or configured through a supported password file; do not put it in the command line or commit it.
@@ -36,4 +37,4 @@ Cloud mode should always require authentication. The cookie is HttpOnly, SameSit
 
 The dashboard now requires authentication in cloud mode, supports login/logout, enforces same-origin POST requests, uses secure session cookies, and applies a process-local login-attempt throttle. This is still not a complete production identity system. Email verification, persistent/distributed login rate limiting, password reset, account recovery, multi-factor authentication, per-user MT5 bridge ownership, and security monitoring remain outstanding. Do not claim production readiness until those controls are implemented and independently tested.
 
-The hosted application now refuses to start when the authentication database/session table is unavailable. Configure all five database variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`) and apply the migration before deployment. The hosted dashboard must not connect to a shared local MT5 terminal. Broker execution remains in the trusted local Windows bridge and is DEMO-only.
+The hosted application now refuses to start when the authentication or persistent-alert tables are unavailable. Cloud mode uses PostgreSQL for alert history and delivery-attempt records, so apply both migrations before deployment. Configure all five database variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`) and apply the migration before deployment. The hosted dashboard must not connect to a shared local MT5 terminal. Broker execution remains in the trusted local Windows bridge and is DEMO-only.
