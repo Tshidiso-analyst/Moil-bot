@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor
 from types import SimpleNamespace
 
 from dashboard.app import (
@@ -51,3 +52,16 @@ def test_login_throttle_blocks_after_five_failures_and_can_reset():
     assert login_rate_limited(client_ip) is True
     clear_login_failures(client_ip)
     assert login_rate_limited(client_ip) is False
+
+
+
+def test_login_throttle_is_atomic_under_concurrent_attempts():
+    client_ip = "192.0.2.11"
+    clear_login_failures(client_ip)
+
+    with ThreadPoolExecutor(max_workers=12) as pool:
+        allowed = list(pool.map(lambda _index: login_rate_limited(client_ip), range(12)))
+
+    assert allowed.count(False) == 5
+    assert allowed.count(True) == 7
+    clear_login_failures(client_ip)
