@@ -1,7 +1,7 @@
 import pandas as pd
 
 from analysis.market_structure import analyse_structure
-from analysis.smc_patterns import find_fair_value_gaps
+from analysis.smc_patterns import find_fair_value_gaps, find_liquidity_sweeps
 from analysis.top_down import TopDownAnalyzer
 
 
@@ -67,3 +67,32 @@ def test_top_down_analysis():
         "mixed",
         "neutral",
     }
+
+
+
+def test_high_sweep_is_labelled_buy_side_liquidity():
+    dataframe = pd.DataFrame({
+        "open": [1.05, 1.10, 1.08, 1.15, 1.14],
+        "high": [1.10, 1.20, 1.15, 1.25, 1.16],
+        "low": [1.00, 1.05, 1.03, 1.10, 1.12],
+        "close": [1.08, 1.18, 1.10, 1.19, 1.15],
+    })
+
+    sweeps = find_liquidity_sweeps(dataframe)
+
+    assert len(sweeps) == 1
+    assert sweeps[0].direction == "buy_side"
+
+
+def test_low_sweep_is_labelled_sell_side_liquidity():
+    dataframe = pd.DataFrame({
+        "open": [1.05, 1.10, 1.08, 1.02, 1.03],
+        "high": [1.10, 1.15, 1.12, 1.08, 1.10],
+        "low": [1.00, 1.05, 1.02, 0.95, 1.01],
+        "close": [1.08, 1.10, 1.05, 1.01, 1.07],
+    })
+
+    sweeps = find_liquidity_sweeps(dataframe)
+
+    assert len(sweeps) == 1
+    assert sweeps[0].direction == "sell_side"
