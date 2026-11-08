@@ -260,7 +260,8 @@ class MT5ExecutionService:
         if reported_volume is None:
             if result.retcode == getattr(self.mt5, "TRADE_RETCODE_DONE_PARTIAL", 10010):
                 raise RuntimeError(
-                    "MT5 reported a partial fill without the executed volume. "
+                    f"MT5 reported a partial fill without the executed volume "
+                    f"(order={getattr(result, 'order', 0)}, deal={getattr(result, 'deal', 0)}). "
                     "Inspect the DEMO account before any retry."
                 )
             executed_volume = vol
