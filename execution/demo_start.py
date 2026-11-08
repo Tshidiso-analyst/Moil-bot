@@ -316,13 +316,21 @@ class DemoStartController:
             # The MT5 dataframe includes its current forming candle; the sweep
             # detector intentionally excludes that final row.
             completed_sweeps = find_liquidity_sweeps(dataframe)
-            latest_sweep = completed_sweeps[-1] if completed_sweeps else None
+            latest_sweep = (
+                completed_sweeps[-1]
+                if completed_sweeps and completed_sweeps[-1].index >= len(dataframe) - 3
+                else None
+            )
             sweep_reversal_direction = (
                 "bullish" if latest_sweep and latest_sweep.direction == "sell_side"
                 else "bearish" if latest_sweep and latest_sweep.direction == "buy_side"
                 else "neutral"
             )
-            latest_bos = context.bos[-1] if context.bos else {}
+            latest_bos = (
+                context.bos[-1]
+                if context.bos and context.bos[-1]["index"] >= len(analysis_frame) - 2
+                else {}
+            )
             fvg_retracement_confirmed = False
             if not analysis_frame.empty:
                 last_candle = analysis_frame.iloc[-1]
