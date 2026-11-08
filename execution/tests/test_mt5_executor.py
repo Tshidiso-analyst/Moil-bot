@@ -17,6 +17,11 @@ class FakeMT5:
     TRADE_RETCODE_DONE = 10009
     TRADE_RETCODE_DONE_PARTIAL = 10010
     POSITION_TYPE_BUY = 0
+    SYMBOL_TRADE_EXECUTION_MARKET = 2
+    SYMBOL_FILLING_FOK = 1
+    SYMBOL_FILLING_IOC = 2
+    ORDER_FILLING_FOK = 0
+    ORDER_FILLING_IOC = 1
 
     def __init__(self, trade_mode=0):
         self.trade_mode = trade_mode
@@ -297,3 +302,53 @@ def test_close_position_sends_only_after_broker_precheck():
     assert result["closed"] is True
     assert len(mt5.order_checks) == 1
     assert len(mt5.sent) == 1
+
+
+def test_market_execution_uses_broker_supported_ioc_filling_policy():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.info.trade_exemode = mt5.SYMBOL_TRADE_EXECUTION_MARKET
+    mt5.info.filling_mode = mt5.SYMBOL_FILLING_IOC
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    service.place_market_order(
+        "EURUSD", "bullish", 0.05,
+        stop_loss=1.0990, take_profit=1.1020,
+        max_risk_amount=50.0,
+    )
+
+    assert mt5.sent[0]["type_filling"] == mt5.ORDER_FILLING_IOC
+
+
+def test_market_execution_prefers_fok_when_broker_supports_both():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.info.trade_exemode = mt5.SYMBOL_TRADE_EXECUTION_MARKET
+    mt5.info.filling_mode = mt5.SYMBOL_FILLING_FOK | mt5.SYMBOL_FILLING_IOC
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    service.place_market_order(
+        "EURUSD", "bullish", 0.05,
+        stop_loss=1.0990, take_profit=1.1020,
+        max_risk_amount=50.0,
+    )
+
+    assert mt5.sent[0]["type_filling"] == mt5.ORDER_FILLING_FOK
+
+
+def test_market_execution_without_supported_filling_policy_blocks_order():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.info.trade_exemode = mt5.SYMBOL_TRADE_EXECUTION_MARKET
+    mt5.info.filling_mode = 0
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    with pytest.raises(RuntimeError, match="no supported FOK/IOC"):
+        service.place_market_order(
+            "EURUSD", "bullish", 0.05,
+            stop_loss=1.0990, take_profit=1.1020,
+            max_risk_amount=50.0,
+        )
+
+    assert mt5.order_checks == []
+    assert mt5.sent == []

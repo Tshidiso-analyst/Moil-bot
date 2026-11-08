@@ -170,6 +170,26 @@ class MT5ExecutionService:
         volume = min(volume, maximum)
         return round(volume, 8)
 
+    def _filling_policy(self, symbol_info: Any) -> int:
+        """Choose a volume filling policy supported by this broker and symbol."""
+        market_execution = getattr(self.mt5, "SYMBOL_TRADE_EXECUTION_MARKET", 2)
+        if getattr(symbol_info, "trade_exemode", None) != market_execution:
+            return self.mt5.ORDER_FILLING_RETURN
+
+        try:
+            allowed = int(getattr(symbol_info, "filling_mode", 0) or 0)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise RuntimeError("Broker returned an invalid symbol filling-mode value.") from exc
+        fok_flag = int(getattr(self.mt5, "SYMBOL_FILLING_FOK", 1))
+        ioc_flag = int(getattr(self.mt5, "SYMBOL_FILLING_IOC", 2))
+        if allowed & fok_flag:
+            return self.mt5.ORDER_FILLING_FOK
+        if allowed & ioc_flag:
+            return self.mt5.ORDER_FILLING_IOC
+        raise RuntimeError(
+            "Broker symbol uses market execution but advertises no supported FOK/IOC filling policy."
+        )
+
     def _check_order_request(self, request: dict[str, Any]) -> Any:
         """Require MT5's server-side funds and request validation before sending."""
         checker = getattr(self.mt5, "order_check", None)
@@ -277,7 +297,7 @@ class MT5ExecutionService:
             "magic": int(magic),
             "comment": str(comment)[:31],
             "type_time": self.mt5.ORDER_TIME_GTC,
-            "type_filling": self.mt5.ORDER_FILLING_RETURN,
+            "type_filling": self._filling_policy(info),
         }
         self._check_order_request(request)
         result = self.mt5.order_send(request)
@@ -343,7 +363,7 @@ class MT5ExecutionService:
             "magic": 26001,
             "comment": "Moil-bot DEMO close",
             "type_time": self.mt5.ORDER_TIME_GTC,
-            "type_filling": self.mt5.ORDER_FILLING_RETURN,
+            "type_filling": self._filling_policy(self.mt5.symbol_info(position.symbol)),
         }
         self._check_order_request(request)
         result = self.mt5.order_send(request)
