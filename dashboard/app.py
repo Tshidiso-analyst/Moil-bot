@@ -42,7 +42,11 @@ LOGIN_MAX_ATTEMPTS = 5
 LOGIN_WINDOW_SECONDS = 900
 
 mt5_service = MT5LiveService()
-alert_engine = AlertEngine()
+if CLOUD_MODE or os.environ.get("MOILBOT_ALERT_STORE", "").strip().lower() == "postgres":
+    from alerts.postgres_store import PostgresAlertStore
+    alert_engine = AlertEngine(store=PostgresAlertStore())
+else:
+    alert_engine = AlertEngine()
 calendar_monitor = EconomicCalendarMonitor(alert_engine=alert_engine)
 
 DEMO_START_LOCK = threading.Lock()
@@ -686,10 +690,12 @@ def main() -> None:
             # Verify PostgreSQL connectivity and the session table before
             # exposing an authenticated hosted service.
             auth_service.repository.find_session("0" * 64)
+            alert_engine.get_all_alerts()
         except Exception as exc:
             raise RuntimeError(
                 "Hosted mode requires a reachable PostgreSQL database with "
-                "database/migrations/001_authentication.sql applied."
+                "database/migrations/001_authentication.sql and "
+                "database/migrations/002_persistent_alerts.sql applied."
             ) from exc
     server = ThreadingHTTPServer((HOST, PORT), MoilBotHandler)
     calendar_monitor.start()
