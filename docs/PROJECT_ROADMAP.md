@@ -123,10 +123,11 @@ The milestone sequence below is mirrored by the GitHub issues linked in each sec
 **Status: Dashboard, chart, alert and notification components exist; reliability and UX validation remain.**
 
 - [ ] Verify alert conditions against market and calendar events.
-- [ ] Persist alert history and deduplicate repeated alerts across restarts.
-- [ ] Test delivery failures, retries, preferences and quiet periods.
+- [x] Add PostgreSQL-backed alert history, atomic deduplication and persistent delivery-attempt records for hosted mode; add schema migration and regression tests.
+- [x] Record successful and failed delivery outcomes when using the persistent store.
+- [ ] Add retry scheduling, per-user preferences and quiet periods.
 - [ ] Display source evidence, timestamps, confidence/verification state and invalidation in alerts.
-- [ ] Review dashboard authentication, session handling, CSRF protection and local-only order endpoints.
+- [x] Integrate hosted dashboard authentication, session handling, same-origin POST protection and local-only MT5 order endpoints.
 - [ ] Test dashboard behaviour when MT5, calendar, market data or knowledge services are unavailable.
 
 **Exit criteria:** alerts are traceable, deduplicated and reliably delivered; dashboard failure states are explicit and secure.
