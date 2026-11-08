@@ -681,6 +681,16 @@ class MoilBotHandler(BaseHTTPRequestHandler):
 
 
 def main() -> None:
+    if AUTH_REQUIRED:
+        try:
+            # Verify PostgreSQL connectivity and the session table before
+            # exposing an authenticated hosted service.
+            auth_service.repository.find_session("0" * 64)
+        except Exception as exc:
+            raise RuntimeError(
+                "Hosted mode requires a reachable PostgreSQL database with "
+                "database/migrations/001_authentication.sql applied."
+            ) from exc
     server = ThreadingHTTPServer((HOST, PORT), MoilBotHandler)
     calendar_monitor.start()
     print(f"Dashboard running at http://{HOST}:{PORT}")
