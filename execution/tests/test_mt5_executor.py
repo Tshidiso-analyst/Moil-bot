@@ -27,6 +27,8 @@ class FakeMT5:
         self.trade_mode = trade_mode
         self.sent = []
         self.initialize_calls = []
+        self.requested_login = None
+        self.requested_server = ""
         self.order_checks = []
         self.check_result = SimpleNamespace(retcode=0, margin_free=10000.0, comment="Done")
         self.position_result = None
@@ -35,10 +37,16 @@ class FakeMT5:
 
     def initialize(self, **kwargs):
         self.initialize_calls.append(kwargs)
+        self.requested_login = int(kwargs.get("login", 0) or 0)
+        self.requested_server = str(kwargs.get("server", ""))
         return True
 
     def account_info(self):
-        return SimpleNamespace(trade_mode=self.trade_mode, login=12345, server="Broker-Demo")
+        return SimpleNamespace(
+            trade_mode=self.trade_mode,
+            login=self.requested_login or 12345,
+            server=self.requested_server or "Broker-Demo",
+        )
 
     def symbol_info(self, symbol):
         return self.info
@@ -420,3 +428,19 @@ def test_close_position_can_reduce_exposure_when_free_margin_is_negative():
 
     assert result["closed"] is True
     assert len(mt5.sent) == 1
+
+
+def test_execution_connect_rejects_mismatched_account_identity():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.account_info = lambda: SimpleNamespace(
+        trade_mode=0,
+        login=99999999,
+        server="Different-Broker-Server",
+    )
+    service = MT5ExecutionService(mt5)
+
+    result = service.connect(12345, "password", "Exness-MT5Trial8")
+
+    assert result["connected"] is False
+    assert "identity does not match" in result["message"]
+    assert mt5.sent == []

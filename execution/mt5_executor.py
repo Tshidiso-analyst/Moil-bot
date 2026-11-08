@@ -96,6 +96,25 @@ class MT5ExecutionService:
                 self.connected = False
                 return {"connected": False, "message": "MT5 initialization failed.", "error": self.mt5.last_error()}
             info = self.mt5.account_info()
+            if info is not None:
+                try:
+                    actual_login = int(getattr(info, "login", 0) or 0)
+                except (TypeError, ValueError, OverflowError):
+                    actual_login = 0
+                actual_server = str(getattr(info, "server", "") or "").strip()
+                if actual_login != account_number or actual_server.casefold() != normalized_server.casefold():
+                    self.mt5.shutdown()
+                    self.connected = False
+                    self.account_mode = self._mode(info)
+                    return {
+                        "connected": False,
+                        "account_mode": self.account_mode,
+                        "message": (
+                            "MT5 execution connection refused: terminal account identity does not "
+                            f"match requested login {account_number} on {normalized_server!r}; "
+                            f"terminal reports login {actual_login} on {actual_server!r}."
+                        ),
+                    }
             if info is None or self._mode(info) != "DEMO":
                 actual = self._mode(info) if info is not None else "UNKNOWN"
                 self.mt5.shutdown()
