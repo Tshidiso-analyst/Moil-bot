@@ -47,7 +47,8 @@ The milestone sequence below is mirrored by the GitHub issues linked in each sec
 - [x] Require DEMO account verification in the execution adapter before trading operations.
 - [x] Require explicit order confirmation, approved DEMO rule, protective SL/TP and broker-based risk sizing.
 - [ ] Audit all order, close, modify and retry paths for account-mode re-verification and ambiguous broker responses.
-- [ ] Add/confirm tests for MT5 `None`, exceptions, malformed history, account changes, duplicate submissions and partial fills.
+- [x] Add regression tests for malformed deal-history records, missing MT5 position data, UTC history boundaries and same-day balance adjustments.
+- [ ] Add/confirm tests for account changes, duplicate submissions, partial fills and ambiguous broker responses.
 - [ ] Confirm daily trade counting semantics for entries, reversals and partial fills. Current policy uses UTC calendar-day boundaries; verify that this is appropriate for the connected broker's trading day.
 - [x] Verify daily loss calculation includes realized P/L, commissions, swaps, fees and floating P/L; same-day non-trading balance adjustments now make the check fail closed.
 - [ ] Validate daily loss calculation against broker statements, including partial fills and broker-specific commission/fee posting.
