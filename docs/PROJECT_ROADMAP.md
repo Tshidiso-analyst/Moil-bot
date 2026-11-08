@@ -48,14 +48,15 @@ The milestone sequence below is mirrored by the GitHub issues linked in each sec
 - [x] Require explicit order confirmation, approved DEMO rule, protective SL/TP and broker-based risk sizing.
 - [ ] Audit all order, close, modify and retry paths for account-mode re-verification and ambiguous broker responses.
 - [x] Add regression tests for malformed deal-history records, missing MT5 position data, UTC history boundaries and same-day balance adjustments.
-- [ ] Add/confirm tests for account changes, duplicate submissions, partial fills and ambiguous broker responses.
+- [x] Add regression tests for account-mode changes and full/partial fill response handling, including missing executed volume.
+- [ ] Add integration tests for duplicate submissions across process restarts and ambiguous broker responses.
 - [ ] Confirm daily trade counting semantics for entries, reversals and partial fills. Current policy uses UTC calendar-day boundaries; verify that this is appropriate for the connected broker's trading day.
 - [x] Verify daily loss calculation includes realized P/L, commissions, swaps, fees and floating P/L; same-day non-trading balance adjustments now make the check fail closed.
 - [ ] Validate daily loss calculation against broker statements, including partial fills and broker-specific commission/fee posting.
 - [x] Ensure the MT5 position-summary service does not present disconnected/unavailable data as a verified zero; regression tests added. Dashboard presentation still needs an explicit unavailable-state UI if this summary is surfaced.
 - [ ] Complete one controlled Windows broker DEMO integration test using [DEMO_EXECUTION_TEST_PLAN.md](DEMO_EXECUTION_TEST_PLAN.md).
 
-**Current audit notes (2026-11-08):** `positions()`, `today_entry_count()`, `today_loss_percent()`, `open_trade_count()` and `open_trade_summary()` now fail closed when the MT5 connection or required read is unavailable. The summary regression tests distinguish disconnected data from a verified empty position list. Daily history now uses UTC-aware midnight boundaries instead of Windows local time. The chosen UTC-day policy still needs validation against broker-server reporting and the owner's trading-day convention.
+**Current audit notes (2026-11-08):** Current PR head `f7d07a7` passed GitHub Actions run #283 on Linux and Windows (358 tests each); Windows MT5 package/account-mode constants also passed. `positions()`, `today_entry_count()`, `today_loss_percent()`, `open_trade_count()` and `open_trade_summary()` now fail closed when the MT5 connection or required read is unavailable. The summary regression tests distinguish disconnected data from a verified empty position list. Daily history now uses UTC-aware midnight boundaries instead of Windows local time. The chosen UTC-day policy still needs validation against broker-server reporting and the owner's trading-day convention.
 
 **Exit criteria:** all unverifiable risk facts block execution; tests pass on Windows and Linux; a manual DEMO test records a broker-confirmed ticket and protective levels. No REAL, CONTEST, unknown or disconnected account can execute.
 
