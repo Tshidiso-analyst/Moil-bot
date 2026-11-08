@@ -57,3 +57,23 @@ def test_expired_session_cookie():
     assert f"{SESSION_COOKIE_NAME}=" in cookie
     assert "Max-Age=0" in cookie
     assert "HttpOnly" in cookie
+
+
+def test_session_cookie_can_be_marked_secure_for_https():
+    cookie = build_session_cookie("abc123", secure=True)
+
+    assert "Secure" in cookie
+    assert "HttpOnly" in cookie
+    assert "Max-Age=86400" in cookie
+
+
+def test_local_session_cookie_does_not_force_secure_transport():
+    cookie = build_session_cookie("abc123")
+
+    assert "Secure" not in cookie
+    assert "SameSite=Lax" in cookie
+
+
+def test_expired_cookie_secure_flag_is_configurable():
+    assert "Secure" in build_expired_session_cookie(secure=True)
+    assert "Secure" not in build_expired_session_cookie()
