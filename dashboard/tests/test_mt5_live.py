@@ -533,11 +533,11 @@ def test_connection_uses_explicit_broker_terminal_path_when_supplied():
         password="secret",
         server="Exness-MT5Trial8",
         requested_mode="DEMO",
-        terminal_path=r"C:\\Program Files\\Exness MT5\\terminal64.exe",
+        terminal_path=r"C:\Program Files\Exness MT5\terminal64.exe",
     )
 
     assert result.connected is True
     assert fake.initialize_calls == [
-        {"path": r"C:\\Program Files\\Exness MT5\\terminal64.exe"}
+        {"path": r"C:\Program Files\Exness MT5\terminal64.exe"}
     ]
     assert fake.login_calls[0][1]["server"] == "Exness-MT5Trial8"
