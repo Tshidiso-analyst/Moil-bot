@@ -347,8 +347,13 @@ class MT5LiveService:
         return len(self.positions())
 
     def open_trade_summary(self) -> dict[str, float | int]:
-        positions = self.positions() if self.connected and self.mt5 is not None else []
-        return {"count": len(positions), "volume": sum(float(p.get("volume", 0.0)) for p in positions), "profit": sum(float(p.get("profit", 0.0)) for p in positions)}
+        """Summarize verified open positions; unavailable data must raise, not look empty."""
+        positions = self.positions()
+        return {
+            "count": len(positions),
+            "volume": sum(float(position["volume"]) for position in positions),
+            "profit": sum(float(position["profit"]) for position in positions),
+        }
 
 
 __all__ = ["MT5ConnectionResult", "MT5LiveService"]
