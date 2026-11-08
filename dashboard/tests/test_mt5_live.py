@@ -504,3 +504,19 @@ def test_real_broker_account_can_connect_for_read_only_dashboard_use():
     assert result.connected is True
     assert result.account_type == "REAL"
     assert result.server == "Exness-MT5Real10"
+
+
+def test_credentials_login_uses_selected_terminal_server_without_server_argument():
+    fake = FakeMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+
+    result = service.connect(
+        login=12345678,
+        password="test-password",
+        server="",
+        requested_mode="DEMO",
+    )
+
+    assert result.connected is True
+    assert result.server == "Broker-Demo"
+    assert "server" not in fake.login_calls[0][1]
