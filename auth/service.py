@@ -106,7 +106,11 @@ class AuthService:
         if session is None:
             return None
 
-        return self.repository.find_by_id(session.user_id)
+        user = self.repository.find_by_id(session.user_id)
+        # Revoking an account must invalidate every existing session immediately.
+        if user is None or not user.is_active:
+            return None
+        return user
 
     def logout(self, raw_token: str) -> None:
         if not raw_token:
