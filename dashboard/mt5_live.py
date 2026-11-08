@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from math import isfinite
 from dataclasses import dataclass, field
 from typing import Any
@@ -257,7 +257,9 @@ class MT5LiveService:
         history = getattr(self.mt5, "history_deals_get", None)
         if history is None:
             raise RuntimeError("This MT5 package cannot verify today's trade count.")
-        now = datetime.now()
+        # MetaTrader5 history date arguments are UTC. Use a UTC trading day
+        # consistently instead of the Windows host local timezone.
+        now = datetime.now(timezone.utc)
         start = now.replace(hour=0, minute=0, second=0, microsecond=0)
         deals = history(start, now)
         if deals is None:
@@ -289,12 +291,25 @@ class MT5LiveService:
         if deals is None:
             raise RuntimeError(f"MT5 could not verify today's P/L history: {self.mt5.last_error()}")
 
-        # Ignore balance/credit operations: only BUY/SELL deals represent trading P/L.
         trade_types = {
             getattr(self.mt5, "DEAL_TYPE_BUY", 0),
             getattr(self.mt5, "DEAL_TYPE_SELL", 1),
         }
         try:
+            non_trade_adjustments = [
+                deal for deal in deals
+                if getattr(deal, "type", None) not in trade_types
+                and any(
+                    float(getattr(deal, field, 0.0) or 0.0) != 0.0
+                    for field in ("profit", "commission", "swap", "fee")
+                )
+            ]
+            if non_trade_adjustments:
+                raise RuntimeError(
+                    "MT5 history contains a deposit, withdrawal, credit or other "
+                    "non-trading balance adjustment today; daily loss cannot be "
+                    "verified safely until the next UTC trading day."
+                )
             realized = sum(
                 float(getattr(deal, "profit", 0.0) or 0.0)
                 + float(getattr(deal, "commission", 0.0) or 0.0)
