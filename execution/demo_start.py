@@ -298,6 +298,18 @@ class DemoStartController:
             high_impact_news=high_impact_news,
         )
 
+        if allow_execution and assessment.direction not in {"bullish", "bearish"}:
+            return DemoStartResult(
+                symbol=clean_symbol,
+                mode=mode,
+                status="blocked",
+                allowed=False,
+                direction="neutral",
+                reason="No directional market assessment is available; no DEMO order was sent.",
+                reasons=list(assessment.reasons),
+                dry_run=True,
+            )
+
         if allow_execution:
             context = analyze_market_context(analysis_frame)
             latest_sweep = context.liquidity[-1] if context.liquidity else None
