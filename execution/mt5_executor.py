@@ -70,10 +70,10 @@ class MT5ExecutionService:
         except (TypeError, ValueError, OverflowError):
             return {"connected": False, "message": "MT5 login must be a positive account number."}
         normalized_server = str(server or "").strip()
-        if account_number <= 0 or not str(password or "") or not normalized_server:
+        if account_number <= 0 or not str(password or ""):
             return {
                 "connected": False,
-                "message": "Provide a positive MT5 login, trading password and exact broker server.",
+                "message": "Provide a positive MT5 login and trading password.",
             }
         if len(normalized_server) > 128 or any(ord(char) < 32 for char in normalized_server):
             return {"connected": False, "message": "MT5 server name is invalid."}
@@ -89,7 +89,9 @@ class MT5ExecutionService:
                 self.mt5.shutdown()
             except Exception:
                 pass
-            kwargs = {"login": account_number, "password": str(password), "server": normalized_server}
+            kwargs = {"login": account_number, "password": str(password)}
+            if normalized_server:
+                kwargs["server"] = normalized_server
             if path:
                 kwargs["path"] = str(path)
             if not self.mt5.initialize(**kwargs):
@@ -102,7 +104,11 @@ class MT5ExecutionService:
                 except (TypeError, ValueError, OverflowError):
                     actual_login = 0
                 actual_server = str(getattr(info, "server", "") or "").strip()
-                if actual_login != account_number or actual_server.casefold() != normalized_server.casefold():
+                if (
+                    actual_login != account_number
+                    or not actual_server
+                    or (normalized_server and actual_server.casefold() != normalized_server.casefold())
+                ):
                     self.mt5.shutdown()
                     self.connected = False
                     self.account_mode = self._mode(info)
@@ -111,7 +117,7 @@ class MT5ExecutionService:
                         "account_mode": self.account_mode,
                         "message": (
                             "MT5 execution connection refused: terminal account identity does not "
-                            f"match requested login {account_number} on {normalized_server!r}; "
+                            f"match requested login {account_number} on {normalized_server or 'the terminal-selected server'!r}; "
                             f"terminal reports login {actual_login} on {actual_server!r}."
                         ),
                     }
