@@ -229,7 +229,6 @@ def test_execution_connect_rejects_missing_or_invalid_credentials_before_initial
     for login, password, server in (
         (0, "password", "Broker-Demo"),
         (12345, "", "Broker-Demo"),
-        (12345, "password", "  "),
     ):
         mt5 = FakeMT5(trade_mode=0)
         service = MT5ExecutionService(mt5)
@@ -444,3 +443,25 @@ def test_execution_connect_rejects_mismatched_account_identity():
     assert result["connected"] is False
     assert "identity does not match" in result["message"]
     assert mt5.sent == []
+
+
+def test_execution_connect_uses_terminal_selected_server_when_server_is_blank():
+    mt5 = FakeMT5(trade_mode=0)
+    service = MT5ExecutionService(mt5)
+
+    result = service.connect(12345, "demo-password", "   ")
+
+    assert result["connected"] is True
+    assert "server" not in mt5.initialize_calls[0]
+    assert result["account_mode"] == "DEMO"
+
+
+def test_execution_connect_rejects_control_characters_in_server_name():
+    mt5 = FakeMT5(trade_mode=0)
+    service = MT5ExecutionService(mt5)
+
+    result = service.connect(12345, "demo-password", "Broker-Demo\nInjected")
+
+    assert result["connected"] is False
+    assert "server name is invalid" in result["message"]
+    assert mt5.initialize_calls == []
