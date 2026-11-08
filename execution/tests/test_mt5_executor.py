@@ -449,7 +449,7 @@ def test_execution_connect_uses_terminal_selected_server_when_server_is_blank():
     mt5 = FakeMT5(trade_mode=0)
     service = MT5ExecutionService(mt5)
 
-    result = service.connect(12345, "demo-password", "   ")
+    result = service.connect(12345, "demo-password")
 
     assert result["connected"] is True
     assert "server" not in mt5.initialize_calls[0]
