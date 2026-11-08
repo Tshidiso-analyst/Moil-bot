@@ -119,3 +119,22 @@ def test_login_normalizes_identifier_before_lookup():
     AuthService(repository).login("MOILUSER", "SafePassword123")
 
     assert repository.looked_up == "moiluser"
+
+def test_inactive_user_cannot_reuse_an_existing_session():
+    from datetime import datetime, timedelta, timezone
+    from types import SimpleNamespace
+    from auth.service import AuthService
+
+    class FakeRepository:
+        def find_session(self, token_hash):
+            return SimpleNamespace(
+                user_id=7,
+                expires_at=datetime.now(timezone.utc) + timedelta(hours=1),
+            )
+
+        def find_by_id(self, user_id):
+            return SimpleNamespace(id=user_id, is_active=False)
+
+    service = AuthService(FakeRepository())
+
+    assert service.authenticate_session("valid-looking-session-token") is None
