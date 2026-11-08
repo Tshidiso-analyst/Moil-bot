@@ -13,6 +13,7 @@ The active development line is `codex/intelligence-foundation`. Pull request [#1
 The latest local test result reported by the project owner on 2026-11-08 was **341 passed**. This is a local regression result, not a broker execution test. Check GitHub Actions for the status of the exact commit before merging.
 
 See [docs/PROJECT_ROADMAP.md](docs/PROJECT_ROADMAP.md) for milestones, current status, acceptance criteria and the next work item.
+Authentication schema and cookie setup notes are in [docs/AUTHENTICATION_SETUP.md](docs/AUTHENTICATION_SETUP.md). Authentication is a foundation only; public deployment remains blocked until request-level enforcement, rate limiting and account isolation are complete.
 
 ## What exists today
 
