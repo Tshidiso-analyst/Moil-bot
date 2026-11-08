@@ -272,11 +272,17 @@ class MT5LiveService:
             getattr(self.mt5, "DEAL_TYPE_BUY", 0),
             getattr(self.mt5, "DEAL_TYPE_SELL", 1),
         }
-        return sum(
-            1 for deal in deals
-            if getattr(deal, "entry", None) in entry_values
-            and getattr(deal, "type", None) in trade_types
-        )
+        count = 0
+        for deal in deals:
+            entry = getattr(deal, "entry", None)
+            deal_type = getattr(deal, "type", None)
+            if entry is None or deal_type is None:
+                raise RuntimeError(
+                    "MT5 returned malformed deal history; today's trade count cannot be verified."
+                )
+            if entry in entry_values and deal_type in trade_types:
+                count += 1
+        return count
 
     def today_loss_percent(self) -> float:
         """Estimate today's realized plus floating trading loss as % of start balance."""
@@ -297,6 +303,8 @@ class MT5LiveService:
             getattr(self.mt5, "DEAL_TYPE_SELL", 1),
         }
         try:
+            if any(getattr(deal, "type", None) is None for deal in deals):
+                raise RuntimeError("MT5 returned malformed deal history; daily loss cannot be verified.")
             non_trade_adjustments = [
                 deal for deal in deals
                 if getattr(deal, "type", None) not in trade_types
