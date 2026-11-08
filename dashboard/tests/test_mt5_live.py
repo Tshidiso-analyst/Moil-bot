@@ -64,7 +64,8 @@ class FakeMT5:
 
 
 def test_connection_reports_actual_mt5_demo_mode():
-    service = MT5LiveService(mt5_module=FakeMT5(trade_mode=0))
+    fake = FakeMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
     result = service.connect(login=12345, password="x", server="Broker-Demo", requested_mode="DEMO")
     assert result.connected is True
     assert result.account_type == "DEMO"

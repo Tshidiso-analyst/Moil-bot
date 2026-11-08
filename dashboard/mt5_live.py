@@ -81,8 +81,13 @@ class MT5LiveService:
         if self.mt5 is None:
             self.last_error = "MetaTrader5 package is not installed in this Python environment."
             return MT5ConnectionResult(connected=False, message=self.last_error)
-        target_path = str(terminal_path or self.path).strip()
-        if len(target_path) > 512 or any(ord(char) < 32 for char in target_path):
+        raw_target_path = terminal_path if terminal_path is not None else self.path
+        target_path = str(raw_target_path or "").strip()
+        if (
+            (raw_target_path and not target_path)
+            or len(target_path) > 512
+            or any(ord(char) < 32 for char in target_path)
+        ):
             self.last_error = "MT5 terminal path is invalid."
             return MT5ConnectionResult(connected=False, message=self.last_error)
         try:
