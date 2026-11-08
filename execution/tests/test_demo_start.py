@@ -50,6 +50,7 @@ def _sample_frame() -> pd.DataFrame:
 
 def test_demo_start_blocks_non_demo_account():
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry([]),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -144,6 +145,28 @@ def test_demo_start_dry_run_with_reviewed_rule():
     assert result.dry_run is True
     assert result.rule_id == "fvg_ny_1"
     assert result.order_ticket is None
+
+
+
+
+
+class _FakeEntryConfirmation:
+    qualified = True
+    reasons = ()
+
+
+class _FakeEntryConfirmationEvaluator:
+    def evaluate(self, **_kwargs):
+        return _FakeEntryConfirmation()
+
+
+class _RejectingEntryConfirmationEvaluator:
+    def evaluate(self, **_kwargs):
+        return type(
+            "RejectedConfirmation",
+            (),
+            {"qualified": False, "reasons": ("NYSE opening-hour confirmation failed.",)},
+        )()
 
 
 class _FakeDemoExecutor:
