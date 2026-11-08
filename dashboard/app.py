@@ -94,11 +94,12 @@ def parse_mt5_credentials(form: dict[str, str]) -> tuple[int | None, str, str]:
     server = (form.get("server") or "").strip()
     if not any((raw_login, password, server)):
         return None, "", ""
-    if not all((raw_login, password, server)):
+    if not raw_login or not password:
         raise ValueError(
-            "To switch MT5 accounts, provide the account number, trading password, "
-            "and exact broker server together. Leave all three blank to reuse the "
-            "account already signed in to the terminal."
+            "To switch MT5 accounts, provide both the account number and trading "
+            "password. The server is optional only when the selected MT5 terminal "
+            "is already configured for that broker; otherwise enter the exact "
+            "server assigned to this account."
         )
     try:
         login = int(raw_login)
@@ -174,12 +175,12 @@ def connection_form(message: str = "") -> str:
         <select name="mode"><option value="DEMO">DEMO</option><option value="REAL">REAL</option></select>
         <p class="muted">Connect to any broker that provides a MetaTrader 5 account. You can reuse the account already signed in to the local terminal, or enter credentials for another account.</p>
         <label>MT5 Account Login</label><input type="number" name="login" min="1" step="1" placeholder="Your broker's MT5 account number"/>
-        <label>Broker MT5 Server</label><input type="text" name="server" maxlength="128" autocomplete="off" placeholder="Exact server name from your broker account details"/>
-        <p class="muted">Exness assigns each trading account to a specific server. Find it in your Exness Personal Area under Trading &gt; Accounts by expanding the account card, then copy the server name exactly. Other brokers work too: enter the exact server shown in that broker's MT5 account details. Do not guess a server number. <a href="https://get.exness.help/hc/en-us/articles/360012578619-Trading-account-login-and-server-details" target="_blank" rel="noopener noreferrer">Exness: find your MT5 login and server</a></p>
+        <label>Broker MT5 Server (optional if terminal is already configured)</label><input type="text" name="server" maxlength="128" autocomplete="off" placeholder="e.g. Exness-MT5Trial8 / broker's exact server"/>
+        <p class="muted">Moil-bot accepts MT5 accounts from Exness and other MT5 brokers. Enter the exact server assigned to your account. If blank, the selected terminal's already configured server is used. To find an Exness server, open Exness Personal Area &gt; Trading &gt; Accounts and expand the account card. For another broker, check its account details or use the MT5 terminal's broker/server search. <a href="https://get.exness.help/hc/en-us/articles/360012578619-Trading-account-login-and-server-details" target="_blank" rel="noopener noreferrer">Exness: find your MT5 login and server</a></p>
         <label>MT5 Trading Password</label><input type="password" name="password" autocomplete="off" placeholder="Trading password for this MT5 account"/>
         <label>MT5 Terminal EXE Path (optional)</label><input type="text" name="terminal_path" maxlength="512" autocomplete="off" placeholder="Leave blank to use the default MT5 terminal path"/>
         <p class="muted">If you installed a broker-branded MT5 terminal (such as Exness) in a different folder, enter its terminal64.exe path here. This lets Moil-bot connect to that broker's own terminal installation. Leave blank to use the configured default path.</p>
-        <p class="muted">Leave all three credential fields blank only if you want to use the account already signed in to the open MT5 terminal. Credentials are sent to your local MT5 terminal and are not saved by this form.</p>
+        <p class="muted">Enter login and trading password to switch accounts. The server may be blank only if the selected terminal is already configured for that broker. Leave login and password blank to reuse the account already signed in. Credentials are sent to your local MT5 terminal and are not saved by this form.</p>
         <button type="submit">CONNECT MT5</button>
       </form>
     </div>"""
