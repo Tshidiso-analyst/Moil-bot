@@ -70,19 +70,24 @@ def test_login_throttle_is_atomic_under_concurrent_attempts():
     clear_login_failures(client_ip)
 
 
-def test_mt5_credentials_require_all_three_fields_or_none():
+def test_mt5_credentials_require_login_and_password_and_allow_terminal_selected_server():
     assert parse_mt5_credentials({}) == (None, "", "")
     assert parse_mt5_credentials({
         "login": "12345678",
         "password": "secret",
         "server": " Exness-MT5Trial8 ",
     }) == (12345678, "secret", "Exness-MT5Trial8")
+    # MT5 can use the server already configured in the selected terminal.
+    assert parse_mt5_credentials({
+        "login": "12345678",
+        "password": "secret",
+        "server": "",
+    }) == (12345678, "secret", "")
 
     for partial in (
         {"login": "12345678"},
         {"password": "secret"},
         {"server": "Exness-MT5Trial8"},
-        {"login": "12345678", "password": "secret"},
         {"login": "12345678", "server": "Exness-MT5Trial8"},
         {"password": "secret", "server": "Exness-MT5Trial8"},
     ):
@@ -91,7 +96,7 @@ def test_mt5_credentials_require_all_three_fields_or_none():
         except ValueError as exc:
             assert "provide the account number" in str(exc)
         else:
-            raise AssertionError("Partial MT5 credentials must never fall back to another signed-in account.")
+            raise AssertionError("Incomplete MT5 credentials must never fall back to another signed-in account.")
 
 
 def test_mt5_credentials_reject_non_positive_account_numbers():
