@@ -3,6 +3,7 @@ from __future__ import annotations
 import html
 import ipaddress
 import os
+import subprocess
 import threading
 import time
 import urllib.parse
@@ -112,6 +113,26 @@ def parse_mt5_credentials(form: dict[str, str]) -> tuple[int | None, str, str]:
     return login, password, server
 
 
+
+def launch_mt5_broker_directory(terminal_path: str | None = None) -> None:
+    """Open the local MT5 terminal's native broker/server directory.
+
+    The MetaTrader5 Python API logs in to a known server; it does not expose
+    the terminal's broker-directory search interface.
+    """
+    selected = str(terminal_path or mt5_service.path).strip()
+    if not selected or len(selected) > 512 or any(ord(char) < 32 for char in selected):
+        raise ValueError("MT5 terminal path is invalid.")
+    executable = os.path.abspath(os.path.expandvars(os.path.expanduser(selected)))
+    if os.path.basename(executable).lower() not in {"terminal64.exe", "terminal.exe"}:
+        raise ValueError("Select the MetaTrader terminal64.exe or terminal.exe file.")
+    if not os.path.isfile(executable):
+        raise FileNotFoundError(
+            f"MT5 terminal was not found at {executable}. Install the broker's MT5 terminal or enter its correct executable path."
+        )
+    subprocess.Popen([executable], shell=False, close_fds=True)
+
+
 def nav_layout(title: str, content: str, active: str = "Overview") -> str:
     items = [
         ("Overview", "/"),
@@ -183,6 +204,15 @@ def connection_form(message: str = "") -> str:
         <p class="muted">Enter login and trading password to switch accounts. The server may be blank only if the selected terminal is already configured for that broker. Leave login and password blank to reuse the account already signed in. Credentials are sent to your local MT5 terminal and are not saved by this form.</p>
         <button type="submit">CONNECT MT5</button>
       </form>
+    </div>
+    <div class="card">
+      <h3>Find a broker or MT5 server</h3>
+      <p class="muted">Open the selected MT5 terminal's built-in broker directory. In MT5 choose File &gt; Open an Account, search for your broker (for example, Exness), select the matching company and server, then finish. Return here and enter the exact server shown in your trading-account details.</p>
+      <form method="POST" action="/broker_search">
+        <label>MT5 Terminal EXE Path</label><input type="text" name="terminal_path" maxlength="512" autocomplete="off" placeholder="C:\\Program Files\\Broker MT5\\terminal64.exe"/>
+        <button type="submit">OPEN MT5 BROKER / SERVER SEARCH</button>
+      </form>
+      <p class="muted"><a href="https://get.exness.help/hc/en-us/articles/360011514572-MT5-Trading-guide-Desktop" target="_blank" rel="noopener noreferrer">Exness: add/search for Exness servers in MT5</a> · <a href="https://www.mql5.com/en/docs/python_metatrader5/mt5login_py" target="_blank" rel="noopener noreferrer">MetaTrader login API</a></p>
     </div>"""
 
 
@@ -699,6 +729,25 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                     notice = f"Demo Start failed: {exc}"
                 self.redirect("/strategy?notice=" + urllib.parse.quote(notice))
                 return
+
+        if path == "/broker_search":
+            if CLOUD_MODE:
+                self.send_html("<h1>MT5 broker search is available only on the local Windows terminal.</h1>", 503)
+                return
+            if not self.is_local_dashboard_request():
+                self.send_html("<h1>MT5 broker search is allowed only from the local computer.</h1>", 403)
+                return
+            try:
+                launch_mt5_broker_directory((form.get("terminal_path") or "").strip() or None)
+                notice = (
+                    "MT5 opened. In the terminal choose File > Open an Account, "
+                    "search for your broker, add the correct server, then return "
+                    "and enter that exact server with your account credentials."
+                )
+                self.send_html(nav_layout("Connection", connection_form(notice), "Overview"))
+            except Exception as exc:
+                self.send_html(nav_layout("Connection", connection_form(str(exc)), "Overview"), 400)
+            return
 
         if path != "/connect":
             self.send_html("<h1>404</h1>", 404)
