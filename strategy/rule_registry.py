@@ -198,6 +198,7 @@ class StrategyRuleRegistry:
             "created_at_utc": datetime.now(timezone.utc).isoformat(),
             "backtest": None,
             "execution_enabled": False,
+            "demo_execution_enabled": False,
         }
 
         self.rules.append(rule)
@@ -278,6 +279,7 @@ class StrategyRuleRegistry:
         # A backtest record never approves a strategy or enables execution.
         rule["status"] = "draft"
         rule["execution_enabled"] = False
+        rule["demo_execution_enabled"] = False
         self._save()
         return rule["backtest"]
 
@@ -286,6 +288,38 @@ class StrategyRuleRegistry:
             if rule.get("rule_id") == rule_id:
                 return rule
         raise KeyError(f"Unknown strategy rule: {rule_id}")
+
+
+    def enable_demo_execution(
+        self,
+        rule_id: str,
+        confirmation_phrase: str,
+    ) -> dict:
+        """Explicitly approve a reviewed draft for DEMO forward-testing only.
+
+        This never enables real-money execution. The execution adapter independently
+        verifies the broker account is a DEMO account before every order.
+        """
+        if confirmation_phrase != "ENABLE DEMO EXECUTION":
+            raise ValueError(
+                'Type the exact confirmation phrase "ENABLE DEMO EXECUTION".'
+            )
+        rule = self._find_rule(rule_id)
+        sources = rule.get("sources") or []
+        if not sources or not all(
+            bool(source.get("human_review_confirmed")) for source in sources
+        ):
+            raise ValueError("Every strategy source must be human-reviewed first.")
+        if not any(
+            source.get("page") is not None or source.get("url")
+            for source in sources
+        ):
+            raise ValueError("At least one source must have a verifiable page or URL.")
+        rule["demo_execution_enabled"] = True
+        rule["demo_execution_approved_at_utc"] = datetime.now(timezone.utc).isoformat()
+        rule["execution_enabled"] = False
+        self._save()
+        return rule
 
     def all_rules(self) -> list[dict]:
         return list(self.rules)

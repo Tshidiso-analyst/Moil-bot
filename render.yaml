@@ -9,3 +9,11 @@ services:
         value: 0.0.0.0
       - key: MOILBOT_CLOUD_MODE
         value: "true"
+      - key: MOILBOT_AUTH_REQUIRED
+        value: "true"
+      - key: MOILBOT_COOKIE_SECURE
+        value: "true"
+      - key: MOILBOT_ALLOW_REGISTRATION
+        value: "false"
+      - key: MOILBOT_ALERT_STORE
+        value: "postgres"

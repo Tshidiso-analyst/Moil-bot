@@ -95,3 +95,96 @@ def test_notification_result_is_immutable():
     )
 
     assert result.sent is True
+
+
+def test_email_channel_dispatches_through_configured_provider(monkeypatch):
+    from alerts.notifications import EmailNotificationChannel
+
+    sent = []
+    monkeypatch.setattr(
+        "alerts.notifications.send_email",
+        lambda recipient, subject, body, **settings: (sent.append((recipient, subject, body, settings)) or True),
+    )
+    channel = EmailNotificationChannel(recipient="trader@example.test")
+
+    result = channel.send(make_alert())
+
+    assert result.sent is True
+    assert result.channel == "email"
+    assert len(sent) == 1
+    assert sent[0][:3] == (
+        "trader@example.test",
+        "Trade Entered",
+        "EURUSD BUY trade entered.",
+    )
+    assert sent[0][3]["smtp_port"] == 587
+
+
+def test_email_channel_reports_provider_failure(monkeypatch):
+    from alerts.notifications import EmailNotificationChannel
+
+    def fail(*args, **kwargs):
+        raise RuntimeError("SMTP unavailable")
+
+    monkeypatch.setattr("alerts.notifications.send_email", fail)
+    result = EmailNotificationChannel(recipient="trader@example.test").send(make_alert())
+
+    assert result.sent is False
+    assert "SMTP unavailable" in result.message
+
+
+def test_message_channel_dispatches_sms_through_configured_provider(monkeypatch):
+    sent = []
+    monkeypatch.setattr(
+        "alerts.notifications.send_sms",
+        lambda recipient, body: (sent.append((recipient, body)) or True),
+    )
+    channel = MessageNotificationChannel(recipient="+15551234567")
+
+    result = channel.send(make_alert())
+
+    assert result.sent is True
+    assert result.channel == "message"
+    assert sent == [(
+        "+15551234567",
+        "Trade Entered: EURUSD BUY trade entered.",
+    )]
+
+
+def test_message_channel_reports_provider_failure(monkeypatch):
+    def fail(*args):
+        raise RuntimeError("SMS provider unavailable")
+
+    monkeypatch.setattr("alerts.notifications.send_sms", fail)
+    result = MessageNotificationChannel(recipient="+15551234567").send(make_alert())
+
+    assert result.sent is False
+    assert "SMS provider unavailable" in result.message
+
+
+def test_email_channel_passes_explicit_smtp_configuration(monkeypatch):
+    from alerts.notifications import EmailNotificationChannel
+
+    captured = {}
+    def fake_send_email(recipient, subject, body, **settings):
+        captured.update(settings)
+        return True
+
+    monkeypatch.setattr("alerts.notifications.send_email", fake_send_email)
+    channel = EmailNotificationChannel(
+        smtp_host="smtp.example.test",
+        smtp_port=2525,
+        username="mailer",
+        password="smtp-secret",
+        recipient="trader@example.test",
+    )
+
+    result = channel.send(make_alert())
+
+    assert result.sent is True
+    assert captured == {
+        "smtp_host": "smtp.example.test",
+        "smtp_port": 2525,
+        "smtp_user": "mailer",
+        "smtp_password": "smtp-secret",
+    }

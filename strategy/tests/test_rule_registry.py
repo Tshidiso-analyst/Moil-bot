@@ -137,3 +137,23 @@ def test_duplicate_rule_id_is_rejected(tmp_path):
 
     with pytest.raises(ValueError, match="already exists"):
         create_draft(registry)
+
+
+def test_demo_execution_requires_exact_confirmation_and_keeps_real_execution_disabled(tmp_path):
+    registry = make_registry(tmp_path)
+    rule = create_draft(registry)
+
+    with pytest.raises(ValueError, match="exact confirmation phrase"):
+        registry.enable_demo_execution("fvg-001", "yes")
+
+    approved = registry.enable_demo_execution(
+        "fvg-001",
+        "ENABLE DEMO EXECUTION",
+    )
+    assert approved["demo_execution_enabled"] is True
+    assert approved["execution_enabled"] is False
+    assert approved["status"] == "draft"
+
+    saved = json.loads((tmp_path / "registry.json").read_text(encoding="utf-8"))
+    assert saved["rules"][0]["demo_execution_enabled"] is True
+    assert saved["rules"][0]["execution_enabled"] is False

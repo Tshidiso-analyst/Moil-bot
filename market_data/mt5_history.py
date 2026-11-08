@@ -1,22 +1,30 @@
 from datetime import datetime
 from pathlib import Path
 
-import MetaTrader5 as mt5
+try:
+    import MetaTrader5 as mt5
+except ImportError:  # MT5 is optional on cloud/test environments.
+    mt5 = None
+
 import pandas as pd
 
 
 MT5_PATH = r"C:\Program Files\MetaTrader 5\terminal64.exe"
 
 
-TIMEFRAME_MAP = {
-    "M1": mt5.TIMEFRAME_M1,
-    "M5": mt5.TIMEFRAME_M5,
-    "M15": mt5.TIMEFRAME_M15,
-    "M30": mt5.TIMEFRAME_M30,
-    "H1": mt5.TIMEFRAME_H1,
-    "H4": mt5.TIMEFRAME_H4,
-    "D1": mt5.TIMEFRAME_D1,
-}
+TIMEFRAME_MAP = (
+    {
+        "M1": mt5.TIMEFRAME_M1,
+        "M5": mt5.TIMEFRAME_M5,
+        "M15": mt5.TIMEFRAME_M15,
+        "M30": mt5.TIMEFRAME_M30,
+        "H1": mt5.TIMEFRAME_H1,
+        "H4": mt5.TIMEFRAME_H4,
+        "D1": mt5.TIMEFRAME_D1,
+    }
+    if mt5 is not None
+    else {}
+)
 
 
 class MT5History:
@@ -24,6 +32,11 @@ class MT5History:
         self.path = path
 
     def connect(self) -> None:
+        if mt5 is None:
+            raise RuntimeError(
+                "MetaTrader5 is not installed. MT5 history is available "
+                "only in the local Windows environment with the MT5 package."
+            )
         if not mt5.initialize(path=self.path):
             raise RuntimeError(
                 f"MT5 initialization failed: {mt5.last_error()}"

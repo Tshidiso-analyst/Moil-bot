@@ -34,7 +34,7 @@ class AuthService:
         password: str,
     ) -> User:
         full_name = full_name.strip()
-        username = username.strip()
+        username = username.strip().lower()
         email = email.strip().lower()
 
         self._validate_registration(
@@ -68,7 +68,7 @@ class AuthService:
         identifier: str,
         password: str,
     ) -> tuple[User, str, Session]:
-        identifier = identifier.strip()
+        identifier = identifier.strip().lower()
 
         user = self.repository.find_by_username_or_email(identifier)
 
@@ -106,7 +106,11 @@ class AuthService:
         if session is None:
             return None
 
-        return self.repository.find_by_id(session.user_id)
+        user = self.repository.find_by_id(session.user_id)
+        # Revoking an account must invalidate every existing session immediately.
+        if user is None or not user.is_active:
+            return None
+        return user
 
     def logout(self, raw_token: str) -> None:
         if not raw_token:

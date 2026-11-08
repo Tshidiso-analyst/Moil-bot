@@ -84,10 +84,27 @@ class RealtimeTradingPipeline:
             return last_close, stop_loss, take_profit
         return last_close, None, None
 
-    def evaluate(self, symbol: str, balance: float, risk_percent: float = 1.0) -> RealTimePipelineResult:
+    def evaluate(
+        self,
+        symbol: str,
+        balance: float,
+        risk_percent: float = 1.0,
+        *,
+        event_calendar_verified: bool = False,
+        high_impact_news: bool = False,
+        macro_bias_valid: bool = False,
+    ) -> RealTimePipelineResult:
         requested_symbol = str(symbol or "").strip().upper()
         if not requested_symbol:
             raise ValueError("Symbol must not be empty.")
+
+        for field_name, value in (
+            ("event_calendar_verified", event_calendar_verified),
+            ("high_impact_news", high_impact_news),
+            ("macro_bias_valid", macro_bias_valid),
+        ):
+            if not isinstance(value, bool):
+                raise ValueError(f"{field_name} must be a boolean.")
 
         try:
             actual_symbol, datasets = self._build_datasets(requested_symbol)
@@ -121,13 +138,22 @@ class RealtimeTradingPipeline:
                 daily_loss_percent=0.0,
                 open_trades=0,
                 confirmation=qualified,
-                high_impact_news=False,
+                # Missing calendar coverage is not evidence that the market is
+                # clear of high-impact releases. Fail closed until a verified
+                # calendar assessment is supplied by the caller.
+                high_impact_news=high_impact_news or not event_calendar_verified,
                 structure_valid=structure.trend in {"bullish", "bearish"},
                 liquidity_valid=bool(market_context.liquidity),
-                macro_bias_valid=True,
+                macro_bias_valid=macro_bias_valid,
                 current_exposure_percent=0.0,
             )
             reasons = list(strategy.reasons) + list(qualifier.reasons)
+            if not event_calendar_verified:
+                reasons.append("Economic calendar is not verified; new-trade approval is blocked.")
+            elif high_impact_news:
+                reasons.append("A high-impact economic event is active; new-trade approval is blocked.")
+            if not macro_bias_valid:
+                reasons.append("A verified, aligned macro bias was not supplied; new-trade approval is blocked.")
             reasons.append(f"Risk guard: {guard_decision.reason}")
             return RealTimePipelineResult(
                 symbol=actual_symbol,

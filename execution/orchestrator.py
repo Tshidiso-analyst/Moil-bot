@@ -3,8 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-import MetaTrader5 as mt5
 import pandas as pd
+
+from execution.mt5_executor import MT5ExecutionService
 
 from risk.models import InstrumentRisk
 from risk.position_sizing import calculate_position_size
@@ -32,69 +33,6 @@ class ExecutionResult:
     status: str
     reason: str
     request: dict[str, Any] | None = None
-
-
-class MT5ExecutionService:
-    """Guarded MT5 execution layer. It requires a valid MT5 connection and risk checks."""
-
-    def __init__(self, mt5_module: Any | None = None):
-        self.mt5 = mt5_module or mt5
-
-    def is_connected(self) -> bool:
-        if self.mt5 is None:
-            return False
-        try:
-            return bool(self.mt5.account_info() is not None)
-        except Exception:
-            return False
-
-    def open_market_order(
-        self,
-        *,
-        symbol: str,
-        direction: str,
-        volume: float,
-        price: float | None = None,
-        stop_loss: float | None = None,
-        take_profit: float | None = None,
-        magic: int = 0,
-        comment: str = "Moil-bot",
-    ) -> dict[str, Any]:
-        if not self.is_connected():
-            raise RuntimeError("MT5 is not connected.")
-
-        if direction not in {"bullish", "bearish"}:
-            raise ValueError(f"Unsupported direction: {direction}")
-
-        order_type = self.mt5.ORDER_TYPE_BUY if direction == "bullish" else self.mt5.ORDER_TYPE_SELL
-        request = {
-            "action": self.mt5.TRADE_ACTION_DEAL,
-            "symbol": symbol,
-            "volume": float(volume),
-            "type": order_type,
-            "price": float(price if price is not None else self.mt5.symbol_info(symbol).ask if direction == "bullish" else self.mt5.symbol_info(symbol).bid),
-            "sl": stop_loss,
-            "tp": take_profit,
-            "deviation": 20,
-            "magic": magic,
-            "comment": comment,
-            "type_time": self.mt5.ORDER_TIME_GTC,
-            "type_filling": self.mt5.ORDER_FILLING_FOK,
-        }
-
-        result = self.mt5.order_send(request)
-        if result is None:
-            raise RuntimeError("MT5 order_send returned None.")
-        if result.retcode not in {self.mt5.TRADE_RETCODE_DONE, self.mt5.TRADE_RETCODE_DONE_PARTIAL}:
-            raise RuntimeError(f"MT5 order rejected: {self.mt5.last_error()}")
-        return {
-            "ticket": int(result.order),
-            "retcode": int(result.retcode),
-            "symbol": symbol,
-            "direction": direction,
-            "volume": float(volume),
-            "request": request,
-        }
 
 
 class TradeExecutionOrchestrator:
@@ -270,42 +208,22 @@ class TradeExecutionOrchestrator:
                 request=None,
             )
 
-        request = {
-            "action": mt5.TRADE_ACTION_DEAL,
-            "symbol": symbol,
-            "volume": float(plan.order["volume"]),
-            "type": mt5.ORDER_TYPE_BUY if plan.direction == "bullish" else mt5.ORDER_TYPE_SELL,
-            "price": float(plan.order["entry"]),
-            "sl": float(plan.order["stop_loss"]),
-            "tp": float(plan.order["take_profit"]),
-            "deviation": 20,
-            "magic": magic,
-            "comment": comment,
-            "type_time": mt5.ORDER_TIME_GTC,
-            "type_filling": mt5.ORDER_FILLING_FOK,
-        }
-
-        result = mt5.order_send(request)
-        if result is None or result.retcode not in {mt5.TRADE_RETCODE_DONE, mt5.TRADE_RETCODE_DONE_PARTIAL}:
-            error = mt5.last_error()
-            return ExecutionResult(
-                symbol=symbol,
-                order_ticket=None,
-                direction=plan.direction,
-                volume=float(plan.order["volume"]),
-                price=float(plan.order["entry"]),
-                status="rejected",
-                reason=f"Order rejected: {error}",
-                request=request,
-            )
-
+        # This legacy orchestrator does not carry the reviewed-rule,
+        # verified-calendar, one-trade-per-day and explicit-confirmation
+        # checks required by the supported DEMO Start workflow. Keep it
+        # analysis-only; the dashboard's DemoStartController is the sole
+        # strategy order path and its MT5 adapter hard-blocks REAL accounts.
         return ExecutionResult(
             symbol=symbol,
-            order_ticket=int(result.order),
+            order_ticket=None,
             direction=plan.direction,
             volume=float(plan.order["volume"]),
             price=float(plan.order["entry"]),
-            status="accepted",
-            reason=f"Order sent successfully: {result.comment}",
-            request=request,
+            status="disabled",
+            reason=(
+                "Legacy orchestrator order submission is disabled. "
+                "Use the guarded dashboard DEMO Start workflow."
+            ),
+            request=None,
         )
+

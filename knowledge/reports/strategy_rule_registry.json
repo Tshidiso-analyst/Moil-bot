@@ -1,0 +1,64 @@
+{
+  "rules": [
+    {
+      "rule_id": "ny_fvg_liq_sweep_v1",
+      "name": "NY FVG continuation after liquidity sweep",
+      "concept": "fair_value_gap_liquidity_continuation",
+      "direction": "either",
+      "entry_conditions": [
+        "Higher-timeframe bias is aligned with the intended trade direction",
+        "A liquidity sweep occurs against the intended direction and is reclaimed by a candle-body close",
+        "A fair value gap exists in the intended direction and price retraces into the gap",
+        "Setup forms during the New York session (or London/New York overlap)",
+        "No active high-impact CPI/NFP/FOMC blackout for the symbol currency"
+      ],
+      "invalidation_conditions": [
+        "Candle-body close beyond the FVG extreme against the trade",
+        "Candle-body close beyond the liquidity-sweep extreme against the trade",
+        "Higher-timeframe bias flips against the trade before entry"
+      ],
+      "exit_conditions": [
+        "Primary target at 2R from entry using the planned stop distance",
+        "Optional partial at opposing intraday liquidity if reached first",
+        "Exit if invalidation prints after entry"
+      ],
+      "risk_controls": [
+        "Maximum planned risk 1% of account per trade",
+        "Maximum one new trade per New York session day",
+        "No new trades during verified high-impact event blackout",
+        "execution_enabled remains false until separate demo validation is complete"
+      ],
+      "sources": [
+        {
+          "evidence_id": "nyfvg001pdfpage12",
+          "source_type": "pdf",
+          "title": "ICT Market Structure Notes",
+          "locator": "page 12",
+          "page": 12,
+          "video_id": null,
+          "url": "",
+          "snippet": "A bullish fair value gap forms after bullish displacement. Entry is considered on the retracement into the gap during the New York session when higher-timeframe bias remains bullish. Invalidation is a candle-body close below the gap low.",
+          "relevance_screen": "direct_candidate",
+          "human_review_confirmed": true
+        },
+        {
+          "evidence_id": "liqswp002videoless",
+          "source_type": "video",
+          "title": "Liquidity Sweep Continuation Lesson",
+          "locator": "video ID demo-liq-001",
+          "page": null,
+          "video_id": "demo-liq-001",
+          "url": "",
+          "snippet": "After sell-side liquidity is swept and price reclaims the level with a bullish body close, look for continuation into an imbalance or fair value gap. Risk is defined beyond the sweep extreme.",
+          "relevance_screen": "direct_candidate",
+          "human_review_confirmed": true
+        }
+      ],
+      "version": "0.1.0",
+      "status": "draft",
+      "created_at_utc": "2026-11-07T16:05:00+00:00",
+      "backtest": null,
+      "execution_enabled": false
+    }
+  ]
+}

@@ -60,19 +60,36 @@ def install_analysis_stubs(monkeypatch, alignment="bullish", gap_direction="bull
 
     monkeypatch.setattr(strategy_module, "TopDownAnalyzer", FakeTopDown)
 
-    def fake_gaps(dataframe):
-        if gap_direction is None:
-            return []
-        return [
+    gaps = []
+    if gap_direction is not None:
+        gaps = [
             FairValueGap(
-                index=len(dataframe) - 1,
+                index=2,
                 direction=gap_direction,
                 lower=1.1,
                 upper=1.2,
             )
         ]
 
-    monkeypatch.setattr(strategy_module, "find_fair_value_gaps", fake_gaps)
+    fake_context = SimpleNamespace(
+        trend=alignment,
+        session="new_york",
+        liquidity=[],
+        fair_value_gaps=gaps,
+        bos=[],
+        choch=[],
+        distribution=False,
+        consolidation=False,
+        premium_discount="neutral",
+        bias=gap_direction or "neutral",
+        reasons=[],
+    )
+
+    monkeypatch.setattr(
+        strategy_module,
+        "analyze_market_context",
+        lambda dataframe, execution_timeframe: fake_context,
+    )
 
 
 def test_source_backed_technical_candidate_is_research_only(monkeypatch):

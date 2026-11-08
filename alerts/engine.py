@@ -65,6 +65,11 @@ class AlertEngine:
         Notification settings control delivery only. This keeps alert
         history available even when notifications are paused.
         """
+        if event.dedupe_key:
+            existing = self.store.by_dedupe_key(event.dedupe_key)
+            if existing is not None:
+                return AlertDispatch(alert=existing, notifications=[])
+
         alert_id = self._generate_alert_id()
 
         alert = self.store.create(
@@ -73,6 +78,11 @@ class AlertEngine:
             created_at=datetime.now(timezone.utc),
         )
 
+        # Persistent stores may return an existing alert when another worker
+        # wins the unique dedupe-key insert. Do not send duplicate notifications.
+        if alert.alert_id != alert_id:
+            return AlertDispatch(alert=alert, notifications=[])
+
         if not self.notifications_enabled_for(event.alert_type):
             return AlertDispatch(
                 alert=alert,
@@ -80,6 +90,9 @@ class AlertEngine:
             )
 
         notifications = self.notification_service.send(alert)
+        record_deliveries = getattr(self.store, "record_deliveries", None)
+        if callable(record_deliveries):
+            record_deliveries(alert, notifications)
 
         return AlertDispatch(
             alert=alert,
