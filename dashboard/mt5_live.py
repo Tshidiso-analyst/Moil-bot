@@ -285,7 +285,8 @@ class MT5LiveService:
         history = getattr(self.mt5, "history_deals_get", None)
         if history is None:
             raise RuntimeError("This MT5 package cannot verify today's loss.")
-        now = datetime.now()
+        # Use the same UTC day boundary as the entry-count guard.
+        now = datetime.now(timezone.utc)
         start = now.replace(hour=0, minute=0, second=0, microsecond=0)
         deals = history(start, now)
         if deals is None:
