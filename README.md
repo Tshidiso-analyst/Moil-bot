@@ -10,16 +10,16 @@ The project is being developed as a full platform: a web dashboard, a shared ana
 
 The active development line is `codex/intelligence-foundation`. Pull request [#140](https://github.com/Tshidiso-analyst/Moil-bot/pull/140) is the current draft integration path into `main`. Do not assume the draft PR is production-ready or merge it without reviewing its latest checks and diff.
 
-The latest local test result reported by the project owner on 2026-11-08 was **341 passed**. This is a local regression result, not a broker execution test. Check GitHub Actions for the status of the exact commit before merging.
+GitHub Actions run #297 passed **363 tests on Linux and 363 tests on Windows**, including the Windows MT5 package/account-mode checks. Run #300 is verifying the additional hosted authentication database startup guard. These are automated tests, not a broker execution test.
 
 See [docs/PROJECT_ROADMAP.md](docs/PROJECT_ROADMAP.md) for milestones, current status, acceptance criteria and the next work item.
-Authentication schema and cookie setup notes are in [docs/AUTHENTICATION_SETUP.md](docs/AUTHENTICATION_SETUP.md). Authentication is a foundation only; public deployment remains blocked until request-level enforcement, rate limiting and account isolation are complete.
+Hosted mode now requires PostgreSQL-backed login sessions, supports login/logout, same-origin POST enforcement and secure cookies. First-user provisioning is documented in [docs/AUTHENTICATION_SETUP.md](docs/AUTHENTICATION_SETUP.md). Public production deployment remains blocked until persistent rate limiting, email verification/recovery, MFA, per-user data isolation, database provisioning and operational review are complete.
 
 ## What exists today
 
 | Area | Current capability | Remaining verification |
 |---|---|---|
-| Dashboard | Local web dashboard with overview, markets, analysis, knowledge, strategy and risk views | Full user-flow and security review |
+| Dashboard | Local dashboard; hosted mode requires authenticated PostgreSQL-backed sessions | Complete user-flow, per-user isolation and security review |
 | MT5 connection | Local terminal connection, account metadata, symbols, candles and positions | Verify on the owner's Windows terminal and broker DEMO account |
 | Market analysis | Real-time analysis pipeline and trading decision components | Validate signals against labelled market data |
 | ICT/SMC knowledge | PDF/video knowledge search and concept extraction | Ingestion coverage, source quality and traceability |
@@ -28,7 +28,7 @@ Authentication schema and cookie setup notes are in [docs/AUTHENTICATION_SETUP.m
 | Alerts | Alert and notification components | Persistence, deduplication and delivery checks |
 | DEMO execution | Explicitly confirmed, reviewed-rule DEMO market-order path with broker-based sizing and protective levels | Manual Windows DEMO integration test; no REAL trading |
 | Backtesting | Backtesting components exist | Walk-forward evaluation and controlled promotion of candidate rules |
-| Clients/deployment | Hosted dashboard preparation exists; cloud mode disables local MT5 | Desktop/mobile clients and deployment validation remain future work |
+| Clients/deployment | Hosted authentication gate and local-only MT5 boundary implemented | Provision hosted PostgreSQL, complete remaining identity/security controls, and build Windows/mobile clients |
 
 ## Architecture map
 
