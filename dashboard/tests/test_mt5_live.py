@@ -1,3 +1,5 @@
+from datetime import timezone
+
 from dashboard.mt5_live import MT5LiveService
 
 
@@ -34,6 +36,8 @@ class FakeMT5:
 
     def history_deals_get(self, start, end):
         assert start.hour == 0 and start.minute == 0
+        assert start.tzinfo == timezone.utc
+        assert end.tzinfo == timezone.utc
         return self.deals
 
     def positions_get(self):
@@ -153,20 +157,22 @@ def test_open_trade_count_requires_a_connected_mt5_session():
         raise AssertionError("A disconnected MT5 service must not report zero open trades.")
 
 
-def test_today_loss_ignores_non_trading_balance_operations():
+def test_today_loss_fails_closed_after_non_trading_balance_adjustment():
     trade = type("Deal", (), {
         "type": 0, "profit": -100.0, "commission": -2.0, "swap": 0.0, "fee": 0.0
     })()
     deposit = type("Deal", (), {
         "type": 2, "profit": 5000.0, "commission": 0.0, "swap": 0.0, "fee": 0.0
     })()
-    fake = FakeMT5(deals=[trade, deposit])
-    service = MT5LiveService(mt5_module=fake)
+    service = MT5LiveService(mt5_module=FakeMT5(deals=[trade, deposit]))
     service.connected = True
 
-    loss = service.today_loss_percent()
-
-    assert 0.9 < loss < 1.1
+    try:
+        service.today_loss_percent()
+    except RuntimeError as exc:
+        assert "balance adjustment" in str(exc)
+    else:
+        raise AssertionError("Daily loss must be unverifiable after a same-day balance adjustment.")
 
 
 def test_today_loss_fails_closed_on_non_finite_trading_pnl():
@@ -199,3 +205,12 @@ def test_open_trade_summary_reports_verified_empty_positions():
     service.connected = True
 
     assert service.open_trade_summary() == {"count": 0, "volume": 0, "profit": 0}
+
+
+
+def test_today_entry_count_uses_utc_day_boundaries():
+    fake = FakeMT5(deals=[])
+    service = MT5LiveService(mt5_module=fake)
+    service.connected = True
+
+    assert service.today_entry_count() == 0
