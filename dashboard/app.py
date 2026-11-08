@@ -352,19 +352,19 @@ def register_page(notice: str = "") -> str:
 
 
 def login_rate_limited(client_ip: str) -> bool:
+    """Atomically count login attempts to prevent concurrent throttle bypass."""
     now = time.monotonic()
     with LOGIN_FAILURES_LOCK:
-        attempts = [stamp for stamp in LOGIN_FAILURES.get(client_ip, []) if now - stamp < LOGIN_WINDOW_SECONDS]
-        LOGIN_FAILURES[client_ip] = attempts
-        return len(attempts) >= LOGIN_MAX_ATTEMPTS
-
-
-def record_login_failure(client_ip: str) -> None:
-    now = time.monotonic()
-    with LOGIN_FAILURES_LOCK:
-        attempts = [stamp for stamp in LOGIN_FAILURES.get(client_ip, []) if now - stamp < LOGIN_WINDOW_SECONDS]
+        attempts = [
+            stamp for stamp in LOGIN_FAILURES.get(client_ip, [])
+            if now - stamp < LOGIN_WINDOW_SECONDS
+        ]
+        if len(attempts) >= LOGIN_MAX_ATTEMPTS:
+            LOGIN_FAILURES[client_ip] = attempts
+            return True
         attempts.append(now)
         LOGIN_FAILURES[client_ip] = attempts
+        return False
 
 
 def clear_login_failures(client_ip: str) -> None:
@@ -500,7 +500,6 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                 clear_login_failures(client_ip)
                 self.redirect("/", build_session_cookie(token, secure=COOKIE_SECURE))
             except AuthenticationError:
-                record_login_failure(client_ip)
                 self.send_html(login_page("Invalid username/email or password."), 401)
             except Exception:
                 self.send_html(auth_page("Service temporarily unavailable", "<p>Authentication storage is unavailable. Please try again later.</p>"), 503)
