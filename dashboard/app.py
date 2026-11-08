@@ -355,10 +355,16 @@ def login_rate_limited(client_ip: str) -> bool:
     """Atomically count login attempts to prevent concurrent throttle bypass."""
     now = time.monotonic()
     with LOGIN_FAILURES_LOCK:
-        attempts = [
-            stamp for stamp in LOGIN_FAILURES.get(client_ip, [])
-            if now - stamp < LOGIN_WINDOW_SECONDS
-        ]
+        for known_ip, known_attempts in list(LOGIN_FAILURES.items()):
+            fresh = [
+                stamp for stamp in known_attempts
+                if now - stamp < LOGIN_WINDOW_SECONDS
+            ]
+            if fresh:
+                LOGIN_FAILURES[known_ip] = fresh
+            else:
+                LOGIN_FAILURES.pop(known_ip, None)
+        attempts = LOGIN_FAILURES.get(client_ip, [])
         if len(attempts) >= LOGIN_MAX_ATTEMPTS:
             LOGIN_FAILURES[client_ip] = attempts
             return True
