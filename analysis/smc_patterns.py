@@ -150,7 +150,7 @@ def find_liquidity_sweeps(dataframe: pd.DataFrame, lookback: int = 3) -> list[Li
             sweeps.append(
                 LiquiditySweep(
                     index=i,
-                    direction="sell_side",
+                    direction="buy_side",
                     level=float(hb),
                     type="liquidity_sweep",
                 )
@@ -159,7 +159,7 @@ def find_liquidity_sweeps(dataframe: pd.DataFrame, lookback: int = 3) -> list[Li
             sweeps.append(
                 LiquiditySweep(
                     index=i,
-                    direction="buy_side",
+                    direction="sell_side",
                     level=float(lb),
                     type="liquidity_sweep",
                 )
