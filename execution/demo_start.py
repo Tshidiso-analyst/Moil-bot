@@ -234,16 +234,32 @@ class DemoStartController:
                     dry_run=True,
                 )
 
-        if allow_execution and (account_balance is None or float(account_balance) <= 0):
-            return DemoStartResult(
-                symbol=clean_symbol,
-                mode=mode,
-                status="blocked",
-                allowed=False,
-                direction="neutral",
-                reason="Demo execution requires a verified positive account balance for risk enforcement.",
-                dry_run=True,
-            )
+        if allow_execution:
+            try:
+                balance_value = float(account_balance)
+                risk_value = float(proposed_risk_percent)
+                if (
+                    isinstance(account_balance, bool)
+                    or not isfinite(balance_value)
+                    or balance_value <= 0
+                    or isinstance(proposed_risk_percent, bool)
+                    or not isfinite(risk_value)
+                    or not (0 < risk_value <= 1.0)
+                ):
+                    raise ValueError
+            except (TypeError, ValueError, OverflowError):
+                return DemoStartResult(
+                    symbol=clean_symbol,
+                    mode=mode,
+                    status="blocked",
+                    allowed=False,
+                    direction="neutral",
+                    reason=(
+                        "DEMO execution requires a finite positive account balance "
+                        "and a finite risk setting greater than 0% and no more than 1%."
+                    ),
+                    dry_run=True,
+                )
 
         rules = self.reviewed_rules()
         if not rules:
