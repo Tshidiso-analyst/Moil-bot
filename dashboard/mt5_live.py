@@ -46,8 +46,14 @@ class MT5LiveService:
         requested_mode: str = "DEMO",
     ) -> MT5ConnectionResult:
         """Initialize and log in to the local MetaTrader 5 terminal."""
+        # A reconnect attempt must never leave a previous account looking active.
+        self.connected = False
+        self.account = None
+        requested = str(requested_mode or "DEMO").strip().upper()
+        if requested not in {"DEMO", "REAL"}:
+            self.last_error = "Unsupported account mode. Select DEMO or REAL."
+            return MT5ConnectionResult(connected=False, message=self.last_error)
         if self.mt5 is None:
-            self.connected = False
             self.last_error = "MetaTrader5 package is not installed in this Python environment."
             return MT5ConnectionResult(connected=False, message=self.last_error)
         try:
@@ -96,8 +102,7 @@ class MT5LiveService:
             getattr(self.mt5, "ACCOUNT_TRADE_MODE_REAL", 2): "REAL",
         }
         account_type = mode_map.get(trade_mode, "UNKNOWN")
-        requested = str(requested_mode or "DEMO").strip().upper()
-        if requested in {"DEMO", "REAL"} and account_type != requested:
+        if account_type != requested:
             self.mt5.shutdown()
             self.connected = False
             self.account = None
