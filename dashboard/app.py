@@ -115,17 +115,42 @@ def parse_mt5_credentials(form: dict[str, str]) -> tuple[int | None, str, str]:
 
 
 def launch_mt5_broker_directory(terminal_path: str | None = None) -> None:
-    """Open the local MT5 terminal's native broker/server directory.
+    """Open the selected or auto-discovered local MT5 terminal.
 
-    The MetaTrader5 Python API logs in to a known server; it does not expose
-    the terminal's broker-directory search interface.
+    The terminal itself provides the broker/server directory (File > Open an
+    Account). The Python API can connect to a known server but cannot enumerate
+    the global broker directory or guess an account's assigned server.
     """
     selected = str(terminal_path or mt5_service.path).strip()
-    if not selected or len(selected) > 512 or any(ord(char) < 32 for char in selected):
-        raise ValueError("MT5 terminal path is invalid.")
-    executable = os.path.abspath(os.path.expandvars(os.path.expanduser(selected)))
-    if os.path.basename(executable).lower() not in {"terminal64.exe", "terminal.exe"}:
-        raise ValueError("Select the MetaTrader terminal64.exe or terminal.exe file.")
+    if selected:
+        if len(selected) > 512 or any(ord(char) < 32 for char in selected):
+            raise ValueError("MT5 terminal path is invalid.")
+        executable = os.path.abspath(os.path.expandvars(os.path.expanduser(selected)))
+        if os.path.basename(executable).lower() not in {"terminal64.exe", "terminal.exe"}:
+            raise ValueError("Select the MetaTrader terminal64.exe or terminal.exe file.")
+    else:
+        # Use the official MT5 auto-discovery behaviour when the user has not
+        # installed the terminal in the standard MetaQuotes directory.
+        module = mt5_service.mt5
+        if module is None:
+            raise RuntimeError("MetaTrader5 package is unavailable; install the broker's MT5 desktop terminal.")
+        if not module.initialize():
+            raise RuntimeError(f"MT5 could not auto-discover an installed terminal: {module.last_error()}")
+        try:
+            info = module.terminal_info()
+            terminal_root = str(getattr(info, "path", "") or "").strip() if info is not None else ""
+        finally:
+            module.shutdown()
+        if not terminal_root:
+            raise RuntimeError(
+                "MT5 found no terminal installation path. Install the broker's MT5 desktop terminal "
+                "or enter its terminal64.exe path."
+            )
+        executable = os.path.abspath(os.path.expandvars(os.path.expanduser(terminal_root)))
+        if os.path.isdir(executable):
+            executable = os.path.join(executable, "terminal64.exe")
+        if os.path.basename(executable).lower() not in {"terminal64.exe", "terminal.exe"}:
+            raise RuntimeError(f"MT5 reported an unsupported terminal path: {terminal_root}")
     if not os.path.isfile(executable):
         raise FileNotFoundError(
             f"MT5 terminal was not found at {executable}. Install the broker's MT5 terminal or enter its correct executable path."
@@ -199,8 +224,8 @@ def connection_form(message: str = "") -> str:
         <label>Broker MT5 Server (optional if terminal is already configured)</label><input type="text" name="server" maxlength="128" autocomplete="off" placeholder="e.g. Exness-MT5Trial8 / broker's exact server"/>
         <p class="muted">Moil-bot accepts MT5 accounts from Exness and other MT5 brokers. Enter the exact server assigned to your account. If blank, the selected terminal's already configured server is used. To find an Exness server, open Exness Personal Area &gt; Trading &gt; Accounts and expand the account card. For another broker, check its account details or use the MT5 terminal's broker/server search. <a href="https://get.exness.help/hc/en-us/articles/360012578619-Trading-account-login-and-server-details" target="_blank" rel="noopener noreferrer">Exness: find your MT5 login and server</a></p>
         <label>MT5 Trading Password</label><input type="password" name="password" autocomplete="off" placeholder="Trading password for this MT5 account"/>
-        <label>MT5 Terminal EXE Path (optional)</label><input type="text" name="terminal_path" maxlength="512" autocomplete="off" placeholder="Leave blank to use the default MT5 terminal path"/>
-        <p class="muted">If you installed a broker-branded MT5 terminal (such as Exness) in a different folder, enter its terminal64.exe path here. This lets Moil-bot connect to that broker's own terminal installation. Leave blank to use the configured default path.</p>
+        <label>MT5 Terminal EXE Path (optional)</label><input type="text" name="terminal_path" maxlength="512" autocomplete="off" placeholder="Leave blank to auto-detect the installed MT5 terminal"/>
+        <p class="muted">Moil-bot now asks MT5 to locate the installed terminal automatically, including broker-branded installations such as Exness. If you have multiple terminals, enter the exact terminal64.exe path for the broker account you want to use.</p>
         <p class="muted">Enter login and trading password to switch accounts. The server may be blank only if the selected terminal is already configured for that broker. Leave login and password blank to reuse the account already signed in. Credentials are sent to your local MT5 terminal and are not saved by this form.</p>
         <button type="submit">CONNECT MT5</button>
       </form>
@@ -209,7 +234,7 @@ def connection_form(message: str = "") -> str:
       <h3>Find a broker or MT5 server</h3>
       <p class="muted">Open the selected MT5 terminal's built-in broker directory. In MT5 choose File &gt; Open an Account, search for your broker (for example, Exness), select the matching company and server, then finish. Return here and enter the exact server shown in your trading-account details.</p>
       <form method="POST" action="/broker_search">
-        <label>MT5 Terminal EXE Path</label><input type="text" name="terminal_path" maxlength="512" autocomplete="off" placeholder="C:\\Program Files\\Broker MT5\\terminal64.exe"/>
+        <label>MT5 Terminal EXE Path (optional)</label><input type="text" name="terminal_path" maxlength="512" autocomplete="off" placeholder="Leave blank to auto-detect; enter a path to choose a specific broker terminal"/>
         <button type="submit">OPEN MT5 BROKER / SERVER SEARCH</button>
       </form>
       <p class="muted"><a href="https://get.exness.help/hc/en-us/articles/360011514572-MT5-Trading-guide-Desktop" target="_blank" rel="noopener noreferrer">Exness: add/search for Exness servers in MT5</a> · <a href="https://www.mql5.com/en/docs/python_metatrader5/mt5login_py" target="_blank" rel="noopener noreferrer">MetaTrader login API</a></p>

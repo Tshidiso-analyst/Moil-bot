@@ -68,6 +68,8 @@ def test_connection_reports_actual_mt5_demo_mode():
     result = service.connect(login=12345, password="x", server="Broker-Demo", requested_mode="DEMO")
     assert result.connected is True
     assert result.account_type == "DEMO"
+    # No hard-coded generic terminal path: let MT5 locate broker-branded installs.
+    assert fake.initialize_calls == [{}]
 
 
 def test_real_account_is_not_mislabeled_as_demo():
@@ -520,3 +522,22 @@ def test_credentials_login_uses_selected_terminal_server_without_server_argument
     assert result.connected is True
     assert result.server == "Broker-Demo"
     assert "server" not in fake.login_calls[0][1]
+
+
+def test_connection_uses_explicit_broker_terminal_path_when_supplied():
+    fake = FakeMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+
+    result = service.connect(
+        login=12345,
+        password="secret",
+        server="Exness-MT5Trial8",
+        requested_mode="DEMO",
+        terminal_path=r"C:\\Program Files\\Exness MT5\\terminal64.exe",
+    )
+
+    assert result.connected is True
+    assert fake.initialize_calls == [
+        {"path": r"C:\\Program Files\\Exness MT5\\terminal64.exe"}
+    ]
+    assert fake.login_calls[0][1]["server"] == "Exness-MT5Trial8"

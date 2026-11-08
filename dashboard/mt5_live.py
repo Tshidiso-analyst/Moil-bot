@@ -34,7 +34,10 @@ class MT5LiveService:
 
     def __init__(self, mt5_module: Any | None = None, path: str | None = None):
         self.mt5 = mt5_module or mt5
-        self.path = path or os.getenv("MT5_PATH", r"C:\Program Files\MetaTrader 5\terminal64.exe")
+        # Empty means use the MetaTrader5 Python API's automatic terminal discovery.
+        # This supports broker-branded installations (Exness, IC Markets, etc.)
+        # without assuming every broker installs to MetaQuotes' default folder.
+        self.path = str(path or os.getenv("MT5_PATH", "")).strip()
         self.connected = False
         self.account = None
         self.last_error = ""
@@ -79,7 +82,7 @@ class MT5LiveService:
             self.last_error = "MetaTrader5 package is not installed in this Python environment."
             return MT5ConnectionResult(connected=False, message=self.last_error)
         target_path = str(terminal_path or self.path).strip()
-        if not target_path or len(target_path) > 512 or any(ord(char) < 32 for char in target_path):
+        if len(target_path) > 512 or any(ord(char) < 32 for char in target_path):
             self.last_error = "MT5 terminal path is invalid."
             return MT5ConnectionResult(connected=False, message=self.last_error)
         try:
@@ -89,7 +92,15 @@ class MT5LiveService:
                 self.mt5.shutdown()
             except Exception:
                 pass
-            if not self.mt5.initialize(path=target_path):
+            # With no explicit path, MetaTrader5 discovers the installed/running
+            # terminal itself. Passing a hard-coded generic path breaks broker-specific
+            # terminals such as Exness MT5 installed in their own program folder.
+            initialized = (
+                self.mt5.initialize(path=target_path)
+                if target_path
+                else self.mt5.initialize()
+            )
+            if not initialized:
                 self.connected = False
                 self.last_error = f"MT5 initialization failed: {self.mt5.last_error()}"
                 return MT5ConnectionResult(connected=False, message=self.last_error)
