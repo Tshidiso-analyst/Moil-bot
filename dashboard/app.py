@@ -91,6 +91,10 @@ def nav_layout(title: str, content: str, active: str = "Overview") -> str:
         if SESSION.get("connected") and SESSION.get("account")
         else '<span class="status offline">MT5 Offline</span>'
     )
+    disconnect_control = (
+        '<form method="POST" action="/disconnect"><button type="submit">DISCONNECT MT5</button></form>'
+        if SESSION.get("connected") and not CLOUD_MODE else ""
+    )
     auth_controls = (
         '<form method="POST" action="/logout"><button type="submit">SIGN OUT</button></form>'
         if AUTH_REQUIRED else ""
@@ -118,7 +122,7 @@ table{{width:100%;border-collapse:collapse}}
 th,td{{border-bottom:1px solid #243b53;padding:8px;text-align:left}}
 .danger{{color:#ff8c8c}}
 </style></head>
-<body><div class="shell"><aside class="sidebar"><h1>MOIL BOT</h1><nav class="nav">{nav}</nav><div>{status}{auth_controls}</div></aside>
+<body><div class="shell"><aside class="sidebar"><h1>MOIL BOT</h1><nav class="nav">{nav}</nav><div>{status}{disconnect_control}{auth_controls}</div></aside>
 <main class="main"><h2>{esc(title)}</h2>{content}</main></div></body></html>"""
 
 
@@ -454,9 +458,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         elif path == "/risk":
             page = risk_page()
         elif path == "/disconnect":
-            SESSION.update({"connected": False, "account": None, "mode": None, "operating": False})
-            mt5_service.shutdown()
-            self.redirect("/")
+            self.send_html("<h1>Method not allowed</h1>", 405)
             return
         else:
             self.send_html("<h1>404</h1>", 404)
@@ -472,8 +474,17 @@ class MoilBotHandler(BaseHTTPRequestHandler):
             return
         form = parse_form(self.rfile.read(length))
 
-        if AUTH_REQUIRED and not self.same_origin_post():
+        if not self.same_origin_post():
             self.send_html("<h1>Cross-origin request blocked</h1>", 403)
+            return
+
+        if path == "/disconnect":
+            if not self.is_local_dashboard_request():
+                self.send_html("<h1>Local MT5 disconnect request required</h1>", 403)
+                return
+            SESSION.update({"connected": False, "account": None, "mode": None, "operating": False})
+            mt5_service.shutdown()
+            self.redirect("/")
             return
 
         if path == "/login":
