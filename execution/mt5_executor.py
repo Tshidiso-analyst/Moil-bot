@@ -170,6 +170,29 @@ class MT5ExecutionService:
         volume = min(volume, maximum)
         return round(volume, 8)
 
+    def _check_order_request(self, request: dict[str, Any]) -> Any:
+        """Require MT5's server-side funds and request validation before sending."""
+        checker = getattr(self.mt5, "order_check", None)
+        if not callable(checker):
+            raise RuntimeError("MT5 order_check is unavailable; broker margin cannot be verified.")
+        checked = checker(request)
+        if checked is None:
+            raise RuntimeError(f"MT5 order pre-check returned no result: {self.mt5.last_error()}")
+        retcode = getattr(checked, "retcode", None)
+        if retcode is None or retcode != 0:
+            raise RuntimeError(
+                "MT5 order pre-check rejected the request: "
+                f"retcode={retcode}, comment={getattr(checked, 'comment', '')}, "
+                f"error={self.mt5.last_error()}"
+            )
+        try:
+            projected_free_margin = float(getattr(checked, "margin_free"))
+        except (AttributeError, TypeError, ValueError, OverflowError) as exc:
+            raise RuntimeError("MT5 pre-check did not return valid projected free margin.") from exc
+        if not isfinite(projected_free_margin) or projected_free_margin < 0:
+            raise RuntimeError("MT5 pre-check reports insufficient or invalid free margin.")
+        return checked
+
     def place_market_order(
         self,
         symbol: str,
@@ -256,6 +279,7 @@ class MT5ExecutionService:
             "type_time": self.mt5.ORDER_TIME_GTC,
             "type_filling": self.mt5.ORDER_FILLING_RETURN,
         }
+        self._check_order_request(request)
         result = self.mt5.order_send(request)
         if result is None:
             raise RuntimeError(f"MT5 order_send returned no result: {self.mt5.last_error()}")
@@ -321,6 +345,7 @@ class MT5ExecutionService:
             "type_time": self.mt5.ORDER_TIME_GTC,
             "type_filling": self.mt5.ORDER_FILLING_RETURN,
         }
+        self._check_order_request(request)
         result = self.mt5.order_send(request)
         if result is None or result.retcode not in {
             getattr(self.mt5, "TRADE_RETCODE_DONE", 10009),

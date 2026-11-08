@@ -18,7 +18,9 @@ every order and close request.
   no active high-impact event, no trade already opened today, no existing
   open position, and a daily loss below 1%.
 - Position size is calculated with MT5 `order_calc_profit`, broker lot limits,
-  and a maximum planned risk of 0.5% per trade.
+  and a maximum planned risk of 0.5% per trade. The complete request must also
+  pass MT5 `order_check`, including a valid non-negative projected free-margin
+  result, before `order_send` is called.
 - Every market order requires a stop loss, take profit, and a separate
   confirmation checkbox. No automatic order loop is started.
 
@@ -92,6 +94,8 @@ every order and close request.
   rejected.
 - A position whose calculated loss exceeds the 0.5% risk budget must be
   rejected.
+- An unavailable or failed `order_check`, insufficient projected free margin,
+  or invalid margin result must block `order_send`.
 - A broker rejection must be shown as rejected; it must never be reported as
   executed.
 

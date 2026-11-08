@@ -22,6 +22,8 @@ class FakeMT5:
         self.trade_mode = trade_mode
         self.sent = []
         self.initialize_calls = []
+        self.order_checks = []
+        self.check_result = SimpleNamespace(retcode=0, margin_free=10000.0, comment="Done")
         self.info = SimpleNamespace(visible=True, volume_min=0.01, volume_max=10.0, volume_step=0.01)
         self.tick = SimpleNamespace(bid=1.1000, ask=1.1002)
 
@@ -40,6 +42,10 @@ class FakeMT5:
 
     def order_calc_profit(self, order_type, symbol, volume, entry, stop):
         return -1000.0 * float(volume)
+
+    def order_check(self, request):
+        self.order_checks.append(request)
+        return self.check_result
 
     def order_send(self, request):
         self.sent.append(request)
@@ -207,3 +213,55 @@ def test_execution_connect_rejects_missing_or_invalid_credentials_before_initial
         result = service.connect(login, password, server)
         assert result["connected"] is False
         assert mt5.initialize_calls == []
+
+
+def test_market_order_runs_broker_margin_check_before_order_send():
+    mt5 = FakeMT5(trade_mode=0)
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    service.place_market_order(
+        "EURUSD", "bullish", 0.05,
+        stop_loss=1.0990, take_profit=1.1020,
+        max_risk_amount=50.0,
+    )
+
+    assert len(mt5.order_checks) == 1
+    assert len(mt5.sent) == 1
+    assert mt5.order_checks[0] == mt5.sent[0]
+
+
+def test_market_order_blocks_when_broker_margin_check_fails():
+    for check_result in (
+        None,
+        SimpleNamespace(retcode=10019, margin_free=0.0, comment="No money"),
+        SimpleNamespace(retcode=0, margin_free=-1.0, comment="Invalid free margin"),
+        SimpleNamespace(retcode=0, margin_free=float("nan"), comment="Invalid free margin"),
+    ):
+        mt5 = FakeMT5(trade_mode=0)
+        mt5.check_result = check_result
+        service = MT5ExecutionService(mt5)
+        service.adopt_existing_connection()
+
+        with pytest.raises(RuntimeError, match="pre-check|free margin"):
+            service.place_market_order(
+                "EURUSD", "bullish", 0.05,
+                stop_loss=1.0990, take_profit=1.1020,
+                max_risk_amount=50.0,
+            )
+        assert mt5.sent == []
+
+
+def test_market_order_blocks_when_broker_margin_check_is_unavailable():
+    mt5 = FakeMT5(trade_mode=0)
+    del mt5.order_check
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    with pytest.raises(RuntimeError, match="order_check is unavailable"):
+        service.place_market_order(
+            "EURUSD", "bullish", 0.05,
+            stop_loss=1.0990, take_profit=1.1020,
+            max_risk_amount=50.0,
+        )
+    assert mt5.sent == []

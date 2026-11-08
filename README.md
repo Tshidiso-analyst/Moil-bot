@@ -112,7 +112,7 @@ The following are non-negotiable:
 3. DEMO order sending requires a separate human-approved DEMO rule and explicit per-order confirmation.
 4. Calendar data must be verified and fresh; high-impact event blackouts block new entries.
 5. Daily trade count, open positions and daily loss must be successfully verified. Missing or malformed MT5 history must block execution, never be treated as zero.
-6. Position sizing must use broker-calculated P/L, broker volume limits and the approved risk budget.
+6. Position sizing must use broker-calculated P/L, broker volume limits and the approved risk budget; the complete request must pass MT5 `order_check` with verified projected free margin before `order_send`.
 7. Stop loss and take profit are mandatory. The final quote-to-stop loss must remain within the approved cash-risk budget.
 8. No unattended or automatic order sending. No REAL-money order execution.
 
