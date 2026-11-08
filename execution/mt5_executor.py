@@ -190,7 +190,12 @@ class MT5ExecutionService:
             "Broker symbol uses market execution but advertises no supported FOK/IOC filling policy."
         )
 
-    def _check_order_request(self, request: dict[str, Any]) -> Any:
+    def _check_order_request(
+        self,
+        request: dict[str, Any],
+        *,
+        require_nonnegative_margin: bool = True,
+    ) -> Any:
         """Require MT5's server-side funds and request validation before sending."""
         checker = getattr(self.mt5, "order_check", None)
         if not callable(checker):
@@ -209,7 +214,7 @@ class MT5ExecutionService:
             projected_free_margin = float(getattr(checked, "margin_free"))
         except (AttributeError, TypeError, ValueError, OverflowError) as exc:
             raise RuntimeError("MT5 pre-check did not return valid projected free margin.") from exc
-        if not isfinite(projected_free_margin) or projected_free_margin < 0:
+        if not isfinite(projected_free_margin) or (require_nonnegative_margin and projected_free_margin < 0):
             raise RuntimeError("MT5 pre-check reports insufficient or invalid free margin.")
         return checked
 
@@ -341,38 +346,114 @@ class MT5ExecutionService:
 
     def close_position(self, ticket: int, *, volume: float | None = None) -> dict[str, Any]:
         self._require_connection()
-        positions = self.mt5.positions_get(ticket=int(ticket))
+        try:
+            ticket_number = int(ticket)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ValueError("Position ticket must be a positive integer.") from exc
+        if ticket_number <= 0:
+            raise ValueError("Position ticket must be a positive integer.")
+
+        positions = self.mt5.positions_get(ticket=ticket_number)
+        if positions is None:
+            raise RuntimeError(f"MT5 position lookup failed: {self.mt5.last_error()}")
         if not positions:
-            raise RuntimeError(f"No open position found for ticket {ticket}.")
+            raise RuntimeError(f"No open position found for ticket {ticket_number}.")
         position = positions[0]
-        close_volume = float(volume) if volume is not None else float(position.volume)
-        if close_volume <= 0 or close_volume > float(position.volume):
-            raise ValueError("Close volume must be positive and no greater than the position volume.")
-        is_buy_position = position.type == self.mt5.POSITION_TYPE_BUY
-        tick = self.mt5.symbol_info_tick(position.symbol)
+        try:
+            original_volume = float(position.volume)
+            close_volume = float(volume) if volume is not None else original_volume
+        except (AttributeError, TypeError, ValueError, OverflowError) as exc:
+            raise RuntimeError("MT5 returned invalid position volume data.") from exc
+        if (
+            not isfinite(original_volume)
+            or original_volume <= 0
+            or not isfinite(close_volume)
+            or close_volume <= 0
+            or close_volume > original_volume
+        ):
+            raise ValueError("Close volume must be finite, positive and no greater than the position volume.")
+
+        symbol = str(getattr(position, "symbol", "") or "").strip()
+        if not symbol:
+            raise RuntimeError("MT5 position has no valid symbol.")
+        position_type = getattr(position, "type", None)
+        if position_type == self.mt5.POSITION_TYPE_BUY:
+            close_type = self.mt5.ORDER_TYPE_SELL
+        elif position_type == getattr(self.mt5, "POSITION_TYPE_SELL", 1):
+            close_type = self.mt5.ORDER_TYPE_BUY
+        else:
+            raise RuntimeError("MT5 position has an unknown direction; close request blocked.")
+
+        symbol_info = self.mt5.symbol_info(symbol)
+        if symbol_info is None:
+            raise RuntimeError(f"MT5 symbol information unavailable for {symbol}; close request blocked.")
+        minimum = float(getattr(symbol_info, "volume_min", 0.0) or 0.0)
+        step = float(getattr(symbol_info, "volume_step", 0.0) or 0.0)
+        if minimum <= 0 or step <= 0 or close_volume < minimum:
+            raise ValueError("Close volume is outside broker minimum/step limits.")
+        steps = round(close_volume / step)
+        if abs(steps * step - close_volume) > max(1e-8, step * 1e-6):
+            raise ValueError("Close volume does not match the broker volume step.")
+
+        tick = self.mt5.symbol_info_tick(symbol)
         if tick is None:
-            raise RuntimeError(f"No live tick available for {position.symbol}.")
+            raise RuntimeError(f"No live tick available for {symbol}.")
+        price = float(tick.bid if position_type == self.mt5.POSITION_TYPE_BUY else tick.ask)
+        if not isfinite(price) or price <= 0:
+            raise RuntimeError(f"MT5 returned an invalid close price for {symbol}.")
         request = {
             "action": self.mt5.TRADE_ACTION_DEAL,
-            "symbol": position.symbol,
+            "symbol": symbol,
             "volume": close_volume,
-            "type": self.mt5.ORDER_TYPE_SELL if is_buy_position else self.mt5.ORDER_TYPE_BUY,
-            "position": int(ticket),
-            "price": float(tick.bid if is_buy_position else tick.ask),
+            "type": close_type,
+            "position": ticket_number,
+            "price": price,
             "deviation": 20,
             "magic": 26001,
             "comment": "Moil-bot DEMO close",
             "type_time": self.mt5.ORDER_TIME_GTC,
-            "type_filling": self._filling_policy(self.mt5.symbol_info(position.symbol)),
+            "type_filling": self._filling_policy(symbol_info),
         }
-        self._check_order_request(request)
+        # Closing reduces exposure. Require a successful broker request check,
+        # but do not block a risk-reducing close solely because projected free
+        # margin remains negative on an already-margined account.
+        self._check_order_request(request, require_nonnegative_margin=False)
         result = self.mt5.order_send(request)
         if result is None or result.retcode not in {
             getattr(self.mt5, "TRADE_RETCODE_DONE", 10009),
             getattr(self.mt5, "TRADE_RETCODE_DONE_PARTIAL", 10010),
         }:
             raise RuntimeError(f"MT5 demo close rejected: {self.mt5.last_error()}")
-        return {"ticket": int(ticket), "closed": True, "retcode": int(result.retcode)}
+
+        reported_volume = getattr(result, "volume", None)
+        if reported_volume is None:
+            if result.retcode == getattr(self.mt5, "TRADE_RETCODE_DONE_PARTIAL", 10010):
+                raise RuntimeError(
+                    f"MT5 reported a partial close without the executed volume "
+                    f"(position={ticket_number}). Inspect the DEMO account before any retry."
+                )
+            executed_volume = close_volume
+        else:
+            try:
+                executed_volume = float(reported_volume)
+            except (TypeError, ValueError, OverflowError) as exc:
+                raise RuntimeError("MT5 returned invalid executed close volume; inspect the DEMO account.") from exc
+            if not isfinite(executed_volume) or executed_volume <= 0 or executed_volume > close_volume:
+                raise RuntimeError("MT5 returned invalid executed close volume; inspect the DEMO account.")
+
+        remaining_volume = max(0.0, original_volume - executed_volume)
+        fully_closed = (
+            result.retcode == getattr(self.mt5, "TRADE_RETCODE_DONE", 10009)
+            and remaining_volume <= max(1e-8, step * 1e-6)
+        )
+        return {
+            "ticket": ticket_number,
+            "closed": fully_closed,
+            "partially_closed": not fully_closed,
+            "volume": executed_volume,
+            "remaining_volume": remaining_volume,
+            "retcode": int(result.retcode),
+        }
 
     def shutdown(self) -> None:
         if self.mt5 is not None:

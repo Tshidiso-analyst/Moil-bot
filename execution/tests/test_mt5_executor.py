@@ -29,6 +29,7 @@ class FakeMT5:
         self.initialize_calls = []
         self.order_checks = []
         self.check_result = SimpleNamespace(retcode=0, margin_free=10000.0, comment="Done")
+        self.position_result = None
         self.info = SimpleNamespace(visible=True, volume_min=0.01, volume_max=10.0, volume_step=0.01)
         self.tick = SimpleNamespace(bid=1.1000, ask=1.1002)
 
@@ -55,6 +56,8 @@ class FakeMT5:
     def positions_get(self, ticket=None):
         if ticket is None:
             return []
+        if self.position_result is not None:
+            return self.position_result
         return [SimpleNamespace(
             ticket=ticket, volume=0.05, type=self.POSITION_TYPE_BUY, symbol="EURUSD"
         )]
@@ -352,3 +355,65 @@ def test_market_execution_without_supported_filling_policy_blocks_order():
 
     assert mt5.order_checks == []
     assert mt5.sent == []
+
+
+def test_close_position_does_not_treat_unavailable_positions_as_missing_ticket():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.position_result = None
+    mt5.positions_get = lambda ticket=None: None
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    with pytest.raises(RuntimeError, match="position lookup failed"):
+        service.close_position(12345)
+
+    assert mt5.sent == []
+
+
+def test_partial_close_reports_executed_and_remaining_volume():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.order_send = lambda request: SimpleNamespace(
+        retcode=mt5.TRADE_RETCODE_DONE_PARTIAL,
+        order=98765,
+        deal=98766,
+        price=request["price"],
+        volume=0.02,
+    )
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    result = service.close_position(12345)
+
+    assert result["closed"] is False
+    assert result["partially_closed"] is True
+    assert result["volume"] == pytest.approx(0.02)
+    assert result["remaining_volume"] == pytest.approx(0.03)
+
+
+def test_partial_close_without_reported_volume_requires_manual_inspection():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.order_send = lambda request: SimpleNamespace(
+        retcode=mt5.TRADE_RETCODE_DONE_PARTIAL,
+        order=98765,
+        deal=98766,
+        price=request["price"],
+    )
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    with pytest.raises(RuntimeError, match="partial close without the executed volume"):
+        service.close_position(12345)
+
+    assert len(mt5.sent) == 1
+
+
+def test_close_position_can_reduce_exposure_when_free_margin_is_negative():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.check_result = SimpleNamespace(retcode=0, margin_free=-25.0, comment="Close allowed")
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    result = service.close_position(12345)
+
+    assert result["closed"] is True
+    assert len(mt5.sent) == 1
