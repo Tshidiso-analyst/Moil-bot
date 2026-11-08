@@ -15,18 +15,22 @@ class FakeMT5:
     def __init__(self, trade_mode=0, deals=()):
         self.trade_mode = trade_mode
         self.deals = deals
+        self.login_calls = []
+        self.requested_server = ""
 
     def initialize(self, **kwargs):
         return True
 
     def login(self, *args, **kwargs):
+        self.login_calls.append((args, kwargs))
+        self.requested_server = str(kwargs.get("server", ""))
         return True
 
     def account_info(self):
         return type("Account", (), {
             "trade_mode": self.trade_mode,
             "login": 12345,
-            "server": "Broker-Demo",
+            "server": self.requested_server or "Broker-Demo",
             "balance": 10000.0,
             "equity": 10000.0,
             "margin_free": 10000.0,
@@ -269,3 +273,57 @@ def test_failed_reconnect_clears_stale_account_state():
     assert result.connected is False
     assert service.connected is False
     assert service.account is None
+
+
+def test_login_passes_exact_server_name_for_multiple_mt5_brokers():
+    server_names = (
+        "Exness-MT5Trial8",
+        "Exness-MT5Real10",
+        "ICMarketsSC-Demo",
+        "Pepperstone-Demo",
+        "FTMO-Demo",
+    )
+    for server in server_names:
+        fake = FakeMT5(trade_mode=0)
+        service = MT5LiveService(mt5_module=fake)
+        result = service.connect(
+            login=12345678,
+            password="test-password",
+            server=f"  {server}  ",
+            requested_mode="DEMO",
+        )
+        assert result.connected is True
+        assert result.server == server
+        assert fake.login_calls[0][1]["server"] == server
+
+
+def test_credentials_login_rejects_missing_server_before_initializing_terminal():
+    fake = FakeMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+
+    result = service.connect(
+        login=12345678,
+        password="test-password",
+        server="   ",
+        requested_mode="DEMO",
+    )
+
+    assert result.connected is False
+    assert "exact MT5 server" in result.message
+    assert fake.login_calls == []
+
+
+def test_credentials_login_rejects_invalid_account_number():
+    fake = FakeMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+
+    result = service.connect(
+        login=0,
+        password="test-password",
+        server="Exness-MT5Trial8",
+        requested_mode="DEMO",
+    )
+
+    assert result.connected is False
+    assert "positive account number" in result.message
+    assert fake.login_calls == []

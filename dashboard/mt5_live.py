@@ -53,6 +53,30 @@ class MT5LiveService:
         if requested not in {"DEMO", "REAL"}:
             self.last_error = "Unsupported account mode. Select DEMO or REAL."
             return MT5ConnectionResult(connected=False, message=self.last_error)
+        if login is not None:
+            try:
+                login_number = int(login)
+            except (TypeError, ValueError, OverflowError):
+                self.last_error = "MT5 login must be a positive account number."
+                return MT5ConnectionResult(connected=False, message=self.last_error)
+            normalized_server = str(server or "").strip()
+            if login_number <= 0:
+                self.last_error = "MT5 login must be a positive account number."
+                return MT5ConnectionResult(connected=False, message=self.last_error)
+            if not password:
+                self.last_error = "Enter the trading password for this MT5 account."
+                return MT5ConnectionResult(connected=False, message=self.last_error)
+            if not normalized_server:
+                self.last_error = (
+                    "Enter the exact MT5 server assigned to this account by the broker. "
+                    "Server names are account-specific; do not guess them."
+                )
+                return MT5ConnectionResult(connected=False, message=self.last_error)
+            if len(normalized_server) > 128 or any(ord(char) < 32 for char in normalized_server):
+                self.last_error = "MT5 server name is invalid."
+                return MT5ConnectionResult(connected=False, message=self.last_error)
+            login = login_number
+            server = normalized_server
         if self.mt5 is None:
             self.last_error = "MetaTrader5 package is not installed in this Python environment."
             return MT5ConnectionResult(connected=False, message=self.last_error)

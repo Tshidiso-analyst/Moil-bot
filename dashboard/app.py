@@ -138,10 +138,12 @@ def connection_form(message: str = "") -> str:
       <form method="POST" action="/connect">
         <label>Account Mode</label>
         <select name="mode"><option value="DEMO">DEMO</option><option value="REAL">REAL</option></select>
-        <p class="muted">Use the account already signed in to your open MT5 terminal, or enter credentials to switch accounts.</p>
-        <label>MT5 Login (optional)</label><input type="number" name="login" placeholder="Leave blank to use the signed-in terminal"/>
-        <label>MT5 Server (optional)</label><input type="text" name="server" placeholder="Required only when entering login credentials"/>
-        <label>Password (optional)</label><input type="password" name="password" placeholder="Required only when entering login credentials"/>
+        <p class="muted">Connect to any broker that provides a MetaTrader 5 account. You can reuse the account already signed in to the local terminal, or enter credentials for another account.</p>
+        <label>MT5 Account Login</label><input type="number" name="login" min="1" step="1" placeholder="Your broker's MT5 account number"/>
+        <label>Broker MT5 Server</label><input type="text" name="server" maxlength="128" autocomplete="off" placeholder="Exact server name from your broker account details"/>
+        <p class="muted">Exness accounts use different assigned servers (for example, Exness-MT5Trial8 or Exness-MT5Real10). Other brokers work too: enter the exact server name shown in that broker's MT5 account details. Do not guess the server.</p>
+        <label>MT5 Trading Password</label><input type="password" name="password" autocomplete="off" placeholder="Trading password for this MT5 account"/>
+        <p class="muted">Leave all three credential fields blank only if you want to use the account already signed in to the open MT5 terminal. Credentials are sent to your local MT5 terminal and are not saved by this form.</p>
         <button type="submit">CONNECT MT5</button>
       </form>
     </div>"""
