@@ -15,3 +15,5 @@ services:
         value: "true"
       - key: MOILBOT_ALLOW_REGISTRATION
         value: "false"
+      - key: MOILBOT_ALERT_STORE
+        value: "postgres"
