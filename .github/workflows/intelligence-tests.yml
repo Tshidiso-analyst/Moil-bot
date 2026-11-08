@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - "codex/**"
   pull_request:
     branches:
       - main
@@ -14,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: moilbot-ci-${{ github.workflow }}-${{ github.ref }}
+  group: moilbot-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
