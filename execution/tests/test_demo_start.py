@@ -425,3 +425,48 @@ def test_demo_start_blocks_non_finite_balance_and_risk_above_one_percent():
     assert "no more than 1%" in excessive_risk.reason
     assert executor.order is None
 
+
+
+
+def test_demo_start_blocks_order_when_strict_entry_confirmation_fails():
+    rules = [{
+        "rule_id": "fvg_ny_1",
+        "name": "NY FVG continuation",
+        "direction": "bullish",
+        "demo_execution_enabled": True,
+        "sources": [{"human_review_confirmed": True, "page": 12}],
+    }]
+    executor = _FakeDemoExecutor()
+    controller = DemoStartController(
+        registry=_FakeRegistry(rules),
+        decision_engine=_FakeDecisionEngine(
+            _FakeAssessment(
+                symbol="EURUSD", direction="bullish", session="new_york",
+                trend="bullish", setup_valid=True, confirmation=True,
+                reasons=["confirmed"], entry=1.15, stop_loss=1.14,
+                take_profit=1.17, risk_percent=0.5,
+            )
+        ),
+        entry_confirmation_evaluator=_RejectingEntryConfirmationEvaluator(),
+    )
+
+    result = controller.start(
+        symbol="EURUSD",
+        dataframe=_sample_frame(),
+        account_mode="DEMO",
+        allow_execution=True,
+        explicit_confirmation=True,
+        proposed_risk_percent=0.5,
+        daily_loss_percent=0.0,
+        open_trades=0,
+        daily_trade_count=0,
+        high_impact_news=False,
+        calendar_verified=True,
+        fundamental_bias="bullish",
+        executor=executor,
+        account_balance=10000.0,
+    )
+
+    assert result.status == "blocked"
+    assert "Strict NYSE entry confirmation failed" in result.reason
+    assert executor.order is None
