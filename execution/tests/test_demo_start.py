@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import pandas as pd
 
 from execution.demo_start import DemoStartController
+from strategy.entry_confirmation import EntryConfirmationEvaluator
 
 
 @dataclass
@@ -175,7 +176,7 @@ class _RecordingEntryConfirmationEvaluator:
 
     def evaluate(self, **kwargs):
         self.kwargs = kwargs
-        return _FakeEntryConfirmation()
+        return EntryConfirmationEvaluator().evaluate(**kwargs)
 
 
 class _FakeDemoExecutor:
@@ -551,5 +552,6 @@ def test_demo_start_requires_explicit_macro_bias_verification():
         executor=_FakeDemoExecutor(), account_balance=10000.0,
     )
 
-    assert result.status == "executed"
+    assert result.status == "blocked"
     assert evaluator.kwargs["macro_bias_valid"] is False
+    assert any("macro bias" in reason for reason in result.reasons)
