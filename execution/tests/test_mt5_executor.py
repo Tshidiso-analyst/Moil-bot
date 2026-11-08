@@ -133,3 +133,50 @@ def test_market_order_rejects_non_finite_broker_loss_calculation():
         )
 
     assert mt5.sent == []
+
+
+
+def test_partial_fill_reports_actual_executed_volume():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.order_send = lambda request: SimpleNamespace(
+        retcode=mt5.TRADE_RETCODE_DONE_PARTIAL,
+        order=98765,
+        deal=98766,
+        price=request["price"],
+        volume=0.02,
+    )
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    result = service.place_market_order(
+        symbol="EURUSD",
+        direction="bullish",
+        volume=0.05,
+        stop_loss=1.0990,
+        take_profit=1.1020,
+        max_risk_amount=50.0,
+    )
+
+    assert result["volume"] == pytest.approx(0.02)
+
+
+def test_partial_fill_without_confirmed_volume_requires_manual_inspection():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.order_send = lambda request: SimpleNamespace(
+        retcode=mt5.TRADE_RETCODE_DONE_PARTIAL,
+        order=98765,
+        deal=98766,
+        price=request["price"],
+    )
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    with pytest.raises(RuntimeError, match="Inspect the DEMO account"):
+        service.place_market_order(
+            symbol="EURUSD",
+            direction="bullish",
+            volume=0.05,
+            stop_loss=1.0990,
+            take_profit=1.1020,
+            max_risk_amount=50.0,
+        )
