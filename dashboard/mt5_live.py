@@ -97,7 +97,12 @@ class MT5LiveService:
             # If credentials are supplied, explicitly log in. Otherwise reuse
             # the account already authenticated in the running MT5 terminal.
             if login is not None:
-                if not self.mt5.login(int(login), password=password, server=server, timeout=60000):
+                login_options = {"password": password, "timeout": 60000}
+                # Omit the server argument when the selected terminal already
+                # has this account's server configured; MT5 then uses its saved server.
+                if server:
+                    login_options["server"] = server
+                if not self.mt5.login(int(login), **login_options):
                     self.last_error = f"MT5 login failed: {self.mt5.last_error()}"
                     self.mt5.shutdown()
                     self.connected = False
