@@ -1,14 +1,19 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from math import isfinite
-from typing import Any, Callable
+from typing import Any, Callable, Iterable
 
 import pandas as pd
 
+from analysis.smc_patterns import analyze_market_context
+from fundamentals.event_risk import EconomicEvent
+
 from strategy.rule_registry import StrategyRuleRegistry
 from strategy.trade_decision import TradeDecisionEngine
+from strategy.entry_confirmation import EntryConfirmationEvaluator
 from risk.trade_guard import TradeGuard
 
 
@@ -48,9 +53,11 @@ class DemoStartController:
         registry: StrategyRuleRegistry | None = None,
         decision_engine: TradeDecisionEngine | None = None,
         registry_factory: Callable[[], StrategyRuleRegistry] | None = None,
+        entry_confirmation_evaluator: EntryConfirmationEvaluator | None = None,
     ):
         self._registry = registry
         self._registry_factory = registry_factory
+        self.entry_confirmation_evaluator = entry_confirmation_evaluator or EntryConfirmationEvaluator()
         self.decision_engine = decision_engine or TradeDecisionEngine(
             risk_guard=TradeGuard(
                 max_risk_per_trade=1.0,
@@ -108,6 +115,8 @@ class DemoStartController:
         executor: Any | None = None,
         volume: float | None = None,
         account_balance: float | None = None,
+        events: Iterable[EconomicEvent] = (),
+        assessed_at: datetime | None = None,
     ) -> DemoStartResult:
         clean_symbol = str(symbol or "").strip().upper()
         if not clean_symbol:
@@ -276,15 +285,78 @@ class DemoStartController:
                 dry_run=True,
             )
 
+        # MT5 history includes the currently forming candle. Use only completed
+        # candles for decision and entry-confirmation evidence.
+        analysis_frame = dataframe.iloc[:-1].copy() if len(dataframe) > 2 else dataframe.copy()
         assessment = self.decision_engine.assess(
             symbol=clean_symbol,
-            dataframe=dataframe,
+            dataframe=analysis_frame,
             fundamental_bias=fundamental_bias,
             proposed_risk_percent=proposed_risk_percent,
             daily_loss_percent=float(daily_loss_percent) if daily_loss_percent is not None else 0.0,
             open_trades=int(open_trades) if open_trades is not None else 0,
             high_impact_news=high_impact_news,
         )
+
+        if allow_execution:
+            context = analyze_market_context(analysis_frame)
+            latest_sweep = context.liquidity[-1] if context.liquidity else None
+            sweep_reversal_direction = (
+                "bullish" if latest_sweep and latest_sweep.direction == "sell_side"
+                else "bearish" if latest_sweep and latest_sweep.direction == "buy_side"
+                else "neutral"
+            )
+            latest_bos = context.bos[-1] if context.bos else {}
+            fvg_retracement_confirmed = False
+            if not analysis_frame.empty:
+                last_candle = analysis_frame.iloc[-1]
+                for gap in reversed(context.fair_value_gaps):
+                    if gap.direction != assessment.direction or gap.index >= len(analysis_frame) - 1:
+                        continue
+                    overlaps_gap = (
+                        float(last_candle["low"]) <= gap.upper
+                        and float(last_candle["high"]) >= gap.lower
+                    )
+                    closes_with_direction = (
+                        float(last_candle["close"]) > float(last_candle["open"])
+                        and float(last_candle["close"]) >= gap.lower
+                        if assessment.direction == "bullish"
+                        else float(last_candle["close"]) < float(last_candle["open"])
+                        and float(last_candle["close"]) <= gap.upper
+                    )
+                    if overlaps_gap and closes_with_direction:
+                        fvg_retracement_confirmed = True
+                        break
+
+            confirmation = self.entry_confirmation_evaluator.evaluate(
+                symbol=clean_symbol,
+                direction=assessment.direction,
+                assessed_at=assessed_at or datetime.now(timezone.utc),
+                event_calendar_verified=calendar_verified,
+                events=events,
+                macro_bias_valid=(
+                    fundamental_bias in {"bullish", "bearish"}
+                    and fundamental_bias == assessment.direction
+                ),
+                daily_trade_count=int(daily_trade_count or 0),
+                risk_percent=proposed_risk_percent,
+                liquidity_sweep_confirmed=latest_sweep is not None,
+                sweep_reversal_direction=sweep_reversal_direction,
+                bos_direction=str(latest_bos.get("direction") or "neutral"),
+                bos_body_close_confirmed=bool(latest_bos),
+                fvg_retracement_confirmed=fvg_retracement_confirmed,
+            )
+            if not confirmation.qualified:
+                return DemoStartResult(
+                    symbol=clean_symbol,
+                    mode=mode,
+                    status="blocked",
+                    allowed=False,
+                    direction=assessment.direction,
+                    reason="Strict NYSE entry confirmation failed; no DEMO order was sent.",
+                    reasons=list(assessment.reasons) + list(confirmation.reasons),
+                    dry_run=True,
+                )
 
         matched = self._match_rule(assessment.direction, rules)
         if matched is None:
