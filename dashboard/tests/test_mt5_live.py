@@ -16,6 +16,7 @@ class FakeMT5:
         self.trade_mode = trade_mode
         self.deals = deals
         self.login_calls = []
+        self.history_ranges = []
         self.requested_server = ""
         self.requested_login = None
         self.initialize_calls = []
@@ -43,9 +44,9 @@ class FakeMT5:
         })()
 
     def history_deals_get(self, start, end):
-        assert start.hour == 0 and start.minute == 0
         assert start.tzinfo == timezone.utc
         assert end.tzinfo == timezone.utc
+        self.history_ranges.append((start, end))
         return self.deals
 
     def positions_get(self):
@@ -387,3 +388,35 @@ def test_connection_rejects_terminal_account_identity_mismatch():
     assert "identity does not match" in result.message
     assert service.connected is False
     assert service.account is None
+
+
+def test_daily_trade_history_starts_at_new_york_midnight_not_utc_midnight():
+    now = datetime(2026, 11, 8, 4, 45, tzinfo=timezone.utc)
+    fake = FakeMT5(deals=[])
+    service = MT5LiveService(mt5_module=fake)
+    service.connected = True
+
+    assert service.today_entry_count(now=now) == 0
+    start, end = fake.history_ranges[-1]
+    assert start == datetime(2026, 11, 7, 5, 0, tzinfo=timezone.utc)
+    assert end == now
+
+
+def test_daily_loss_history_uses_same_new_york_midnight_boundary():
+    now = datetime(2026, 11, 8, 4, 45, tzinfo=timezone.utc)
+    fake = FakeMT5(deals=[])
+    service = MT5LiveService(mt5_module=fake)
+    service.connected = True
+
+    service.today_loss_percent(now=now)
+    start, end = fake.history_ranges[-1]
+    assert start == datetime(2026, 11, 7, 5, 0, tzinfo=timezone.utc)
+    assert end == now
+
+
+def test_new_york_trading_window_handles_daylight_saving_transition():
+    # 06:30 UTC on the 2026 fall-back date is 01:30 EST in New York.
+    now = datetime(2026, 11, 1, 6, 30, tzinfo=timezone.utc)
+    start, end = MT5LiveService._new_york_trading_window(now)
+    assert start == datetime(2026, 11, 1, 4, 0, tzinfo=timezone.utc)
+    assert end == now

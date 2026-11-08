@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 from math import isfinite
 from dataclasses import dataclass, field
 from typing import Any
@@ -297,7 +298,20 @@ class MT5LiveService:
             self.last_error = f"MT5 positions lookup failed: {exc}"
             raise RuntimeError(self.last_error) from exc
 
-    def today_entry_count(self) -> int:
+    @staticmethod
+    def _new_york_trading_window(now: datetime | None = None) -> tuple[datetime, datetime]:
+        """Return today's New York midnight and now as UTC MT5 history bounds."""
+        checked_at = now or datetime.now(timezone.utc)
+        if checked_at.tzinfo is None or checked_at.utcoffset() is None:
+            raise ValueError("now must be timezone-aware.")
+        utc_now = checked_at.astimezone(timezone.utc)
+        new_york = ZoneInfo("America/New_York")
+        local_midnight = utc_now.astimezone(new_york).replace(
+            hour=0, minute=0, second=0, microsecond=0
+        )
+        return local_midnight.astimezone(timezone.utc), utc_now
+
+    def today_entry_count(self, now: datetime | None = None) -> int:
         """Count today's opening deals across the connected account.
 
         If MT5 cannot provide deal history, fail closed instead of silently
@@ -308,11 +322,9 @@ class MT5LiveService:
         history = getattr(self.mt5, "history_deals_get", None)
         if history is None:
             raise RuntimeError("This MT5 package cannot verify today's trade count.")
-        # MetaTrader5 history date arguments are UTC. Use a UTC trading day
-        # consistently instead of the Windows host local timezone.
-        now = datetime.now(timezone.utc)
-        start = now.replace(hour=0, minute=0, second=0, microsecond=0)
-        deals = history(start, now)
+        # MT5 history arguments are UTC, but the strategy's trading day is New York.
+        start, end = self._new_york_trading_window(now)
+        deals = history(start, end)
         if deals is None:
             raise RuntimeError(f"MT5 could not verify today's deal history: {self.mt5.last_error()}")
         entry_values = {
@@ -335,17 +347,16 @@ class MT5LiveService:
                 count += 1
         return count
 
-    def today_loss_percent(self) -> float:
+    def today_loss_percent(self, now: datetime | None = None) -> float:
         """Estimate today's realized plus floating trading loss as % of start balance."""
         if self.mt5 is None or not self.connected:
             raise RuntimeError("MT5 must be connected to verify today's loss limit.")
         history = getattr(self.mt5, "history_deals_get", None)
         if history is None:
             raise RuntimeError("This MT5 package cannot verify today's loss.")
-        # Use the same UTC day boundary as the entry-count guard.
-        now = datetime.now(timezone.utc)
-        start = now.replace(hour=0, minute=0, second=0, microsecond=0)
-        deals = history(start, now)
+        # Use the same New York trading-day boundary as the entry-count guard.
+        start, end = self._new_york_trading_window(now)
+        deals = history(start, end)
         if deals is None:
             raise RuntimeError(f"MT5 could not verify today's P/L history: {self.mt5.last_error()}")
 
