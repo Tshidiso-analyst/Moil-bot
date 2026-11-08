@@ -46,7 +46,7 @@ def test_login_throttle_blocks_after_five_failures_and_can_reset():
     clear_login_failures(client_ip)
 
     assert login_rate_limited(client_ip) is False
-    for _ in range(5):
+    for _ in range(4):
         assert login_rate_limited(client_ip) is False
 
     assert login_rate_limited(client_ip) is True
