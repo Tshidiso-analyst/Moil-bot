@@ -59,3 +59,51 @@ def test_mt5_credentials_accept_exact_server_for_any_broker():
         "password": "trading-password",
         "server": "BrokerName-Live42",
     }) == (12345678, "trading-password", "BrokerName-Live42")
+
+
+def test_mt5_broker_directory_launches_selected_terminal_without_shell(tmp_path, monkeypatch):
+    import dashboard.app as dashboard_app
+
+    terminal = tmp_path / "Broker MT5" / "terminal64.exe"
+    terminal.parent.mkdir()
+    terminal.write_text("test executable placeholder")
+    calls = []
+    monkeypatch.setattr(dashboard_app.subprocess, "Popen", lambda args, **kwargs: calls.append((args, kwargs)))
+
+    dashboard_app.launch_mt5_broker_directory(str(terminal))
+
+    assert calls == [([str(terminal)], {"shell": False, "close_fds": True})]
+
+
+def test_mt5_broker_directory_rejects_non_terminal_executable(tmp_path):
+    from dashboard.app import launch_mt5_broker_directory
+
+    executable = tmp_path / "powershell.exe"
+    executable.write_text("placeholder")
+    try:
+        launch_mt5_broker_directory(str(executable))
+    except ValueError as exc:
+        assert "terminal64.exe" in str(exc)
+    else:
+        raise AssertionError("Broker search must only launch a MetaTrader terminal executable.")
+
+
+def test_mt5_broker_directory_rejects_missing_terminal(tmp_path):
+    from dashboard.app import launch_mt5_broker_directory
+
+    missing = tmp_path / "terminal64.exe"
+    try:
+        launch_mt5_broker_directory(str(missing))
+    except FileNotFoundError as exc:
+        assert "terminal was not found" in str(exc)
+    else:
+        raise AssertionError("A missing MT5 terminal must produce a clear error.")
+
+
+def test_connection_page_exposes_native_broker_server_search():
+    from dashboard.app import connection_form
+
+    page = connection_form()
+    assert 'action="/broker_search"' in page
+    assert "File &gt; Open an Account" in page
+    assert "Exness" in page
