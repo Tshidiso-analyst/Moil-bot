@@ -456,7 +456,6 @@ def test_demo_start_blocks_order_when_strict_entry_confirmation_fails():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
-        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -502,7 +501,6 @@ def test_demo_start_blocks_neutral_direction_without_raising():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
-        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -540,7 +538,6 @@ def test_demo_start_requires_explicit_macro_bias_verification():
     }]
     evaluator = _RecordingEntryConfirmationEvaluator()
     controller = DemoStartController(
-        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
