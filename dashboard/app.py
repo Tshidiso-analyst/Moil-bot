@@ -91,6 +91,10 @@ def nav_layout(title: str, content: str, active: str = "Overview") -> str:
         if SESSION.get("connected") and SESSION.get("account")
         else '<span class="status offline">MT5 Offline</span>'
     )
+    auth_controls = (
+        '<form method="POST" action="/logout"><button type="submit">SIGN OUT</button></form>'
+        if AUTH_REQUIRED else ""
+    )
     return f"""<!doctype html>
 <html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Moil Bot — {esc(title)}</title>
@@ -114,7 +118,7 @@ table{{width:100%;border-collapse:collapse}}
 th,td{{border-bottom:1px solid #243b53;padding:8px;text-align:left}}
 .danger{{color:#ff8c8c}}
 </style></head>
-<body><div class="shell"><aside class="sidebar"><h1>MOIL BOT</h1><nav class="nav">{nav}</nav><div>{status}</div></aside>
+<body><div class="shell"><aside class="sidebar"><h1>MOIL BOT</h1><nav class="nav">{nav}</nav><div>{status}{auth_controls}</div></aside>
 <main class="main"><h2>{esc(title)}</h2>{content}</main></div></body></html>"""
 
 
