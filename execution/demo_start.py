@@ -8,7 +8,7 @@ from typing import Any, Callable, Iterable
 
 import pandas as pd
 
-from analysis.smc_patterns import analyze_market_context
+from analysis.smc_patterns import analyze_market_context, find_liquidity_sweeps
 from fundamentals.event_risk import EconomicEvent
 
 from strategy.rule_registry import StrategyRuleRegistry
@@ -313,7 +313,10 @@ class DemoStartController:
 
         if allow_execution:
             context = analyze_market_context(analysis_frame)
-            latest_sweep = context.liquidity[-1] if context.liquidity else None
+            # The MT5 dataframe includes its current forming candle; the sweep
+            # detector intentionally excludes that final row.
+            completed_sweeps = find_liquidity_sweeps(dataframe)
+            latest_sweep = completed_sweeps[-1] if completed_sweeps else None
             sweep_reversal_direction = (
                 "bullish" if latest_sweep and latest_sweep.direction == "sell_side"
                 else "bearish" if latest_sweep and latest_sweep.direction == "buy_side"
