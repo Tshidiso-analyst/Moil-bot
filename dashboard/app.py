@@ -3,6 +3,7 @@ from __future__ import annotations
 import html
 import ipaddress
 import os
+import threading
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
@@ -32,6 +33,8 @@ CLOUD_MODE = os.environ.get("MOILBOT_CLOUD_MODE", "").lower() in {"1", "true", "
 mt5_service = MT5LiveService()
 alert_engine = AlertEngine()
 calendar_monitor = EconomicCalendarMonitor(alert_engine=alert_engine)
+
+DEMO_START_LOCK = threading.Lock()
 
 SESSION: dict[str, Any] = {
     "connected": False,
@@ -372,85 +375,86 @@ class MoilBotHandler(BaseHTTPRequestHandler):
             return
 
         if path == "/demo_start":
-            symbol = (form.get("symbol") or "EURUSD").strip().upper()
-            execute_demo = form.get("execute_demo") == "yes"
-            if not SESSION.get("connected"):
-                self.redirect("/strategy?notice=" + urllib.parse.quote("Connect MT5 before Demo Start."))
-                return
-            account = get_account()
-            actual_mode = str(getattr(account, "account_type", "") or SESSION.get("mode") or "UNKNOWN").upper()
-            if execute_demo and (
-                not self.is_local_dashboard_request()
-                or actual_mode != "DEMO"
-                or str(SESSION.get("mode") or "").upper() != "DEMO"
-                or form.get("confirm_demo_order") != "yes"
-            ):
-                self.redirect("/strategy?notice=" + urllib.parse.quote("Order blocked: verified DEMO account and explicit order confirmation are required."))
-                return
-            try:
-                calendar_verified = calendar_monitor.is_verified()
-                high_impact_news = (
-                    calendar_monitor.has_active_high_impact(symbol)
-                    or calendar_monitor.has_high_impact_today(symbol)
-                )
-                if execute_demo and not calendar_verified:
-                    raise RuntimeError("Economic calendar is not verified or is stale; demo execution is blocked.")
-                if execute_demo and high_impact_news:
-                    raise RuntimeError("High-impact economic event blackout is active for this symbol.")
-                today_entries = mt5_service.today_entry_count() if execute_demo else 0
-                if execute_demo and today_entries >= 1:
-                    raise RuntimeError("One-trade-per-day limit reached. No additional order will be sent today.")
-                if execute_demo and mt5_service.open_trade_count() >= 1:
-                    raise RuntimeError("An MT5 position is already open. Close/manage it before another entry.")
-                pipeline = RealtimeTradingPipeline()
-                actual_symbol, datasets = pipeline._build_datasets(symbol)
-                frame = datasets.get("M15")
-                if frame is None or getattr(frame, "empty", True):
-                    raise ValueError(f"No M15 data available for {symbol}.")
-                if "timestamp" not in frame.columns and "time" in frame.columns:
-                    frame = frame.copy()
-                    frame["timestamp"] = frame["time"]
-                executor = None
-                if execute_demo:
-                    executor = MT5ExecutionService(mt5_module=mt5_service.mt5)
-                    executor.adopt_existing_connection()
-                result = DemoStartController().start(
-                    symbol=actual_symbol,
-                    dataframe=frame,
-                    account_mode=actual_mode,
-                    allow_execution=execute_demo,
-                    proposed_risk_percent=0.5,
-                    daily_loss_percent=mt5_service.today_loss_percent() if execute_demo else 0.0,
-                    open_trades=mt5_service.open_trade_count(),
-                    daily_trade_count=today_entries,
-                    fundamental_bias="neutral",
-                    high_impact_news=high_impact_news,
-                    calendar_verified=calendar_verified,
-                    explicit_confirmation=(
-                        execute_demo and form.get("confirm_demo_order") == "yes"
-                    ),
-                    executor=executor,
-                    account_balance=float(account.balance),
-                )
-                SESSION["last_demo_start"] = {
-                    "status": result.status,
-                    "direction": result.direction,
-                    "reason": result.reason,
-                    "rule_id": result.rule_id,
-                    "rule_name": result.rule_name,
-                    "dry_run": result.dry_run,
-                    "symbol": result.symbol,
-                    "order_ticket": result.order_ticket,
-                }
+            with DEMO_START_LOCK:
+                symbol = (form.get("symbol") or "EURUSD").strip().upper()
+                execute_demo = form.get("execute_demo") == "yes"
+                if not SESSION.get("connected"):
+                    self.redirect("/strategy?notice=" + urllib.parse.quote("Connect MT5 before Demo Start."))
+                    return
+                account = get_account()
+                actual_mode = str(getattr(account, "account_type", "") or SESSION.get("mode") or "UNKNOWN").upper()
+                if execute_demo and (
+                    not self.is_local_dashboard_request()
+                    or actual_mode != "DEMO"
+                    or str(SESSION.get("mode") or "").upper() != "DEMO"
+                    or form.get("confirm_demo_order") != "yes"
+                ):
+                    self.redirect("/strategy?notice=" + urllib.parse.quote("Order blocked: verified DEMO account and explicit order confirmation are required."))
+                    return
                 try:
-                    post_demo_start_result(result)
-                except Exception:
-                    pass
-                notice = result.reason
-            except Exception as exc:
-                notice = f"Demo Start failed: {exc}"
-            self.redirect("/strategy?notice=" + urllib.parse.quote(notice))
-            return
+                    calendar_verified = calendar_monitor.is_verified()
+                    high_impact_news = (
+                        calendar_monitor.has_active_high_impact(symbol)
+                        or calendar_monitor.has_high_impact_today(symbol)
+                    )
+                    if execute_demo and not calendar_verified:
+                        raise RuntimeError("Economic calendar is not verified or is stale; demo execution is blocked.")
+                    if execute_demo and high_impact_news:
+                        raise RuntimeError("High-impact economic event blackout is active for this symbol.")
+                    today_entries = mt5_service.today_entry_count() if execute_demo else 0
+                    if execute_demo and today_entries >= 1:
+                        raise RuntimeError("One-trade-per-day limit reached. No additional order will be sent today.")
+                    if execute_demo and mt5_service.open_trade_count() >= 1:
+                        raise RuntimeError("An MT5 position is already open. Close/manage it before another entry.")
+                    pipeline = RealtimeTradingPipeline()
+                    actual_symbol, datasets = pipeline._build_datasets(symbol)
+                    frame = datasets.get("M15")
+                    if frame is None or getattr(frame, "empty", True):
+                        raise ValueError(f"No M15 data available for {symbol}.")
+                    if "timestamp" not in frame.columns and "time" in frame.columns:
+                        frame = frame.copy()
+                        frame["timestamp"] = frame["time"]
+                    executor = None
+                    if execute_demo:
+                        executor = MT5ExecutionService(mt5_module=mt5_service.mt5)
+                        executor.adopt_existing_connection()
+                    result = DemoStartController().start(
+                        symbol=actual_symbol,
+                        dataframe=frame,
+                        account_mode=actual_mode,
+                        allow_execution=execute_demo,
+                        proposed_risk_percent=0.5,
+                        daily_loss_percent=mt5_service.today_loss_percent() if execute_demo else 0.0,
+                        open_trades=mt5_service.open_trade_count(),
+                        daily_trade_count=today_entries,
+                        fundamental_bias="neutral",
+                        high_impact_news=high_impact_news,
+                        calendar_verified=calendar_verified,
+                        explicit_confirmation=(
+                            execute_demo and form.get("confirm_demo_order") == "yes"
+                        ),
+                        executor=executor,
+                        account_balance=float(account.balance),
+                    )
+                    SESSION["last_demo_start"] = {
+                        "status": result.status,
+                        "direction": result.direction,
+                        "reason": result.reason,
+                        "rule_id": result.rule_id,
+                        "rule_name": result.rule_name,
+                        "dry_run": result.dry_run,
+                        "symbol": result.symbol,
+                        "order_ticket": result.order_ticket,
+                    }
+                    try:
+                        post_demo_start_result(result)
+                    except Exception:
+                        pass
+                    notice = result.reason
+                except Exception as exc:
+                    notice = f"Demo Start failed: {exc}"
+                self.redirect("/strategy?notice=" + urllib.parse.quote(notice))
+                return
 
         if path != "/connect":
             self.send_html("<h1>404</h1>", 404)
