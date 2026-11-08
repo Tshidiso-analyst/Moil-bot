@@ -38,8 +38,8 @@ class DemoStartController:
     - Never auto-starts; caller must invoke start(...).
     - Uses only human-reviewed registry rules (sources marked reviewed).
     - Does not enable live/real-money trading.
-    - Default is dry-run planning; order send requires allow_execution=True
-      and a confirmed demo account mode.
+    - Default is dry-run planning; order send requires allow_execution=True,
+      an explicit confirmation, and a verified demo account mode.
     """
 
     def __init__(
@@ -97,6 +97,7 @@ class DemoStartController:
         dataframe: pd.DataFrame,
         account_mode: str = "DEMO",
         allow_execution: bool = False,
+        explicit_confirmation: bool = False,
         proposed_risk_percent: float = 0.5,
         daily_loss_percent: float | None = None,
         open_trades: int | None = None,
@@ -135,6 +136,17 @@ class DemoStartController:
                     f"Start is blocked for account mode '{mode}'. "
                     "Only DEMO/PAPER accounts are allowed."
                 ),
+                dry_run=True,
+            )
+
+        if allow_execution and explicit_confirmation is not True:
+            return DemoStartResult(
+                symbol=clean_symbol,
+                mode=mode,
+                status="blocked",
+                allowed=False,
+                direction="neutral",
+                reason="Explicit DEMO order confirmation is required; no order was sent.",
                 dry_run=True,
             )
 
