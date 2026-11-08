@@ -112,6 +112,7 @@ class DemoStartController:
         high_impact_news: bool = False,
         calendar_verified: bool = False,
         fundamental_bias: str = "neutral",
+        macro_bias_verified: bool = False,
         executor: Any | None = None,
         volume: float | None = None,
         account_balance: float | None = None,
@@ -347,7 +348,8 @@ class DemoStartController:
                 event_calendar_verified=calendar_verified,
                 events=events,
                 macro_bias_valid=(
-                    fundamental_bias in {"bullish", "bearish"}
+                    macro_bias_verified is True
+                    and fundamental_bias in {"bullish", "bearish"}
                     and fundamental_bias == assessment.direction
                 ),
                 daily_trade_count=int(daily_trade_count or 0),
