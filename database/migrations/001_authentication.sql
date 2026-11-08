@@ -1,8 +1,8 @@
+BEGIN;
+
 -- Moil-bot authentication schema (PostgreSQL)
 -- Apply once to the configured database before enabling MOILBOT_AUTH_REQUIRED.
 -- This migration intentionally contains only tables used by auth.repository.UserRepository.
-
-BEGIN;
 
 CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
