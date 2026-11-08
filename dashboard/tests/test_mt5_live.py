@@ -243,3 +243,29 @@ def test_today_loss_fails_closed_on_malformed_deal_type():
         assert "malformed deal history" in str(exc)
     else:
         raise AssertionError("Malformed deal history must block daily risk verification.")
+
+def test_connection_rejects_unsupported_requested_account_mode():
+    fake = FakeMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+
+    result = service.connect(requested_mode="CONTEST")
+
+    assert result.connected is False
+    assert "Select DEMO or REAL" in result.message
+    assert service.connected is False
+
+
+def test_failed_reconnect_clears_stale_account_state():
+    class FailedInitializeMT5(FakeMT5):
+        def initialize(self, **kwargs):
+            return False
+
+    service = MT5LiveService(mt5_module=FailedInitializeMT5())
+    service.connected = True
+    service.account = object()
+
+    result = service.connect(requested_mode="DEMO")
+
+    assert result.connected is False
+    assert service.connected is False
+    assert service.account is None
