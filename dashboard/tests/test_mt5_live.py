@@ -277,22 +277,23 @@ def test_failed_reconnect_clears_stale_account_state():
 
 def test_login_passes_exact_server_name_for_multiple_mt5_brokers():
     server_names = (
-        "Exness-MT5Trial8",
-        "Exness-MT5Real10",
-        "ICMarketsSC-Demo",
-        "Pepperstone-Demo",
-        "FTMO-Demo",
+        ("Exness-MT5Trial8", 0, "DEMO"),
+        ("Exness-MT5Real10", 2, "REAL"),
+        ("ICMarketsSC-Demo", 0, "DEMO"),
+        ("Pepperstone-Demo", 0, "DEMO"),
+        ("FTMO-Demo", 0, "DEMO"),
     )
-    for server in server_names:
-        fake = FakeMT5(trade_mode=0)
+    for server, trade_mode, requested_mode in server_names:
+        fake = FakeMT5(trade_mode=trade_mode)
         service = MT5LiveService(mt5_module=fake)
         result = service.connect(
             login=12345678,
             password="test-password",
             server=f"  {server}  ",
-            requested_mode="DEMO",
+            requested_mode=requested_mode,
         )
         assert result.connected is True
+        assert result.account_type == requested_mode
         assert result.server == server
         assert fake.login_calls[0][1]["server"] == server
 

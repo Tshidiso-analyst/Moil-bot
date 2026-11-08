@@ -77,6 +77,30 @@ def parse_form(body: bytes) -> dict[str, str]:
     return {key: values[0] if values else "" for key, values in data.items()}
 
 
+def parse_mt5_credentials(form: dict[str, str]) -> tuple[int | None, str, str]:
+    """Return either no credentials or a complete, validated MT5 credential set."""
+    raw_login = (form.get("login") or "").strip()
+    password = form.get("password") or ""
+    server = (form.get("server") or "").strip()
+    if not any((raw_login, password, server)):
+        return None, "", ""
+    if not all((raw_login, password, server)):
+        raise ValueError(
+            "To switch MT5 accounts, provide the account number, trading password, "
+            "and exact broker server together. Leave all three blank to reuse the "
+            "account already signed in to the terminal."
+        )
+    try:
+        login = int(raw_login)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("MT5 login must be a positive account number.") from exc
+    if login <= 0:
+        raise ValueError("MT5 login must be a positive account number.")
+    if len(server) > 128 or any(ord(char) < 32 for char in server):
+        raise ValueError("MT5 server name is invalid.")
+    return login, password, server
+
+
 def nav_layout(title: str, content: str, active: str = "Overview") -> str:
     items = [
         ("Overview", "/"),
@@ -671,13 +695,9 @@ class MoilBotHandler(BaseHTTPRequestHandler):
             return
         try:
             mode = (form.get("mode") or "DEMO").upper()
-            raw_login = (form.get("login") or "").strip()
-            password = form.get("password") or ""
-            server = (form.get("server") or "").strip()
-            if raw_login and (not password or not server):
-                raise ValueError("Enter the MT5 password and server with the login, or leave all three blank to use the signed-in terminal.")
+            login, password, server = parse_mt5_credentials(form)
             result = mt5_service.connect(
-                login=int(raw_login) if raw_login else None,
+                login=login,
                 password=password,
                 server=server,
                 requested_mode=mode,

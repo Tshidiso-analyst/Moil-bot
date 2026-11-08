@@ -21,8 +21,13 @@ class FakeMT5:
     def __init__(self, trade_mode=0):
         self.trade_mode = trade_mode
         self.sent = []
+        self.initialize_calls = []
         self.info = SimpleNamespace(visible=True, volume_min=0.01, volume_max=10.0, volume_step=0.01)
         self.tick = SimpleNamespace(bid=1.1000, ask=1.1002)
+
+    def initialize(self, **kwargs):
+        self.initialize_calls.append(kwargs)
+        return True
 
     def account_info(self):
         return SimpleNamespace(trade_mode=self.trade_mode, login=12345, server="Broker-Demo")
@@ -180,3 +185,25 @@ def test_partial_fill_without_confirmed_volume_requires_manual_inspection():
             take_profit=1.1020,
             max_risk_amount=50.0,
         )
+
+
+def test_execution_connect_accepts_exact_server_for_any_mt5_broker():
+    for server in ("Exness-MT5Trial8", "ICMarketsSC-Demo", "Pepperstone-Demo"):
+        mt5 = FakeMT5(trade_mode=0)
+        service = MT5ExecutionService(mt5)
+        result = service.connect(12345, "demo-password", f" {server} ")
+        assert result["connected"] is True
+        assert mt5.initialize_calls[0]["server"] == server
+
+
+def test_execution_connect_rejects_missing_or_invalid_credentials_before_initialize():
+    for login, password, server in (
+        (0, "password", "Broker-Demo"),
+        (12345, "", "Broker-Demo"),
+        (12345, "password", "  "),
+    ):
+        mt5 = FakeMT5(trade_mode=0)
+        service = MT5ExecutionService(mt5)
+        result = service.connect(login, password, server)
+        assert result["connected"] is False
+        assert mt5.initialize_calls == []

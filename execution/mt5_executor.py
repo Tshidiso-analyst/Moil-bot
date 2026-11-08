@@ -66,6 +66,18 @@ class MT5ExecutionService:
         path: str | None = None,
     ) -> dict[str, Any]:
         try:
+            account_number = int(login)
+        except (TypeError, ValueError, OverflowError):
+            return {"connected": False, "message": "MT5 login must be a positive account number."}
+        normalized_server = str(server or "").strip()
+        if account_number <= 0 or not str(password or "") or not normalized_server:
+            return {
+                "connected": False,
+                "message": "Provide a positive MT5 login, trading password and exact broker server.",
+            }
+        if len(normalized_server) > 128 or any(ord(char) < 32 for char in normalized_server):
+            return {"connected": False, "message": "MT5 server name is invalid."}
+        try:
             if self.mt5 is None:
                 import MetaTrader5 as mt5
                 self.mt5 = mt5
@@ -77,7 +89,7 @@ class MT5ExecutionService:
                 self.mt5.shutdown()
             except Exception:
                 pass
-            kwargs = {"login": int(login), "password": str(password), "server": str(server)}
+            kwargs = {"login": account_number, "password": str(password), "server": normalized_server}
             if path:
                 kwargs["path"] = str(path)
             if not self.mt5.initialize(**kwargs):

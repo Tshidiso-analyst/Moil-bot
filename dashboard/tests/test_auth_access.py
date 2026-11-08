@@ -5,6 +5,7 @@ from dashboard.app import (
     MoilBotHandler,
     clear_login_failures,
     login_rate_limited,
+    parse_mt5_credentials,
 )
 
 
@@ -65,3 +66,41 @@ def test_login_throttle_is_atomic_under_concurrent_attempts():
     assert allowed.count(False) == 5
     assert allowed.count(True) == 7
     clear_login_failures(client_ip)
+
+
+def test_mt5_credentials_require_all_three_fields_or_none():
+    assert parse_mt5_credentials({}) == (None, "", "")
+    assert parse_mt5_credentials({
+        "login": "12345678",
+        "password": "secret",
+        "server": " Exness-MT5Trial8 ",
+    }) == (12345678, "secret", "Exness-MT5Trial8")
+
+    for partial in (
+        {"login": "12345678"},
+        {"password": "secret"},
+        {"server": "Exness-MT5Trial8"},
+        {"login": "12345678", "password": "secret"},
+        {"login": "12345678", "server": "Exness-MT5Trial8"},
+        {"password": "secret", "server": "Exness-MT5Trial8"},
+    ):
+        try:
+            parse_mt5_credentials(partial)
+        except ValueError as exc:
+            assert "provide the account number" in str(exc)
+        else:
+            raise AssertionError("Partial MT5 credentials must never fall back to another signed-in account.")
+
+
+def test_mt5_credentials_reject_non_positive_account_numbers():
+    for login in ("0", "-1", "not-a-number"):
+        try:
+            parse_mt5_credentials({
+                "login": login,
+                "password": "secret",
+                "server": "Exness-MT5Trial8",
+            })
+        except ValueError as exc:
+            assert "positive account number" in str(exc)
+        else:
+            raise AssertionError("Invalid MT5 account numbers must be rejected.")
