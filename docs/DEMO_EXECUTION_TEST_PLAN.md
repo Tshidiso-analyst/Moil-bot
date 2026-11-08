@@ -58,7 +58,7 @@ every order and close request.
    folder, enter that terminal's `terminal64.exe` path in the optional terminal
    path field. The server name must be copied from the broker account details;
    do not guess a numbered server. If MT5 reports a different login/server or a
-   REAL, CONTEST, or unknown account type, the DEMO connection is rejected.
+   REAL, CONTEST, or unknown account type, the DEMO connection is rejected. REAL accounts can be connected for read-only dashboard monitoring, but the execution adapter must refuse any REAL account.
 
 ## Demo forward-test procedure
 

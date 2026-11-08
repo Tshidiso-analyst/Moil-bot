@@ -488,3 +488,19 @@ def test_failed_broker_login_leaves_mt5_service_disconnected():
     assert service.connected is False
     assert service.account is None
     assert fake.shutdown_calls >= 2
+
+
+def test_real_broker_account_can_connect_for_read_only_dashboard_use():
+    fake = FakeMT5(trade_mode=2)
+    service = MT5LiveService(mt5_module=fake)
+
+    result = service.connect(
+        login=12345678,
+        password="test-password",
+        server="Exness-MT5Real10",
+        requested_mode="REAL",
+    )
+
+    assert result.connected is True
+    assert result.account_type == "REAL"
+    assert result.server == "Exness-MT5Real10"

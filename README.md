@@ -4,7 +4,7 @@ Moil-bot is a Forex market-analysis and trading-research platform with a locally
 
 The project is being developed as a full platform: a web dashboard, a shared analysis and knowledge backend, and future installable desktop/mobile clients. The current repository is not yet a fully autonomous trading system.
 
-> **Trading safety:** broker order execution is intended for verified MT5 DEMO accounts only. REAL, CONTEST and unknown account types must be rejected. Never put broker passwords, API keys or account credentials in Git. Automated tests use fake MT5 objects; they do not prove that a real broker accepted an order.
+> **Trading safety:** broker order execution is intended for verified MT5 DEMO accounts only. REAL accounts may connect for read-only market/account monitoring, but REAL, CONTEST and unknown account types must be rejected by the order-execution service. Never put broker passwords, API keys or account credentials in Git. Automated tests use fake MT5 objects; they do not prove that a real broker accepted an order.
 
 ## Project status
 
@@ -101,7 +101,7 @@ Open the local URL printed in the terminal. If using Streamlit in a branch that 
 
 ## MT5 broker connection
 
-Moil-bot uses the official MetaTrader 5 Python integration and accepts the exact server name supplied by the broker. The login form is not limited to Exness: any broker that provides an MT5 account can be used by entering that account's login, trading password and exact server name. The three credential fields must be supplied together. If the broker distributes its own MT5 terminal in a separate installation folder, enter that terminal's `terminal64.exe` path in the optional terminal-path field. Exness assigns accounts to particular servers; copy the server from the Exness Personal Area rather than guessing a `Trial` or `Real` number. The Python integration does not provide a universal broker-server directory, so Moil-bot accepts exact server names instead of claiming to discover every broker server automatically.
+Moil-bot uses the official MetaTrader 5 Python integration and accepts the exact server name supplied by the broker. The login form is not limited to Exness: any broker that provides an MT5 account can be used by entering that account's login, trading password and exact server name. The three credential fields must be supplied together. If the broker distributes its own MT5 terminal in a separate installation folder, enter that terminal's `terminal64.exe` path in the optional terminal-path field. Exness assigns each account to a particular server; find it in the Exness Personal Area under Trading → Accounts by expanding the account card, then copy the server exactly rather than guessing a `Trial` or `Real` number. See the [official Exness instructions](https://get.exness.help/hc/en-us/articles/360012578619-Trading-account-login-and-server-details). The Python integration does not provide a universal broker-server directory, so Moil-bot accepts exact server names instead of claiming to discover every broker server automatically.
 
 ## MT5 DEMO execution rules
 
