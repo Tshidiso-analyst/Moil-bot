@@ -34,7 +34,7 @@ class AuthService:
         password: str,
     ) -> User:
         full_name = full_name.strip()
-        username = username.strip()
+        username = username.strip().lower()
         email = email.strip().lower()
 
         self._validate_registration(
@@ -68,7 +68,7 @@ class AuthService:
         identifier: str,
         password: str,
     ) -> tuple[User, str, Session]:
-        identifier = identifier.strip()
+        identifier = identifier.strip().lower()
 
         user = self.repository.find_by_username_or_email(identifier)
 
