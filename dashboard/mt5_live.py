@@ -110,6 +110,22 @@ class MT5LiveService:
                 self.mt5.shutdown()
                 self.connected = False
                 return MT5ConnectionResult(connected=False, message=self.last_error)
+            if login is not None:
+                try:
+                    actual_login = int(getattr(info, "login", 0) or 0)
+                except (TypeError, ValueError, OverflowError):
+                    actual_login = 0
+                actual_server = str(getattr(info, "server", "") or "").strip()
+                if actual_login != login or actual_server.casefold() != server.casefold():
+                    self.mt5.shutdown()
+                    self.connected = False
+                    self.account = None
+                    self.last_error = (
+                        "MT5 connected account identity does not match the requested login/server. "
+                        f"Requested login {login} on {server!r}; terminal reports login "
+                        f"{actual_login} on {actual_server!r}. No session was created."
+                    )
+                    return MT5ConnectionResult(connected=False, message=self.last_error)
         except Exception as exc:
             self.last_error = f"MT5 connection failed: {exc}"
             self.connected = False

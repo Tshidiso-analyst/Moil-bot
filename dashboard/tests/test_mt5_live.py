@@ -17,6 +17,7 @@ class FakeMT5:
         self.deals = deals
         self.login_calls = []
         self.requested_server = ""
+        self.requested_login = None
         self.initialize_calls = []
 
     def initialize(self, **kwargs):
@@ -26,12 +27,13 @@ class FakeMT5:
     def login(self, *args, **kwargs):
         self.login_calls.append((args, kwargs))
         self.requested_server = str(kwargs.get("server", ""))
+        self.requested_login = int(args[0]) if args else None
         return True
 
     def account_info(self):
         return type("Account", (), {
             "trade_mode": self.trade_mode,
-            "login": 12345,
+            "login": self.requested_login or 12345,
             "server": self.requested_server or "Broker-Demo",
             "balance": 10000.0,
             "equity": 10000.0,
@@ -362,3 +364,26 @@ def test_connection_rejects_invalid_terminal_path_before_initialization():
     assert result.connected is False
     assert "terminal path is invalid" in result.message
     assert fake.initialize_calls == []
+
+
+def test_connection_rejects_terminal_account_identity_mismatch():
+    class WrongAccountMT5(FakeMT5):
+        def login(self, *args, **kwargs):
+            self.login_calls.append((args, kwargs))
+            self.requested_server = "Different-Broker-Server"
+            self.requested_login = 99999999
+            return True
+
+    fake = WrongAccountMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+    result = service.connect(
+        login=12345678,
+        password="test-password",
+        server="Exness-MT5Trial8",
+        requested_mode="DEMO",
+    )
+
+    assert result.connected is False
+    assert "identity does not match" in result.message
+    assert service.connected is False
+    assert service.account is None
