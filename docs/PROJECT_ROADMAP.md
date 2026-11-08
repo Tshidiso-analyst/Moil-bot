@@ -134,9 +134,11 @@ The milestone sequence below is mirrored by the GitHub issues linked in each sec
 
 - [ ] Separate shared backend/API services from dashboard presentation.
 - [ ] Integrate the existing `auth/` services into every dashboard/API route; current `dashboard/app.py` does not enforce authentication.
-- [ ] Add account ownership/authorization, CSRF and origin checks for state-changing routes, secure session cookies, session expiry/revocation and login rate limiting.
+- [x] Add initial PostgreSQL authentication schema migration and document setup prerequisites.
+- [x] Harden session-cookie helpers with HttpOnly, SameSite=Lax, configurable Secure, Path and 24-hour expiry; add regression tests.
+- [ ] Add account ownership/authorization, CSRF and origin checks for state-changing routes, session revocation integration and persistent login rate limiting.
 - [ ] Keep public deployment blocked until authentication and authorization tests pass; Render currently binds to `0.0.0.0` and cloud mode alone is not an authentication boundary.
-- [ ] Define persistent data storage, migrations, backups and secret-management model.
+- [ ] Define full application data storage, migrations, backups and secret-management model. Initial auth schema is in `database/migrations/001_authentication.sql`.
 - [ ] Build responsive/installable web experience.
 - [ ] Build Windows desktop client using the shared backend and local MT5 bridge.
 - [ ] Build mobile client for monitoring, research and notifications; do not expose broker credentials unnecessarily.
