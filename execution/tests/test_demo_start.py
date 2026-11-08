@@ -81,6 +81,7 @@ def test_demo_start_blocks_non_demo_account():
 
 def test_demo_start_requires_reviewed_rules():
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry([]),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -118,6 +119,7 @@ def test_demo_start_dry_run_with_reviewed_rule():
         }
     ]
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -203,6 +205,7 @@ def test_demo_start_executes_only_after_separate_demo_rule_approval():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -254,6 +257,7 @@ def test_demo_start_refuses_unapproved_rule_even_when_execution_requested():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -297,6 +301,7 @@ def test_demo_start_blocks_second_trade_even_when_called_outside_dashboard():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -330,6 +335,7 @@ def test_demo_start_requires_account_balance_even_if_volume_is_supplied():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -362,6 +368,7 @@ def test_demo_start_requires_explicit_confirmation_before_order_send():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -402,6 +409,7 @@ def test_demo_start_blocks_non_finite_balance_and_risk_above_one_percent():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -448,6 +456,7 @@ def test_demo_start_blocks_order_when_strict_entry_confirmation_fails():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -493,6 +502,7 @@ def test_demo_start_blocks_neutral_direction_without_raising():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -530,6 +540,7 @@ def test_demo_start_requires_explicit_macro_bias_verification():
     }]
     evaluator = _RecordingEntryConfirmationEvaluator()
     controller = DemoStartController(
+        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
