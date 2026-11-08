@@ -214,3 +214,32 @@ def test_today_entry_count_uses_utc_day_boundaries():
     service.connected = True
 
     assert service.today_entry_count() == 0
+
+
+
+def test_today_entry_count_fails_closed_on_malformed_deal():
+    malformed = type("Deal", (), {"type": 0})()
+    service = MT5LiveService(mt5_module=FakeMT5(deals=[malformed]))
+    service.connected = True
+
+    try:
+        service.today_entry_count()
+    except RuntimeError as exc:
+        assert "malformed deal history" in str(exc)
+    else:
+        raise AssertionError("Malformed deal history must not be interpreted as zero trades.")
+
+
+def test_today_loss_fails_closed_on_malformed_deal_type():
+    malformed = type("Deal", (), {
+        "profit": 0.0, "commission": 0.0, "swap": 0.0, "fee": 0.0
+    })()
+    service = MT5LiveService(mt5_module=FakeMT5(deals=[malformed]))
+    service.connected = True
+
+    try:
+        service.today_loss_percent()
+    except RuntimeError as exc:
+        assert "malformed deal history" in str(exc)
+    else:
+        raise AssertionError("Malformed deal history must block daily risk verification.")
