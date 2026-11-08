@@ -183,3 +183,19 @@ def test_today_loss_fails_closed_on_non_finite_trading_pnl():
     else:
         raise AssertionError("Non-finite P/L must block daily risk verification.")
 
+def test_open_trade_summary_fails_closed_when_disconnected():
+    service = MT5LiveService(mt5_module=FakeMT5())
+
+    try:
+        service.open_trade_summary()
+    except RuntimeError as exc:
+        assert "must be connected" in str(exc)
+    else:
+        raise AssertionError("Disconnected MT5 must not be summarized as zero open positions.")
+
+
+def test_open_trade_summary_reports_verified_empty_positions():
+    service = MT5LiveService(mt5_module=FakeMT5())
+    service.connected = True
+
+    assert service.open_trade_summary() == {"count": 0, "volume": 0, "profit": 0}
