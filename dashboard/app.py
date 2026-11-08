@@ -284,7 +284,8 @@ def strategy_page(notice: str = "") -> str:
       <p class="muted">Requires a verified DEMO account, an approved demo rule, a fresh verified economic calendar, valid setup confirmation, broker-based position sizing, stop loss and take profit, and your explicit confirmation. Maximum planned risk: 0.5%.</p>
       <form method="POST" action="/demo_start">
         <label>Symbol</label><input type="text" name="symbol" value="EURUSD" required/>
-        <label>Verified macro bias</label>
+        <label>Verified macro bias (manual declaration)</label>
+        <p class="muted">Moil-bot does not independently calculate DXY direction yet. Only select a directional bias after checking DXY and the relevant macro context yourself.</p>
         <select name="fundamental_bias">
           <option value="neutral">Neutral / not verified</option>
           <option value="bullish">Bullish for this symbol</option>
