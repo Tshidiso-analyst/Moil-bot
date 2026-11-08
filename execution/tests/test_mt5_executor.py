@@ -47,6 +47,13 @@ class FakeMT5:
         self.order_checks.append(request)
         return self.check_result
 
+    def positions_get(self, ticket=None):
+        if ticket is None:
+            return []
+        return [SimpleNamespace(
+            ticket=ticket, volume=0.05, type=self.POSITION_TYPE_BUY, symbol="EURUSD"
+        )]
+
     def order_send(self, request):
         self.sent.append(request)
         return SimpleNamespace(retcode=10009, order=98765, deal=98765, price=request["price"])
@@ -265,3 +272,28 @@ def test_market_order_blocks_when_broker_margin_check_is_unavailable():
             max_risk_amount=50.0,
         )
     assert mt5.sent == []
+
+
+def test_close_position_requires_successful_broker_precheck():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.check_result = None
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    with pytest.raises(RuntimeError, match="pre-check returned no result"):
+        service.close_position(12345)
+
+    assert mt5.sent == []
+    assert len(mt5.order_checks) == 1
+
+
+def test_close_position_sends_only_after_broker_precheck():
+    mt5 = FakeMT5(trade_mode=0)
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    result = service.close_position(12345)
+
+    assert result["closed"] is True
+    assert len(mt5.order_checks) == 1
+    assert len(mt5.sent) == 1

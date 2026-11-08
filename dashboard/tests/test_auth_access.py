@@ -104,3 +104,23 @@ def test_mt5_credentials_reject_non_positive_account_numbers():
             assert "positive account number" in str(exc)
         else:
             raise AssertionError("Invalid MT5 account numbers must be rejected.")
+
+
+def test_mt5_connection_requires_loopback_client_and_loopback_origin():
+    local = SimpleNamespace(
+        client_address=("127.0.0.1", 54321),
+        headers=Headers({
+            "Origin": "http://127.0.0.1:8501",
+            "Host": "127.0.0.1:8501",
+        }),
+    )
+    remote = SimpleNamespace(
+        client_address=("192.168.1.20", 54321),
+        headers=Headers({
+            "Origin": "http://127.0.0.1:8501",
+            "Host": "127.0.0.1:8501",
+        }),
+    )
+
+    assert MoilBotHandler.is_local_dashboard_request(local) is True
+    assert MoilBotHandler.is_local_dashboard_request(remote) is False

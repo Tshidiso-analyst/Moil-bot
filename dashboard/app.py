@@ -695,6 +695,9 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         if CLOUD_MODE:
             self.send_html("<h1>MT5 connections are disabled on the hosted cloud version.</h1>", 503)
             return
+        if not self.is_local_dashboard_request():
+            self.send_html("<h1>MT5 account connections are allowed only from the local computer.</h1>", 403)
+            return
         try:
             mode = (form.get("mode") or "DEMO").upper()
             login, password, server = parse_mt5_credentials(form)
