@@ -107,3 +107,46 @@ def test_connection_page_exposes_native_broker_server_search():
     assert 'action="/broker_search"' in page
     assert "File &gt; Open an Account" in page
     assert "Exness" in page
+
+
+def test_mt5_broker_directory_auto_discovers_installed_terminal(tmp_path, monkeypatch):
+    import dashboard.app as dashboard_app
+
+    terminal_root = tmp_path / "Exness MT5"
+    terminal_root.mkdir()
+    terminal = terminal_root / "terminal64.exe"
+    terminal.write_text("test executable placeholder")
+
+    class AutoDiscoverMT5:
+        def __init__(self):
+            self.initialize_calls = 0
+            self.shutdown_calls = 0
+
+        def initialize(self):
+            self.initialize_calls += 1
+            return True
+
+        def terminal_info(self):
+            return SimpleNamespace(path=str(terminal_root))
+
+        def shutdown(self):
+            self.shutdown_calls += 1
+
+        def last_error(self):
+            return (0, "ok")
+
+    fake = AutoDiscoverMT5()
+    monkeypatch.setattr(dashboard_app.mt5_service, "mt5", fake)
+    monkeypatch.setattr(dashboard_app.mt5_service, "path", "")
+    calls = []
+    monkeypatch.setattr(
+        dashboard_app.subprocess,
+        "Popen",
+        lambda args, **kwargs: calls.append((args, kwargs)),
+    )
+
+    dashboard_app.launch_mt5_broker_directory()
+
+    assert fake.initialize_calls == 1
+    assert fake.shutdown_calls == 1
+    assert calls == [([str(terminal)], {"shell": False, "close_fds": True})]
