@@ -426,6 +426,9 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                     fundamental_bias="neutral",
                     high_impact_news=high_impact_news,
                     calendar_verified=calendar_verified,
+                    explicit_confirmation=(
+                        execute_demo and form.get("confirm_demo_order") == "yes"
+                    ),
                     executor=executor,
                     account_balance=float(account.balance),
                 )
