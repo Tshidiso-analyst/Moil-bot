@@ -97,7 +97,7 @@ def parse_mt5_credentials(form: dict[str, str]) -> tuple[int | None, str, str]:
         return None, "", ""
     if not raw_login or not password:
         raise ValueError(
-            "To switch MT5 accounts, provide both the account number and trading "
+            "To switch MT5 accounts, provide the account number and trading "
             "password. The server is optional only when the selected MT5 terminal "
             "is already configured for that broker; otherwise enter the exact "
             "server assigned to this account."
