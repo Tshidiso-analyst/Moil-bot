@@ -111,3 +111,75 @@ def test_existing_real_terminal_account_is_rejected_in_demo_mode():
 
     assert result.connected is False
     assert "does not match" in result.message
+
+def test_open_trade_count_fails_closed_when_mt5_returns_none():
+    fake = FakeMT5()
+    fake.positions_get = lambda: None
+    service = MT5LiveService(mt5_module=fake)
+    service.connected = True
+
+    try:
+        service.open_trade_count()
+    except RuntimeError as exc:
+        assert "positions lookup failed" in str(exc)
+    else:
+        raise AssertionError("Unavailable MT5 positions must not be treated as zero open trades.")
+
+
+def test_open_trade_count_fails_closed_when_mt5_positions_lookup_raises():
+    fake = FakeMT5()
+    def fail_positions():
+        raise OSError("terminal unavailable")
+    fake.positions_get = fail_positions
+    service = MT5LiveService(mt5_module=fake)
+    service.connected = True
+
+    try:
+        service.open_trade_count()
+    except RuntimeError as exc:
+        assert "positions lookup failed" in str(exc)
+    else:
+        raise AssertionError("MT5 positions errors must block the open-trade check.")
+
+
+def test_open_trade_count_requires_a_connected_mt5_session():
+    service = MT5LiveService(mt5_module=FakeMT5())
+
+    try:
+        service.open_trade_count()
+    except RuntimeError as exc:
+        assert "must be connected" in str(exc)
+    else:
+        raise AssertionError("A disconnected MT5 service must not report zero open trades.")
+
+
+def test_today_loss_ignores_non_trading_balance_operations():
+    trade = type("Deal", (), {
+        "type": 0, "profit": -100.0, "commission": -2.0, "swap": 0.0, "fee": 0.0
+    })()
+    deposit = type("Deal", (), {
+        "type": 2, "profit": 5000.0, "commission": 0.0, "swap": 0.0, "fee": 0.0
+    })()
+    fake = FakeMT5(deals=[trade, deposit])
+    service = MT5LiveService(mt5_module=fake)
+    service.connected = True
+
+    loss = service.today_loss_percent()
+
+    assert 0.9 < loss < 1.1
+
+
+def test_today_loss_fails_closed_on_non_finite_trading_pnl():
+    bad_deal = type("Deal", (), {
+        "type": 0, "profit": float("nan"), "commission": 0.0, "swap": 0.0, "fee": 0.0
+    })()
+    service = MT5LiveService(mt5_module=FakeMT5(deals=[bad_deal]))
+    service.connected = True
+
+    try:
+        service.today_loss_percent()
+    except RuntimeError as exc:
+        assert "non-finite" in str(exc)
+    else:
+        raise AssertionError("Non-finite P/L must block daily risk verification.")
+
