@@ -211,10 +211,24 @@ class MT5ExecutionService:
         if not is_buy and not (tp < price < sl):
             raise ValueError("For a sell order, take profit must be below price and stop loss above price.")
 
-        if max_risk_amount is not None:
-            loss = self.mt5.order_calc_profit(order_type, symbol, vol, price, sl)
-            if loss is None or float(loss) >= 0 or abs(float(loss)) > float(max_risk_amount) + 0.01:
-                raise RuntimeError("Order exceeds the approved risk budget; trade blocked.")
+        if (
+            max_risk_amount is None
+            or isinstance(max_risk_amount, bool)
+            or not isfinite(float(max_risk_amount))
+            or float(max_risk_amount) <= 0
+        ):
+            raise ValueError(
+                "A finite positive max_risk_amount is mandatory for every DEMO order."
+            )
+
+        loss = self.mt5.order_calc_profit(order_type, symbol, vol, price, sl)
+        if (
+            loss is None
+            or not isfinite(float(loss))
+            or float(loss) >= 0
+            or abs(float(loss)) > float(max_risk_amount) + 0.01
+        ):
+            raise RuntimeError("Order exceeds the approved risk budget; trade blocked.")
 
         request = {
             "action": self.mt5.TRADE_ACTION_DEAL,
