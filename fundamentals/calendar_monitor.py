@@ -4,6 +4,7 @@ import os
 import threading
 from datetime import datetime, timedelta, timezone
 from typing import Iterable
+from zoneinfo import ZoneInfo
 
 from alerts.engine import AlertEngine
 from alerts.event_alerts import build_economic_event_alerts
@@ -104,13 +105,16 @@ class EconomicCalendarMonitor:
 
     def has_high_impact_today(self, symbol: str, now: datetime | None = None) -> bool:
         """Apply the user's full-day no-trade rule to high-impact event dates."""
-        checked_at = now or datetime.now().astimezone()
+        checked_at = now or datetime.now(timezone.utc)
         if checked_at.tzinfo is None or checked_at.utcoffset() is None:
             raise ValueError("now must be timezone-aware.")
-        local_date = checked_at.astimezone().date()
+        # The strategy's session and event-day rules use New York trading dates,
+        # not the host machine's timezone (which may be UTC in hosted mode).
+        new_york = ZoneInfo("America/New_York")
+        local_date = checked_at.astimezone(new_york).date()
         return any(
             event.impact == "high"
-            and event.scheduled_at.astimezone().date() == local_date
+            and event.scheduled_at.astimezone(new_york).date() == local_date
             for event in self.events_for_symbol(symbol, now=checked_at)
         )
 

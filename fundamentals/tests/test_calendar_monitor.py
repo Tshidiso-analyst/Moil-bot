@@ -174,3 +174,21 @@ def test_monitor_does_not_block_the_previous_day_for_tomorrows_event():
 
     assert monitor.refresh_once(now=NOW) is True
     assert monitor.has_high_impact_today("EURUSD", now=NOW) is False
+
+def test_monitor_uses_new_york_trading_date_across_utc_midnight():
+    checked_at = datetime(2026, 11, 8, 4, 45, tzinfo=timezone.utc)
+    event = EconomicEvent(
+        name="US CPI",
+        currency="USD",
+        scheduled_at=datetime(2026, 11, 8, 5, 30, tzinfo=timezone.utc),
+        impact="high",
+    )
+    provider = Mock()
+    provider.fetch.return_value = snapshot([event], fetched_at=checked_at)
+    provider.max_age = timedelta(minutes=15)
+    monitor = EconomicCalendarMonitor(provider=provider, symbols=["EURUSD"])
+
+    assert monitor.refresh_once(now=checked_at) is True
+    # It is still 23:45 on November 7 in New York; the event is at 00:30
+    # on November 8, so the previous New York trading date must not be blocked.
+    assert monitor.has_high_impact_today("EURUSD", now=checked_at) is False
