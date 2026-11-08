@@ -119,7 +119,6 @@ def test_demo_start_dry_run_with_reviewed_rule():
         }
     ]
     controller = DemoStartController(
-        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
@@ -205,7 +204,6 @@ def test_demo_start_executes_only_after_separate_demo_rule_approval():
     }]
     executor = _FakeDemoExecutor()
     controller = DemoStartController(
-        entry_confirmation_evaluator=_FakeEntryConfirmationEvaluator(),
         registry=_FakeRegistry(rules),
         decision_engine=_FakeDecisionEngine(
             _FakeAssessment(
