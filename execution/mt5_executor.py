@@ -61,7 +61,7 @@ class MT5ExecutionService:
         self,
         login: int,
         password: str,
-        server: str,
+        server: str = "",
         *,
         path: str | None = None,
     ) -> dict[str, Any]:
