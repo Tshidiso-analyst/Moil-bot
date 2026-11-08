@@ -80,13 +80,13 @@ The milestone sequence below is mirrored by the GitHub issues linked in each sec
 **GitHub tracking:** [Issue #145](https://github.com/Tshidiso-analyst/Moil-bot/issues/145)  
 **Status: Research and decision components exist; automated evidence detectors need validation.**
 
-- [ ] Define deterministic, testable definitions for liquidity pools/sweeps, BOS body close, CHoCH, FVG, order blocks, equilibrium/OTE, displacement and session windows.
-- [ ] Build labelled chart examples and unit tests for each detector.
-- [ ] Validate multi-timeframe context, New York session timing and daylight-saving transitions.
-- [ ] Wire detector outputs into the entry-confirmation checklist.
-- [ ] Add explicit no-trade conditions: weak/ambiguous structure, stale data, conflicting signals, high spread, event blackout and outside approved sessions.
-- [ ] Make strategy output explanatory: evidence, invalidation, entry, stop, target and rejection reasons.
-- [ ] Require human review before a rule can be enabled for DEMO forward-testing.
+- [ ] Complete deterministic definitions for liquidity pools/sweeps, BOS body close, CHoCH, FVG, order blocks, equilibrium/OTE, displacement and session windows. Initial sweep/BOS/FVG detectors exist; liquidity sweep side labels were corrected and regression-tested.
+- [ ] Build labelled chart examples and unit tests for every detector, including order blocks, OTE and displacement.
+- [x] Add New York opening-hour and daylight-saving-aware session checks to the entry-confirmation evaluator.
+- [x] Wire completed-candle liquidity sweep, body-close BOS and FVG-retracement evidence into the DEMO entry gate; unverified macro bias blocks execution.
+- [ ] Complete no-trade conditions for stale data, conflicting signals, high spread, event blackout and outside approved sessions. Calendar verification, high-impact event-day blackout, one-trade limit and NYSE opening-hour checks are implemented.
+- [ ] Make strategy output explanatory with source evidence, invalidation, entry, stop, target and rejection reasons across all dashboard views.
+- [x] Require human-reviewed source evidence and separate DEMO forward-test approval before a rule can send a DEMO order.
 
 **Exit criteria:** a setup can be reproduced from historical candles, with source evidence and clear reasons for both acceptance and rejection.
 
