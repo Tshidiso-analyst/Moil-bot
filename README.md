@@ -10,7 +10,7 @@ The project is being developed as a full platform: a web dashboard, a shared ana
 
 The active development line is `codex/intelligence-foundation`. Pull request [#140](https://github.com/Tshidiso-analyst/Moil-bot/pull/140) is the current draft integration path into `main`. Do not assume the draft PR is production-ready or merge it without reviewing its latest checks and diff.
 
-GitHub Actions run #297 passed **363 tests on Linux and 363 tests on Windows**, including the Windows MT5 package/account-mode checks. Run #300 is verifying the additional hosted authentication database startup guard. These are automated tests, not a broker execution test.
+GitHub Actions run #312 passed **373 tests on Linux and 373 tests on Windows**, including Windows MT5 package/account-mode checks, hosted authentication and persistent-alert repository tests. These are automated tests, not a broker execution test.
 
 See [docs/PROJECT_ROADMAP.md](docs/PROJECT_ROADMAP.md) for milestones, current status, acceptance criteria and the next work item.
 Hosted mode now requires PostgreSQL-backed login sessions, supports login/logout, same-origin POST enforcement and secure cookies. First-user provisioning is documented in [docs/AUTHENTICATION_SETUP.md](docs/AUTHENTICATION_SETUP.md). Public production deployment remains blocked until persistent rate limiting, email verification/recovery, MFA, per-user data isolation, database provisioning and operational review are complete.
@@ -25,7 +25,7 @@ Hosted mode now requires PostgreSQL-backed login sessions, supports login/logout
 | ICT/SMC knowledge | PDF/video knowledge search and concept extraction | Ingestion coverage, source quality and traceability |
 | Strategy rules | Rule registry separates reviewed evidence from execution approval | Complete human review and rule validation |
 | Fundamentals | Economic-calendar provider model, freshness checks and event analysis for NFP, CPI, FOMC and other releases | Configure and verify a real provider; validate coverage and timestamps |
-| Alerts | Alert and notification components | Persistence, deduplication and delivery checks |
+| Alerts | In-memory local store and PostgreSQL-backed hosted alert history, atomic deduplication and delivery-attempt logging | Live PostgreSQL migration verification, retry scheduling, per-user preferences and quiet hours |
 | DEMO execution | Explicitly confirmed, reviewed-rule DEMO market-order path with broker-based sizing and protective levels | Manual Windows DEMO integration test; no REAL trading |
 | Backtesting | Backtesting components exist | Walk-forward evaluation and controlled promotion of candidate rules |
 | Clients/deployment | Hosted authentication gate and local-only MT5 boundary implemented | Provision hosted PostgreSQL, complete remaining identity/security controls, and build Windows/mobile clients |
