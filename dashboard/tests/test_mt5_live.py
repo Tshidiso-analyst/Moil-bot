@@ -320,7 +320,7 @@ def test_credentials_login_uses_server_preconfigured_in_selected_terminal():
 
     assert result.connected is True
     assert result.server == "Broker-Demo"
-    assert fake.login_calls[0][1]["server"] == ""
+    assert "server" not in fake.login_calls[0][1]
 
 
 def test_credentials_login_rejects_invalid_account_number():
