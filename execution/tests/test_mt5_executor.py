@@ -101,3 +101,35 @@ def test_market_order_rejects_missing_stop_loss_or_take_profit():
     with pytest.raises(ValueError, match="mandatory"):
         service.place_market_order("EURUSD", "bullish", 0.01)
     assert mt5.sent == []
+
+
+def test_market_order_requires_a_finite_positive_risk_budget():
+    mt5 = FakeMT5(trade_mode=0)
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    for budget in (None, 0.0, float("nan"), float("inf")):
+        with pytest.raises(ValueError, match="max_risk_amount"):
+            service.place_market_order(
+                "EURUSD", "bullish", 0.01,
+                stop_loss=1.0990, take_profit=1.1020,
+                max_risk_amount=budget,
+            )
+
+    assert mt5.sent == []
+
+
+def test_market_order_rejects_non_finite_broker_loss_calculation():
+    mt5 = FakeMT5(trade_mode=0)
+    mt5.order_calc_profit = lambda *args: float("nan")
+    service = MT5ExecutionService(mt5)
+    service.adopt_existing_connection()
+
+    with pytest.raises(RuntimeError, match="risk budget"):
+        service.place_market_order(
+            "EURUSD", "bullish", 0.05,
+            stop_loss=1.0990, take_profit=1.1020,
+            max_risk_amount=50.0,
+        )
+
+    assert mt5.sent == []
