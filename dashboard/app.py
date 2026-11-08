@@ -4,6 +4,7 @@ import html
 import ipaddress
 import os
 import threading
+import time
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
@@ -19,6 +20,8 @@ from execution.mt5_executor import MT5ExecutionService
 from strategy.rule_registry import StrategyRuleRegistry
 from chat.execution_bridge import post_demo_start_result
 from chat.service import chat_service
+from auth.service import AuthService, AuthenticationError, RegistrationError
+from auth.web import build_expired_session_cookie, build_session_cookie, get_session_token
 
 try:
     from dotenv import load_dotenv
@@ -29,6 +32,14 @@ except ImportError:
 HOST = os.environ.get("HOST", "127.0.0.1")
 PORT = int(os.environ.get("PORT", "8501"))
 CLOUD_MODE = os.environ.get("MOILBOT_CLOUD_MODE", "").lower() in {"1", "true", "yes"}
+AUTH_REQUIRED = CLOUD_MODE or os.environ.get("MOILBOT_AUTH_REQUIRED", "").lower() in {"1", "true", "yes"}
+COOKIE_SECURE = os.environ.get("MOILBOT_COOKIE_SECURE", "true" if AUTH_REQUIRED else "false").lower() in {"1", "true", "yes"}
+ALLOW_REGISTRATION = os.environ.get("MOILBOT_ALLOW_REGISTRATION", "false").lower() in {"1", "true", "yes"}
+auth_service = AuthService()
+LOGIN_FAILURES: dict[str, list[float]] = {}
+LOGIN_FAILURES_LOCK = threading.Lock()
+LOGIN_MAX_ATTEMPTS = 5
+LOGIN_WINDOW_SECONDS = 900
 
 mt5_service = MT5LiveService()
 alert_engine = AlertEngine()
@@ -292,6 +303,67 @@ def risk_page() -> str:
     return nav_layout("Risk", content, "Risk")
 
 
+
+def auth_page(title: str, content: str) -> str:
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{esc(title)} · Moil-bot</title>
+    <style>
+      body{{font-family:Arial,sans-serif;background:#101827;color:#eef2f7;display:grid;place-items:center;min-height:100vh;margin:0}}
+      main{{width:min(92vw,420px);background:#1b2638;padding:28px;border-radius:14px;box-sizing:border-box}}
+      label{{display:block;margin:14px 0 6px}} input{{box-sizing:border-box;width:100%;padding:12px;border-radius:7px;border:1px solid #526078;background:#101827;color:white}}
+      button{{margin-top:18px;width:100%;padding:12px;border:0;border-radius:7px;background:#4f8cff;color:white;font-weight:bold;cursor:pointer}}
+      a{{color:#91b9ff}} .notice{{color:#ffd28a}} p{{line-height:1.5}}
+    </style></head><body><main><h1>{esc(title)}</h1>{content}</main></body></html>"""
+
+
+def login_page(notice: str = "") -> str:
+    message = f'<p class="notice">{esc(notice)}</p>' if notice else ""
+    content = message + """
+      <form method="POST" action="/login">
+        <label>Username or email</label><input name="identifier" autocomplete="username" required maxlength="191"/>
+        <label>Password</label><input type="password" name="password" autocomplete="current-password" required/>
+        <button type="submit">Sign in</button>
+      </form>"""
+    if ALLOW_REGISTRATION:
+        content += '<p>New to Moil-bot? <a href="/register">Create an account</a></p>'
+    return auth_page("Sign in to Moil-bot", content)
+
+
+def register_page(notice: str = "") -> str:
+    message = f'<p class="notice">{esc(notice)}</p>' if notice else ""
+    content = message + """
+      <form method="POST" action="/register">
+        <label>Full name</label><input name="full_name" autocomplete="name" required maxlength="150"/>
+        <label>Username</label><input name="username" autocomplete="username" required minlength="3" maxlength="50"/>
+        <label>Email</label><input type="email" name="email" autocomplete="email" required maxlength="191"/>
+        <label>Password (at least 8 characters)</label><input type="password" name="password" autocomplete="new-password" required minlength="8"/>
+        <button type="submit">Create account</button>
+      </form><p>Already registered? <a href="/login">Sign in</a></p>"""
+    return auth_page("Create your Moil-bot account", content)
+
+
+def login_rate_limited(client_ip: str) -> bool:
+    now = time.monotonic()
+    with LOGIN_FAILURES_LOCK:
+        attempts = [stamp for stamp in LOGIN_FAILURES.get(client_ip, []) if now - stamp < LOGIN_WINDOW_SECONDS]
+        LOGIN_FAILURES[client_ip] = attempts
+        return len(attempts) >= LOGIN_MAX_ATTEMPTS
+
+
+def record_login_failure(client_ip: str) -> None:
+    now = time.monotonic()
+    with LOGIN_FAILURES_LOCK:
+        attempts = [stamp for stamp in LOGIN_FAILURES.get(client_ip, []) if now - stamp < LOGIN_WINDOW_SECONDS]
+        attempts.append(now)
+        LOGIN_FAILURES[client_ip] = attempts
+
+
+def clear_login_failures(client_ip: str) -> None:
+    with LOGIN_FAILURES_LOCK:
+        LOGIN_FAILURES.pop(client_ip, None)
+
+
 class MoilBotHandler(BaseHTTPRequestHandler):
     def is_local_dashboard_request(self) -> bool:
         try:
@@ -310,23 +382,61 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         except (ValueError, TypeError):
             return False
 
-    def send_html(self, page: str, status: int = 200) -> None:
+    def send_html(self, page: str, status: int = 200, cookie: str | None = None) -> None:
         data = page.encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(data)))
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Content-Security-Policy", "default-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'")
+        if cookie:
+            self.send_header("Set-Cookie", cookie)
         self.end_headers()
         self.wfile.write(data)
 
-    def redirect(self, location: str) -> None:
+    def redirect(self, location: str, cookie: str | None = None) -> None:
         self.send_response(302)
         self.send_header("Location", location)
+        self.send_header("Cache-Control", "no-store")
+        if cookie:
+            self.send_header("Set-Cookie", cookie)
         self.end_headers()
+
+    def same_origin_post(self) -> bool:
+        origin = urllib.parse.urlparse(self.headers.get("Origin", ""))
+        host = (self.headers.get("Host") or "").lower()
+        forwarded_proto = (self.headers.get("X-Forwarded-Proto") or "").split(",")[0].strip().lower()
+        expected_scheme = forwarded_proto or ("https" if COOKIE_SECURE else "http")
+        return bool(origin.scheme == expected_scheme and origin.netloc.lower() == host)
+
+    def authenticated_user(self):
+        token = get_session_token(self.headers)
+        return auth_service.authenticate_session(token) if token else None
 
     def do_GET(self) -> None:
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
         query = urllib.parse.parse_qs(parsed.query)
+        if path == "/login":
+            self.send_html(login_page(query.get("notice", [""])[0]))
+            return
+        if path == "/register":
+            if not ALLOW_REGISTRATION:
+                self.send_html("<h1>Registration is disabled.</h1>", 404)
+                return
+            self.send_html(register_page(query.get("notice", [""])[0]))
+            return
+        if AUTH_REQUIRED:
+            try:
+                user = self.authenticated_user()
+            except Exception:
+                self.send_html(auth_page("Service temporarily unavailable", "<p>Authentication storage is unavailable. Please try again later.</p>"), 503)
+                return
+            if user is None:
+                self.redirect("/login")
+                return
         if path == "/":
             page = overview_page()
         elif path == "/markets":
@@ -353,7 +463,68 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
         length = int(self.headers.get("Content-Length", "0"))
+        if length < 0 or length > 65536:
+            self.send_html("<h1>Invalid request size</h1>", 413)
+            return
         form = parse_form(self.rfile.read(length))
+
+        if AUTH_REQUIRED and not self.same_origin_post():
+            self.send_html("<h1>Cross-origin request blocked</h1>", 403)
+            return
+
+        if path == "/login":
+            client_ip = self.client_address[0]
+            if login_rate_limited(client_ip):
+                self.send_html(login_page("Too many attempts. Try again in 15 minutes."), 429)
+                return
+            try:
+                _user, token, _session = auth_service.login(
+                    form.get("identifier", ""),
+                    form.get("password", ""),
+                )
+                clear_login_failures(client_ip)
+                self.redirect("/", build_session_cookie(token, secure=COOKIE_SECURE))
+            except AuthenticationError:
+                record_login_failure(client_ip)
+                self.send_html(login_page("Invalid username/email or password."), 401)
+            except Exception:
+                self.send_html(auth_page("Service temporarily unavailable", "<p>Authentication storage is unavailable. Please try again later.</p>"), 503)
+            return
+
+        if path == "/register":
+            if not ALLOW_REGISTRATION:
+                self.send_html("<h1>Registration is disabled.</h1>", 404)
+                return
+            try:
+                auth_service.register(
+                    form.get("full_name", ""),
+                    form.get("username", ""),
+                    form.get("email", ""),
+                    form.get("password", ""),
+                )
+                self.redirect("/login?notice=" + urllib.parse.quote("Account created. Sign in to continue."))
+            except RegistrationError as exc:
+                self.send_html(register_page(str(exc)), 400)
+            except Exception:
+                self.send_html(auth_page("Service temporarily unavailable", "<p>Account registration is temporarily unavailable.</p>"), 503)
+            return
+
+        if path == "/logout":
+            token = get_session_token(self.headers)
+            try:
+                auth_service.logout(token or "")
+            finally:
+                self.redirect("/login", build_expired_session_cookie(secure=COOKIE_SECURE))
+            return
+
+        if AUTH_REQUIRED:
+            try:
+                if self.authenticated_user() is None:
+                    self.redirect("/login")
+                    return
+            except Exception:
+                self.send_html(auth_page("Service temporarily unavailable", "<p>Authentication storage is unavailable.</p>"), 503)
+                return
 
         if path == "/enable_demo_rule":
             if not self.is_local_dashboard_request():
