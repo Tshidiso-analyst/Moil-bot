@@ -284,6 +284,13 @@ def strategy_page(notice: str = "") -> str:
       <p class="muted">Requires a verified DEMO account, an approved demo rule, a fresh verified economic calendar, valid setup confirmation, broker-based position sizing, stop loss and take profit, and your explicit confirmation. Maximum planned risk: 0.5%.</p>
       <form method="POST" action="/demo_start">
         <label>Symbol</label><input type="text" name="symbol" value="EURUSD" required/>
+        <label>Verified macro bias</label>
+        <select name="fundamental_bias">
+          <option value="neutral">Neutral / not verified</option>
+          <option value="bullish">Bullish for this symbol</option>
+          <option value="bearish">Bearish for this symbol</option>
+        </select>
+        <label><input type="checkbox" name="confirm_macro_bias" value="yes" required style="width:auto"/> I reviewed DXY, relevant economic releases and broader macro context; this directional bias is verified.</label>
         <input type="hidden" name="execute_demo" value="yes"/>
         <label><input type="checkbox" name="confirm_demo_order" value="yes" required style="width:auto"/> I confirm that this may send a market order on my MT5 DEMO account.</label>
         <button type="submit" {'disabled' if SESSION.get('mode') != 'DEMO' else ''}>SEND DEMO MARKET ORDER</button>
@@ -622,7 +629,8 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                         daily_loss_percent=mt5_service.today_loss_percent() if execute_demo else 0.0,
                         open_trades=mt5_service.open_trade_count(),
                         daily_trade_count=today_entries,
-                        fundamental_bias="neutral",
+                        fundamental_bias=str(form.get("fundamental_bias") or "neutral").strip().lower(),
+                        macro_bias_verified=form.get("confirm_macro_bias") == "yes",
                         high_impact_news=high_impact_news,
                         calendar_verified=calendar_verified,
                         explicit_confirmation=(
