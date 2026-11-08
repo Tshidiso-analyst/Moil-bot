@@ -31,13 +31,17 @@ def get_session_token(headers) -> str | None:
     return morsel.value
 
 
-def build_session_cookie(token: str) -> str:
-    return (
-        f"{SESSION_COOKIE_NAME}={token}; "
-        "HttpOnly; "
-        "SameSite=Lax; "
-        "Path=/"
-    )
+def build_session_cookie(token: str, *, secure: bool = False) -> str:
+    """Build a host-only session cookie; HTTPS deployments must set Secure."""
+    attributes = [
+        "HttpOnly",
+        "SameSite=Lax",
+        "Path=/",
+        "Max-Age=86400",
+    ]
+    if secure:
+        attributes.append("Secure")
+    return f"{SESSION_COOKIE_NAME}={token}; " + "; ".join(attributes)
 
 
 def build_expired_session_cookie() -> str:
@@ -46,7 +50,8 @@ def build_expired_session_cookie() -> str:
         "HttpOnly; "
         "SameSite=Lax; "
         "Path=/; "
-        "Max-Age=0"
+        "Max-Age=0; "
+        "Secure"
     )
 
 
