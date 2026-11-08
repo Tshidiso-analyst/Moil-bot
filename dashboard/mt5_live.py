@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from datetime import datetime
+from math import isfinite
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -216,12 +217,15 @@ class MT5LiveService:
             return None
 
     def positions(self) -> list[dict[str, Any]]:
+        """Return open positions, failing closed when MT5 cannot verify them."""
         if self.mt5 is None or not self.connected:
-            return []
+            self.last_error = "MT5 must be connected to verify open positions."
+            raise RuntimeError(self.last_error)
         try:
             raw_positions = self.mt5.positions_get()
             if raw_positions is None:
-                return []
+                self.last_error = f"MT5 positions lookup failed: {self.mt5.last_error()}"
+                raise RuntimeError(self.last_error)
             return [
                 {
                     "ticket": int(getattr(p, "ticket", 0) or 0),
@@ -236,9 +240,11 @@ class MT5LiveService:
                 }
                 for p in raw_positions
             ]
+        except RuntimeError:
+            raise
         except Exception as exc:
             self.last_error = f"MT5 positions lookup failed: {exc}"
-            return []
+            raise RuntimeError(self.last_error) from exc
 
     def today_entry_count(self) -> int:
         """Count today's opening deals across the connected account.
@@ -271,7 +277,7 @@ class MT5LiveService:
         )
 
     def today_loss_percent(self) -> float:
-        """Estimate today's realized plus floating loss as a percent of start balance."""
+        """Estimate today's realized plus floating trading loss as % of start balance."""
         if self.mt5 is None or not self.connected:
             raise RuntimeError("MT5 must be connected to verify today's loss limit.")
         history = getattr(self.mt5, "history_deals_get", None)
@@ -282,27 +288,63 @@ class MT5LiveService:
         deals = history(start, now)
         if deals is None:
             raise RuntimeError(f"MT5 could not verify today's P/L history: {self.mt5.last_error()}")
-        realized = sum(
-            float(getattr(deal, "profit", 0.0) or 0.0)
-            + float(getattr(deal, "commission", 0.0) or 0.0)
-            + float(getattr(deal, "swap", 0.0) or 0.0)
-            + float(getattr(deal, "fee", 0.0) or 0.0)
-            for deal in deals
-        )
+
+        # Ignore balance/credit operations: only BUY/SELL deals represent trading P/L.
+        trade_types = {
+            getattr(self.mt5, "DEAL_TYPE_BUY", 0),
+            getattr(self.mt5, "DEAL_TYPE_SELL", 1),
+        }
+        try:
+            realized = sum(
+                float(getattr(deal, "profit", 0.0) or 0.0)
+                + float(getattr(deal, "commission", 0.0) or 0.0)
+                + float(getattr(deal, "swap", 0.0) or 0.0)
+                + float(getattr(deal, "fee", 0.0) or 0.0)
+                for deal in deals
+                if getattr(deal, "type", None) in trade_types
+            )
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise RuntimeError("MT5 returned invalid realized P/L values.") from exc
+        if not isfinite(realized):
+            raise RuntimeError("MT5 returned non-finite realized P/L; daily risk cannot be verified.")
+
         account = self.mt5.account_info()
         if account is None:
             raise RuntimeError("MT5 account balance is unavailable for daily loss calculation.")
-        raw_positions = self.mt5.positions_get()
-        if raw_positions is None:
-            raise RuntimeError("MT5 open positions are unavailable for daily loss calculation.")
-        floating = sum(float(getattr(position, "profit", 0.0) or 0.0) for position in raw_positions)
-        start_balance = float(getattr(account, "balance", 0.0) or 0.0) - realized
-        if start_balance <= 0:
-            raise RuntimeError("Start-of-day account balance is invalid.")
-        return max(0.0, -(realized + floating) / start_balance * 100.0)
+        try:
+            balance = float(getattr(account, "balance", 0.0) or 0.0)
+            raw_positions = self.mt5.positions_get()
+            if raw_positions is None:
+                raise RuntimeError(
+                    f"MT5 open positions are unavailable for daily loss calculation: {self.mt5.last_error()}"
+                )
+            floating = sum(
+                float(getattr(position, "profit", 0.0) or 0.0)
+                + float(getattr(position, "swap", 0.0) or 0.0)
+                for position in raw_positions
+            )
+        except RuntimeError:
+            raise
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise RuntimeError("MT5 returned invalid account or floating P/L values.") from exc
+
+        start_balance = balance - realized
+        if (
+            not isfinite(balance)
+            or balance <= 0
+            or not isfinite(floating)
+            or not isfinite(start_balance)
+            or start_balance <= 0
+        ):
+            raise RuntimeError("MT5 account or start-of-day balance is invalid.")
+        loss_percent = -(realized + floating) / start_balance * 100.0
+        if not isfinite(loss_percent):
+            raise RuntimeError("Daily loss calculation is non-finite; DEMO execution is blocked.")
+        return max(0.0, loss_percent)
 
     def open_trade_count(self) -> int:
-        return len(self.positions()) if self.connected and self.mt5 is not None else 0
+        """Count positions only after MT5 successfully verifies the position list."""
+        return len(self.positions())
 
     def open_trade_summary(self) -> dict[str, float | int]:
         positions = self.positions() if self.connected and self.mt5 is not None else []
