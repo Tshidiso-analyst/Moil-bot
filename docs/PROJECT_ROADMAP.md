@@ -4,7 +4,7 @@ Last reviewed: 2026-11-08
 Active development branch: `codex/intelligence-foundation`  
 Current integration PR: [#140](https://github.com/Tshidiso-analyst/Moil-bot/pull/140)
 
-This document is the project's progress ledger. Update it when an issue is started, completed, blocked or re-scoped. The README is the entry point; this roadmap records what remains and the order in which it should be done.
+This is the project's progress ledger. Update it whenever an issue is started, completed, blocked or re-scoped. The README is the entry point; this roadmap records what remains and the order in which it should be done.
 
 ## Product goal
 
@@ -19,37 +19,46 @@ Build Moil-bot as a complete, modular Forex analysis platform with:
 
 Moil-bot is not currently a fully autonomous trader. Candidate rules must be evidence-backed, human-reviewed, tested and separately approved. REAL-money execution is out of scope and must remain blocked.
 
-## Milestones
+## Milestones and tracked issues
+
+The milestone sequence below is mirrored by the GitHub issues linked in each section. Keep the issue status and this document synchronized.
 
 ### M0 — Repository control and repeatable development
+**GitHub tracking:** [Issue #141](https://github.com/Tshidiso-analyst/Moil-bot/issues/141)  
 **Status: In progress**
 
 - [x] Confirm active development branch and current draft integration PR.
 - [x] Record the reported local regression result (341 passed, 2026-11-08).
-- [ ] Add project README and roadmap to the active development branch.
+- [x] Add project README and roadmap to the active development branch.
 - [ ] Reconcile the development branch, PR #140 and stable `main`.
-- [ ] Create a clean clone in a new local folder without deleting the old working copy.
-- [ ] Verify environment setup and repeat the full test suite from the clean clone.
+- [ ] Create a clean clone in a new local folder without deleting the old local copy.
+- [ ] Verify environment setup, full tests and dashboard launch from the clean clone.
+- [ ] Audit tracked backup files, generated data and local-only configuration before cleanup/migration.
 
-**Exit criteria:** a clean clone can be installed, tested and launched using documented instructions; the active branch and PR relationship are unambiguous.
+**Exit criteria:** a clean clone can be installed, tested and launched using documented instructions; the active branch and PR relationship are unambiguous; the old local folder is preserved until migration is verified.
 
 ### M1 — MT5 DEMO execution and risk reliability
-**Status: Code safeguards present; manual broker verification outstanding. Priority: highest.**
+**GitHub tracking:** [Issue #142](https://github.com/Tshidiso-analyst/Moil-bot/issues/142), [Issue #143](https://github.com/Tshidiso-analyst/Moil-bot/issues/143)  
+**Status: Automated safeguards are present; audit and manual broker verification remain. Priority: highest.**
 
 - [x] Isolate the MT5 connection diagnostic behind an explicit `main()` entry point so pytest collection does not connect to a terminal.
-- [x] Make open-position lookup fail closed when MT5 is disconnected or returns an error.
-- [x] Make daily deal-history and daily-loss checks fail closed on missing history or invalid values.
+- [x] Make execution-path open-position lookup fail closed when MT5 is disconnected or returns an error.
+- [x] Make daily deal-history and daily-loss checks fail closed on missing history or invalid aggregate values.
 - [x] Require DEMO account verification in the execution adapter before trading operations.
 - [x] Require explicit order confirmation, approved DEMO rule, protective SL/TP and broker-based risk sizing.
 - [ ] Audit all order, close, modify and retry paths for account-mode re-verification and ambiguous broker responses.
 - [ ] Add/confirm tests for MT5 `None`, exceptions, malformed history, account changes, duplicate submissions and partial fills.
-- [ ] Confirm daily trade counting semantics for entries, reversals, partial fills and broker server/local-day boundaries.
-- [ ] Verify daily loss calculation against MT5 account history, commissions, swaps, fees and floating P/L.
+- [ ] Confirm daily trade counting semantics for entries, reversals, partial fills and broker-server/local-day boundaries.
+- [ ] Verify daily loss calculation against MT5 history, commissions, swaps, fees and floating P/L.
+- [ ] Ensure dashboard summary/read-only paths never present unavailable MT5 position data as a verified zero.
 - [ ] Complete one controlled Windows broker DEMO integration test using [DEMO_EXECUTION_TEST_PLAN.md](DEMO_EXECUTION_TEST_PLAN.md).
 
-**Exit criteria:** all failure cases block safely; tests pass on Linux and Windows; a manual DEMO test records a broker-confirmed ticket and protective levels. No REAL account can execute.
+**Current audit notes:** `positions()`, `today_entry_count()` and `today_loss_percent()` raise when their required MT5 reads fail. `open_trade_count()` uses the fail-closed `positions()` method. However, `open_trade_summary()` currently substitutes an empty list when disconnected, which can make a display summary look like zero positions; this needs explicit unavailable-state handling. The history window uses the Windows host's local midnight, so broker-server timezone/day-boundary behaviour still needs verification.
+
+**Exit criteria:** all unverifiable risk facts block execution; tests pass on Windows and Linux; a manual DEMO test records a broker-confirmed ticket and protective levels. No REAL, CONTEST, unknown or disconnected account can execute.
 
 ### M2 — Fundamentals and economic calendar
+**GitHub tracking:** [Issue #144](https://github.com/Tshidiso-analyst/Moil-bot/issues/144)  
 **Status: Provider and analysis foundation implemented; real provider verification outstanding.**
 
 - [x] Provider-independent economic event model.
@@ -57,14 +66,15 @@ Moil-bot is not currently a fully autonomous trader. Candidate rules must be evi
 - [x] Freshness, coverage and event-impact validation.
 - [x] NFP/CPI/FOMC descriptive release analysis.
 - [ ] Configure a licensed provider locally without committing credentials.
-- [ ] Verify actual provider timestamps, coverage windows, impact classification and missing-event behaviour.
+- [ ] Verify actual provider timestamps, coverage windows, currencies, impact classification and missing-event behaviour.
 - [ ] Add holiday/session awareness and explicit timezone tests.
 - [ ] Add revision history and richer FOMC/NFP/CPI component handling where provider data supports it.
 - [ ] Keep macro bias unverified until a separately validated method and price confirmation exist.
 
-**Exit criteria:** the calendar's provenance, freshness and coverage are visible; unavailable or uncertain data cannot approve an entry; event analysis does not invent missing values.
+**Exit criteria:** provenance, freshness and coverage are visible; unavailable or uncertain data cannot approve an entry; event analysis does not invent missing values.
 
 ### M3 — ICT/SMC strategy intelligence
+**GitHub tracking:** [Issue #145](https://github.com/Tshidiso-analyst/Moil-bot/issues/145)  
 **Status: Research and decision components exist; automated evidence detectors need validation.**
 
 - [ ] Define deterministic, testable definitions for liquidity pools/sweeps, BOS body close, CHoCH, FVG, order blocks, equilibrium/OTE, displacement and session windows.
@@ -72,25 +82,27 @@ Moil-bot is not currently a fully autonomous trader. Candidate rules must be evi
 - [ ] Validate multi-timeframe context, New York session timing and daylight-saving transitions.
 - [ ] Wire detector outputs into the entry-confirmation checklist.
 - [ ] Add explicit no-trade conditions: weak/ambiguous structure, stale data, conflicting signals, high spread, event blackout and outside approved sessions.
-- [ ] Keep strategy output explanatory: evidence, invalidation, entry, stop, target and reasons for rejection.
+- [ ] Make strategy output explanatory: evidence, invalidation, entry, stop, target and rejection reasons.
 - [ ] Require human review before a rule can be enabled for DEMO forward-testing.
 
 **Exit criteria:** a setup can be reproduced from historical candles, with source evidence and clear reasons for both acceptance and rejection.
 
 ### M4 — PDF/video knowledge and source governance
+**GitHub tracking:** [Issue #146](https://github.com/Tshidiso-analyst/Moil-bot/issues/146)  
 **Status: Ingestion and unified search exist; coverage and governance work remains.**
 
-- [ ] Inventory all source files, transcripts, catalogues and redistribution/licensing metadata.
+- [ ] Inventory source files, transcripts, catalogues and redistribution/licensing metadata.
 - [ ] Make ingestion repeatable and idempotent; report failed, skipped and duplicate sources.
 - [ ] Preserve PDF page and video timestamp/source links for every extracted claim.
 - [ ] Improve retrieval tests for ICT/SMC, sessions, candlesticks, risk, margin and fundamentals.
 - [ ] Require human review and evidence IDs before a source can support an executable rule.
 - [ ] Track source versions and stale/withdrawn material.
-- [ ] Document data directories that are generated, ignored or intentionally committed.
+- [ ] Document generated, ignored and intentionally committed data directories.
 
 **Exit criteria:** every strategy claim can be traced to a source and location; ingestion reports coverage and errors; no unreviewed content enables execution.
 
 ### M5 — Backtesting and strategy evaluation
+**GitHub tracking:** [Issue #147](https://github.com/Tshidiso-analyst/Moil-bot/issues/147)  
 **Status: Components exist; validated research workflow not complete.**
 
 - [ ] Define a realistic backtest contract including spread, commission, swap, slippage and execution timing.
@@ -104,6 +116,7 @@ Moil-bot is not currently a fully autonomous trader. Candidate rules must be evi
 **Exit criteria:** strategy performance can be independently reproduced and compared; no strategy is promoted based on a single attractive backtest.
 
 ### M6 — Alerts, dashboard and notifications
+**GitHub tracking:** [Issue #148](https://github.com/Tshidiso-analyst/Moil-bot/issues/148)  
 **Status: Dashboard, chart, alert and notification components exist; reliability and UX validation remain.**
 
 - [ ] Verify alert conditions against market and calendar events.
@@ -116,6 +129,7 @@ Moil-bot is not currently a fully autonomous trader. Candidate rules must be evi
 **Exit criteria:** alerts are traceable, deduplicated and reliably delivered; dashboard failure states are explicit and secure.
 
 ### M7 — Full platform clients and deployment
+**GitHub tracking:** [Issue #149](https://github.com/Tshidiso-analyst/Moil-bot/issues/149)  
 **Status: Architecture direction defined; client packaging and production deployment not complete.**
 
 - [ ] Separate shared backend/API services from dashboard presentation.
@@ -129,9 +143,9 @@ Moil-bot is not currently a fully autonomous trader. Candidate rules must be evi
 
 **Exit criteria:** supported clients use one documented backend contract; local MT5 execution stays on the user's trusted Windows machine; deployment and recovery are tested.
 
-## Work order and rules
+## Work order
 
-1. Finish M0 repository hygiene and clean-clone validation.
+1. Finish M0 repository alignment and clean-clone validation.
 2. Complete M1 before attempting any broker DEMO order.
 3. Validate M2 calendar inputs before connecting event analysis to entry qualification.
 4. Complete M3 detector validation and M4 source traceability before promoting strategy rules.
@@ -148,8 +162,10 @@ Moil-bot is not currently a fully autonomous trader. Candidate rules must be evi
 - Documentation and this roadmap are updated.
 - Git diff is reviewed; no credentials, generated secrets or unrelated files are included.
 - Work is committed to the active feature branch and integrated through a reviewed PR.
-- For trading changes, REAL/unknown account blocking and fail-closed behaviour are explicitly tested.
+- For trading changes, REAL/CONTEST/unknown account blocking and fail-closed behaviour are explicitly tested.
 
 ## Current checkpoint
 
-**Next task:** M0 documentation/repository alignment, then M1 MT5 risk-history audit. Keep the old local folder untouched until the clean clone passes tests and its required local data/configuration has been migrated safely.
+**Next task:** finish M0 branch/PR reconciliation and clean-clone verification, then work Issue #142 (M1 MT5 risk-history and execution-path audit). Keep the old local folder untouched until the clean clone passes tests and its required local data/configuration has been migrated safely.
+
+Do not submit an MT5 DEMO order until Issue #142 is closed and the preconditions in Issue #143 and `docs/DEMO_EXECUTION_TEST_PLAN.md` are satisfied.
