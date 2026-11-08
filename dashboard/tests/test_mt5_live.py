@@ -82,10 +82,10 @@ def test_contest_account_is_not_mislabeled_as_real():
 
 def test_today_entry_count_counts_only_entry_and_reversal_deals():
     deals = [
-        type("Deal", (), {"entry": 0, "type": 0})(),
-        type("Deal", (), {"entry": 1, "type": 1})(),
-        type("Deal", (), {"entry": 2, "type": 1})(),
-        type("Deal", (), {"entry": 0, "type": 2})(),
+        type("Deal", (), {"entry": 0, "type": 0, "order": 100})(),
+        type("Deal", (), {"entry": 1, "type": 1, "order": 101})(),
+        type("Deal", (), {"entry": 2, "type": 1, "order": 102})(),
+        type("Deal", (), {"entry": 0, "type": 2, "order": 103})(),
     ]
     service = MT5LiveService(mt5_module=FakeMT5(deals=deals))
     service.connected = True
@@ -420,3 +420,28 @@ def test_new_york_trading_window_handles_daylight_saving_transition():
     start, end = MT5LiveService._new_york_trading_window(now)
     assert start == datetime(2026, 11, 1, 4, 0, tzinfo=timezone.utc)
     assert end == now
+
+
+def test_today_entry_count_deduplicates_partial_fills_by_order_id():
+    deals = [
+        type("Deal", (), {"entry": 0, "type": 0, "order": 100, "ticket": 1})(),
+        type("Deal", (), {"entry": 0, "type": 0, "order": 100, "ticket": 2})(),
+        type("Deal", (), {"entry": 0, "type": 1, "order": 101, "ticket": 3})(),
+    ]
+    service = MT5LiveService(mt5_module=FakeMT5(deals=deals))
+    service.connected = True
+
+    assert service.today_entry_count() == 2
+
+
+def test_today_entry_count_fails_closed_when_entry_order_id_is_missing():
+    malformed = type("Deal", (), {"entry": 0, "type": 0})()
+    service = MT5LiveService(mt5_module=FakeMT5(deals=[malformed]))
+    service.connected = True
+
+    try:
+        service.today_entry_count()
+    except RuntimeError as exc:
+        assert "no valid order ID" in str(exc)
+    else:
+        raise AssertionError("Missing order IDs must not bypass the one-trade-per-day guard.")

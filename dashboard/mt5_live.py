@@ -335,7 +335,7 @@ class MT5LiveService:
             getattr(self.mt5, "DEAL_TYPE_BUY", 0),
             getattr(self.mt5, "DEAL_TYPE_SELL", 1),
         }
-        count = 0
+        order_ids: set[int] = set()
         for deal in deals:
             entry = getattr(deal, "entry", None)
             deal_type = getattr(deal, "type", None)
@@ -344,8 +344,19 @@ class MT5LiveService:
                     "MT5 returned malformed deal history; today's trade count cannot be verified."
                 )
             if entry in entry_values and deal_type in trade_types:
-                count += 1
-        return count
+                order_id = getattr(deal, "order", None)
+                try:
+                    order_number = int(order_id or 0)
+                except (TypeError, ValueError, OverflowError):
+                    order_number = 0
+                if order_number <= 0:
+                    raise RuntimeError(
+                        "MT5 entry deal has no valid order ID; today's distinct trade count cannot be verified."
+                    )
+                # One order can generate multiple partial-fill deals. Count the
+                # order once, while a later reversal/new order counts separately.
+                order_ids.add(order_number)
+        return len(order_ids)
 
     def today_loss_percent(self, now: datetime | None = None) -> float:
         """Estimate today's realized plus floating trading loss as % of start balance."""
