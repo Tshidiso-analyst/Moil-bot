@@ -359,3 +359,46 @@ def test_demo_start_requires_explicit_confirmation_before_order_send():
     assert "explicit" in result.reason.lower()
     assert executor.order is None
 
+def test_demo_start_blocks_non_finite_balance_and_risk_above_one_percent():
+    rules = [{
+        "rule_id": "fvg_ny_1",
+        "name": "NY FVG continuation",
+        "direction": "bullish",
+        "demo_execution_enabled": True,
+        "sources": [{"human_review_confirmed": True, "page": 12}],
+    }]
+    executor = _FakeDemoExecutor()
+    controller = DemoStartController(
+        registry=_FakeRegistry(rules),
+        decision_engine=_FakeDecisionEngine(
+            _FakeAssessment(
+                symbol="EURUSD", direction="bullish", session="new_york",
+                trend="bullish", setup_valid=True, confirmation=True,
+                reasons=["confirmed"], entry=1.15, stop_loss=1.14,
+                take_profit=1.17, risk_percent=0.5,
+            )
+        ),
+    )
+
+    invalid_balance = controller.start(
+        symbol="EURUSD", dataframe=_sample_frame(), account_mode="DEMO",
+        allow_execution=True, explicit_confirmation=True,
+        daily_loss_percent=0.0, open_trades=0, daily_trade_count=0,
+        high_impact_news=False, calendar_verified=True,
+        executor=executor, account_balance=float("nan"),
+    )
+    excessive_risk = controller.start(
+        symbol="EURUSD", dataframe=_sample_frame(), account_mode="DEMO",
+        allow_execution=True, explicit_confirmation=True,
+        proposed_risk_percent=1.01,
+        daily_loss_percent=0.0, open_trades=0, daily_trade_count=0,
+        high_impact_news=False, calendar_verified=True,
+        executor=executor, account_balance=10000.0,
+    )
+
+    assert invalid_balance.status == "blocked"
+    assert "finite positive account balance" in invalid_balance.reason
+    assert excessive_risk.status == "blocked"
+    assert "no more than 1%" in excessive_risk.reason
+    assert executor.order is None
+
