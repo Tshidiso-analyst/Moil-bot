@@ -44,15 +44,16 @@ def build_session_cookie(token: str, *, secure: bool = False) -> str:
     return f"{SESSION_COOKIE_NAME}={token}; " + "; ".join(attributes)
 
 
-def build_expired_session_cookie() -> str:
-    return (
-        f"{SESSION_COOKIE_NAME}=; "
-        "HttpOnly; "
-        "SameSite=Lax; "
-        "Path=/; "
-        "Max-Age=0; "
-        "Secure"
-    )
+def build_expired_session_cookie(*, secure: bool = False) -> str:
+    attributes = [
+        "HttpOnly",
+        "SameSite=Lax",
+        "Path=/",
+        "Max-Age=0",
+    ]
+    if secure:
+        attributes.append("Secure")
+    return f"{SESSION_COOKIE_NAME}=; " + "; ".join(attributes)
 
 
 def redirect_response(handler, location: str, cookie: str | None = None):
