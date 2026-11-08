@@ -87,6 +87,12 @@ class MT5LiveService:
             self.last_error = "MT5 terminal path is invalid."
             return MT5ConnectionResult(connected=False, message=self.last_error)
         try:
+            # Release any previous Python-to-terminal session before switching
+            # broker accounts or broker-branded terminal installations.
+            try:
+                self.mt5.shutdown()
+            except Exception:
+                pass
             if not self.mt5.initialize(path=target_path):
                 self.connected = False
                 self.last_error = f"MT5 initialization failed: {self.mt5.last_error()}"

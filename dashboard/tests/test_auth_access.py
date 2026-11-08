@@ -6,6 +6,8 @@ from dashboard.app import (
     clear_login_failures,
     login_rate_limited,
     parse_mt5_credentials,
+    SESSION,
+    clear_mt5_dashboard_session,
 )
 
 
@@ -124,3 +126,19 @@ def test_mt5_connection_requires_loopback_client_and_loopback_origin():
 
     assert MoilBotHandler.is_local_dashboard_request(local) is True
     assert MoilBotHandler.is_local_dashboard_request(remote) is False
+
+
+def test_switching_brokers_clears_stale_dashboard_account_state():
+    SESSION.update({
+        "connected": True,
+        "account": object(),
+        "mode": "DEMO",
+        "operating": True,
+    })
+
+    clear_mt5_dashboard_session()
+
+    assert SESSION["connected"] is False
+    assert SESSION["account"] is None
+    assert SESSION["mode"] is None
+    assert SESSION["operating"] is False

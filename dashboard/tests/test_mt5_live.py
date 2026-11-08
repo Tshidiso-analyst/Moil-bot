@@ -20,8 +20,11 @@ class FakeMT5:
         self.requested_server = ""
         self.requested_login = None
         self.initialize_calls = []
+        self.events = []
+        self.shutdown_calls = 0
 
     def initialize(self, **kwargs):
+        self.events.append("initialize")
         self.initialize_calls.append(kwargs)
         return True
 
@@ -56,7 +59,8 @@ class FakeMT5:
         return (0, "ok")
 
     def shutdown(self):
-        pass
+        self.events.append("shutdown")
+        self.shutdown_calls += 1
 
 
 def test_connection_reports_actual_mt5_demo_mode():
@@ -445,3 +449,42 @@ def test_today_entry_count_fails_closed_when_entry_order_id_is_missing():
         assert "no valid order ID" in str(exc)
     else:
         raise AssertionError("Missing order IDs must not bypass the one-trade-per-day guard.")
+
+
+def test_broker_switch_shuts_down_previous_terminal_session_first():
+    fake = FakeMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+
+    result = service.connect(
+        login=12345678,
+        password="test-password",
+        server="Exness-MT5Trial8",
+        requested_mode="DEMO",
+    )
+
+    assert result.connected is True
+    assert fake.events[:2] == ["shutdown", "initialize"]
+
+
+def test_failed_broker_login_leaves_mt5_service_disconnected():
+    class FailedLoginMT5(FakeMT5):
+        def login(self, *args, **kwargs):
+            self.login_calls.append((args, kwargs))
+            return False
+
+    fake = FailedLoginMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+    service.connected = True
+    service.account = object()
+
+    result = service.connect(
+        login=12345678,
+        password="wrong-password",
+        server="Exness-MT5Trial8",
+        requested_mode="DEMO",
+    )
+
+    assert result.connected is False
+    assert service.connected is False
+    assert service.account is None
+    assert fake.shutdown_calls >= 2

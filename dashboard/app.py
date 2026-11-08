@@ -61,6 +61,16 @@ SESSION: dict[str, Any] = {
 }
 
 
+def clear_mt5_dashboard_session() -> None:
+    """Clear stale dashboard account state before disconnecting or switching brokers."""
+    SESSION.update({
+        "connected": False,
+        "account": None,
+        "mode": None,
+        "operating": False,
+    })
+
+
 def esc(value: Any) -> str:
     return html.escape(str(value if value is not None else ""))
 
@@ -528,7 +538,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
             if not self.is_local_dashboard_request():
                 self.send_html("<h1>Local MT5 disconnect request required</h1>", 403)
                 return
-            SESSION.update({"connected": False, "account": None, "mode": None, "operating": False})
+            clear_mt5_dashboard_session()
             mt5_service.shutdown()
             self.redirect("/")
             return
@@ -701,6 +711,9 @@ class MoilBotHandler(BaseHTTPRequestHandler):
         try:
             mode = (form.get("mode") or "DEMO").upper()
             login, password, server = parse_mt5_credentials(form)
+            # Do not leave the previous broker/account shown as connected if
+            # the requested account switch fails at any stage.
+            clear_mt5_dashboard_session()
             result = mt5_service.connect(
                 login=login,
                 password=password,
