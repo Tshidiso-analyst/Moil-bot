@@ -342,7 +342,7 @@ def risk_page() -> str:
     </div>
     <div class="card"><ul>
       <li>Demo risk per trade: 0.5% by default; hard cap 1%</li>
-      <li>Maximum one new trade per local day</li>
+      <li>Maximum one new trade per New York trading day</li>
       <li>Maximum one open position</li>
       <li>Daily loss stop: 1%</li>
       <li>No new entries on a high-impact event date</li>

@@ -50,8 +50,13 @@ every order and close request.
    ```
 
 6. Open `http://127.0.0.1:8501`. Connect using the DEMO option and the
-   demo account's login, password, and exact broker server name. If MT5 reports
-   a REAL, CONTEST, or unknown account type, the DEMO connection is rejected.
+   demo account's login, trading password, and exact broker MT5 server name.
+   All three credentials must be supplied together. If you use a broker-branded
+   MT5 installation (for example, Exness MT5) outside the default installation
+   folder, enter that terminal's `terminal64.exe` path in the optional terminal
+   path field. The server name must be copied from the broker account details;
+   do not guess a numbered server. If MT5 reports a different login/server or a
+   REAL, CONTEST, or unknown account type, the DEMO connection is rejected.
 
 ## Demo forward-test procedure
 
@@ -80,7 +85,7 @@ every order and close request.
 - An unapproved rule must not submit an order.
 - An unverified/stale calendar or any high-impact event scheduled for the
   current local calendar date must block new entries.
-- A second trade on the same local day must be blocked.
+- A second trade on the same New York trading day must be blocked.
 - An existing open position must block a new strategy entry.
 - A stop/target on the wrong side of the live quote must be rejected.
 - A volume below/above broker limits or outside the broker lot step must be

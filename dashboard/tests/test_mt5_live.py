@@ -217,7 +217,7 @@ def test_open_trade_summary_reports_verified_empty_positions():
 
 
 
-def test_today_entry_count_uses_utc_day_boundaries():
+def test_today_entry_count_uses_new_york_trading_day_boundaries():
     fake = FakeMT5(deals=[])
     service = MT5LiveService(mt5_module=fake)
     service.connected = True

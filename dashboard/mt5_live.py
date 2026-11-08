@@ -379,7 +379,7 @@ class MT5LiveService:
                 raise RuntimeError(
                     "MT5 history contains a deposit, withdrawal, credit or other "
                     "non-trading balance adjustment today; daily loss cannot be "
-                    "verified safely until the next UTC trading day."
+                    "verified safely until the next New York trading day."
                 )
             realized = sum(
                 float(getattr(deal, "profit", 0.0) or 0.0)

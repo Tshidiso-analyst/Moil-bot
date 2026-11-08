@@ -20,7 +20,7 @@ Hosted mode now requires PostgreSQL-backed login sessions, supports login/logout
 | Area | Current capability | Remaining verification |
 |---|---|---|
 | Dashboard | Local dashboard; hosted mode requires authenticated PostgreSQL-backed sessions | Complete user-flow, per-user isolation and security review |
-| MT5 connection | Local terminal connection, account metadata, symbols, candles and positions | Verify on the owner's Windows terminal and broker DEMO account |
+| MT5 connection | Local MT5 terminal connection with broker-neutral exact server login, optional broker-specific terminal executable path, account metadata, symbols, candles and positions | Verify on the owner's Windows terminal and broker DEMO account; server names must be copied from the broker account details |
 | Market analysis | Real-time analysis pipeline and trading decision components | Validate signals against labelled market data |
 | ICT/SMC knowledge | PDF/video knowledge search and concept extraction | Ingestion coverage, source quality and traceability |
 | Strategy rules | Rule registry separates reviewed evidence from execution approval | Complete human review and rule validation |
@@ -98,6 +98,10 @@ python -m dashboard.app
 ```
 
 Open the local URL printed in the terminal. If using Streamlit in a branch that still has the Streamlit entry point, follow that branch's documented launch command instead.
+
+## MT5 broker connection
+
+Moil-bot uses the official MetaTrader 5 Python integration and accepts the exact server name supplied by the broker. The login form is not limited to Exness: any broker that provides an MT5 account can be used by entering that account's login, trading password and exact server name. The three credential fields must be supplied together. If the broker distributes its own MT5 terminal in a separate installation folder, enter that terminal's `terminal64.exe` path in the optional terminal-path field. Exness assigns accounts to particular servers; copy the server from the Exness Personal Area rather than guessing a `Trial` or `Real` number. The Python integration does not provide a universal broker-server directory, so Moil-bot accepts exact server names instead of claiming to discover every broker server automatically.
 
 ## MT5 DEMO execution rules
 
