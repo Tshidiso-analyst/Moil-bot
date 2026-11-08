@@ -392,12 +392,15 @@ def test_partial_close_reports_executed_and_remaining_volume():
 
 def test_partial_close_without_reported_volume_requires_manual_inspection():
     mt5 = FakeMT5(trade_mode=0)
-    mt5.order_send = lambda request: SimpleNamespace(
-        retcode=mt5.TRADE_RETCODE_DONE_PARTIAL,
-        order=98765,
-        deal=98766,
-        price=request["price"],
-    )
+    def partial_close(request):
+        mt5.sent.append(request)
+        return SimpleNamespace(
+            retcode=mt5.TRADE_RETCODE_DONE_PARTIAL,
+            order=98765,
+            deal=98766,
+            price=request["price"],
+        )
+    mt5.order_send = partial_close
     service = MT5ExecutionService(mt5)
     service.adopt_existing_connection()
 
