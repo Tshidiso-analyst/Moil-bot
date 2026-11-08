@@ -53,7 +53,7 @@ The milestone sequence below is mirrored by the GitHub issues linked in each sec
 - [x] Ensure the MT5 position-summary service does not present disconnected/unavailable data as a verified zero; regression tests added. Dashboard presentation still needs an explicit unavailable-state UI if this summary is surfaced.
 - [ ] Complete one controlled Windows broker DEMO integration test using [DEMO_EXECUTION_TEST_PLAN.md](DEMO_EXECUTION_TEST_PLAN.md).
 
-**Current audit notes (2026-11-08):** `positions()`, `today_entry_count()` and `today_loss_percent()` raise when their required MT5 reads fail. `open_trade_count()` uses the fail-closed `positions()` method. However, `open_trade_summary()` currently substitutes an empty list when disconnected, which can make a display summary look like zero positions; this needs explicit unavailable-state handling. The history window uses the Windows host's local midnight, so broker-server timezone/day-boundary behaviour still needs verification.
+**Current audit notes (2026-11-08):** `positions()`, `today_entry_count()`, `today_loss_percent()`, `open_trade_count()` and `open_trade_summary()` now fail closed when the MT5 connection or required read is unavailable. The summary regression tests distinguish disconnected data from a verified empty position list. The history window uses the Windows host's local midnight, so broker-server timezone/day-boundary behaviour still needs verification.
 
 **Exit criteria:** all unverifiable risk facts block execution; tests pass on Windows and Linux; a manual DEMO test records a broker-confirmed ticket and protective levels. No REAL, CONTEST, unknown or disconnected account can execute.
 
