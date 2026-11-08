@@ -236,6 +236,8 @@ def test_demo_start_executes_only_after_separate_demo_rule_approval():
         daily_trade_count=0,
         high_impact_news=False,
         calendar_verified=True,
+        fundamental_bias="bullish",
+        macro_bias_verified=True,
         executor=executor,
         account_balance=10000.0,
     )
