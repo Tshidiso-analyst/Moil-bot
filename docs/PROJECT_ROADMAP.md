@@ -108,13 +108,13 @@ The milestone sequence below is mirrored by the GitHub issues linked in each sec
 **GitHub tracking:** [Issue #147](https://github.com/Tshidiso-analyst/Moil-bot/issues/147)  
 **Status: Components exist; validated research workflow not complete.**
 
-- [ ] Define a realistic backtest contract including spread, commission, swap, slippage and execution timing.
-- [ ] Prevent look-ahead bias and data leakage.
-- [ ] Add in-sample, validation and out-of-sample splits plus walk-forward tests.
-- [ ] Report drawdown, expectancy, win rate, profit factor, risk of ruin and trade distribution.
-- [ ] Compare strategy versions against a baseline and retain reproducible run metadata.
-- [ ] Define minimum sample size and promotion criteria.
-- [ ] Allow backtests to propose candidate rules only; never auto-approve rules or send orders.
+- [x] Add a cost-aware backtest contract for spread, per-side slippage, per-side commission and next-candle-open execution; swap, broker-specific contract sizing and account-currency conversion remain to be modeled.
+- [x] Prevent look-ahead bias in the engine by passing only the completed historical prefix to the signal function; enter on the next candle and assume stop-first when OHLC cannot resolve intrabar order.
+- [x] Add chronological train/test holdout and expanding-window walk-forward runners.
+- [x] Report gross/net P&L, trading costs, commission, win rate, profit factor and maximum drawdown.
+- [ ] Add expectancy, risk-of-ruin and trade-distribution reporting plus source/strategy-version metadata for reproducible runs.
+- [ ] Define minimum sample size, validation gates and promotion criteria.
+- [x] Keep backtests separate from approval and execution; backtests cannot auto-approve rules or submit broker orders.
 
 **Exit criteria:** strategy performance can be independently reproduced and compared; no strategy is promoted based on a single attractive backtest.
 
