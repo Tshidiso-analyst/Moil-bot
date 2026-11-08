@@ -17,8 +17,10 @@ class FakeMT5:
         self.deals = deals
         self.login_calls = []
         self.requested_server = ""
+        self.initialize_calls = []
 
     def initialize(self, **kwargs):
+        self.initialize_calls.append(kwargs)
         return True
 
     def login(self, *args, **kwargs):
@@ -328,3 +330,35 @@ def test_credentials_login_rejects_invalid_account_number():
     assert result.connected is False
     assert "positive account number" in result.message
     assert fake.login_calls == []
+
+
+def test_connection_uses_selected_broker_terminal_executable_path():
+    fake = FakeMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+    terminal_path = r"C:\Program Files\Exness MT5\terminal64.exe"
+
+    result = service.connect(
+        login=12345678,
+        password="test-password",
+        server="Exness-MT5Trial8",
+        requested_mode="DEMO",
+        terminal_path=terminal_path,
+    )
+
+    assert result.connected is True
+    assert fake.initialize_calls[0]["path"] == terminal_path
+    assert service.path == terminal_path
+
+
+def test_connection_rejects_invalid_terminal_path_before_initialization():
+    fake = FakeMT5(trade_mode=0)
+    service = MT5LiveService(mt5_module=fake)
+
+    result = service.connect(
+        requested_mode="DEMO",
+        terminal_path="   ",
+    )
+
+    assert result.connected is False
+    assert "terminal path is invalid" in result.message
+    assert fake.initialize_calls == []

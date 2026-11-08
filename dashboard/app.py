@@ -167,6 +167,8 @@ def connection_form(message: str = "") -> str:
         <label>Broker MT5 Server</label><input type="text" name="server" maxlength="128" autocomplete="off" placeholder="Exact server name from your broker account details"/>
         <p class="muted">Exness accounts use different assigned servers (for example, Exness-MT5Trial8 or Exness-MT5Real10). Other brokers work too: enter the exact server name shown in that broker's MT5 account details. Do not guess the server.</p>
         <label>MT5 Trading Password</label><input type="password" name="password" autocomplete="off" placeholder="Trading password for this MT5 account"/>
+        <label>MT5 Terminal EXE Path (optional)</label><input type="text" name="terminal_path" maxlength="512" autocomplete="off" placeholder="Leave blank to use the default MT5 terminal path"/>
+        <p class="muted">If you installed a broker-branded MT5 terminal (such as Exness) in a different folder, enter its terminal64.exe path here. This lets Moil-bot connect to that broker's own terminal installation. Leave blank to use the configured default path.</p>
         <p class="muted">Leave all three credential fields blank only if you want to use the account already signed in to the open MT5 terminal. Credentials are sent to your local MT5 terminal and are not saved by this form.</p>
         <button type="submit">CONNECT MT5</button>
       </form>
@@ -701,6 +703,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                 password=password,
                 server=server,
                 requested_mode=mode,
+                terminal_path=(form.get("terminal_path") or "").strip() or None,
             )
             if result.connected:
                 SESSION["connected"] = True

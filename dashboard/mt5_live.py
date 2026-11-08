@@ -44,6 +44,7 @@ class MT5LiveService:
         password: str = "",
         server: str = "",
         requested_mode: str = "DEMO",
+        terminal_path: str | None = None,
     ) -> MT5ConnectionResult:
         """Initialize and log in to the local MetaTrader 5 terminal."""
         # A reconnect attempt must never leave a previous account looking active.
@@ -80,8 +81,12 @@ class MT5LiveService:
         if self.mt5 is None:
             self.last_error = "MetaTrader5 package is not installed in this Python environment."
             return MT5ConnectionResult(connected=False, message=self.last_error)
+        target_path = str(terminal_path or self.path).strip()
+        if not target_path or len(target_path) > 512 or any(ord(char) < 32 for char in target_path):
+            self.last_error = "MT5 terminal path is invalid."
+            return MT5ConnectionResult(connected=False, message=self.last_error)
         try:
-            if not self.mt5.initialize(path=self.path):
+            if not self.mt5.initialize(path=target_path):
                 self.connected = False
                 self.last_error = f"MT5 initialization failed: {self.mt5.last_error()}"
                 return MT5ConnectionResult(connected=False, message=self.last_error)
@@ -114,6 +119,7 @@ class MT5LiveService:
                 pass
             return MT5ConnectionResult(connected=False, message=self.last_error)
 
+        self.path = target_path
         self.connected = True
         self.account = info
         self.last_error = ""
