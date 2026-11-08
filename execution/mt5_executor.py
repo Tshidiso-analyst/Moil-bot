@@ -256,11 +256,26 @@ class MT5ExecutionService:
                 f"MT5 demo order rejected: retcode={result.retcode}, "
                 f"comment={getattr(result, 'comment', '')}, error={self.mt5.last_error()}"
             )
+        reported_volume = getattr(result, "volume", None)
+        if reported_volume is None:
+            if result.retcode == getattr(self.mt5, "TRADE_RETCODE_DONE_PARTIAL", 10010):
+                raise RuntimeError(
+                    "MT5 reported a partial fill without the executed volume. "
+                    "Inspect the DEMO account before any retry."
+                )
+            executed_volume = vol
+        else:
+            try:
+                executed_volume = float(reported_volume)
+            except (TypeError, ValueError, OverflowError) as exc:
+                raise RuntimeError("MT5 returned an invalid executed volume; inspect the DEMO account.") from exc
+            if not isfinite(executed_volume) or executed_volume <= 0 or executed_volume > vol:
+                raise RuntimeError("MT5 returned an invalid executed volume; inspect the DEMO account.")
         return {
             "ticket": int(getattr(result, "order", 0) or getattr(result, "deal", 0) or 0),
             "symbol": symbol,
             "direction": "bullish" if is_buy else "bearish",
-            "volume": vol,
+            "volume": executed_volume,
             "price": float(getattr(result, "price", price) or price),
             "retcode": int(result.retcode),
             "request": request,
