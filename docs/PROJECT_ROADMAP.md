@@ -30,7 +30,7 @@ The milestone sequence below is mirrored by the GitHub issues linked in each sec
 - [x] Confirm active development branch and current draft integration PR.
 - [x] Record the reported local regression result (341 passed, 2026-11-08).
 - [x] Add project README and roadmap to the active development branch.
-- [ ] Reconcile the development branch, PR #140 and stable `main`.
+- [x] Reconcile the development branch, PR #140 and stable `main` (PR #140 remains an open draft targeting `main`; development branch is six or more commits ahead of the last reported local checkout).
 - [ ] Create a clean clone in a new local folder without deleting the old local copy.
 - [ ] Verify environment setup, full tests and dashboard launch from the clean clone.
 - [ ] Audit tracked backup files, generated data and local-only configuration before cleanup/migration.
@@ -50,10 +50,10 @@ The milestone sequence below is mirrored by the GitHub issues linked in each sec
 - [ ] Add/confirm tests for MT5 `None`, exceptions, malformed history, account changes, duplicate submissions and partial fills.
 - [ ] Confirm daily trade counting semantics for entries, reversals, partial fills and broker-server/local-day boundaries.
 - [ ] Verify daily loss calculation against MT5 history, commissions, swaps, fees and floating P/L.
-- [ ] Ensure dashboard summary/read-only paths never present unavailable MT5 position data as a verified zero.
+- [x] Ensure the MT5 position-summary service does not present disconnected/unavailable data as a verified zero; regression tests added. Dashboard presentation still needs an explicit unavailable-state UI if this summary is surfaced.
 - [ ] Complete one controlled Windows broker DEMO integration test using [DEMO_EXECUTION_TEST_PLAN.md](DEMO_EXECUTION_TEST_PLAN.md).
 
-**Current audit notes:** `positions()`, `today_entry_count()` and `today_loss_percent()` raise when their required MT5 reads fail. `open_trade_count()` uses the fail-closed `positions()` method. However, `open_trade_summary()` currently substitutes an empty list when disconnected, which can make a display summary look like zero positions; this needs explicit unavailable-state handling. The history window uses the Windows host's local midnight, so broker-server timezone/day-boundary behaviour still needs verification.
+**Current audit notes (2026-11-08):** `positions()`, `today_entry_count()` and `today_loss_percent()` raise when their required MT5 reads fail. `open_trade_count()` uses the fail-closed `positions()` method. However, `open_trade_summary()` currently substitutes an empty list when disconnected, which can make a display summary look like zero positions; this needs explicit unavailable-state handling. The history window uses the Windows host's local midnight, so broker-server timezone/day-boundary behaviour still needs verification.
 
 **Exit criteria:** all unverifiable risk facts block execution; tests pass on Windows and Linux; a manual DEMO test records a broker-confirmed ticket and protective levels. No REAL, CONTEST, unknown or disconnected account can execute.
 
