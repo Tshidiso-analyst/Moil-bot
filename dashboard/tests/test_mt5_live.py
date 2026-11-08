@@ -307,7 +307,7 @@ def test_login_passes_exact_server_name_for_multiple_mt5_brokers():
         assert fake.login_calls[0][1]["server"] == server
 
 
-def test_credentials_login_rejects_missing_server_before_initializing_terminal():
+def test_credentials_login_uses_server_preconfigured_in_selected_terminal():
     fake = FakeMT5(trade_mode=0)
     service = MT5LiveService(mt5_module=fake)
 
@@ -318,9 +318,9 @@ def test_credentials_login_rejects_missing_server_before_initializing_terminal()
         requested_mode="DEMO",
     )
 
-    assert result.connected is False
-    assert "exact MT5 server" in result.message
-    assert fake.login_calls == []
+    assert result.connected is True
+    assert result.server == "Broker-Demo"
+    assert fake.login_calls[0][1]["server"] == ""
 
 
 def test_credentials_login_rejects_invalid_account_number():
