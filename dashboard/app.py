@@ -630,6 +630,7 @@ class MoilBotHandler(BaseHTTPRequestHandler):
                         ),
                         executor=executor,
                         account_balance=float(account.balance),
+                        events=calendar_monitor.events_for_symbol(actual_symbol),
                     )
                     SESSION["last_demo_start"] = {
                         "status": result.status,
