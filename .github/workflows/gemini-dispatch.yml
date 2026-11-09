@@ -35,6 +35,7 @@ jobs:
           GEMINI_CLI_TRUST_WORKSPACE: "true"
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          gemini_model: gemini-3.8-flash
           prompt: |
             You are the coding assistant for this Moil-bot repository.
             Read GEMINI.md before making changes and follow it as repository guidance.
