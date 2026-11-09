@@ -49,3 +49,9 @@ tmp/
 temp/
 knowledge/videos/innercircletrader_catalog.json
 knowledge/videos/processed_knowledge.json
+
+# gemini-cli settings
+.gemini/
+
+# GitHub App credentials
+gha-creds-*.json
