@@ -42,7 +42,7 @@ jobs:
     if: needs.dispatch.outputs.command == 'invoke'
     uses: ./.github/workflows/gemini-invoke.yml
     permissions:
-      contents: read
+      contents: write
       issues: write
       pull-requests: write
     with:
