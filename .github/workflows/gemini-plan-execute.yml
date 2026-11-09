@@ -1,0 +1,70 @@
+name: Gemini Plan Execution
+
+on:
+  workflow_call:
+    inputs:
+      additional_context:
+        type: string
+        required: false
+        description: Additional context from the approved request
+
+jobs:
+  plan-execute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Prepare Gemini context
+        env:
+          TITLE: ${{ github.event.issue.title || github.event.pull_request.title }}
+          DESCRIPTION: ${{ github.event.issue.body || github.event.pull_request.body }}
+          EVENT_NAME: ${{ github.event_name }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+          ADDITIONAL_CONTEXT: ${{ inputs.additional_context }}
+        run: |
+          mkdir -p .gemini
+          jq -n --arg title "$TITLE" --arg description "$DESCRIPTION" \
+            --arg event "$EVENT_NAME" --arg number "$ISSUE_NUMBER" \
+            --arg repository "$REPOSITORY" --arg request "$ADDITIONAL_CONTEXT" \
+            '{title:$title, description:$description, event_name:$event, issue_number:$number, repository:$repository, request:$request}' \
+            > .gemini/context.json
+
+      - name: Run Gemini CLI with write access
+        uses: google-github-actions/run-gemini-cli@v0
+        env:
+          GEMINI_CLI_TRUST_WORKSPACE: "true"
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          gemini_model: gemini-3.8-flash
+          workflow_name: gemini-plan-execute
+          github_issue_number: ${{ github.event.issue.number || github.event.pull_request.number }}
+          github_pr_number: ${{ github.event.pull_request.number }}
+          settings: |
+            {
+              "model": {"maxSessionTurns": 40},
+              "mcpServers": {
+                "github": {
+                  "command": "docker",
+                  "args": ["run", "-i", "--rm", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "ghcr.io/github/github-mcp-server:v0.27.0"],
+                  "includeTools": [
+                    "add_issue_comment", "issue_read", "list_issues", "search_issues",
+                    "create_pull_request", "pull_request_read", "list_pull_requests",
+                    "create_branch", "create_or_update_file", "delete_file", "push_files",
+                    "get_commit", "get_file_contents", "list_commits", "search_code"
+                  ],
+                  "env": {"GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"}
+                }
+              },
+              "tools": {"core": []}
+            }
+          prompt: /gemini-plan-execute
