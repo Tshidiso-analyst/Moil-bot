@@ -32,6 +32,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GEMINI_REQUEST: ${{ github.event.comment.body }}
           GEMINI_ISSUE_NUMBER: ${{ github.event.issue.number || github.event.pull_request.number }}
+          GEMINI_CLI_TRUST_WORKSPACE: "true"
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
           prompt: |
