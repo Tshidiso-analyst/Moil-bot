@@ -44,10 +44,10 @@ jobs:
           ADDITIONAL_CONTEXT: ${{ inputs.additional_context }}
         run: |
           mkdir -p .gemini
-          jq -n --arg title "$TITLE" --arg description "$DESCRIPTION" \\
-            --arg event "$EVENT_NAME" --arg number "$ISSUE_NUMBER" \\
-            --arg repository "$REPOSITORY" --arg request "$ADDITIONAL_CONTEXT" \\
-            '{title:$title, description:$description, event_name:$event, issue_number:$number, repository:$repository, request:$request}' \\
+          jq -n --arg title "$TITLE" --arg description "$DESCRIPTION" \
+            --arg event "$EVENT_NAME" --arg number "$ISSUE_NUMBER" \
+            --arg repository "$REPOSITORY" --arg request "$ADDITIONAL_CONTEXT" \
+            '{title:$title, description:$description, event_name:$event, issue_number:$number, repository:$repository, request:$request}' \
             > .gemini/context.json
 
       - name: Run Gemini CLI as coding agent
