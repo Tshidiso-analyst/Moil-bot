@@ -69,3 +69,9 @@ contract specifications, event filters, and unseen out-of-sample periods.
   integrate them at the central order-authorization boundary and verify MT5
   tick-value currency semantics, commissions, gaps, swaps and broker contract
   specifications. The scanner remains read-only.
+
+- `risk/economic_calendar_guard.py` blocks the entire New York trading day
+  when a supplied calendar contains a relevant high-impact event (for example,
+  USD CPI/FOMC/NFP for gold or USD pairs). Missing calendar data or malformed
+  event records fail closed. A verified calendar provider and its freshness
+  checks still need to be connected; this utility does not fetch events itself.
