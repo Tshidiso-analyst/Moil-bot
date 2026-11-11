@@ -53,3 +53,19 @@ safety controls remain separate and must not be bypassed.
 Do not enable demo or live execution based on scanner output. Validate every
 instrument with realistic historical data, spread, slippage, commission,
 contract specifications, event filters, and unseen out-of-sample periods.
+
+
+## Additional portfolio safety utilities
+
+- `risk/mt5_position_sizer.py` calculates a volume estimate from MT5 tick
+  size/value and broker min/max/step metadata. It rounds down and rejects a
+  minimum volume that would exceed the requested risk budget. The default
+  maximum risk cap is 1%.
+- `risk/portfolio_guard.py` checks the daily trade count across the whole
+  portfolio (not separately per symbol), using a configurable IANA timezone.
+  The caller must supply actual account trade records; the helper does not
+  persist state or authorize execution.
+- These helpers are not yet wired into every execution path. Before demo use,
+  integrate them at the central order-authorization boundary and verify MT5
+  tick-value currency semantics, commissions, gaps, swaps and broker contract
+  specifications. The scanner remains read-only.
