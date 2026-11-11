@@ -7,7 +7,7 @@ The new execution command is a **manual, explicitly confirmed DEMO smoke test**.
 Hard safeguards in `execution/demo_pipeline.py`:
 
 - Refuses every account whose MT5 `trade_mode` is not `ACCOUNT_TRADE_MODE_DEMO`.
-- Requires three explicit confirmations: demo order, allowed trading session, and no prohibited high-impact news.
+- Requires three explicit confirmations: demo order, allowed NYSE opening-hour session, and no prohibited high-impact news.
 - Caps requested risk at 1% of balance and uses the broker's `order_calc_profit` to calculate the lot size.
 - Rounds volume down to the broker's lot step; rejects a trade if the minimum lot would exceed the risk budget.
 - Checks stop distance, free margin, broker order validation, and the final MT5 order result.
@@ -55,7 +55,7 @@ python -m backtesting.run_mt5 --symbol EURUSD --timeframe M15 --bars 3000 --stop
 - `--stop-distance`, `--spread` and `--slippage` are price units, not pips. Set them for the selected instrument and broker.
 - The report separates the chronological in-sample train period from the out-of-sample holdout.
 - Signals are evaluated only on the candle history available at that time; entries occur at the next candle open.
-- The backtest applies a New York cash-session filter after the first NYSE hour, stops taking new signals after 15:45 New York time, and caps entries at one per New York calendar day.
+- The backtest only considers signals during the first NYSE hour (09:30–10:15 New York time, allowing a next-candle entry by 10:30) and caps entries at one per New York calendar day. If no setup appears in that opening hour, it takes no trade.
 - Costs are deducted from net results; when a candle touches both stop and target, the stop is assumed first.
 - Historical high-impact news days are **not** automatically filtered. Add a verified historical calendar filter before using results to judge the strategy.
 - The SMC decision logic remains exploratory. This report does not approve a source-linked strategy rule or enable automated execution.
