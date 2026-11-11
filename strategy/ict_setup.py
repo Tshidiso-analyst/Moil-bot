@@ -86,7 +86,11 @@ def evaluate_ict_setup(
         raise ValueError("Displacement and reward/risk thresholds must be positive.")
 
     data = execution_data.sort_values("timestamp").reset_index(drop=True)
+    latest_execution_time = pd.Timestamp(data.iloc[-1]["timestamp"])
     htf = higher_timeframe_data.sort_values("timestamp").reset_index(drop=True)
+    htf_times = pd.to_datetime(htf["timestamp"], utc=True)
+    execution_time_utc = latest_execution_time.tz_localize("UTC") if latest_execution_time.tzinfo is None else latest_execution_time.tz_convert("UTC")
+    htf = htf.loc[htf_times <= execution_time_utc].reset_index(drop=True)
     session = _session(data.iloc[-1]["timestamp"])
     confirmations: list[str] = []
     rejections: list[str] = []
@@ -125,7 +129,7 @@ def evaluate_ict_setup(
             continue
 
         sweep_level = float(prior["low"].min() if direction == "bullish" else prior["high"].max())
-        for displacement_i in range(sweep_i + 1, min(last_i + 1, sweep_i + 4)):
+        for displacement_i in range(sweep_i + 1, min(last_i, sweep_i + 4)):
             if displacement_i < 2:
                 continue
             candle = data.iloc[displacement_i]
