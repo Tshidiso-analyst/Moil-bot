@@ -28,6 +28,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import math
 from typing import Callable
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import pandas as pd
 
@@ -109,6 +110,8 @@ class CostAwareBacktestEngine:
         initial_equity: float = 10_000.0,
         start_index: int = 0,
         end_index: int | None = None,
+        max_trades_per_day: int | None = None,
+        trading_timezone: str = "UTC",
     ) -> CostAwareBacktestResult:
         """Run one segment of data in timestamp order.
 
@@ -131,6 +134,16 @@ class CostAwareBacktestEngine:
         )
         self._validate_positive("position_size", position_size)
         self._validate_positive("initial_equity", initial_equity)
+        if max_trades_per_day is not None and (
+            isinstance(max_trades_per_day, bool)
+            or not isinstance(max_trades_per_day, int)
+            or max_trades_per_day < 1
+        ):
+            raise ValueError("max_trades_per_day must be a positive integer or None.")
+        try:
+            market_timezone = ZoneInfo(str(trading_timezone))
+        except (ZoneInfoNotFoundError, TypeError, ValueError):
+            raise ValueError("trading_timezone must be a valid IANA timezone.") from None
 
         data = self._prepare_data(dataframe)
         n = len(data)
@@ -151,12 +164,24 @@ class CostAwareBacktestEngine:
             return self._summarize(clean_symbol, [], initial_equity, 0)
 
         trades: list[CostAwareTrade] = []
+        trades_by_day: dict[object, int] = {}
         i = start_index
         bars_evaluated = 0
 
         # A signal at i enters at the following bar's open, so i must be
         # strictly before end_index - 1.
         while i < end_index - 1:
+            entry_timestamp = data.iloc[i + 1]["timestamp"]
+            if entry_timestamp.tzinfo is None:
+                entry_timestamp = entry_timestamp.tz_localize("UTC")
+            entry_day = entry_timestamp.tz_convert(market_timezone).date()
+            if (
+                max_trades_per_day is not None
+                and trades_by_day.get(entry_day, 0) >= max_trades_per_day
+            ):
+                i += 1
+                continue
+
             history = data.iloc[: i + 1].copy(deep=True)
             bars_evaluated += 1
             raw_signal = signal_fn(history)
@@ -281,6 +306,7 @@ class CostAwareBacktestEngine:
 
             # No overlapping trades. A new signal can only be evaluated after
             # the exit candle closes, and any next entry is on a later candle.
+            trades_by_day[entry_day] = trades_by_day.get(entry_day, 0) + 1
             i = exit_index
 
         return self._summarize(clean_symbol, trades, initial_equity, bars_evaluated)
