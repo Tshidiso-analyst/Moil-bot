@@ -14,15 +14,15 @@ class AlwaysConfirmed:
 def test_smc_signal_waits_until_after_first_nyse_hour_and_only_signals_once_per_day():
     signal = make_smc_signal_function("EURUSD", decision_engine=AlwaysConfirmed())
     before_open_hour = pd.DataFrame({
-        "timestamp": [pd.Timestamp("2026-06-10 14:15:00", tz="UTC")],
+        "timestamp": [pd.Timestamp("2026-06-10 13:15:00", tz="UTC")],
         "open": [1.1], "high": [1.101], "low": [1.099], "close": [1.1],
     })
     after_open_hour = pd.DataFrame({
-        "timestamp": [pd.Timestamp("2026-06-10 14:30:00", tz="UTC")],
+        "timestamp": [pd.Timestamp("2026-06-10 13:30:00", tz="UTC")],
         "open": [1.1], "high": [1.101], "low": [1.099], "close": [1.1],
     })
     later_same_day = pd.DataFrame({
-        "timestamp": [pd.Timestamp("2026-06-10 15:00:00", tz="UTC")],
+        "timestamp": [pd.Timestamp("2026-06-10 14:00:00", tz="UTC")],
         "open": [1.1], "high": [1.101], "low": [1.099], "close": [1.1],
     })
 
@@ -33,11 +33,11 @@ def test_smc_signal_waits_until_after_first_nyse_hour_and_only_signals_once_per_
 
 def test_cost_aware_engine_can_limit_entries_to_one_per_new_york_day():
     data = pd.DataFrame([
-        ("2026-06-10 14:30:00+00:00", 100, 100.2, 99.8, 100),
-        ("2026-06-10 14:45:00+00:00", 100, 103, 99.8, 102.5),
-        ("2026-06-10 15:00:00+00:00", 102.5, 105, 102, 104),
-        ("2026-06-11 14:30:00+00:00", 104, 104.2, 103.8, 104),
-        ("2026-06-11 14:45:00+00:00", 104, 107, 103.8, 106.5),
+        ("2026-06-10 13:30:00+00:00", 100, 100.2, 99.8, 100),
+        ("2026-06-10 13:45:00+00:00", 100, 103, 99.8, 102.5),
+        ("2026-06-10 14:00:00+00:00", 102.5, 105, 102, 104),
+        ("2026-06-11 13:30:00+00:00", 104, 104.2, 103.8, 104),
+        ("2026-06-11 13:45:00+00:00", 104, 107, 103.8, 106.5),
     ], columns=["timestamp", "open", "high", "low", "close"])
     data["timestamp"] = pd.to_datetime(data["timestamp"], utc=True)
 
