@@ -8,6 +8,9 @@
     "install:cloud": "python -m pip install -r requirements-render.txt",
     "dev": "python -m dashboard.app",
     "start": "python -m dashboard.app",
-    "test": "python -m pytest -q"
+    "test": "python -m pytest -q",
+    "demo:test": "python -m execution.demo_smoke_test",
+    "backtest:mt5": "python -m backtesting.run_mt5",
+    "test:trading": "python -m pytest -q execution/tests/test_demo_pipeline.py backtesting/tests/test_smc_runner.py backtesting/tests/test_cost_aware_engine.py"
   }
 }
