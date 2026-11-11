@@ -13,6 +13,6 @@
     "backtest:mt5": "python -m backtesting.run_mt5",
     "scan:ict:mt5": "python -m backtesting.scan_ict_mt5",
     "test:trading": "python -m pytest -q execution/tests/test_demo_pipeline.py backtesting/tests/test_smc_runner.py backtesting/tests/test_cost_aware_engine.py",
-    "ingest:ict:youtube": "python -m knowledge.videos.youtube_catalog && python -m knowledge.videos.transcript_fetcher && python -m knowledge.videos.process_transcripts --catalogue-only"
+    "ingest:ict:youtube": "python -m knowledge.videos.ingest_channel"
   }
 }
