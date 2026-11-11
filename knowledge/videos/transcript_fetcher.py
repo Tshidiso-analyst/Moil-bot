@@ -69,7 +69,17 @@ def is_disabled(message: str, exception_name: str) -> bool:
 
 
 def fetch_one(api, video: dict, languages: list[str]) -> str:
-    transcript = api.fetch(video["video_id"], languages=languages)
+    available = api.list(video["video_id"])
+    try:
+        track = available.find_transcript(languages)
+    except Exception:
+        # The channel is primarily English, but do not discard a video merely
+        # because its only available captions use another language.
+        tracks = list(available)
+        if not tracks:
+            raise ValueError("No caption tracks are available.")
+        track = next((item for item in tracks if not item.is_generated), tracks[0])
+    transcript = track.fetch()
     entries = transcript.to_raw_data()
     text = "\n".join(
         str(entry.get("text", "")).strip()
@@ -80,9 +90,9 @@ def fetch_one(api, video: dict, languages: list[str]) -> str:
         raise ValueError("Empty transcript returned.")
 
     video["transcript"] = text
-    video["transcript_language"] = getattr(transcript, "language_code", None) or "unknown"
-    video["transcript_language_name"] = getattr(transcript, "language", None) or "unknown"
-    video["transcript_is_generated"] = bool(getattr(transcript, "is_generated", False))
+    video["transcript_language"] = getattr(track, "language_code", None) or "unknown"
+    video["transcript_language_name"] = getattr(track, "language", None) or "unknown"
+    video["transcript_is_generated"] = bool(getattr(track, "is_generated", False))
     video["transcript_segments"] = len(entries)
     video["transcript_status"] = "downloaded"
     video["learning_status"] = "transcript_available"
@@ -172,6 +182,10 @@ def main():
         eligible = status in ("not_checked", "not_attempted", None, "")
         if status == "unavailable_or_error" and args.retry_errors:
             eligible = True
+        if status == "ip_blocked" and not args.retry_ip_blocked:
+            print("A previous run was IP-blocked. Stopping here; retry later or use --retry-ip-blocked after the network changes.")
+            blocked = True
+            break
         if status == "ip_blocked" and args.retry_ip_blocked:
             eligible = True
         if not eligible:
