@@ -6,7 +6,7 @@
   "scripts": {
     "install:python": "python -m pip install -r requirements.txt",
     "install:cloud": "python -m pip install -r requirements-render.txt",
-    "dev": "python -m streamlit run dashboard/app.py",
+    "dev": "python -m dashboard.app",
     "start": "python -m dashboard.app",
     "test": "python -m pytest -q"
   }
