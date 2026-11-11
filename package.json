@@ -1,22 +1,13 @@
 {
   "name": "moil-bot",
   "version": "1.0.0",
-  "description": "Backend bot / CLI application for Moil-bot",
-  "main": "src/index.js",
-  "type": "module",
+  "private": true,
+  "description": "Optional npm command wrapper for the Python-based Moil-bot application.",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 0"
-  },
-  "keywords": [
-    "bot",
-    "nodejs",
-    "moil-bot"
-  ],
-  "author": "Tshidiso-analyst",
-  "license": "MIT",
-  "dependencies": {
-    "dotenv": "^16.4.5"
+    "install:python": "python -m pip install -r requirements.txt",
+    "install:cloud": "python -m pip install -r requirements-render.txt",
+    "dev": "python -m streamlit run dashboard/app.py",
+    "start": "python -m dashboard.app",
+    "test": "python -m pytest -q"
   }
 }
