@@ -82,11 +82,26 @@ def test_fetch_one_records_language_and_generated_caption_metadata():
         def to_raw_data(self):
             return [{"text": "Liquidity sweep"}, {"text": "market structure"}]
 
-    class FakeApi:
-        def fetch(self, video_id, languages):
-            assert video_id == "abcdefghijk"
-            assert languages == ["en"]
+    class FakeTrack:
+        language_code = "en"
+        language = "English"
+        is_generated = True
+
+        def fetch(self):
             return FakeTranscript()
+
+    class FakeTrackList:
+        def find_transcript(self, languages):
+            assert languages == ["en"]
+            return FakeTrack()
+
+        def __iter__(self):
+            return iter([FakeTrack()])
+
+    class FakeApi:
+        def list(self, video_id):
+            assert video_id == "abcdefghijk"
+            return FakeTrackList()
 
     video = {"video_id": "abcdefghijk"}
     text = transcript_fetcher.fetch_one(FakeApi(), video, ["en"])
