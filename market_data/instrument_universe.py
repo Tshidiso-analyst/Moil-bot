@@ -83,13 +83,15 @@ def discover_instruments(
             if not name or name in used:
                 continue
             rank = None
+            canonical_token = _compact(canonical)
             for alias in alias_tokens:
+                alias_priority = 0 if alias == canonical_token else 2
                 if name_token == alias:
-                    rank = 0
+                    rank = min(rank if rank is not None else 99, alias_priority)
                 elif name_token.startswith(alias) or name_token.endswith(alias):
-                    rank = min(rank or 99, 1)
+                    rank = min(rank if rank is not None else 99, alias_priority + 1)
                 elif alias in name_token or alias in desc_token:
-                    rank = min(rank or 99, 2)
+                    rank = min(rank if rank is not None else 99, alias_priority + 2)
             if rank is not None:
                 candidates.append((rank, len(name), name, description))
         if candidates:
