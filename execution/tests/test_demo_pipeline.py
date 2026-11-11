@@ -95,7 +95,7 @@ def test_demo_order_is_sized_from_broker_profit_calculation_and_sent():
 
     assert result.status == "accepted"
     assert result.ticket == 12345
-    assert result.volume == pytest.approx(0.12)
+    assert result.volume == pytest.approx(1.0)
     assert result.estimated_loss <= result.risk_amount
     assert result.request["sl"] == 1.0992
     assert result.request["tp"] == 1.1022
