@@ -11,7 +11,7 @@ class AlwaysConfirmed:
         return SimpleNamespace(setup_valid=True, direction="bullish")
 
 
-def test_smc_signal_waits_until_after_first_nyse_hour_and_only_signals_once_per_day():
+def test_smc_signal_is_limited_to_first_nyse_hour_and_only_signals_once_per_day():
     signal = make_smc_signal_function("EURUSD", decision_engine=AlwaysConfirmed())
     before_open_hour = pd.DataFrame({
         "timestamp": [pd.Timestamp("2026-06-10 13:15:00", tz="UTC")],
