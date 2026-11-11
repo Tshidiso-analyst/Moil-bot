@@ -15,15 +15,19 @@ import pandas as pd
 
 def relevant_currencies(symbol: str) -> set[str]:
     token = "".join(ch for ch in str(symbol).upper() if ch.isalnum())
-    if token in {"XAUUSD", "GOLD", "XAGUSD", "SILVER", "US30", "DJ30", "DOW30",
-                 "NAS100", "USTEC", "US100", "SPX500", "US500", "SP500"}:
+    if any(token.startswith(alias) for alias in (
+        "XAUUSD", "GOLD", "XAGUSD", "SILVER", "US30", "DJ30", "DOW30",
+        "NAS100", "USTEC", "US100", "SPX500", "US500", "SP500"
+    )):
         return {"USD"}
-    if len(token) == 6 and token.isalpha():
-        return {token[:3], token[3:]}
-    if token in {"GER40", "DAX40", "DE40"}:
+    if any(token.startswith(alias) for alias in ("GER40", "DAX40", "DE40")):
         return {"EUR"}
-    if token in {"UK100", "FTSE100"}:
+    if any(token.startswith(alias) for alias in ("UK100", "FTSE100")):
         return {"GBP"}
+    currencies = {"USD", "EUR", "GBP", "JPY", "CHF", "AUD", "NZD", "CAD"}
+    pair = token[:6]
+    if len(token) >= 6 and pair[:3] in currencies and pair[3:] in currencies:
+        return {pair[:3], pair[3:]}
     return set()
 
 
