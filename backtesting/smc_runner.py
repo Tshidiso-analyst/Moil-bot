@@ -28,9 +28,9 @@ def make_smc_signal_function(
 ):
     """Build a stateful signal callback with a New York cash-session filter.
 
-    The first eligible signal is after the NYSE opening hour. The last signal
-    is 15:45 New York time so a 15-minute next-bar entry does not begin after
-    the regular session. A decision engine only sees the supplied history.
+    Signals are limited to the first NYSE hour. For M15 data, the last
+    eligible completed candle is 10:15 New York time so the next-bar entry is
+    at 10:30. If no setup appears in that opening hour, no trade is taken.
     """
     engine = decision_engine or TradeDecisionEngine()
     traded_signal_dates: set[object] = set()
