@@ -1,0 +1,22 @@
+{
+  "name": "moil-bot",
+  "version": "1.0.0",
+  "description": "Backend bot / CLI application for Moil-bot",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "keywords": [
+    "bot",
+    "nodejs",
+    "moil-bot"
+  ],
+  "author": "Tshidiso-analyst",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
