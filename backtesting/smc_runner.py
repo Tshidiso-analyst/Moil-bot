@@ -23,8 +23,8 @@ def make_smc_signal_function(
     *,
     decision_engine: Any | None = None,
     risk_percent: float = 0.5,
-    session_start: time = time(10, 30),
-    session_end: time = time(15, 45),
+    session_start: time = time(9, 30),
+    session_end: time = time(10, 15),
 ):
     """Build a stateful signal callback with a New York cash-session filter.
 
