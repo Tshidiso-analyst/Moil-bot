@@ -38,7 +38,7 @@ def main() -> int:
         "Starting transcript ingestion for every eligible catalogue entry. "
         "Existing transcripts are retained and skipped."
     )
-    run_stage("knowledge.videos.transcript_fetcher")
+    run_stage("knowledge.videos.transcript_fetcher", "--retry-errors")
     print("Extracting concepts from every transcript already saved.")
     run_stage("knowledge.videos.process_transcripts", "--catalogue-only")
     print("\nFull-channel ingestion stages completed. Check the JSON reports for "
