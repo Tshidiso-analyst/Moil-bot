@@ -159,3 +159,36 @@ def test_existing_bot_deal_in_last_24_hours_blocks_second_daily_entry():
         execute(fake)
 
     assert fake.sent == []
+
+
+def test_minimum_lot_is_not_forced_when_it_would_exceed_risk_budget():
+    fake = FakeMT5()
+    fake.order_calc_profit = lambda order_type, symbol, volume, entry, stop: -100_000_000.0 * volume
+
+    with pytest.raises(DemoExecutionError, match="below broker minimum"):
+        execute(fake)
+
+    assert fake.sent == []
+
+
+def test_insufficient_margin_blocks_order_before_send():
+    fake = FakeMT5()
+    fake.order_calc_margin = lambda order_type, symbol, volume, entry: 6_000.0
+
+    with pytest.raises(DemoExecutionError, match="Insufficient free margin"):
+        execute(fake)
+
+    assert fake.sent == []
+
+
+def test_broker_filling_flags_select_supported_order_type():
+    fake = FakeMT5()
+    fake.SYMBOL_FILLING_FOK = 1
+    fake.SYMBOL_FILLING_IOC = 2
+    fake.ORDER_FILLING_FOK = 0
+    fake.ORDER_FILLING_IOC = 1
+    fake.info.filling_mode = fake.SYMBOL_FILLING_IOC
+
+    result = execute(fake)
+
+    assert result.request["type_filling"] == fake.ORDER_FILLING_IOC
