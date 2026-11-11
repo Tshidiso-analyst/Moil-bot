@@ -140,7 +140,13 @@ def normalize_concepts(result) -> list[str]:
     return concepts
 
 
-def process_catalog(\n    catalog_path: Path,\n    output_path: Path,\n    limit: int | None = None,\n    delay: float = 1.5,\n    fetch_missing: bool = True,\n) -> int:
+def process_catalog(
+    catalog_path: Path,
+    output_path: Path,
+    limit: int | None = None,
+    delay: float = 1.5,
+    fetch_missing: bool = True,
+) -> int:
     videos = load_catalog(catalog_path)
     if limit is not None:
         videos = videos[:limit]
@@ -184,11 +190,13 @@ def process_catalog(\n    catalog_path: Path,\n    output_path: Path,\n    limit
         error = None
         transcript_source = "catalogue"
 
-        if not transcript:
+        if not transcript and fetch_missing:
             transcript_source = "YouTube"
             if delay > 0:
                 time.sleep(delay)
             transcript, error = fetch_transcript(video_id)
+        elif not transcript:
+            error = "transcript_not_saved: run the transcript fetcher first"
 
         if not transcript:
             reason = error or "unknown_transcript_error"
@@ -312,6 +320,11 @@ def main() -> int:
         help="Process only the first N catalogue entries for testing.",
     )
     parser.add_argument(
+        "--catalogue-only",
+        action="store_true",
+        help="Process only transcripts already saved in the catalogue; do not make network requests.",
+    )
+    parser.add_argument(
         "--delay",
         type=float,
         default=1.5,
@@ -326,7 +339,10 @@ def main() -> int:
     if not args.catalog.is_file():
         parser.error(f"Catalogue file not found: {args.catalog}")
 
-    return process_catalog(\n        args.catalog, args.output, args.limit, args.delay,\n        fetch_missing=not args.catalogue_only,\n    )
+    return process_catalog(
+        args.catalog, args.output, args.limit, args.delay,
+        fetch_missing=not args.catalogue_only,
+    )
 
 
 if __name__ == "__main__":
