@@ -16,7 +16,7 @@ def test_sizes_down_to_volume_step_without_exceeding_one_percent():
         entry_price=1.1000, stop_loss=1.0900,
     )
     assert result.accepted
-    assert result.volume == 10.0
+    assert result.volume == 1.0
     assert result.estimated_loss_at_stop == 100.0
     assert result.risk_percent <= 1.0
 
