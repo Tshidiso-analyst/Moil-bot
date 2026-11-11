@@ -145,7 +145,7 @@ def save_catalog(videos: list[dict], output_path: Path = DEFAULT_OUTPUT) -> Path
     )
     output_path.write_text(
         json.dumps({
-            "channel_handle": channel_handle if (channel_handle := CHANNEL_HANDLE) else CHANNEL_HANDLE,
+            "channel_handle": CHANNEL_HANDLE,
             "video_count": len(ordered),
             "catalogue_status": "metadata_and_transcripts" if has_transcripts else "metadata_only",
             "last_catalogue_sync_utc": datetime.now(timezone.utc).isoformat(),
