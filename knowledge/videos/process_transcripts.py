@@ -140,7 +140,7 @@ def normalize_concepts(result) -> list[str]:
     return concepts
 
 
-def process_catalog(catalog_path: Path, output_path: Path, limit: int | None = None, delay: float = 1.5) -> int:
+def process_catalog(\n    catalog_path: Path,\n    output_path: Path,\n    limit: int | None = None,\n    delay: float = 1.5,\n    fetch_missing: bool = True,\n) -> int:
     videos = load_catalog(catalog_path)
     if limit is not None:
         videos = videos[:limit]
@@ -326,7 +326,7 @@ def main() -> int:
     if not args.catalog.is_file():
         parser.error(f"Catalogue file not found: {args.catalog}")
 
-    return process_catalog(args.catalog, args.output, args.limit, args.delay)
+    return process_catalog(\n        args.catalog, args.output, args.limit, args.delay,\n        fetch_missing=not args.catalogue_only,\n    )
 
 
 if __name__ == "__main__":
