@@ -167,6 +167,17 @@ class DemoExecutionPipeline:
         if margin_required > free_margin:
             raise DemoExecutionError("Insufficient free margin for this demo order.")
 
+        filling_mode = getattr(info, "filling_mode", None)
+        if filling_mode is not None:
+            if int(filling_mode) & int(getattr(self.mt5, "SYMBOL_FILLING_FOK", 1)):
+                order_filling = self.mt5.ORDER_FILLING_FOK
+            elif int(filling_mode) & int(getattr(self.mt5, "SYMBOL_FILLING_IOC", 2)):
+                order_filling = self.mt5.ORDER_FILLING_IOC
+            else:
+                order_filling = self.mt5.ORDER_FILLING_RETURN
+        else:
+            order_filling = self.mt5.ORDER_FILLING_RETURN
+
         request = {
             "action": self.mt5.TRADE_ACTION_DEAL,
             "symbol": symbol,
@@ -179,7 +190,7 @@ class DemoExecutionPipeline:
             "magic": self.magic,
             "comment": str(comment)[:31],
             "type_time": self.mt5.ORDER_TIME_GTC,
-            "type_filling": self.mt5.ORDER_FILLING_RETURN,
+            "type_filling": order_filling,
         }
         checked = self.mt5.order_check(request)
         if checked is None:
