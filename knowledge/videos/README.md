@@ -6,15 +6,18 @@ only a small manually selected playlist.
 
 ## What the workflow does
 
-1. `youtube_catalog.py` resolves the channel's uploads playlist and paginates
-   through every available public upload page (50 entries per API request).
-2. `transcript_fetcher.py` attempts every eligible catalogue entry by default.
-   It saves a checkpoint after each attempt, records the caption language and
+1. If `YOUTUBE_API_KEY` is available, `ingest_channel.py` refreshes the full
+   public uploads catalogue, following every page (50 entries per API request).
+2. If the key is not available but the existing catalogue is present, it reuses
+   that catalogue. This allows the existing 925-video list to be processed
+   without needing to recreate the metadata catalogue.
+3. `transcript_fetcher.py` attempts every eligible catalogue entry by default.
+   It saves a checkpoint after each attempt, records caption language and
    whether captions are auto-generated, and resumes on the next run.
-3. `process_transcripts.py --catalogue-only` extracts concepts from transcripts
-   already saved in the catalogue and updates `processed_knowledge.json` without
-   issuing another round of YouTube requests.
-4. Reports record catalogue size, downloaded captions, disabled captions,
+4. `process_transcripts.py --catalogue-only` extracts concepts from transcripts
+   already saved in the catalogue and updates `processed_knowledge.json`
+   without making another round of YouTube requests.
+5. Reports record catalogue size, downloaded captions, disabled captions,
    errors and IP/rate blocking. A blocked run stops safely rather than hammering
    YouTube.
 
@@ -26,11 +29,12 @@ to each processed knowledge record.
 ## Requirements
 
 - Python dependencies from `requirements.txt` installed.
-- A YouTube Data API key with YouTube Data API v3 enabled, set as
-  `YOUTUBE_API_KEY` for catalogue discovery.
-- Outbound internet access for YouTube API and caption retrieval.
+- Outbound internet access for caption retrieval.
+- A YouTube Data API key with YouTube Data API v3 enabled is optional when
+  `knowledge/videos/innercircletrader_catalog.json` already exists. It is used
+  only to refresh channel metadata and discover newly uploaded videos.
 
-PowerShell:
+PowerShell, if you want to refresh the catalogue:
 
 ```powershell
 $env:YOUTUBE_API_KEY = "YOUR_YOUTUBE_DATA_API_KEY"
@@ -46,23 +50,21 @@ From the repository root:
 npm run ingest:ict:youtube
 ```
 
-Or run the stages separately:
+The runner refreshes metadata when the API key is set; otherwise it reuses the
+existing catalogue. It then attempts every eligible transcript (default
+10-second delay) and processes every transcript already saved.
 
-```powershell
-python -m knowledge.videos.youtube_catalog
-python -m knowledge.videos.transcript_fetcher
-python -m knowledge.videos.process_transcripts --catalogue-only
-```
+For a small smoke test, run
+`python -m knowledge.videos.transcript_fetcher --limit 3 --delay 2`.
+To retry ordinary transcript errors, run
+`python -m knowledge.videos.transcript_fetcher --retry-errors`.
+IP-blocked entries are not retried unless
+`--retry-ip-blocked` is explicitly supplied after the network/IP situation
+has changed.
 
-The transcript fetcher defaults to all eligible videos with a 10-second delay.
-For a small smoke test, pass `--limit 3 --delay 2`. To retry ordinary
-transcript errors, pass `--retry-errors`. IP-blocked entries are not retried
-unless `--retry-ip-blocked` is explicitly supplied after the network/IP
-situation has changed.
-
-If YouTube blocks requests, the script saves its progress and stops. Rerun it
-later to continue. Existing downloaded transcripts and statuses are preserved
-when the catalogue is refreshed.
+If YouTube blocks requests, the script saves progress and stops. Rerun it later
+to continue. Existing downloaded transcripts and statuses are preserved when
+the catalogue is refreshed.
 
 ## Generated local data
 
