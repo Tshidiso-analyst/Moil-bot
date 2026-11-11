@@ -100,6 +100,8 @@ def run_smc_backtest(
         commission_per_unit_per_side=commission_per_unit_per_side,
         position_size=position_size,
         initial_equity=initial_equity,
+        max_trades_per_day=1,
+        trading_timezone="America/New_York",
     )
 
 
