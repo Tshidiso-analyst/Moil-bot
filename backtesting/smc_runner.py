@@ -26,14 +26,12 @@ def make_smc_signal_function(
     session_start: time = time(9, 30),
     session_end: time = time(10, 15),
 ):
-    """Build a stateful signal callback with a New York cash-session filter.
+    """Build a signal callback filtered to the first NYSE trading hour.
 
-    Signals are limited to the first NYSE hour. For M15 data, the last
-    eligible completed candle is 10:15 New York time so the next-bar entry is
-    at 10:30. If no setup appears in that opening hour, no trade is taken.
+    Multiple independently confirmed setups may signal during the eligible
+    window; the cost-aware engine enforces the portfolio's daily entry cap.
     """
     engine = decision_engine or TradeDecisionEngine()
-    traded_signal_dates: set[object] = set()
     clean_symbol = str(symbol or "").strip().upper()
     if not clean_symbol:
         raise ValueError("symbol must not be empty.")
@@ -48,8 +46,6 @@ def make_smc_signal_function(
             timestamp = timestamp.tz_localize("UTC")
         local_time = timestamp.tz_convert(NEW_YORK)
         if not session_start <= local_time.time() <= session_end:
-            return None
-        if local_time.date() in traded_signal_dates:
             return None
 
         assessment = engine.assess(
@@ -66,7 +62,6 @@ def make_smc_signal_function(
         direction = str(getattr(assessment, "direction", "")).strip().lower()
         if direction not in {"bullish", "bearish"}:
             return None
-        traded_signal_dates.add(local_time.date())
         return direction
 
     return signal
@@ -100,7 +95,7 @@ def run_smc_backtest(
         commission_per_unit_per_side=commission_per_unit_per_side,
         position_size=position_size,
         initial_equity=initial_equity,
-        max_trades_per_day=1,
+        max_trades_per_day=10,
         trading_timezone="America/New_York",
     )
 
