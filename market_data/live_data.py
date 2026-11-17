@@ -55,8 +55,8 @@ def resolve_mt5_symbol(symbol: str, mt5_module=None) -> str:
 
     info = mt5_module.symbol_info("XAUUSD")
     if info is not None:
-        actual_name = str(getattr(info, "name", "") or "XAUUSD").strip()
-        if _is_verified_gold_symbol(info, actual_name):
+        actual_name = str(getattr(info, "name", "") or "").strip()
+        if actual_name and _is_verified_gold_symbol(info, actual_name):
             return actual_name
 
     raw_symbols = mt5_module.symbols_get()
