@@ -39,6 +39,11 @@ class StrategyEngine:
         symbol = str(symbol).strip().upper()
         if not symbol:
             raise ValueError("Symbol must not be empty.")
+        if symbol != "XAUUSD":
+            raise ValueError(
+                "Moil-bot currently supports XAUUSD (gold) analysis only. "
+                "Resolve broker-specific gold symbols to XAUUSD before evaluation."
+            )
 
         if not datasets:
             raise ValueError("At least one timeframe dataset is required.")
