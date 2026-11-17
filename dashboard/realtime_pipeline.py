@@ -43,7 +43,7 @@ class RealtimeTradingPipeline:
             raise ValueError("MetaTrader5 Python package is unavailable in this environment.") from exc
 
         try:
-            actual_symbol = resolve_mt5_symbol(requested_symbol, mt5)
+            actual_symbol = resolve_mt5_symbol("XAUUSD", mt5)
         except Exception as exc:
             raise ValueError(
                 f"{requested_symbol} is not available in the connected MT5 terminal. "
@@ -52,7 +52,7 @@ class RealtimeTradingPipeline:
 
         try:
             datasets = load_live_market_datasets(
-                symbol=actual_symbol,
+                symbol="XAUUSD",
                 timeframes=("M15", "H1"),
                 bars=250,
                 mt5_path=self.mt5_path,
@@ -88,11 +88,22 @@ class RealtimeTradingPipeline:
         requested_symbol = str(symbol or "").strip().upper()
         if not requested_symbol:
             raise ValueError("Symbol must not be empty.")
+        if requested_symbol != "XAUUSD":
+            return RealTimePipelineResult(
+                symbol=requested_symbol,
+                status="data_unavailable",
+                direction="neutral",
+                qualified=False,
+                score=0,
+                risk_percent=risk_percent,
+                risk_amount=float(balance) * float(risk_percent) / 100.0 if balance else 0.0,
+                reasons=["Moil-bot currently supports XAUUSD (gold) analysis only."],
+            )
 
         try:
             actual_symbol, datasets = self._build_datasets(requested_symbol)
             strategy = StrategyEngine().evaluate(
-                symbol=actual_symbol,
+                symbol="XAUUSD",
                 datasets=datasets,
                 fundamental_bias="neutral",
                 execution_timeframe="M15",
@@ -130,7 +141,7 @@ class RealtimeTradingPipeline:
             reasons = list(strategy.reasons) + list(qualifier.reasons)
             reasons.append(f"Risk guard: {guard_decision.reason}")
             return RealTimePipelineResult(
-                symbol=actual_symbol,
+                symbol="XAUUSD",
                 status="accepted" if guard_decision.allowed and qualified else ("rejected" if not guard_decision.allowed else "watch"),
                 direction=direction,
                 qualified=bool(guard_decision.allowed and qualified),
