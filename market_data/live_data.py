@@ -8,33 +8,78 @@ import pandas as pd
 from market_data.validation import validate_market_data
 
 
+def _is_verified_gold_symbol(info, fallback_name: str = "") -> bool:
+    """Return True only for XAU/USD symbols with compatible broker metadata."""
+    name = str(getattr(info, "name", "") or fallback_name).strip().upper()
+    if not name:
+        return False
+
+    # The canonical name may have no metadata on some terminals. Broker
+    # aliases (XAUUSDm, XAUUSD.a, etc.) must explicitly identify XAU/USD.
+    if name != "XAUUSD" and not name.startswith("XAUUSD"):
+        return False
+
+    base = str(getattr(info, "currency_base", "") or "").strip().upper()
+    profit = str(getattr(info, "currency_profit", "") or "").strip().upper()
+
+    if base and base != "XAU":
+        return False
+    if profit and profit != "USD":
+        return False
+
+    if name != "XAUUSD":
+        return base == "XAU" and profit == "USD"
+
+    return True
+
+
 def resolve_mt5_symbol(symbol: str, mt5_module=None) -> str:
-    """Resolve a requested instrument to a symbol available on this broker."""
+    """
+    Resolve canonical XAUUSD to a verified broker-specific MT5 gold symbol.
+
+    The returned broker name is for MT5 data retrieval only. Strategy,
+    backtesting and reporting code must continue using canonical XAUUSD.
+    """
     requested = str(symbol or "").strip().upper()
     if not requested:
         raise ValueError("Symbol must not be empty.")
+
+    if requested != "XAUUSD":
+        raise ValueError(
+            "Moil-bot currently supports XAUUSD (gold) only. "
+            "Pass canonical XAUUSD and let the resolver find the broker symbol."
+        )
+
     if mt5_module is None:
         import MetaTrader5 as mt5_module
 
-    info = mt5_module.symbol_info(requested)
+    info = mt5_module.symbol_info("XAUUSD")
     if info is not None:
-        return str(getattr(info, "name", requested))
+        actual_name = str(getattr(info, "name", "") or "XAUUSD").strip()
+        if _is_verified_gold_symbol(info, actual_name):
+            return actual_name
 
     raw_symbols = mt5_module.symbols_get()
-    names = [str(getattr(item, "name", "")) for item in (raw_symbols or ())]
-    names = [name for name in names if name]
-    exact = next((name for name in names if name.upper() == requested), None)
-    if exact:
-        return exact
+    candidates: list[str] = []
+    for item in raw_symbols or ():
+        name = str(getattr(item, "name", "") or "").strip()
+        if name and _is_verified_gold_symbol(item, name):
+            candidates.append(name)
 
-    # Broker symbols commonly add suffixes (EURUSDm, EURUSD.a). Prefer a
-    # prefix match to avoid accidentally selecting an unrelated containing name.
-    candidates = [name for name in names if name.upper().startswith(requested)]
     if not candidates:
-        candidates = [name for name in names if requested in name.upper()]
-    if not candidates:
-        raise ValueError(f"Symbol {requested} is not available in this MT5 account.")
-    return sorted(candidates, key=lambda name: (not name.upper().startswith(requested), len(name), name))[0]
+        raise ValueError(
+            "No verified XAUUSD gold symbol is available in this MT5 account. "
+            "Check Market Watch and confirm the broker's XAU/USD symbol metadata."
+        )
+
+    return sorted(
+        candidates,
+        key=lambda name: (
+            name.upper() != "XAUUSD",
+            len(name),
+            name.upper(),
+        ),
+    )[0]
 
 
 def fetch_live_candle_data(
