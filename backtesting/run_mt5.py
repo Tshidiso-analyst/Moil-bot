@@ -1,7 +1,7 @@
 """Run an exploratory SMC holdout backtest on completed candles from local MT5.
 
 Example (PowerShell):
-    python -m backtesting.run_mt5 --symbol EURUSD --timeframe M15 --bars 3000 --stop-distance 0.0010 --spread 0.00010 --slippage 0.00002
+    python -m backtesting.run_mt5 --symbol XAUUSD --timeframe M15 --bars 3000 --stop-distance 0.0010 --spread 0.00010 --slippage 0.00002
 
 No orders are submitted by this module.
 """
@@ -18,7 +18,7 @@ from market_data.live_data import resolve_mt5_symbol
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Moil-bot MT5 historical SMC backtest (simulation only)")
-    parser.add_argument("--symbol", default="EURUSD")
+    parser.add_argument("--symbol", default="XAUUSD", help="Canonical instrument: XAUUSD only")
     parser.add_argument("--timeframe", default="M15", choices=("M5", "M15", "M30", "H1", "H4", "D1"))
     parser.add_argument("--bars", type=int, default=3000)
     parser.add_argument("--stop-distance", type=float, required=True, help="Fixed stop distance in symbol price units")
@@ -37,6 +37,8 @@ def main() -> int:
     args = _parser().parse_args()
     if args.bars < 100:
         raise SystemExit("--bars must be at least 100.")
+    if str(args.symbol or "").strip().upper() != "XAUUSD":
+        raise SystemExit("Moil-bot currently supports XAUUSD (gold) backtesting only.")
     try:
         import MetaTrader5 as mt5
     except ImportError as exc:
@@ -54,7 +56,7 @@ def main() -> int:
         if not initialized:
             raise SystemExit(f"Could not initialize local MT5 terminal: {mt5.last_error()}")
 
-        actual_symbol = resolve_mt5_symbol(args.symbol, mt5)
+        actual_symbol = resolve_mt5_symbol("XAUUSD", mt5)
         if not mt5.symbol_select(actual_symbol, True):
             raise SystemExit(f"Could not select {actual_symbol}: {mt5.last_error()}")
         timeframe = getattr(mt5, f"TIMEFRAME_{args.timeframe}")
@@ -71,7 +73,7 @@ def main() -> int:
 
         split = run_smc_backtest(
             data,
-            actual_symbol,
+            "XAUUSD",
             stop_distance=args.stop_distance,
             reward_multiple=args.reward_multiple,
             spread=args.spread,
@@ -96,7 +98,7 @@ def main() -> int:
             print(f"Max drawdown: {result.max_drawdown:.2f} ({result.max_drawdown_pct:.2f}%)")
             print(f"Ending equity: {result.ending_equity:.2f}")
 
-        print(f"Symbol: {actual_symbol} | Timeframe: {args.timeframe} | Candles: {len(data)}")
+        print(f"Instrument: XAUUSD | MT5 broker symbol: {actual_symbol} | Timeframe: {args.timeframe} | Candles: {len(data)}")
         print(f"Data range UTC: {data['timestamp'].iloc[0]} to {data['timestamp'].iloc[-1]}")
         print(f"Holdout split UTC: {split.split_timestamp}")
         show("IN-SAMPLE TRAIN", split.train)
