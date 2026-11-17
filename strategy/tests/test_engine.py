@@ -60,19 +60,28 @@ def install_analysis_stubs(monkeypatch, alignment="bullish", gap_direction="bull
 
     monkeypatch.setattr(strategy_module, "TopDownAnalyzer", FakeTopDown)
 
-    def fake_gaps(dataframe):
-        if gap_direction is None:
-            return []
-        return [
-            FairValueGap(
-                index=len(dataframe) - 1,
-                direction=gap_direction,
-                lower=1.1,
-                upper=1.2,
-            )
-        ]
+    def fake_context(dataframe, timeframe):
+        gaps = []
+        if gap_direction is not None:
+            gaps = [
+                FairValueGap(
+                    index=len(dataframe) - 1,
+                    direction=gap_direction,
+                    lower=1.1,
+                    upper=1.2,
+                )
+            ]
+        return SimpleNamespace(
+            session="new_york",
+            reasons=[],
+            distribution=False,
+            consolidation=False,
+            fair_value_gaps=gaps,
+            liquidity=[],
+            premium_discount="neutral",
+        )
 
-    monkeypatch.setattr(strategy_module, "find_fair_value_gaps", fake_gaps)
+    monkeypatch.setattr(strategy_module, "analyze_market_context", fake_context)
 
 
 def test_source_backed_technical_candidate_is_research_only(monkeypatch):
@@ -80,7 +89,7 @@ def test_source_backed_technical_candidate_is_research_only(monkeypatch):
 
     engine = StrategyEngine(source_search=lambda query, limit=4: source_results())
     decision = engine.evaluate(
-        symbol="EURUSD",
+        symbol="XAUUSD",
         datasets=make_datasets(),
         fundamental_bias="neutral",
         execution_timeframe="M15",
@@ -101,7 +110,7 @@ def test_conflicting_fundamental_bias_rejects_candidate(monkeypatch):
 
     engine = StrategyEngine(source_search=lambda query, limit=4: source_results())
     decision = engine.evaluate(
-        "EURUSD",
+        "XAUUSD",
         make_datasets(),
         fundamental_bias="bearish",
     )
@@ -116,7 +125,7 @@ def test_both_source_types_are_required(monkeypatch):
 
     only_video = [source_results()[1]]
     engine = StrategyEngine(source_search=lambda query, limit=4: only_video)
-    decision = engine.evaluate("EURUSD", make_datasets())
+    decision = engine.evaluate("XAUUSD", make_datasets())
 
     assert decision.status == "needs_source_evidence"
     assert decision.source_rule_status == "incomplete_source_coverage"
@@ -131,7 +140,7 @@ def test_mixed_timeframes_do_not_qualify(monkeypatch):
     )
 
     engine = StrategyEngine(source_search=lambda query, limit=4: source_results())
-    decision = engine.evaluate("EURUSD", make_datasets())
+    decision = engine.evaluate("XAUUSD", make_datasets())
 
     assert decision.status == "rejected"
     assert decision.direction == "neutral"
@@ -142,7 +151,7 @@ def test_invalid_fundamental_bias_is_rejected():
     engine = StrategyEngine(source_search=lambda query, limit=4: [])
     with pytest.raises(ValueError, match="fundamental_bias"):
         engine.evaluate(
-            "EURUSD",
+            "XAUUSD",
             make_datasets(),
             fundamental_bias="very bullish",
         )
@@ -154,7 +163,19 @@ def test_unknown_execution_timeframe_is_rejected(monkeypatch):
 
     with pytest.raises(ValueError, match="Unknown execution timeframe"):
         engine.evaluate(
-            "EURUSD",
+            "XAUUSD",
             make_datasets(),
             execution_timeframe="M5",
         )
+
+
+def test_non_gold_symbol_is_rejected_before_analysis():
+    engine = StrategyEngine(source_search=lambda query, limit=4: [])
+    with pytest.raises(ValueError, match="XAUUSD"):
+        engine.evaluate("EURUSD", make_datasets())
+
+
+def test_broker_alias_is_rejected_by_strategy_engine():
+    engine = StrategyEngine(source_search=lambda query, limit=4: [])
+    with pytest.raises(ValueError, match="XAUUSD"):
+        engine.evaluate("XAUUSD.a", make_datasets())
