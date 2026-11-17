@@ -264,14 +264,14 @@ def chat_panel(symbol: str) -> str:
             <p class="muted">{esc(item['text'])}</p>
         </div>
         """ for item in items[-8:]
-    ) if items else "<div class='card'><p class='muted'>Ask about EURUSD.</p></div>"
+    ) if items else "<div class='card'><p class='muted'>Ask about XAUUSD.</p></div>"
 
     return f"""
     <div class="card">
         <h3>Moil Bot Chat — {esc(symbol)}</h3>
         <form method="POST" action="/chat">
             <input type="hidden" name="symbol" value="{esc(symbol)}" />
-            <input type="text" name="message" placeholder="Ask about EURUSD setup, bias, risk, or chart structure..." required />
+            <input type="text" name="message" placeholder="Ask about XAUUSD setup, bias, risk, or chart structure..." required />
             <button type="submit">Send</button>
         </form>
         <div style="margin-top: 14px;">{messages}</div>
@@ -287,7 +287,7 @@ def build_live_alerts() -> list:
         return []
     try:
         pipeline = RealtimeTradingPipeline()
-        result = pipeline.evaluate("EURUSD", float(account.balance), risk_percent=1.0)
+        result = pipeline.evaluate("XAUUSD", float(account.balance), risk_percent=1.0)
         if result.status in {"accepted", "watch", "rejected"}:
             event = AlertEvent(
                 symbol=result.symbol,
@@ -303,7 +303,7 @@ def build_live_alerts() -> list:
     return alert_engine.get_all_alerts()
 
 
-def build_fundamentals_context(symbol: str = "EURUSD") -> tuple[dict, list[NewsItem]]:
+def build_fundamentals_context(symbol: str = "XAUUSD") -> tuple[dict, list[NewsItem]]:
     fallback_news = [
         NewsItem(
             title="US treasury yields soften as growth outlook cools",
@@ -423,7 +423,7 @@ def markets_page() -> str:
 
 
 def analysis_page(query: dict[str, list[str]]) -> str:
-    symbol = (query.get("symbol", ["EURUSD"])[0] or "EURUSD").upper()
+    symbol = (query.get("symbol", ["XAUUSD"])[0] or "XAUUSD").upper()
     if SESSION.get("connected"):
         market = mt5_service.symbol(symbol)
         pipeline = RealtimeTradingPipeline()
@@ -572,7 +572,7 @@ def strategy_page() -> str:
         return nav_layout("Strategy", connection_form("Connect MT5 to evaluate live strategy decisions."), "Strategy")
     account = get_account()
     pipeline = RealtimeTradingPipeline()
-    decision = pipeline.evaluate("EURUSD", float(account.balance), risk_percent=1.0)
+    decision = pipeline.evaluate("XAUUSD", float(account.balance), risk_percent=1.0)
     content = f"""
     <div class="card">
         <h3>Strategy Decision</h3>
@@ -718,13 +718,13 @@ class MoilBotHandler(BaseHTTPRequestHandler):
             form = parse_form(self.rfile.read(length))
             mode = (form.get("mode") or "standby").lower()
             SESSION["operating"] = (mode == "operate")
-            self.redirect("/analysis?symbol=EURUSD")
+            self.redirect("/analysis?symbol=XAUUSD")
             return
 
         if path == "/chat":
             length = int(self.headers.get("Content-Length", "0"))
             form = parse_form(self.rfile.read(length))
-            symbol = (form.get("symbol") or "EURUSD").upper()
+            symbol = (form.get("symbol") or "XAUUSD").upper()
             message = (form.get("message") or "").strip()
             if message:
                 SESSION.setdefault("chat", []).append({"role": "user", "text": f"{symbol}: {message}"})
