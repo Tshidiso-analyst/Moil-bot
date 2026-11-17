@@ -48,7 +48,12 @@ def run_mt5_backtest(
 
     Costs must be supplied by the caller. Do not assume that zero
     spread, slippage, or commission represents real broker conditions.
+    MT5-backed runs are restricted to canonical XAUUSD; broker aliases are
+    resolved inside MT5History and are never passed to the strategy engine.
     """
+    if str(symbol or "").strip().upper() != "XAUUSD":
+        raise ValueError("Moil-bot MT5 backtesting currently supports XAUUSD (gold) only.")
+    symbol = "XAUUSD"
     history = MT5History()
 
     history.connect()
