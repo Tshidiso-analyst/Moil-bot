@@ -1,36 +1,45 @@
+from __future__ import annotations
+
 from datetime import datetime
 from pathlib import Path
 
-import MetaTrader5 as mt5
 import pandas as pd
+
+from market_data.live_data import resolve_mt5_symbol
 
 
 MT5_PATH = r"C:\Program Files\MetaTrader 5\terminal64.exe"
 
-
-TIMEFRAME_MAP = {
-    "M1": mt5.TIMEFRAME_M1,
-    "M5": mt5.TIMEFRAME_M5,
-    "M15": mt5.TIMEFRAME_M15,
-    "M30": mt5.TIMEFRAME_M30,
-    "H1": mt5.TIMEFRAME_H1,
-    "H4": mt5.TIMEFRAME_H4,
-    "D1": mt5.TIMEFRAME_D1,
-}
+TIMEFRAME_NAMES = ("M1", "M5", "M15", "M30", "H1", "H4", "D1")
 
 
 class MT5History:
-    def __init__(self, path: str = MT5_PATH):
+    """Fetch historical XAUUSD candles from a local MT5 terminal."""
+
+    def __init__(self, path: str = MT5_PATH, mt5_module=None):
         self.path = path
+        self._mt5 = mt5_module
+
+    @property
+    def mt5(self):
+        if self._mt5 is None:
+            try:
+                import MetaTrader5 as mt5
+            except ImportError as exc:
+                raise RuntimeError(
+                    "MetaTrader5 is available only in the local Windows environment."
+                ) from exc
+            self._mt5 = mt5
+        return self._mt5
 
     def connect(self) -> None:
-        if not mt5.initialize(path=self.path):
+        if not self.mt5.initialize(path=self.path):
             raise RuntimeError(
-                f"MT5 initialization failed: {mt5.last_error()}"
+                f"MT5 initialization failed: {self.mt5.last_error()}"
             )
 
     def shutdown(self) -> None:
-        mt5.shutdown()
+        self.mt5.shutdown()
 
     def fetch(
         self,
@@ -39,33 +48,40 @@ class MT5History:
         start: datetime,
         end: datetime,
     ) -> pd.DataFrame:
-        if timeframe not in TIMEFRAME_MAP:
-            raise ValueError(
-                f"Unsupported timeframe: {timeframe}"
-            )
+        requested = str(symbol or "").strip().upper()
+        if requested != "XAUUSD":
+            raise ValueError("Moil-bot historical MT5 data supports XAUUSD (gold) only.")
+
+        timeframe = str(timeframe).upper()
+        if timeframe not in TIMEFRAME_NAMES:
+            raise ValueError(f"Unsupported timeframe: {timeframe}")
 
         if start >= end:
             raise ValueError("start must be before end.")
 
-        if not mt5.symbol_select(symbol, True):
+        actual_symbol = resolve_mt5_symbol("XAUUSD", self.mt5)
+        if not self.mt5.symbol_select(actual_symbol, True):
             raise RuntimeError(
-                f"Unable to select MT5 symbol: {symbol}"
+                f"Unable to select verified XAUUSD broker symbol: {actual_symbol}"
             )
 
-        rates = mt5.copy_rates_range(
-            symbol,
-            TIMEFRAME_MAP[timeframe],
+        timeframe_value = getattr(self.mt5, f"TIMEFRAME_{timeframe}", None)
+        if timeframe_value is None:
+            raise ValueError(f"MT5 does not expose timeframe {timeframe}.")
+
+        rates = self.mt5.copy_rates_range(
+            actual_symbol,
+            timeframe_value,
             start,
             end,
         )
 
         if rates is None:
             raise RuntimeError(
-                f"Unable to retrieve rates: {mt5.last_error()}"
+                f"Unable to retrieve XAUUSD rates: {self.mt5.last_error()}"
             )
 
         dataframe = pd.DataFrame(rates)
-
         if dataframe.empty:
             return dataframe
 
@@ -90,7 +106,6 @@ class MT5History:
             "close",
             "volume",
         ]
-
         return dataframe[columns].copy()
 
 
@@ -100,10 +115,14 @@ def save_history(
     timeframe: str,
     directory: str = "market_data/storage",
 ) -> Path:
+    canonical_symbol = str(symbol or "").strip().upper()
+    if canonical_symbol != "XAUUSD":
+        raise ValueError("Historical MT5 datasets must be stored under canonical symbol XAUUSD.")
+
     path = Path(directory)
     path.mkdir(parents=True, exist_ok=True)
 
-    filename = f"{symbol}_{timeframe}.csv"
+    filename = f"XAUUSD_{timeframe}.csv"
     output = path / filename
 
     dataframe.to_csv(output, index=False)
