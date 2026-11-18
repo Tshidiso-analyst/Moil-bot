@@ -33,9 +33,11 @@ def test_real_mode_requires_separate_approval():
         AccountPolicy(mode="real", execution_enabled=True).verify(FakeMT5(), account(2))
 
 
-def test_real_mode_remains_blocked_even_with_approval():
-    with pytest.raises(RuntimeError, match="pending broker acceptance"):
-        AccountPolicy(mode="real", execution_enabled=True, real_trading_approved=True).verify(FakeMT5(), account(2))
+def test_real_mode_requires_matching_real_account():
+    policy = AccountPolicy(mode="real", execution_enabled=True, real_trading_approved=True)
+    policy.verify(FakeMT5(), account(2))
+    with pytest.raises(RuntimeError, match="unverified REAL"):
+        policy.verify(FakeMT5(), account(0))
 
 
 def test_kill_switch_blocks_all_modes():
