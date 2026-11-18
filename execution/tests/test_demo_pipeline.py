@@ -106,6 +106,9 @@ def execute(fake, **overrides):
         "session_confirmed": True,
         "no_high_impact_news_confirmed": True,
     }
+    arguments["assessment"] = SimpleNamespace(symbol="XAUUSD", direction="bullish",
+        setup_valid=True, confirmation=True, structure_valid=True,
+        liquidity_valid=True, macro_bias_valid=True, high_impact_news=False)
     arguments.update(overrides)
     return DemoExecutionPipeline(fake, enabled=True).execute_market_order(**arguments)
 
@@ -247,4 +250,15 @@ def test_demo_pipeline_fails_closed_without_equity():
     del fake.account.equity
     with pytest.raises(DemoExecutionError, match="balance or free margin is invalid"):
         execute(fake)
+    assert fake.sent == []
+
+
+def test_demo_pipeline_requires_validated_strategy_assessment():
+    fake = FakeMT5()
+    with pytest.raises(DemoExecutionError, match="Validated strategy assessment"):
+        DemoExecutionPipeline(fake, enabled=True).execute_market_order(
+            symbol="XAUUSD", direction="bullish", stop_loss=2499.2,
+            take_profit=2502.2, confirmation=True, session_confirmed=True,
+            no_high_impact_news_confirmed=True,
+        )
     assert fake.sent == []
