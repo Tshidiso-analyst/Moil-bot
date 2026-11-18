@@ -15,8 +15,10 @@ class MT5ExecutionService:
     def __init__(self, mt5_module: Any | None = None, *, enabled: bool = False, magic: int = 731111):
         self.mt5 = mt5_module
         self.connected = False
-        self.enabled = bool(enabled)
-        self.magic = int(magic)
+        self.enabled = enabled is True
+        if isinstance(magic, bool) or not isinstance(magic, int) or magic <= 0:
+            raise ValueError("magic must be a positive integer.")
+        self.magic = magic
 
     def connect(
         self,
