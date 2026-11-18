@@ -18,6 +18,7 @@ except ImportError:  # pragma: no cover - platform dependent
     _mt5 = None
 
 from execution.quote_safety import require_fresh_tick
+from execution.authorization import require_strategy_authorization
 from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snapshot
 from risk.mt5_risk import calculate_mt5_position_size
 from risk.trade_guard import TradeGuard
@@ -74,11 +75,13 @@ class MT5ExecutionService:
         take_profit: float,
         magic: int | None = None,
         comment: str = "Moil-bot",
+        assessment: Any | None = None,
     ) -> dict[str, Any]:
         if not self.enabled:
             raise RuntimeError("MT5 order execution is disabled by default.")
         if not self.is_connected():
             raise RuntimeError("MT5 is not connected.")
+        require_strategy_authorization(assessment, symbol=symbol, direction=direction)
         canonical_xauusd_symbol(symbol)
         symbol = str(symbol).strip()
         if direction not in {"bullish", "bearish"}:
@@ -456,6 +459,7 @@ class TradeExecutionOrchestrator:
                     take_profit=float(plan.order["take_profit"]),
                     magic=magic,
                     comment=comment,
+                    assessment=assessment,
                 )
                 return ExecutionResult(
                     plan.symbol, result.get("ticket"), plan.direction,
