@@ -13,6 +13,7 @@ from typing import Any
 import threading
 from functools import wraps
 
+from execution.authorization import require_strategy_authorization
 from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snapshot
 from risk.symbols import canonicalize_symbol
 
@@ -77,9 +78,14 @@ class DemoExecutionPipeline:
         session_confirmed: bool = False,
         no_high_impact_news_confirmed: bool = False,
         comment: str = "Moil-bot DEMO test",
+        assessment: Any | None = None,
     ) -> DemoExecutionResult:
         if not self.enabled:
             raise DemoExecutionError("DEMO execution is disabled by default; explicitly enable it for a controlled DEMO test.")
+        try:
+            require_strategy_authorization(assessment, symbol=symbol, direction=str(direction).lower())
+        except (RuntimeError, ValueError) as exc:
+            raise DemoExecutionError(str(exc)) from exc
         symbol = str(symbol or "").strip()
         try:
             canonicalize_symbol(symbol)
