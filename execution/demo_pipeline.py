@@ -58,8 +58,10 @@ class DemoExecutionPipeline:
                     "MetaTrader5 is unavailable. Run this on Windows with the MT5 package installed."
                 ) from exc
         self.mt5 = mt5_module
-        self.magic = int(magic)
-        self.enabled = bool(enabled)
+        if isinstance(magic, bool) or not isinstance(magic, int) or magic <= 0:
+            raise ValueError("magic must be a positive integer.")
+        self.magic = magic
+        self.enabled = enabled is True
         self._execution_lock = threading.Lock()
 
     @_execution_locked
