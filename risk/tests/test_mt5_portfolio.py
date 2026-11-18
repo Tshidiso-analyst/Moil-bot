@@ -72,7 +72,7 @@ def test_snapshot_counts_open_positions_and_stop_risk():
     mt5.positions = [
         SimpleNamespace(
             symbol="XAUUSD.a", volume=0.02, price_open=2500.0,
-            sl=2490.0, type=FakeMT5.POSITION_TYPE_BUY, profit=5.0, swap=-1.0,
+            sl=2490.0, type=FakeMT5.POSITION_TYPE_BUY, profit=5.0, swap=-1.0, time=1781100000,
         )
     ]
     snapshot = build_mt5_portfolio_snapshot(
@@ -115,7 +115,7 @@ def test_snapshot_fails_closed_for_open_position_without_stop_loss():
     mt5.positions = [
         SimpleNamespace(
             symbol="XAUUSD", volume=0.02, price_open=2500.0,
-            sl=0.0, type=FakeMT5.POSITION_TYPE_BUY, profit=0.0, swap=0.0,
+            sl=0.0, type=FakeMT5.POSITION_TYPE_BUY, profit=0.0, swap=0.0, time=1781100000,
         )
     ]
     with pytest.raises(PortfolioSnapshotError, match="position stop loss"):
@@ -128,3 +128,35 @@ def test_snapshot_fails_closed_for_open_position_without_stop_loss():
 def test_snapshot_requires_timezone_aware_now():
     with pytest.raises(ValueError, match="timezone-aware"):
         build_mt5_portfolio_snapshot(FakeMT5(), magic=731111, now=datetime(2026, 6, 10))
+
+
+
+def test_snapshot_fails_closed_for_position_carried_from_previous_day():
+    mt5 = FakeMT5()
+    mt5.positions = [
+        SimpleNamespace(
+            symbol="XAUUSD", volume=0.02, price_open=2500.0,
+            sl=2490.0, type=FakeMT5.POSITION_TYPE_BUY,
+            profit=0.0, swap=0.0, time=1781010000,
+        )
+    ]
+    with pytest.raises(PortfolioSnapshotError, match="predates the New York trading day"):
+        build_mt5_portfolio_snapshot(
+            mt5, magic=731111,
+            now=datetime(2026, 6, 10, 15, 0, tzinfo=timezone.utc),
+        )
+
+
+def test_snapshot_fails_closed_for_non_trading_account_adjustment():
+    mt5 = FakeMT5()
+    mt5.deals = [
+        SimpleNamespace(
+            magic=0, entry=0, type=2, profit=500.0,
+            commission=0.0, swap=0.0, fee=0.0,
+        )
+    ]
+    with pytest.raises(PortfolioSnapshotError, match="non-trading account adjustment"):
+        build_mt5_portfolio_snapshot(
+            mt5, magic=731111,
+            now=datetime(2026, 6, 10, 15, 0, tzinfo=timezone.utc),
+        )
