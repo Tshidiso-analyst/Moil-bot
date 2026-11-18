@@ -70,6 +70,26 @@ def inspect_gold_topdown(*, d1_bars, h4_bars, h1_bars, m15_bars):
         "H1": {"bias": hour["bias"], "reason": hour["reason"]},
         "M15": {"bias": structure_bias(m15_bars)["bias"]},
     }
+    # Confirmed swing levels are diagnostic references, not entry triggers.
+    result["next_checks"] = []
+    for tf, analysis, candles in (("D1", daily, d1_bars), ("H4", four, h4_bars),
+                                   ("H1", hour, h1_bars)):
+        highs, lows = analysis["pivots"]["highs"], analysis["pivots"]["lows"]
+        info = result["timeframes"][tf]
+        info["close"] = float(candles[-1]["close"])
+        info["last_confirmed_swing_high"] = highs[-1]["price"] if highs else None
+        info["last_confirmed_swing_low"] = lows[-1]["price"] if lows else None
+        info["swing_counts"] = {"highs": len(highs), "lows": len(lows)}
+        if tf in ("D1", "H4"):
+            if info["bias"] == "neutral":
+                result["next_checks"].append(
+                    f"{tf}: wait for two confirmed rising highs AND lows (bullish), "
+                    "or two confirmed falling highs AND lows (bearish).")
+            high, low = info["last_confirmed_swing_high"], info["last_confirmed_swing_low"]
+            if high is not None and low is not None:
+                result["next_checks"].append(
+                    f"{tf} confirmed swing references: high {high:.3f}, low {low:.3f}. "
+                    "A price crossing either level alone is NOT an entry signal.")
     result["stage"] = "higher_timeframe"
     if daily["bias"] == "neutral" or four["bias"] != daily["bias"]:
         result["reasons"].append("D1 and H4 confirmed structure are not aligned; no directional setup.")
@@ -84,6 +104,7 @@ def inspect_gold_topdown(*, d1_bars, h4_bars, h1_bars, m15_bars):
         return result
     midpoint = (hi + lo) / 2
     price = float(h4_bars[-1]["close"])
+    result["next_checks"].append(f"H4 midpoint {midpoint:.3f}: prefer discount for longs, premium for shorts.")
     result["h4_range"] = {"high": hi, "low": lo, "midpoint": midpoint,
                           "zone": "discount" if price < midpoint else "premium" if price > midpoint else "equilibrium"}
     zone_ok = (daily["bias"] == "bullish" and price < midpoint) or (
@@ -95,6 +116,7 @@ def inspect_gold_topdown(*, d1_bars, h4_bars, h1_bars, m15_bars):
     if hour["bias"] != daily["bias"]:
         result["reasons"].append("H1 confirmed structure does not align with D1/H4.")
         return result
+    result["next_checks"].append("Next: M15 sweep, close-confirmed MSS, FVG and later retracement; calendar and risk checks remain pending.")
     result["stage"] = "m15_confirmation"
     result["reasons"].append("HTF structure and H4 location align; M15 sweep/MSS/FVG, session, calendar and risk still required.")
     return result
