@@ -370,3 +370,18 @@ def test_real_order_kill_switch_blocks_submission():
     )
     assert result.status == "rejected"
     assert fake.sent == []
+
+def test_orchestrator_blocks_duplicate_order_within_one_minute():
+    orchestrator, fake = make_orchestrator(allow_execution=True)
+    kwargs = dict(
+        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish",
+        assessment=assessment(), proposed_risk_percent=1.0,
+        daily_loss_percent=0.0, current_exposure_percent=0.0,
+        account_balance=10_000.0, risk_percent=1.0, magic=731111,
+    )
+    first = orchestrator.execute(**kwargs)
+    second = orchestrator.execute(**kwargs)
+    assert first.status == "accepted"
+    assert second.status == "blocked"
+    assert "Duplicate" in second.reason
+    assert len(fake.sent) == 1
