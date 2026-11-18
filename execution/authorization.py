@@ -11,9 +11,9 @@ from risk.symbols import canonicalize_symbol
 
 def require_strategy_authorization(assessment: Any, *, symbol: str, direction: str) -> None:
     """Require an explicit confirmed assessment; reject unvalidated entry requests."""
+    canonicalize_symbol(symbol)
     if assessment is None:
         raise RuntimeError("Validated strategy assessment is required for new orders.")
-    canonicalize_symbol(symbol)
     canonicalize_symbol(getattr(assessment, "symbol", ""))
     expected = "bullish" if direction in {"buy", "bullish"} else "bearish"
     if str(getattr(assessment, "direction", "")).lower() != expected:
