@@ -46,6 +46,8 @@ def test_snapshot_counts_only_bot_entry_deals_across_symbols():
     mt5.deals = [
         SimpleNamespace(magic=731111, entry=0, type=0, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD.a", order=100),
         SimpleNamespace(magic=731111, entry=0, type=1, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD", order=101),
+        # Two fills from one order count as one entry.
+        SimpleNamespace(magic=731111, entry=0, type=0, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD.a", order=100),
         SimpleNamespace(magic=123, entry=0, type=0, profit=0, commission=0, swap=0, fee=0, symbol="EURUSD", order=102),
         SimpleNamespace(magic=731111, entry=1, type=0, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD", order=103),
     ]
@@ -156,6 +158,20 @@ def test_snapshot_fails_closed_for_non_trading_account_adjustment():
         )
     ]
     with pytest.raises(PortfolioSnapshotError, match="non-trading account adjustment"):
+        build_mt5_portfolio_snapshot(
+            mt5, magic=731111,
+            now=datetime(2026, 6, 10, 15, 0, tzinfo=timezone.utc),
+        )
+
+
+
+def test_snapshot_fails_closed_when_entry_order_id_is_missing():
+    mt5 = FakeMT5()
+    mt5.deals = [
+        SimpleNamespace(magic=731111, entry=FakeMT5.DEAL_ENTRY_IN,
+                        type=FakeMT5.DEAL_TYPE_BUY, profit=0, commission=0, swap=0, fee=0)
+    ]
+    with pytest.raises(PortfolioSnapshotError, match="no verifiable order ID"):
         build_mt5_portfolio_snapshot(
             mt5, magic=731111,
             now=datetime(2026, 6, 10, 15, 0, tzinfo=timezone.utc),
