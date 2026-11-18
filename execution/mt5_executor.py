@@ -233,14 +233,30 @@ class MT5ExecutionService:
         position = positions[0]
         canonicalize_symbol(position.symbol)
         close_volume = float(volume) if volume is not None else float(position.volume)
+        if not math.isfinite(close_volume) or close_volume <= 0 or close_volume > float(position.volume):
+            raise ValueError("Close volume must be positive and no greater than the open position volume.")
+        info = self.mt5.symbol_info(position.symbol)
+        tick = self.mt5.symbol_info_tick(position.symbol)
+        if info is None or tick is None:
+            raise RuntimeError("Broker metadata or quote unavailable for position close.")
+        step = float(getattr(info, "volume_step", 0.0) or 0.0)
+        minimum = float(getattr(info, "volume_min", 0.0) or 0.0)
+        if not math.isfinite(step) or not math.isfinite(minimum) or step <= 0 or minimum <= 0:
+            raise RuntimeError("Broker volume specifications are invalid for position close.")
+        if close_volume < minimum or not math.isclose(close_volume / step, round(close_volume / step), rel_tol=0.0, abs_tol=1e-8):
+            raise ValueError("Close volume does not match the broker minimum and volume step.")
+        close_type = self.mt5.ORDER_TYPE_SELL if position.type == self.mt5.POSITION_TYPE_BUY else self.mt5.ORDER_TYPE_BUY
+        close_price = float(tick.bid if close_type == self.mt5.ORDER_TYPE_SELL else tick.ask)
+        if not math.isfinite(close_price) or close_price <= 0:
+            raise RuntimeError("Broker returned an invalid close quote.")
 
         request = {
             "action": self.mt5.TRADE_ACTION_DEAL,
             "symbol": position.symbol,
             "volume": close_volume,
-            "type": self.mt5.ORDER_TYPE_SELL if position.type == self.mt5.POSITION_TYPE_BUY else self.mt5.ORDER_TYPE_BUY,
+            "type": close_type,
             "position": int(ticket),
-            "price": 0.0,
+            "price": close_price,
             "deviation": 20,
             "magic": 0,
             "comment": "Moil-bot close",
@@ -248,6 +264,9 @@ class MT5ExecutionService:
             "type_filling": self.mt5.ORDER_FILLING_RETURN,
         }
 
+        checked = self.mt5.order_check(request)
+        if checked is None or getattr(checked, "retcode", None) not in {0, getattr(self.mt5, "TRADE_RETCODE_DONE", 10009)}:
+            raise RuntimeError("MT5 order_check rejected the close request.")
         result = self.mt5.order_send(request)
         if result is None:
             raise RuntimeError("MT5 close request returned no result.")
