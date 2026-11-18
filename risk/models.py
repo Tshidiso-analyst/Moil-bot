@@ -8,6 +8,20 @@ class AccountRisk:
     risk_percent: float
     risk_amount: float
 
+    def __post_init__(self) -> None:
+        values = (self.balance, self.risk_percent, self.risk_amount)
+        if not all(math.isfinite(float(value)) for value in values):
+            raise ValueError("Account risk values must be finite.")
+        if self.balance <= 0:
+            raise ValueError("Account balance must be greater than zero.")
+        if not 0 < self.risk_percent <= 1.0:
+            raise ValueError("Account risk percentage must be greater than zero and at most 1%.")
+        expected = float(self.balance) * float(self.risk_percent) / 100.0
+        if self.risk_amount <= 0 or not math.isclose(
+            float(self.risk_amount), expected, rel_tol=1e-9, abs_tol=1e-9
+        ):
+            raise ValueError("Account risk amount does not match balance and risk percentage.")
+
 
 @dataclass(frozen=True)
 class InstrumentRisk:
@@ -44,6 +58,24 @@ class PositionSize:
     stop_distance: float
     volume: float
     estimated_loss: float
+
+    def __post_init__(self) -> None:
+        if not str(self.symbol).strip():
+            raise ValueError("Position symbol must not be empty.")
+        if self.direction not in {"bullish", "bearish"}:
+            raise ValueError("Position direction must be bullish or bearish.")
+        values = (
+            self.entry, self.stop_loss, self.risk_amount,
+            self.stop_distance, self.volume, self.estimated_loss,
+        )
+        if not all(math.isfinite(float(value)) for value in values):
+            raise ValueError("Position sizing values must be finite.")
+        if self.entry <= 0 or self.stop_loss <= 0 or self.risk_amount <= 0:
+            raise ValueError("Entry, stop loss and risk amount must be greater than zero.")
+        if self.stop_distance <= 0 or self.volume <= 0 or self.estimated_loss < 0:
+            raise ValueError("Stop distance and volume must be positive; estimated loss cannot be negative.")
+        if self.estimated_loss > self.risk_amount + max(0.01, self.risk_amount * 0.001):
+            raise ValueError("Estimated loss exceeds the configured risk amount.")
 
 
 @dataclass(frozen=True)
