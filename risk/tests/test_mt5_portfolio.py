@@ -51,7 +51,7 @@ def test_snapshot_counts_only_bot_entry_deals_across_symbols():
         # Two fills from one order count as one entry.
         SimpleNamespace(magic=731111, entry=0, type=0, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD.a", order=100),
         SimpleNamespace(magic=123, entry=0, type=0, profit=0, commission=0, swap=0, fee=0, symbol="EURUSD", order=102),
-        SimpleNamespace(magic=731111, entry=1, type=0, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD", order=103),
+        SimpleNamespace(magic=731111, entry=99, type=0, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD", order=103),
     ]
     now = datetime(2026, 6, 10, 15, 0, tzinfo=timezone.utc)
     snapshot = build_mt5_portfolio_snapshot(mt5, magic=731111, now=now)
