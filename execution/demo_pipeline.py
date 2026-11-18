@@ -14,6 +14,7 @@ import threading
 from functools import wraps
 
 from execution.authorization import require_strategy_authorization
+from execution.quote_safety import require_fresh_tick
 from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snapshot
 from risk.symbols import canonicalize_symbol
 
@@ -148,6 +149,10 @@ class DemoExecutionPipeline:
         tick = self.mt5.symbol_info_tick(symbol)
         if info is None or tick is None:
             raise DemoExecutionError(f"Broker quote or symbol metadata is unavailable for {symbol}.")
+        try:
+            require_fresh_tick(tick)
+        except RuntimeError as exc:
+            raise DemoExecutionError(str(exc)) from exc
         disabled = getattr(self.mt5, "SYMBOL_TRADE_MODE_DISABLED", None)
         if disabled is not None and getattr(info, "trade_mode", None) == disabled:
             raise DemoExecutionError(f"Broker has disabled trading for {symbol}.")
