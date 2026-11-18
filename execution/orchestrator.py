@@ -256,12 +256,15 @@ class TradeExecutionOrchestrator:
             direction = str(getattr(assessment, "direction", "")).strip().lower()
             if assessment_symbol != "XAUUSD" or direction not in {"bullish", "bearish"}:
                 return self._blocked(symbol, "Trade assessment symbol or direction is invalid.")
-            if not bool(getattr(assessment, "setup_valid", False)) or not bool(getattr(assessment, "confirmation", False)):
+            boolean_fields = ("setup_valid", "confirmation", "structure_valid", "liquidity_valid", "high_impact_news", "macro_bias_valid")
+            if any(not isinstance(getattr(assessment, field, None), bool) for field in boolean_fields):
+                return self._blocked(symbol, "Strategy assessment is missing explicit boolean safety checks.", direction)
+            if not assessment.setup_valid or not assessment.confirmation:
                 return self._blocked(symbol, "Strategy assessment is not confirmed.", direction)
-            structure_valid = bool(getattr(assessment, "structure_valid", False))
-            liquidity_valid = bool(getattr(assessment, "liquidity_valid", False))
-            high_impact_news = bool(getattr(assessment, "high_impact_news", True))
-            assessment_macro_valid = bool(getattr(assessment, "macro_bias_valid", False))
+            structure_valid = assessment.structure_valid
+            liquidity_valid = assessment.liquidity_valid
+            high_impact_news = assessment.high_impact_news
+            assessment_macro_valid = assessment.macro_bias_valid
             macro_input = str(fundamental_bias or "").strip().lower()
             macro_bias_valid = assessment_macro_valid and macro_input in {"neutral", direction}
 
@@ -341,7 +344,7 @@ class TradeExecutionOrchestrator:
                 risk=position,
                 order=order,
             )
-        except (ValueError, TypeError, AttributeError, ArithmeticError) as exc:
+        except Exception as exc:
             return self._blocked(symbol, f"Execution plan rejected: {exc}", locals().get("direction", "neutral"))
 
     def execute(
