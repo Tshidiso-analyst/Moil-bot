@@ -41,10 +41,12 @@ def portfolio_daily_trade_guard(
 
     All symbols share the same portfolio limit. Invalid input fails closed.
     """
-    if isinstance(max_trades_per_day, bool) or not isinstance(max_trades_per_day, Integral) or max_trades_per_day <= 0:
+    if isinstance(max_trades_per_day, bool) or not isinstance(max_trades_per_day, Integral) or max_trades_per_day <= 0 or max_trades_per_day > 10:
         raise ValueError("max_trades_per_day must be a positive integer")
+    if timezone_name != "America/New_York":
+        return False, "Daily trade guard requires America/New_York calendar dates."
     try:
-        market_tz = ZoneInfo(timezone_name)
+        market_tz = ZoneInfo("America/New_York")
         candidate_day = _as_timestamp(candidate_timestamp).astimezone(market_tz).date()
         entries = list(trades)
         count = 0
