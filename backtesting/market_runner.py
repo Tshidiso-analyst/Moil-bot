@@ -10,6 +10,7 @@ from backtesting.cost_aware_engine import (
     CostAwareSplitResult,
 )
 from market_data.mt5_history import MT5History, save_history
+from risk.symbols import canonicalize_symbol
 
 
 SignalFunction = Callable[[pd.DataFrame], Optional[str]]
@@ -51,9 +52,7 @@ def run_mt5_backtest(
     MT5-backed runs are restricted to canonical XAUUSD; broker aliases are
     resolved inside MT5History and are never passed to the strategy engine.
     """
-    if str(symbol or "").strip().upper() != "XAUUSD":
-        raise ValueError("Moil-bot MT5 backtesting currently supports XAUUSD (gold) only.")
-    symbol = "XAUUSD"
+    symbol = canonicalize_symbol(symbol)
     history = MT5History()
 
     history.connect()
