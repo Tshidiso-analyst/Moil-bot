@@ -139,12 +139,13 @@ class MT5ExecutionService:
         if order_loss is None:
             raise RuntimeError(f"Broker could not calculate order risk: {self.mt5.last_error()}")
         balance = float(getattr(account, "balance", 0.0) or 0.0)
-        if not math.isfinite(balance) or balance <= 0:
-            raise RuntimeError("MT5 account balance is invalid.")
+        equity = float(getattr(account, "equity", 0.0) or 0.0)
+        if not all(math.isfinite(x) and x > 0 for x in (balance, equity)):
+            raise RuntimeError("MT5 account balance or equity is invalid.")
         if not math.isfinite(float(order_loss)) or float(order_loss) >= 0:
             raise RuntimeError("Broker returned a non-loss result for the proposed stop loss.")
-        risk_percent = abs(float(order_loss)) / balance * 100.0
-        if not math.isfinite(risk_percent) or risk_percent > 1.0 + 1e-9:
+        risk_percent = abs(float(order_loss)) / min(balance, equity) * 100.0
+        if not math.isfinite(risk_percent) or risk_percent > 1.0:
             raise RuntimeError("Broker-calculated order risk exceeds the 1% per-trade limit.")
         margin = self.mt5.order_calc_margin(order_type, symbol, float(volume), float(price))
         free_margin = float(getattr(account, "margin_free", 0.0) or 0.0)
@@ -341,7 +342,14 @@ class TradeExecutionOrchestrator:
                 return self._blocked(symbol, "Broker quote or stop level is invalid.", direction)
             take_profit = entry + (entry - stop_loss) * 2.0 if direction == "bullish" else entry - (stop_loss - entry) * 2.0
 
-            risk_amount = snapshot.balance * min(risk_pct, sizing_pct) / 100.0
+            account = module.account_info()
+            if account is None:
+                return self._blocked(symbol, "MT5 account unavailable for equity risk verification.", direction)
+            balance = float(getattr(account, "balance", 0.0) or 0.0)
+            equity = float(getattr(account, "equity", 0.0) or 0.0)
+            if not all(math.isfinite(x) and x > 0 for x in (balance, equity)):
+                return self._blocked(symbol, "MT5 balance or equity is invalid.", direction)
+            risk_amount = min(snapshot.balance, balance, equity) * min(risk_pct, sizing_pct) / 100.0
             position = calculate_mt5_position_size(
                 module,
                 symbol=symbol,
