@@ -72,6 +72,8 @@ def calculate_mt5_position_size(
     one_lot_pnl = mt5.order_calc_profit(order_type, symbol, 1.0, float(entry), float(stop_loss))
     if one_lot_pnl is None:
         raise RuntimeError(f"Broker could not calculate stop-loss value for {symbol}: {mt5.last_error()}")
+    if not math.isfinite(float(one_lot_pnl)) or float(one_lot_pnl) >= 0:
+        raise ValueError("Broker returned a non-loss result for the proposed stop loss.")
     loss_per_lot = abs(float(one_lot_pnl))
     if not math.isfinite(loss_per_lot) or loss_per_lot <= 0:
         raise ValueError("Broker returned an invalid one-lot stop-loss estimate.")
@@ -92,6 +94,8 @@ def calculate_mt5_position_size(
     final_pnl = mt5.order_calc_profit(order_type, symbol, volume_float, float(entry), float(stop_loss))
     if final_pnl is None:
         raise RuntimeError(f"Broker could not verify final position risk for {symbol}: {mt5.last_error()}")
+    if not math.isfinite(float(final_pnl)) or float(final_pnl) >= 0:
+        raise ValueError("Broker returned an invalid final stop-loss result.")
     estimated_loss = abs(float(final_pnl))
     tolerance = max(0.01, float(risk_amount) * 0.001)
     if not math.isfinite(estimated_loss) or estimated_loss > float(risk_amount) + tolerance:
