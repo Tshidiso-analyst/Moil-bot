@@ -207,7 +207,15 @@ class MT5ExecutionService:
             "magic": int(magic),
             "comment": str(comment),
             "type_time": self.mt5.ORDER_TIME_GTC,
-            "type_filling": self.mt5.ORDER_FILLING_RETURN,
+            "type_filling": (
+                self.mt5.ORDER_FILLING_IOC
+                if getattr(info, "filling_mode", None) is not None
+                and int(info.filling_mode) & int(getattr(self.mt5, "SYMBOL_FILLING_IOC", 2))
+                else self.mt5.ORDER_FILLING_FOK
+                if getattr(info, "filling_mode", None) is not None
+                and int(info.filling_mode) & int(getattr(self.mt5, "SYMBOL_FILLING_FOK", 1))
+                else self.mt5.ORDER_FILLING_RETURN
+            ),
         }
 
         checked = self.mt5.order_check(request)
