@@ -9,6 +9,8 @@ from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snaps
 class FakeMT5:
     DEAL_ENTRY_IN = 0
     DEAL_ENTRY_INOUT = 2
+    DEAL_ENTRY_OUT = 1
+    DEAL_ENTRY_OUT_BY = 3
     DEAL_TYPE_BUY = 0
     DEAL_TYPE_SELL = 1
     POSITION_TYPE_BUY = 0
@@ -90,7 +92,11 @@ def test_snapshot_calculates_daily_loss_from_realized_and_floating_pnl():
     mt5 = FakeMT5()
     mt5.account.balance = 9_895.0
     mt5.deals = [
-        SimpleNamespace(magic=731111, entry=1, order=500, type=FakeMT5.DEAL_TYPE_BUY,
+        SimpleNamespace(magic=731111, entry=FakeMT5.DEAL_ENTRY_IN, order=499,
+                        position_id=900, type=FakeMT5.DEAL_TYPE_BUY,
+                        profit=0.0, commission=0.0, swap=0.0, fee=0.0),
+        SimpleNamespace(magic=731111, entry=FakeMT5.DEAL_ENTRY_OUT, order=500,
+                        position_id=900, type=FakeMT5.DEAL_TYPE_SELL,
                         profit=-100.0, commission=-5.0, swap=0.0, fee=0.0)
     ]
     snapshot = build_mt5_portfolio_snapshot(
@@ -172,6 +178,23 @@ def test_snapshot_fails_closed_when_entry_order_id_is_missing():
                         type=FakeMT5.DEAL_TYPE_BUY, profit=0, commission=0, swap=0, fee=0)
     ]
     with pytest.raises(PortfolioSnapshotError, match="no verifiable order ID"):
+        build_mt5_portfolio_snapshot(
+            mt5, magic=731111,
+            now=datetime(2026, 6, 10, 15, 0, tzinfo=timezone.utc),
+        )
+
+
+
+def test_snapshot_fails_closed_when_a_prior_day_position_closes_today():
+    mt5 = FakeMT5()
+    mt5.deals = [
+        SimpleNamespace(
+            magic=731111, entry=FakeMT5.DEAL_ENTRY_OUT, order=501,
+            position_id=901, type=FakeMT5.DEAL_TYPE_SELL,
+            profit=-100.0, commission=-5.0, swap=0.0, fee=0.0,
+        )
+    ]
+    with pytest.raises(PortfolioSnapshotError, match="opened before the New York trading day"):
         build_mt5_portfolio_snapshot(
             mt5, magic=731111,
             now=datetime(2026, 6, 10, 15, 0, tzinfo=timezone.utc),
