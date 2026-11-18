@@ -237,3 +237,21 @@ def test_invalid_structure_or_missing_liquidity_blocks_execution():
     result = plan(orchestrator, assessment=assessment(liquidity_valid=False))
     assert result.allowed is False
     assert "Liquidity context" in result.reason
+
+def test_plan_uses_lower_equity_not_higher_balance_for_risk_budget():
+    fake = FakeMT5()
+    fake.account.balance = 10_000.0
+    fake.account.equity = 500.0
+    orchestrator, _ = make_orchestrator(mt5=fake)
+    result = plan(orchestrator)
+    assert result.allowed is False
+    assert "below broker minimum" in result.reason
+
+
+def test_plan_fails_closed_when_equity_unavailable():
+    fake = FakeMT5()
+    del fake.account.equity
+    orchestrator, _ = make_orchestrator(mt5=fake)
+    result = plan(orchestrator)
+    assert result.allowed is False
+    assert "equity is invalid" in result.reason
