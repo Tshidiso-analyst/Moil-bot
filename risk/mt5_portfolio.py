@@ -90,11 +90,15 @@ def build_mt5_portfolio_snapshot(
         inout_code = getattr(mt5, "DEAL_ENTRY_INOUT", None)
         if inout_code is not None:
             entry_codes.add(inout_code)
-        daily_entries = sum(
-            1 for deal in deals
-            if int(getattr(deal, "magic", -1)) == magic
-            and getattr(deal, "entry", None) in entry_codes
-        )
+        entry_order_ids: set[int] = set()
+        for deal in deals:
+            if int(getattr(deal, "magic", -1)) != magic or getattr(deal, "entry", None) not in entry_codes:
+                continue
+            order_id = getattr(deal, "order", None)
+            if order_id is None or int(order_id) <= 0:
+                raise PortfolioSnapshotError("MT5 entry deal has no verifiable order ID.")
+            entry_order_ids.add(int(order_id))
+        daily_entries = len(entry_order_ids)
 
         trade_types = {
             value for value in (
