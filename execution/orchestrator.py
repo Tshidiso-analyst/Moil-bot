@@ -49,8 +49,10 @@ class ExecutionResult:
 class MT5ExecutionService:
     """Thin broker adapter; portfolio and sizing checks belong to the orchestrator."""
 
-    def __init__(self, mt5_module: Any | None = None):
+    def __init__(self, mt5_module: Any | None = None, *, enabled: bool = False, magic: int = 731111):
         self.mt5 = mt5_module if mt5_module is not None else _mt5
+        self.enabled = bool(enabled)
+        self.magic = int(magic)
 
     def is_connected(self) -> bool:
         try:
@@ -70,6 +72,8 @@ class MT5ExecutionService:
         magic: int = 0,
         comment: str = "Moil-bot",
     ) -> dict[str, Any]:
+        if not self.enabled:
+            raise RuntimeError("MT5 order execution is disabled by default.")
         if not self.is_connected():
             raise RuntimeError("MT5 is not connected.")
         canonical_xauusd_symbol(symbol)
@@ -77,6 +81,12 @@ class MT5ExecutionService:
             raise ValueError(f"Unsupported direction: {direction}")
         if not math.isfinite(float(volume)) or not 0 < float(volume) <= 0.02:
             raise ValueError("Order volume must be greater than zero and no more than 0.02 lots.")
+        account = self.mt5.account_info()
+        demo_mode = getattr(self.mt5, "ACCOUNT_TRADE_MODE_DEMO", None)
+        if account is None or demo_mode is None or getattr(account, "trade_mode", None) != demo_mode:
+            raise RuntimeError("Hard safety block: MT5 orders are permitted only on a verified DEMO account.")
+        if not bool(getattr(account, "trade_allowed", False)) or not bool(getattr(account, "trade_expert", False)):
+            raise RuntimeError("MT5 account or expert trading permission is disabled.")
         info = self.mt5.symbol_info(symbol)
         tick = self.mt5.symbol_info_tick(symbol)
         if info is None or tick is None:
@@ -97,6 +107,25 @@ class MT5ExecutionService:
             if stop_loss - price < stop_gap or price - take_profit < stop_gap:
                 raise ValueError("Order levels violate the broker minimum stop distance.")
             order_type = self.mt5.ORDER_TYPE_SELL
+
+        order_loss = self.mt5.order_calc_profit(order_type, symbol, float(volume), float(price), float(stop_loss))
+        if order_loss is None:
+            raise RuntimeError(f"Broker could not calculate order risk: {self.mt5.last_error()}")
+        balance = float(getattr(account, "balance", 0.0) or 0.0)
+        if not math.isfinite(balance) or balance <= 0:
+            raise RuntimeError("MT5 account balance is invalid.")
+        risk_percent = abs(float(order_loss)) / balance * 100.0
+        if not math.isfinite(risk_percent) or risk_percent > 1.0 + 1e-9:
+            raise RuntimeError("Broker-calculated order risk exceeds the 1% per-trade limit.")
+        portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=self.magic)
+        if portfolio.daily_entries >= 10:
+            raise RuntimeError(f"Daily entry limit reached: {portfolio.daily_entries}/10.")
+        if portfolio.open_positions >= 3:
+            raise RuntimeError(f"Open position limit reached: {portfolio.open_positions}/3.")
+        if portfolio.daily_loss_percent >= 5.0:
+            raise RuntimeError("Daily loss threshold reached: 5%.")
+        if portfolio.exposure_percent + risk_percent > 3.0:
+            raise RuntimeError("Order would exceed the 3% total portfolio exposure limit.")
 
         fill_mode = getattr(info, "filling_mode", None)
         if fill_mode is not None and int(fill_mode) & int(getattr(self.mt5, "SYMBOL_FILLING_IOC", 2)):
@@ -161,7 +190,7 @@ class TradeExecutionOrchestrator:
     ):
         self.mt5_service = mt5_service
         mt5_module = getattr(mt5_service, "mt5", mt5_service)
-        self.executor = executor or MT5ExecutionService(mt5_module=mt5_module)
+        self.executor = executor or MT5ExecutionService(mt5_module=mt5_module, enabled=self.allow_execution)
         self.trade_guard = trade_guard or TradeGuard()
         self.allow_execution = bool(allow_execution)
         self._execution_lock = threading.RLock()
