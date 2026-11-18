@@ -355,3 +355,60 @@ def test_invalid_reward_multiple():
             direction="bullish",
             reward_multiple=0,
         )
+
+
+
+def test_risk_limits_reject_eleventh_new_york_day_entry():
+    from risk.limits import can_open_trade
+
+    assert not can_open_trade(
+        limits=default_limits(),
+        current_open_trades=0,
+        current_exposure_percent=0.0,
+        proposed_risk_percent=1.0,
+        daily_loss_percent=0.0,
+        current_daily_entries=10,
+    )
+
+
+def test_position_size_respects_preferred_maximum_lot_size():
+    result = calculate_position_size(
+        instrument=commodity_instrument(),
+        direction="bullish",
+        entry=2500.0,
+        stop_loss=2490.0,
+        risk_amount=100.0,
+        max_volume=0.02,
+    )
+    assert result.volume == pytest.approx(0.02)
+    assert result.estimated_loss <= result.risk_amount
+
+
+def test_instrument_risk_rejects_invalid_broker_metadata():
+    with pytest.raises(ValueError, match="tick_size"):
+        InstrumentRisk(
+            symbol="XAUUSD",
+            point=0.01,
+            tick_size=0.0,
+            tick_value=1.0,
+            contract_size=100.0,
+            volume_min=0.01,
+            volume_max=100.0,
+            volume_step=0.01,
+        )
+
+
+def test_risk_limits_reject_non_finite_lot_cap():
+    from risk.limits import validate_risk_limits
+    from risk.models import RiskLimits
+
+    with pytest.raises(ValueError, match="max_position_volume"):
+        validate_risk_limits(
+            RiskLimits(
+                max_risk_per_trade_percent=1.0,
+                max_open_trades=3,
+                max_total_exposure_percent=3.0,
+                max_daily_loss_percent=5.0,
+                max_position_volume=float("nan"),
+            )
+        )
