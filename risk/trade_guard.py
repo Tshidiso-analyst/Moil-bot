@@ -57,6 +57,15 @@ class TradeGuard:
         current_exposure_percent: float = 0.0,
         current_daily_entries: int = 0,
     ) -> GuardDecision:
+        for name, value in (
+            ("confirmation", confirmation),
+            ("high_impact_news", high_impact_news),
+            ("structure_valid", structure_valid),
+            ("liquidity_valid", liquidity_valid),
+            ("macro_bias_valid", macro_bias_valid),
+        ):
+            if not isinstance(value, bool):
+                raise ValueError(f"{name} must be a boolean.")
         if not confirmation:
             return GuardDecision(False, "Trade setup is not confirmed.")
         if not structure_valid:
