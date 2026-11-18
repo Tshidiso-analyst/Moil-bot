@@ -44,10 +44,10 @@ class FakeMT5:
 def test_snapshot_counts_only_bot_entry_deals_across_symbols():
     mt5 = FakeMT5()
     mt5.deals = [
-        SimpleNamespace(magic=731111, entry=0, type=0, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD.a"),
-        SimpleNamespace(magic=731111, entry=0, type=1, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD"),
-        SimpleNamespace(magic=123, entry=0, type=0, profit=0, commission=0, swap=0, fee=0, symbol="EURUSD"),
-        SimpleNamespace(magic=731111, entry=1, type=0, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD"),
+        SimpleNamespace(magic=731111, entry=0, type=0, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD.a", order=100),
+        SimpleNamespace(magic=731111, entry=0, type=1, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD", order=101),
+        SimpleNamespace(magic=123, entry=0, type=0, profit=0, commission=0, swap=0, fee=0, symbol="EURUSD", order=102),
+        SimpleNamespace(magic=731111, entry=1, type=0, profit=0, commission=0, swap=0, fee=0, symbol="XAUUSD", order=103),
     ]
     now = datetime(2026, 6, 10, 15, 0, tzinfo=timezone.utc)
     snapshot = build_mt5_portfolio_snapshot(mt5, magic=731111, now=now)
@@ -88,7 +88,7 @@ def test_snapshot_calculates_daily_loss_from_realized_and_floating_pnl():
     mt5 = FakeMT5()
     mt5.account.balance = 9_895.0
     mt5.deals = [
-        SimpleNamespace(magic=731111, entry=1, type=FakeMT5.DEAL_TYPE_BUY,
+        SimpleNamespace(magic=731111, entry=1, order=500, type=FakeMT5.DEAL_TYPE_BUY,
                         profit=-100.0, commission=-5.0, swap=0.0, fee=0.0)
     ]
     snapshot = build_mt5_portfolio_snapshot(
@@ -151,7 +151,7 @@ def test_snapshot_fails_closed_for_non_trading_account_adjustment():
     mt5 = FakeMT5()
     mt5.deals = [
         SimpleNamespace(
-            magic=0, entry=0, type=2, profit=500.0,
+            magic=0, entry=0, order=900, type=2, profit=500.0,
             commission=0.0, swap=0.0, fee=0.0,
         )
     ]
