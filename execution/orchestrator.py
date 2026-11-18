@@ -87,7 +87,9 @@ class MT5ExecutionService:
             raise ValueError("Order prices must be finite and greater than zero.")
         if not math.isfinite(float(volume)) or not 0 < float(volume) <= 0.02:
             raise ValueError("Order volume must be greater than zero and no more than 0.02 lots.")
-        magic_value = self.magic if magic is None else int(magic)
+        if magic is not None and (isinstance(magic, bool) or not isinstance(magic, int) or magic <= 0):
+            raise ValueError("magic must be a positive integer.")
+        magic_value = self.magic if magic is None else magic
         account = self.mt5.account_info()
         demo_mode = getattr(self.mt5, "ACCOUNT_TRADE_MODE_DEMO", None)
         if account is None or demo_mode is None or getattr(account, "trade_mode", None) != demo_mode:
