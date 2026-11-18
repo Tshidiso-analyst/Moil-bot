@@ -1,4 +1,4 @@
-"""Fail-closed XAUUSD execution planning and optional DEMO order routing.
+"""Fail-closed XAUUSD execution planning and authorized MT5 order routing.
 
 Order execution remains disabled by default. All live portfolio state and
 broker instrument metadata must be available before a plan can be approved.
@@ -50,12 +50,12 @@ class ExecutionResult:
 
 
 class MT5ExecutionService:
-    """Thin broker adapter; portfolio and sizing checks belong to the orchestrator."""
+    """MT5 broker adapter with independent authorization and risk checks."""
 
-    def __init__(self, mt5_module: Any | None = None, *, enabled: bool = False, magic: int = 731111):
+    def __init__(self, mt5_module: Any | None = None, *, enabled: bool = False, magic: int = 731111, account_policy: AccountPolicy | None = None):
         self.mt5 = mt5_module if mt5_module is not None else _mt5
         self.enabled = enabled is True
-        self.account_policy = AccountPolicy(mode="demo", execution_enabled=self.enabled)
+        self.account_policy = account_policy or AccountPolicy(mode="demo", execution_enabled=self.enabled)
         if isinstance(magic, bool) or not isinstance(magic, int) or magic <= 0:
             raise ValueError("magic must be a positive integer.")
         self.magic = magic
@@ -98,9 +98,9 @@ class MT5ExecutionService:
         magic_value = self.magic if magic is None else magic
         account = self.mt5.account_info()
         self.account_policy.verify(self.mt5, account)
-        demo_mode = getattr(self.mt5, "ACCOUNT_TRADE_MODE_DEMO", None)
-        if account is None or demo_mode is None or getattr(account, "trade_mode", None) != demo_mode:
-            raise RuntimeError("Hard safety block: MT5 orders are permitted only on a verified DEMO account.")
+        expected_mode = getattr(self.mt5, "ACCOUNT_TRADE_MODE_REAL" if self.account_policy.mode == "real" else "ACCOUNT_TRADE_MODE_DEMO", None)
+        if expected_mode is None or getattr(account, "trade_mode", None) != expected_mode:
+            raise RuntimeError("Account mode changed or is not verified.")
         if not bool(getattr(account, "trade_allowed", False)) or not bool(getattr(account, "trade_expert", False)):
             raise RuntimeError("MT5 account or expert trading permission is disabled.")
         info = self.mt5.symbol_info(symbol)
@@ -209,7 +209,7 @@ class MT5ExecutionService:
             raise RuntimeError("Execution quote changed; rebuild the plan before sending.")
         latest_account = self.mt5.account_info()
         if (latest_account is None
-                or getattr(latest_account, "trade_mode", None) != demo_mode
+                or getattr(latest_account, "trade_mode", None) != expected_mode
                 or not bool(getattr(latest_account, "trade_allowed", False))
                 or not bool(getattr(latest_account, "trade_expert", False))):
             raise RuntimeError("Account permissions or DEMO mode changed before submission.")
@@ -223,6 +223,7 @@ class MT5ExecutionService:
                 or latest_portfolio.daily_loss_percent >= 5.0
                 or latest_portfolio.exposure_percent + abs(float(order_loss)) / min(latest_balance, latest_equity) * 100.0 > 3.0):
             raise RuntimeError("Portfolio limits changed before order submission.")
+        self.account_policy.verify(self.mt5, latest_account)
         result = self.mt5.order_send(request)
         accepted = {
             getattr(self.mt5, "TRADE_RETCODE_DONE", 10009),
@@ -244,7 +245,7 @@ class MT5ExecutionService:
 
 
 class TradeExecutionOrchestrator:
-    """Build risk-checked XAUUSD plans and route only explicitly enabled DEMO orders."""
+    """Build risk-checked XAUUSD plans and route explicitly authorized orders."""
 
     def __init__(
         self,
@@ -253,11 +254,13 @@ class TradeExecutionOrchestrator:
         trade_guard: TradeGuard | None = None,
         *,
         allow_execution: bool = False,
+        account_policy: AccountPolicy | None = None,
     ):
         self.mt5_service = mt5_service
         self.allow_execution = allow_execution is True
+        self.account_policy = account_policy or AccountPolicy(mode="demo", execution_enabled=self.allow_execution)
         mt5_module = getattr(mt5_service, "mt5", mt5_service)
-        self.executor = executor or MT5ExecutionService(mt5_module=mt5_module, enabled=self.allow_execution)
+        self.executor = executor or MT5ExecutionService(mt5_module=mt5_module, enabled=self.allow_execution, account_policy=self.account_policy)
         self.trade_guard = trade_guard or TradeGuard()
         self._execution_lock = threading.RLock()
 
@@ -448,9 +451,7 @@ class TradeExecutionOrchestrator:
             try:
                 module = self._mt5_module()
                 account = module.account_info()
-                demo_mode = getattr(module, "ACCOUNT_TRADE_MODE_DEMO", None)
-                if account is None or demo_mode is None or getattr(account, "trade_mode", None) != demo_mode:
-                    raise RuntimeError("Hard safety block: order routing is permitted only on a verified MT5 DEMO account.")
+                self.account_policy.verify(module, account)
                 if not bool(getattr(account, "trade_allowed", False)) or not bool(getattr(account, "trade_expert", False)):
                     raise RuntimeError("MT5 account or expert trading permission is disabled.")
                 result = self.executor.open_market_order(
@@ -467,7 +468,7 @@ class TradeExecutionOrchestrator:
                 return ExecutionResult(
                     plan.symbol, result.get("ticket"), plan.direction,
                     float(plan.order["volume"]), float(plan.order["entry"]),
-                    "accepted", ("DEMO order accepted by MT5." if result.get("ticket") else "MT5 accepted the DEMO order but returned no ticket; reconcile the account history before any retry."), result.get("request"),
+                    "accepted", ("MT5 order accepted." if result.get("ticket") else "MT5 accepted the order but returned no ticket; reconcile the account history before any retry."), result.get("request"),
                 )
             except Exception as exc:
                 return ExecutionResult(
