@@ -61,3 +61,20 @@ def test_real_policy_rejects_missing_real_mode_constant():
     policy = AccountPolicy(mode="real", execution_enabled=True, real_trading_approved=True)
     with pytest.raises(RuntimeError, match="unverified REAL"):
         policy.verify(SimpleNamespace(ACCOUNT_TRADE_MODE_DEMO=0), account(2))
+
+@pytest.mark.parametrize("value", [1, "true", None])
+def test_execution_requires_literal_true(value):
+    with pytest.raises(RuntimeError, match="disabled"):
+        AccountPolicy(mode="demo", execution_enabled=value).verify(FakeMT5(), account())
+
+
+@pytest.mark.parametrize("value", [1, "true", None])
+def test_real_approval_requires_literal_true(value):
+    with pytest.raises(RuntimeError, match="separate explicit authorization"):
+        AccountPolicy(mode="real", execution_enabled=True, real_trading_approved=value).verify(FakeMT5(), account(2))
+
+
+@pytest.mark.parametrize("value", [1, "false", None])
+def test_kill_switch_requires_literal_false(value):
+    with pytest.raises(RuntimeError, match="kill switch"):
+        AccountPolicy(mode="demo", execution_enabled=True, kill_switch=value).verify(FakeMT5(), account())
