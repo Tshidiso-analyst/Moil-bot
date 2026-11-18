@@ -66,8 +66,10 @@ class TradeDecisionEngine:
             raise ValueError("proposed_risk_percent must be numeric.") from None
         if not math.isfinite(proposed_risk_percent) or not 0 < proposed_risk_percent <= 1.0:
             raise ValueError("proposed_risk_percent must be greater than 0 and no more than 1%.")
-        if dataframe.empty:
-            raise ValueError("dataframe must not be empty")
+        if not isinstance(dataframe, pd.DataFrame) or dataframe.empty:
+            raise ValueError("dataframe must be a non-empty pandas DataFrame")
+        if not isinstance(high_impact_news, bool):
+            raise ValueError("high_impact_news must be a boolean.")
 
         context = analyze_market_context(dataframe)
         reasons: list[str] = []
