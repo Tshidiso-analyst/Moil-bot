@@ -11,6 +11,8 @@ class FakeMT5:
     ACCOUNT_TRADE_MODE_DEMO = 0
     TIMEFRAME_M15 = 15
     TIMEFRAME_H1 = 60
+    TIMEFRAME_H4 = 240
+    TIMEFRAME_D1 = 1440
     ORDER_TYPE_BUY = 0
     ORDER_TYPE_SELL = 1
 
@@ -51,6 +53,9 @@ def test_read_only_snapshot_and_html():
     assert data["execution"] == "DISABLED"
     assert data["risk_budget"] == 5
     assert data["smc"]["execution_ready"] is False
+    assert data["topdown"]["execution_ready"] is False
+    assert data["topdown"]["status"] == "WAIT"
+    assert b"Top-down research" in page(data)
     assert data["trades"] == []
     assert b"MT5 ORDERS: DISABLED" in page(data)
     assert fake.sent == []
