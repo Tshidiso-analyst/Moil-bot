@@ -17,6 +17,7 @@ try:  # MetaTrader5 is optional outside the Windows trading workstation.
 except ImportError:  # pragma: no cover - platform dependent
     _mt5 = None
 
+from execution.account_policy import AccountPolicy
 from execution.quote_safety import require_fresh_tick
 from execution.authorization import require_strategy_authorization
 from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snapshot
@@ -54,6 +55,7 @@ class MT5ExecutionService:
     def __init__(self, mt5_module: Any | None = None, *, enabled: bool = False, magic: int = 731111):
         self.mt5 = mt5_module if mt5_module is not None else _mt5
         self.enabled = enabled is True
+        self.account_policy = AccountPolicy(mode="demo", execution_enabled=self.enabled)
         if isinstance(magic, bool) or not isinstance(magic, int) or magic <= 0:
             raise ValueError("magic must be a positive integer.")
         self.magic = magic
@@ -95,6 +97,7 @@ class MT5ExecutionService:
             raise ValueError("magic must be a positive integer.")
         magic_value = self.magic if magic is None else magic
         account = self.mt5.account_info()
+        self.account_policy.verify(self.mt5, account)
         demo_mode = getattr(self.mt5, "ACCOUNT_TRADE_MODE_DEMO", None)
         if account is None or demo_mode is None or getattr(account, "trade_mode", None) != demo_mode:
             raise RuntimeError("Hard safety block: MT5 orders are permitted only on a verified DEMO account.")
