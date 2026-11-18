@@ -6,10 +6,13 @@ smoke-test path, not proof that the research strategy is profitable.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime
 from decimal import Decimal, ROUND_FLOOR
 import math
 from typing import Any
+import re
+
+from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snapshot
 
 
 @dataclass(frozen=True)
@@ -36,7 +39,7 @@ class DemoExecutionError(RuntimeError):
 class DemoExecutionPipeline:
     """Place a single explicitly confirmed order on a verified MT5 DEMO account."""
 
-    def __init__(self, mt5_module: Any | None = None, *, magic: int = 731111):
+    def __init__(self, mt5_module: Any | None = None, *, magic: int = 731111, enabled: bool = False):
         if mt5_module is None:
             try:
                 import MetaTrader5 as mt5_module
@@ -46,6 +49,7 @@ class DemoExecutionPipeline:
                 ) from exc
         self.mt5 = mt5_module
         self.magic = int(magic)
+        self.enabled = bool(enabled)
 
     def execute_market_order(
         self,
@@ -60,7 +64,11 @@ class DemoExecutionPipeline:
         no_high_impact_news_confirmed: bool = False,
         comment: str = "Moil-bot DEMO test",
     ) -> DemoExecutionResult:
+        if not self.enabled:
+            raise DemoExecutionError("DEMO execution is disabled by default; explicitly enable it for a controlled DEMO test.")
         symbol = str(symbol or "").strip()
+        if not re.fullmatch(r"XAUUSD(?:[._-][A-Z0-9]+|[A-Z])?", symbol.upper()):
+            raise DemoExecutionError("Moil-bot currently supports XAUUSD only.")
         direction = str(direction or "").strip().lower()
         if not confirmation:
             raise DemoExecutionError("Explicit demo-order confirmation is required.")
@@ -98,12 +106,18 @@ class DemoExecutionPipeline:
         if not math.isfinite(balance) or balance <= 0 or not math.isfinite(free_margin) or free_margin <= 0:
             raise DemoExecutionError("Account balance or free margin is invalid.")
 
-        self._enforce_daily_limit()
-        positions = self.mt5.positions_get()
-        if positions is None:
-            raise DemoExecutionError(f"Could not verify open positions: {self.mt5.last_error()}")
-        if len(positions) > 0:
-            raise DemoExecutionError("One-trade-at-a-time rule: close existing positions before a demo test.")
+        try:
+            portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=self.magic)
+        except (PortfolioSnapshotError, ValueError) as exc:
+            raise DemoExecutionError(f"Could not verify portfolio risk: {exc}") from exc
+        if portfolio.daily_entries >= 10:
+            raise DemoExecutionError(f"Daily entry limit reached: {portfolio.daily_entries}/10 New York trading-day entries.")
+        if portfolio.open_positions >= 3:
+            raise DemoExecutionError(f"Maximum open positions reached: {portfolio.open_positions}/3.")
+        if portfolio.daily_loss_percent >= 5.0:
+            raise DemoExecutionError("Daily loss threshold reached: 5% maximum.")
+        if portfolio.exposure_percent + risk_percent > 3.0:
+            raise DemoExecutionError("New trade would exceed the 3% total portfolio exposure limit.")
 
         if not self.mt5.symbol_select(symbol, True):
             raise DemoExecutionError(f"Could not select {symbol}: {self.mt5.last_error()}")
@@ -143,7 +157,8 @@ class DemoExecutionPipeline:
         raw_volume = risk_amount / loss_per_lot
         step = Decimal(str(getattr(info, "volume_step", 0.0) or 0.0))
         minimum = Decimal(str(getattr(info, "volume_min", 0.0) or 0.0))
-        maximum = Decimal(str(getattr(info, "volume_max", 0.0) or 0.0))
+        broker_maximum = Decimal(str(getattr(info, "volume_max", 0.0) or 0.0))
+        maximum = min(broker_maximum, Decimal("0.02"))
         if step <= 0 or minimum <= 0 or maximum < minimum:
             raise DemoExecutionError("Broker volume limits are invalid.")
         volume_units = (Decimal(str(raw_volume)) / step).to_integral_value(rounding=ROUND_FLOOR)
@@ -233,19 +248,7 @@ class DemoExecutionPipeline:
             request=request,
         )
 
-    def _enforce_daily_limit(self) -> None:
-        history_fn = getattr(self.mt5, "history_deals_get", None)
-        if not callable(history_fn):
-            raise DemoExecutionError("Cannot verify the one-trade-per-day limit; broker deal history is unavailable.")
-        now = datetime.now()
-        start = now - timedelta(days=1)
-        deals = history_fn(start, now)
-        if deals is None:
-            raise DemoExecutionError(f"Cannot verify today's trade history: {self.mt5.last_error()}")
-        entry_code = getattr(self.mt5, "DEAL_ENTRY_IN", 0)
-        for deal in deals:
-            if int(getattr(deal, "magic", 0) or 0) == self.magic and int(getattr(deal, "entry", -1)) == entry_code:
-                raise DemoExecutionError("One-trade-per-day rule: a Moil-bot demo entry already exists in the last 24 hours.")
+
 
 
 __all__ = ["DemoExecutionError", "DemoExecutionPipeline", "DemoExecutionResult"]
