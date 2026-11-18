@@ -222,6 +222,31 @@ class MT5ExecutionService:
         if checked is None or getattr(checked, "retcode", None) not in {0, getattr(self.mt5, "TRADE_RETCODE_DONE", 10009)}:
             raise RuntimeError("MT5 order_check rejected the order request.")
 
+        # Recheck mutable broker state after order_check and immediately before send.
+        latest_account = self.mt5.account_info()
+        if (latest_account is None
+                or getattr(latest_account, "trade_mode", None) != demo_mode
+                or not bool(getattr(latest_account, "trade_allowed", False))
+                or not bool(getattr(latest_account, "trade_expert", False))):
+            raise RuntimeError("DEMO account mode or trading permissions changed before submission.")
+        latest_tick = self.mt5.symbol_info_tick(symbol)
+        require_fresh_tick(latest_tick)
+        latest_price = float(latest_tick.ask if mt5_direction == self.mt5.ORDER_TYPE_BUY else latest_tick.bid)
+        if not math.isfinite(latest_price) or latest_price <= 0 or abs(latest_price - price) > 20 * point:
+            raise RuntimeError("Broker quote changed before submission; rebuild the order.")
+        latest_balance = float(getattr(latest_account, "balance", 0.0) or 0.0)
+        latest_equity = float(getattr(latest_account, "equity", 0.0) or 0.0)
+        latest_free_margin = float(getattr(latest_account, "margin_free", 0.0) or 0.0)
+        if (not all(math.isfinite(x) and x > 0 for x in (latest_balance, latest_equity, latest_free_margin))
+                or abs(float(order_loss)) > min(latest_balance, latest_equity) * 0.01
+                or float(margin) > latest_free_margin):
+            raise RuntimeError("Account risk or available margin changed before submission.")
+        latest_portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=int(magic))
+        latest_risk_pct = abs(float(order_loss)) / min(latest_balance, latest_equity) * 100.0
+        if (latest_portfolio.daily_entries >= 10 or latest_portfolio.open_positions >= 3
+                or latest_portfolio.daily_loss_percent >= 5.0
+                or latest_portfolio.exposure_percent + latest_risk_pct > 3.0):
+            raise RuntimeError("Portfolio risk limits changed before submission.")
         result = self.mt5.order_send(request)
 
         if result is None:
