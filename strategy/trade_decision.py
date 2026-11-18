@@ -55,7 +55,7 @@ class TradeDecisionEngine:
         daily_loss_percent: float = 0.0,
         open_trades: int = 0,
         current_daily_entries: int = 0,
-        high_impact_news: bool = False,
+        high_impact_news: bool = True,
     ) -> TradeAssessment:
         symbol = canonicalize_symbol(symbol)
         if fundamental_bias not in {"bullish", "bearish", "neutral"}:
