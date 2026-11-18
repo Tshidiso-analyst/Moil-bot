@@ -96,6 +96,8 @@ def build_mt5_portfolio_snapshot(
                 getattr(mt5, "DEAL_ENTRY_OUT_BY", None),
             ) if value is not None
         }
+        if not out_codes:
+            raise PortfolioSnapshotError("MT5 deal-exit constants are unavailable; daily P&L cannot be verified safely.")
         todays_position_ids = {
             int(getattr(deal, "position_id", 0) or 0)
             for deal in deals
