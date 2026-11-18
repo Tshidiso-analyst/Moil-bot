@@ -5,11 +5,13 @@ from types import SimpleNamespace
 import pandas as pd
 
 from execution.orchestrator import TradeExecutionOrchestrator, MT5ExecutionService
+from execution.account_policy import AccountPolicy
 import pytest
 
 
 class FakeMT5:
     ACCOUNT_TRADE_MODE_DEMO = 0
+    ACCOUNT_TRADE_MODE_REAL = 2
     ORDER_TYPE_BUY = 0
     ORDER_TYPE_SELL = 1
     POSITION_TYPE_BUY = 0
@@ -336,4 +338,35 @@ def test_broker_adapter_rejects_direct_order_with_unconfirmed_assessment():
             price=2500.2, stop_loss=2485.0, take_profit=2530.6,
             assessment=assessment(confirmation=False),
         )
+    assert fake.sent == []
+
+def test_real_order_requires_explicit_real_policy_and_matching_account():
+    fake = FakeMT5()
+    fake.account.trade_mode = fake.ACCOUNT_TRADE_MODE_REAL
+    service = SimpleNamespace(mt5=fake, connected=True)
+    policy = AccountPolicy(mode="real", execution_enabled=True, real_trading_approved=True)
+    orchestrator = TradeExecutionOrchestrator(service, allow_execution=True, account_policy=policy)
+    result = orchestrator.execute(
+        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish",
+        assessment=assessment(), proposed_risk_percent=1.0,
+        daily_loss_percent=0.0, current_exposure_percent=0.0,
+        account_balance=10_000.0, risk_percent=1.0, magic=731111,
+    )
+    assert result.status == "accepted"
+    assert len(fake.sent) == 1
+
+
+def test_real_order_kill_switch_blocks_submission():
+    fake = FakeMT5()
+    fake.account.trade_mode = fake.ACCOUNT_TRADE_MODE_REAL
+    service = SimpleNamespace(mt5=fake, connected=True)
+    policy = AccountPolicy(mode="real", execution_enabled=True, real_trading_approved=True, kill_switch=True)
+    orchestrator = TradeExecutionOrchestrator(service, allow_execution=True, account_policy=policy)
+    result = orchestrator.execute(
+        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish",
+        assessment=assessment(), proposed_risk_percent=1.0,
+        daily_loss_percent=0.0, current_exposure_percent=0.0,
+        account_balance=10_000.0, risk_percent=1.0, magic=731111,
+    )
+    assert result.status == "rejected"
     assert fake.sent == []
