@@ -6,6 +6,7 @@ from pathlib import Path
 import pandas as pd
 
 from market_data.live_data import resolve_mt5_symbol
+from risk.symbols import canonicalize_symbol
 
 
 MT5_PATH = r"C:\Program Files\MetaTrader 5\terminal64.exe"
@@ -48,9 +49,7 @@ class MT5History:
         start: datetime,
         end: datetime,
     ) -> pd.DataFrame:
-        requested = str(symbol or "").strip().upper()
-        if requested != "XAUUSD":
-            raise ValueError("Moil-bot historical MT5 data supports XAUUSD (gold) only.")
+        requested = canonicalize_symbol(symbol)
 
         timeframe = str(timeframe).upper()
         if timeframe not in TIMEFRAME_NAMES:
@@ -115,9 +114,7 @@ def save_history(
     timeframe: str,
     directory: str = "market_data/storage",
 ) -> Path:
-    canonical_symbol = str(symbol or "").strip().upper()
-    if canonical_symbol != "XAUUSD":
-        raise ValueError("Historical MT5 datasets must be stored under canonical symbol XAUUSD.")
+    canonical_symbol = canonicalize_symbol(symbol)
 
     path = Path(directory)
     path.mkdir(parents=True, exist_ok=True)
