@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from types import SimpleNamespace
 
 import pytest
@@ -155,6 +156,7 @@ def test_three_existing_positions_block_a_fourth_trade():
         SimpleNamespace(
             ticket=i, symbol="XAUUSD", volume=0.01, price_open=2500.0,
             sl=2499.0, type=FakeMT5.POSITION_TYPE_BUY, profit=0.0, swap=0.0,
+            time=int(datetime.now(timezone.utc).timestamp()),
         )
         for i in range(3)
     ]
