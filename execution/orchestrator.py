@@ -207,7 +207,7 @@ class TradeExecutionOrchestrator:
         risk_percent: float,
         magic: int = 731111,
     ) -> ExecutionPlan:
-        del current_exposure_percent, account_balance  # broker snapshot is authoritative
+        del current_exposure_percent, account_balance, daily_loss_percent  # broker snapshot is authoritative
         try:
             canonical_xauusd_symbol(symbol)
             module = self._mt5_module()
@@ -238,7 +238,7 @@ class TradeExecutionOrchestrator:
 
             risk_pct = float(proposed_risk_percent)
             sizing_pct = float(risk_percent)
-            loss_pct = float(daily_loss_percent)
+            loss_pct = float(snapshot.daily_loss_percent)
             if not all(math.isfinite(x) for x in (risk_pct, sizing_pct, loss_pct)):
                 return self._blocked(symbol, "Risk inputs must be finite numbers.", direction)
             if not 0 < risk_pct <= 1.0 or not 0 < sizing_pct <= 1.0:
