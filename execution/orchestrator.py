@@ -7,7 +7,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import math
-import re
 import threading
 from typing import Any
 
@@ -22,14 +21,7 @@ from risk.models import InstrumentRisk
 from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snapshot
 from risk.position_sizing import calculate_position_size
 from risk.trade_guard import TradeGuard
-
-
-def canonical_xauusd_symbol(symbol: str) -> str:
-    """Validate XAUUSD and common broker suffix aliases; return canonical name."""
-    value = str(symbol or "").strip().upper()
-    if not re.fullmatch(r"XAUUSD(?:[._-][A-Z0-9]+|[A-Z])?", value):
-        raise ValueError("Moil-bot currently supports XAUUSD only.")
-    return "XAUUSD"
+from risk.symbols import canonicalize_symbol as canonical_xauusd_symbol
 
 
 @dataclass(frozen=True)
