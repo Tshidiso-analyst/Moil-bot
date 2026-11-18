@@ -79,7 +79,7 @@ class MT5ExecutionService:
         if not self.is_connected():
             raise RuntimeError("MT5 is not connected.")
         canonical_xauusd_symbol(symbol)
-        symbol = str(symbol).strip().upper()
+        symbol = str(symbol).strip()
         if direction not in {"bullish", "bearish"}:
             raise ValueError(f"Unsupported direction: {direction}")
         numeric_prices = (price, stop_loss, take_profit)
