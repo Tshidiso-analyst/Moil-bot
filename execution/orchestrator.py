@@ -8,6 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 import math
 import threading
+import time
 from typing import Any
 
 import pandas as pd
@@ -263,6 +264,7 @@ class TradeExecutionOrchestrator:
         self.executor = executor or MT5ExecutionService(mt5_module=mt5_module, enabled=self.allow_execution, account_policy=self.account_policy)
         self.trade_guard = trade_guard or TradeGuard()
         self._execution_lock = threading.RLock()
+        self._last_successful_order: tuple[tuple[Any, ...], float] | None = None
 
     def _mt5_module(self) -> Any:
         module = getattr(self.mt5_service, "mt5", self.mt5_service)
@@ -448,6 +450,15 @@ class TradeExecutionOrchestrator:
                     "Execution is disabled by default. Explicit account-mode authorization is required.",
                 )
 
+            fingerprint = (plan.order["symbol"], plan.direction, float(plan.order["entry"]),
+                           float(plan.order["stop_loss"]), float(plan.order["take_profit"]),
+                           float(plan.order["volume"]), magic)
+            if (self._last_successful_order is not None
+                    and self._last_successful_order[0] == fingerprint
+                    and time.monotonic() - self._last_successful_order[1] < 60.0):
+                return ExecutionResult(plan.symbol, None, plan.direction,
+                                       float(plan.order["volume"]), float(plan.order["entry"]),
+                                       "blocked", "Duplicate order attempt within 60 seconds.")
             try:
                 module = self._mt5_module()
                 account = module.account_info()
@@ -465,6 +476,7 @@ class TradeExecutionOrchestrator:
                     comment=comment,
                     assessment=assessment,
                 )
+                self._last_successful_order = (fingerprint, time.monotonic())
                 return ExecutionResult(
                     plan.symbol, result.get("ticket"), plan.direction,
                     float(plan.order["volume"]), float(plan.order["entry"]),
