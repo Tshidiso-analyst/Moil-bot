@@ -10,9 +10,19 @@ from datetime import datetime
 from decimal import Decimal, ROUND_FLOOR
 import math
 from typing import Any
+import threading
+from functools import wraps
 
 from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snapshot
 from risk.symbols import canonicalize_symbol
+
+
+def _execution_locked(method):
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        with self._execution_lock:
+            return method(self, *args, **kwargs)
+    return wrapper
 
 
 @dataclass(frozen=True)
@@ -50,7 +60,9 @@ class DemoExecutionPipeline:
         self.mt5 = mt5_module
         self.magic = int(magic)
         self.enabled = bool(enabled)
+        self._execution_lock = threading.Lock()
 
+    @_execution_locked
     def execute_market_order(
         self,
         *,
@@ -66,7 +78,7 @@ class DemoExecutionPipeline:
     ) -> DemoExecutionResult:
         if not self.enabled:
             raise DemoExecutionError("DEMO execution is disabled by default; explicitly enable it for a controlled DEMO test.")
-        symbol = str(symbol or "").strip()
+        symbol = str(symbol or "").strip().upper()
         try:
             canonicalize_symbol(symbol)
         except ValueError as exc:
@@ -135,7 +147,7 @@ class DemoExecutionPipeline:
         entry = float(tick.ask if direction == "bullish" else tick.bid)
         point = float(getattr(info, "point", 0.0) or 0.0)
         digits = int(getattr(info, "digits", 5))
-        if not math.isfinite(entry) or entry <= 0 or point <= 0:
+        if not math.isfinite(entry) or entry <= 0 or not math.isfinite(point) or point <= 0:
             raise DemoExecutionError("Broker returned an invalid quote or point size.")
         stop_gap = max(0, int(getattr(info, "trade_stops_level", 0) or 0)) * point
         if direction == "bullish":
@@ -161,7 +173,7 @@ class DemoExecutionPipeline:
         minimum = Decimal(str(getattr(info, "volume_min", 0.0) or 0.0))
         broker_maximum = Decimal(str(getattr(info, "volume_max", 0.0) or 0.0))
         maximum = min(broker_maximum, Decimal("0.02"))
-        if step <= 0 or minimum <= 0 or maximum < minimum:
+        if not step.is_finite() or not minimum.is_finite() or not maximum.is_finite() or step <= 0 or minimum <= 0 or maximum < minimum:
             raise DemoExecutionError("Broker volume limits are invalid.")
         volume_units = (Decimal(str(raw_volume)) / step).to_integral_value(rounding=ROUND_FLOOR)
         volume = min(volume_units * step, (maximum / step).to_integral_value(rounding=ROUND_FLOOR) * step)
