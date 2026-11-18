@@ -107,7 +107,6 @@ class MT5ExecutionService:
             raise ValueError("magic must be a positive integer.")
         symbol = str(symbol).strip()
         canonicalize_symbol(symbol)
-        symbol = symbol.upper()
         if not symbol:
             raise ValueError("symbol must not be empty.")
 
