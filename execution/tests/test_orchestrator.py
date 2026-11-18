@@ -80,6 +80,22 @@ def make_orchestrator(*, allow_execution=False, mt5=None):
     return TradeExecutionOrchestrator(service, allow_execution=allow_execution), fake
 
 
+def assessment(**overrides):
+    values = {
+        "symbol": "XAUUSD",
+        "direction": "bullish",
+        "setup_valid": True,
+        "confirmation": True,
+        "structure_valid": True,
+        "liquidity_valid": True,
+        "macro_bias_valid": True,
+        "high_impact_news": False,
+        "stop_loss": 2485.0,
+    }
+    values.update(overrides)
+    return SimpleNamespace(**values)
+
+
 def market_data():
     return pd.DataFrame([
         {"close": 2495.0, "low": 2485.0, "high": 2505.0},
@@ -92,6 +108,7 @@ def plan(orchestrator, **overrides):
         "symbol": "XAUUSD.a",
         "dataframe": market_data(),
         "fundamental_bias": "bullish",
+        "assessment": assessment(),
         "proposed_risk_percent": 1.0,
         "daily_loss_percent": 0.0,
         "current_exposure_percent": 0.0,
@@ -157,7 +174,7 @@ def test_missing_portfolio_history_fails_closed():
 def test_execution_is_disabled_by_default_even_when_plan_passes():
     orchestrator, fake = make_orchestrator()
     result = orchestrator.execute(
-        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish",
+        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish", assessment=assessment(),
         proposed_risk_percent=1.0, daily_loss_percent=0.0,
         current_exposure_percent=0.0, account_balance=10_000.0,
         risk_percent=1.0, magic=731111,
@@ -191,3 +208,25 @@ def test_real_account_is_rejected_even_if_execution_flag_is_enabled():
     )
     assert result.status == "rejected"
     assert fake.sent == []
+
+
+
+def test_missing_strategy_assessment_blocks_candle_only_execution():
+    orchestrator, _ = make_orchestrator()
+    result = plan(orchestrator, assessment=None)
+    assert result.allowed is False
+    assert "TradeAssessment is required" in result.reason
+
+
+def test_unconfirmed_strategy_assessment_blocks_execution():
+    orchestrator, _ = make_orchestrator()
+    result = plan(orchestrator, assessment=assessment(confirmation=False, setup_valid=False))
+    assert result.allowed is False
+    assert "not confirmed" in result.reason
+
+
+def test_invalid_structure_or_missing_liquidity_blocks_execution():
+    orchestrator, _ = make_orchestrator()
+    result = plan(orchestrator, assessment=assessment(liquidity_valid=False))
+    assert result.allowed is False
+    assert "Liquidity context" in result.reason
