@@ -159,7 +159,8 @@ def test_three_open_positions_block_new_execution_plan():
     fake.positions = [
         SimpleNamespace(symbol="XAUUSD.a", volume=0.01, price_open=2500.0,
                         sl=2499.0, type=FakeMT5.POSITION_TYPE_BUY,
-                        profit=0.0, swap=0.0)
+                        profit=0.0, swap=0.0,
+                        time=int(datetime.now(timezone.utc).timestamp()))
         for _ in range(3)
     ]
     orchestrator, _ = make_orchestrator(mt5=fake)
@@ -207,7 +208,7 @@ def test_real_account_is_rejected_even_if_execution_flag_is_enabled():
     fake.account.trade_mode = 2
     orchestrator, fake = make_orchestrator(allow_execution=True, mt5=fake)
     result = orchestrator.execute(
-        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish",
+        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish", assessment=assessment(),
         proposed_risk_percent=1.0, daily_loss_percent=0.0,
         current_exposure_percent=0.0, account_balance=10_000.0,
         risk_percent=1.0, magic=731111,
