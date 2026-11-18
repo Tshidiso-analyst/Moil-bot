@@ -279,3 +279,25 @@ def test_demo_entry_rejects_future_quote():
     with pytest.raises(DemoExecutionError, match="in the future"):
         execute(fake)
     assert fake.sent == []
+
+
+def test_demo_pipeline_rechecks_account_after_order_check():
+    fake = FakeMT5()
+    def change_account(request):
+        fake.account.trade_mode = fake.ACCOUNT_TRADE_MODE_REAL
+        return SimpleNamespace(retcode=0, comment="checked")
+    fake.order_check = change_account
+    with pytest.raises(DemoExecutionError, match="changed before submission"):
+        execute(fake)
+    assert fake.sent == []
+
+
+def test_demo_pipeline_rechecks_quote_after_order_check():
+    fake = FakeMT5()
+    def change_quote(request):
+        fake.tick.ask += 5.0
+        return SimpleNamespace(retcode=0, comment="checked")
+    fake.order_check = change_quote
+    with pytest.raises(DemoExecutionError, match="quote moved"):
+        execute(fake)
+    assert fake.sent == []
