@@ -13,6 +13,7 @@ import pandas as pd
 
 from backtesting.cost_aware_engine import CostAwareBacktestEngine, CostAwareSplitResult
 from strategy.trade_decision import TradeDecisionEngine
+from risk.symbols import canonicalize_symbol
 
 
 NEW_YORK = ZoneInfo("America/New_York")
@@ -32,9 +33,7 @@ def make_smc_signal_function(
     window; the cost-aware engine enforces the portfolio's daily entry cap.
     """
     engine = decision_engine or TradeDecisionEngine()
-    clean_symbol = str(symbol or "").strip().upper()
-    if not clean_symbol:
-        raise ValueError("symbol must not be empty.")
+    clean_symbol = canonicalize_symbol(symbol)
     if not 0 < float(risk_percent) <= 1.0:
         raise ValueError("risk_percent must be greater than 0 and no more than 1.")
 
@@ -82,10 +81,11 @@ def run_smc_backtest(
     decision_engine: Any | None = None,
 ) -> CostAwareSplitResult:
     """Run a chronological train/holdout simulation with costs and no overlap."""
-    signal_fn = make_smc_signal_function(symbol, decision_engine=decision_engine)
+    clean_symbol = canonicalize_symbol(symbol)
+    signal_fn = make_smc_signal_function(clean_symbol, decision_engine=decision_engine)
     return CostAwareBacktestEngine().run_train_test(
         dataframe,
-        symbol,
+        clean_symbol,
         signal_fn,
         train_fraction=train_fraction,
         stop_distance=stop_distance,
