@@ -315,7 +315,7 @@ def test_orchestrator_rechecks_demo_account_after_order_check():
         account_balance=10_000.0, risk_percent=1.0, magic=731111,
     )
     assert result.status == "rejected"
-    assert "DEMO mode changed" in result.reason
+    assert "account mode changed" in result.reason
     assert fake.sent == []
 
 def test_broker_adapter_rejects_direct_order_without_assessment():
