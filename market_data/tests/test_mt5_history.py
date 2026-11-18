@@ -78,7 +78,7 @@ def test_history_fetch_resolves_broker_alias_but_uses_gold_data():
     assert mt5.requested[0][0:2] == ("XAUUSD.a", mt5.TIMEFRAME_M15)
 
 
-@pytest.mark.parametrize("symbol", ["EURUSD", "GBPUSD", "BTCUSD", "XAUUSD.a"])
+@pytest.mark.parametrize("symbol", ["EURUSD", "GBPUSD", "BTCUSD"])
 def test_history_rejects_noncanonical_symbol(symbol):
     mt5 = FakeMT5([gold_symbol()])
     history = MT5History(mt5_module=mt5)
@@ -103,3 +103,17 @@ def test_history_rejects_unknown_timeframe():
             datetime(2026, 1, 1, tzinfo=timezone.utc),
             datetime(2026, 1, 2, tzinfo=timezone.utc),
         )
+
+
+
+def test_history_accepts_broker_alias_input_and_keeps_canonical_data_symbol():
+    mt5 = FakeMT5([gold_symbol()], rates=[])
+    history = MT5History(mt5_module=mt5)
+    result = history.fetch(
+        "XAUUSD.a",
+        "M15",
+        datetime(2026, 1, 1, tzinfo=timezone.utc),
+        datetime(2026, 1, 2, tzinfo=timezone.utc),
+    )
+    assert result.empty
+    assert mt5.selected == [("XAUUSD.a", True)]
