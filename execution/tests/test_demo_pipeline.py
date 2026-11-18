@@ -233,3 +233,18 @@ def test_non_gold_symbol_is_rejected():
     with pytest.raises(DemoExecutionError, match="XAUUSD only"):
         execute(fake, symbol="EURUSD")
     assert fake.sent == []
+
+def test_demo_pipeline_rejects_order_when_equity_is_below_balance():
+    fake = FakeMT5()
+    fake.account.equity = 50.0
+    with pytest.raises(DemoExecutionError, match="below broker minimum"):
+        execute(fake)
+    assert fake.sent == []
+
+
+def test_demo_pipeline_fails_closed_without_equity():
+    fake = FakeMT5()
+    del fake.account.equity
+    with pytest.raises(DemoExecutionError, match="balance or free margin is invalid"):
+        execute(fake)
+    assert fake.sent == []
