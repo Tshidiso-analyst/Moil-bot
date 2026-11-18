@@ -26,16 +26,15 @@ class MT5ExecutionService:
         *,
         path: str | None = None,
     ) -> dict[str, Any]:
-        try:
-            import MetaTrader5 as mt5
-        except ImportError as exc:  # pragma: no cover - environment dependent
-            return {
-                "connected": False,
-                "message": "MetaTrader5 package is unavailable.",
-                "error": str(exc),
-            }
-
         if self.mt5 is None:
+            try:
+                import MetaTrader5 as mt5
+            except ImportError as exc:  # pragma: no cover - environment dependent
+                return {
+                    "connected": False,
+                    "message": "MetaTrader5 package is unavailable.",
+                    "error": str(exc),
+                }
             self.mt5 = mt5
         mt5 = self.mt5
 
@@ -96,7 +95,7 @@ class MT5ExecutionService:
         stop_loss: float | None = None,
         take_profit: float | None = None,
         comment: str = "Moil-bot",
-        magic: int = 0,
+        magic: int = 731111,
     ) -> dict[str, Any]:
         self._require_connection()
         if not self.enabled:
@@ -137,12 +136,23 @@ class MT5ExecutionService:
             raise RuntimeError(f"Invalid broker quote for {symbol}.")
         stop_loss = float(stop_loss)
         take_profit = float(take_profit)
+        info = self.mt5.symbol_info(symbol)
+        if info is None:
+            raise RuntimeError(f"Broker metadata unavailable for {symbol}.")
+        point = float(getattr(info, "point", 0.0) or 0.0)
+        if not math.isfinite(point) or point <= 0:
+            raise RuntimeError("Broker point size is invalid.")
+        stop_gap = float(getattr(info, "trade_stops_level", 0) or 0) * point
         if not all(math.isfinite(value) and value > 0 for value in (stop_loss, take_profit)):
             raise ValueError("Stop loss and take profit must be finite positive prices.")
         if direction in {"buy", "bullish"} and not stop_loss < price < take_profit:
             raise ValueError("BUY stop loss/entry/take profit levels are invalid.")
         if direction in {"sell", "bearish"} and not take_profit < price < stop_loss:
             raise ValueError("SELL stop loss/entry/take profit levels are invalid.")
+        if direction in {"buy", "bullish"} and (price - stop_loss < stop_gap or take_profit - price < stop_gap):
+            raise ValueError("Order levels violate the broker minimum stop distance.")
+        if direction in {"sell", "bearish"} and (stop_loss - price < stop_gap or price - take_profit < stop_gap):
+            raise ValueError("Order levels violate the broker minimum stop distance.")
         order_loss = self.mt5.order_calc_profit(mt5_direction, symbol, float(volume), price, stop_loss)
         balance = float(getattr(account, "balance", 0.0) or 0.0)
         if order_loss is None or not math.isfinite(balance) or balance <= 0:
@@ -150,7 +160,7 @@ class MT5ExecutionService:
         risk_percent = abs(float(order_loss)) / balance * 100.0
         if not math.isfinite(risk_percent) or risk_percent > 1.0 + 1e-9:
             raise RuntimeError("Broker-calculated order risk exceeds the 1% per-trade limit.")
-        portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=self.magic)
+        portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=int(magic))
         if portfolio.daily_entries >= 10 or portfolio.open_positions >= 3:
             raise RuntimeError("Portfolio daily-entry or open-position limit has been reached.")
         if portfolio.daily_loss_percent >= 5.0 or portfolio.exposure_percent + risk_percent > 3.0:
