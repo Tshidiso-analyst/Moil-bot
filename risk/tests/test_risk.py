@@ -412,3 +412,28 @@ def test_risk_limits_reject_non_finite_lot_cap():
                 max_position_volume=float("nan"),
             )
         )
+
+
+
+def test_account_risk_rejects_more_than_one_percent():
+    with pytest.raises(ValueError, match="at most 1%"):
+        calculate_account_risk(balance=10_000, risk_percent=1.01)
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("max_risk_per_trade_percent", 1.01),
+        ("max_open_trades", 4),
+        ("max_total_exposure_percent", 3.01),
+        ("max_daily_loss_percent", 5.01),
+        ("max_trades_per_day", 11),
+        ("max_position_volume", 0.021),
+    ],
+)
+def test_risk_limits_cannot_exceed_user_defined_platform_caps(field, value):
+    from dataclasses import replace
+    from risk.limits import validate_risk_limits
+
+    with pytest.raises(ValueError):
+        validate_risk_limits(replace(default_limits(), **{field: value}))
