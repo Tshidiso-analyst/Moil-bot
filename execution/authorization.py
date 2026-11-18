@@ -11,10 +11,14 @@ from risk.symbols import canonicalize_symbol
 
 def require_strategy_authorization(assessment: Any, *, symbol: str, direction: str) -> None:
     """Require an explicit confirmed assessment; reject unvalidated entry requests."""
-    canonicalize_symbol(symbol)
+    requested_symbol = canonicalize_symbol(symbol)
+    if direction not in {"buy", "sell", "bullish", "bearish"}:
+        raise RuntimeError("Unsupported strategy order direction.")
     if assessment is None:
         raise RuntimeError("Validated strategy assessment is required for new orders.")
-    canonicalize_symbol(getattr(assessment, "symbol", ""))
+    assessed_symbol = canonicalize_symbol(getattr(assessment, "symbol", ""))
+    if assessed_symbol != requested_symbol:
+        raise RuntimeError("Strategy assessment symbol does not match the order.")
     expected = "bullish" if direction in {"buy", "bullish"} else "bearish"
     if str(getattr(assessment, "direction", "")).lower() != expected:
         raise RuntimeError("Strategy assessment direction does not match the order.")
