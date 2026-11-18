@@ -89,14 +89,22 @@ def build_mt5_portfolio_snapshot(
                 getattr(mt5, "DEAL_TYPE_SELL", None),
             ) if value is not None
         }
+        if not trade_types:
+            raise PortfolioSnapshotError("MT5 deal-type constants are unavailable; daily P&L cannot be classified safely.")
         daily_realized = 0.0
         for deal in deals:
-            if trade_types and getattr(deal, "type", None) not in trade_types:
-                continue
-            daily_realized += sum(
+            cash_effect = sum(
                 float(getattr(deal, field, 0.0) or 0.0)
                 for field in ("profit", "commission", "swap", "fee")
             )
+            if not math.isfinite(cash_effect):
+                raise PortfolioSnapshotError("MT5 returned invalid deal P&L.")
+            if getattr(deal, "type", None) in trade_types:
+                daily_realized += cash_effect
+            elif abs(cash_effect) > 1e-9:
+                raise PortfolioSnapshotError(
+                    "A non-trading account adjustment occurred today; the daily equity baseline cannot be verified safely."
+                )
         if not math.isfinite(daily_realized):
             raise PortfolioSnapshotError("MT5 returned invalid daily realized P&L.")
 
@@ -109,6 +117,17 @@ def build_mt5_portfolio_snapshot(
             stop_loss = _number(getattr(position, "sl", None), "position stop loss")
             if not symbol:
                 raise PortfolioSnapshotError("An open position has no symbol.")
+            opened_at = getattr(position, "time", None)
+            if opened_at is None:
+                opened_at = (getattr(position, "time_msc", None) or 0) / 1000.0
+            try:
+                opened_utc = datetime.fromtimestamp(float(opened_at), tz=timezone.utc)
+            except (TypeError, ValueError, OverflowError, OSError):
+                raise PortfolioSnapshotError(f"Open position {symbol} has no verifiable open time.") from None
+            if opened_utc < start_utc:
+                raise PortfolioSnapshotError(
+                    f"Open position {symbol} predates the New York trading day; starting equity cannot be reconstructed safely."
+                )
             position_type = getattr(position, "type", None)
             if position_type == getattr(mt5, "POSITION_TYPE_BUY", object()):
                 order_type = getattr(mt5, "ORDER_TYPE_BUY", None)
