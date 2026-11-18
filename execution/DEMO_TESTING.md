@@ -41,7 +41,7 @@ If any safeguard fails, the command exits with a clear block reason and does not
 Optional npm wrapper:
 
 ```powershell
-npm run demo:test -- --symbol EURUSD --direction bullish --stop-loss 1.09500 --take-profit 1.10500 --risk-percent 1.0 --confirm-demo-order --confirm-session --confirm-no-high-impact-news
+npm run demo:test -- --symbol XAUUSD --direction bullish --stop-loss 1.09500 --take-profit 1.10500 --risk-percent 1.0 --confirm-demo-order --confirm-session --confirm-no-high-impact-news
 ```
 
 ## Run the historical SMC backtest
@@ -55,7 +55,7 @@ python -m backtesting.run_mt5 --symbol XAUUSD --timeframe M15 --bars 3000 --stop
 - `--stop-distance`, `--spread` and `--slippage` are price units, not pips. Set them for the selected instrument and broker.
 - The report separates the chronological in-sample train period from the out-of-sample holdout.
 - Signals are evaluated only on the candle history available at that time; entries occur at the next candle open.
-- The backtest only considers signals during the first NYSE hour (09:30–10:15 New York time, allowing a next-candle entry by 10:30) and caps entries at ten per New York calendar day. If no setup appears in that opening hour, it takes no trade.
+- The backtest only considers signals during the first NYSE hour (09:30–10:15 New York time, allowing a next-candle entry by 10:30) and caps entries at ten per New York calendar day. The SMC runner defaults to a 0.02 position size; this is a simulation unit, not a broker-verified lot calculation. If no setup appears in that opening hour, it takes no trade.
 - Costs are deducted from net results; when a candle touches both stop and target, the stop is assumed first.
 - Historical high-impact news days are **not** automatically filtered. Add a verified historical calendar filter before using results to judge the strategy.
 - The SMC decision logic remains exploratory. This report does not approve a source-linked strategy rule or enable automated execution.
