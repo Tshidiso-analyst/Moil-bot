@@ -80,7 +80,7 @@ class DemoExecutionPipeline:
     ) -> DemoExecutionResult:
         if not self.enabled:
             raise DemoExecutionError("DEMO execution is disabled by default; explicitly enable it for a controlled DEMO test.")
-        symbol = str(symbol or "").strip().upper()
+        symbol = str(symbol or "").strip()
         try:
             canonicalize_symbol(symbol)
         except ValueError as exc:
