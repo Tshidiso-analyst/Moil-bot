@@ -212,7 +212,7 @@ class MT5ExecutionService:
                 or getattr(latest_account, "trade_mode", None) != expected_mode
                 or not bool(getattr(latest_account, "trade_allowed", False))
                 or not bool(getattr(latest_account, "trade_expert", False))):
-            raise RuntimeError("Account permissions or DEMO mode changed before submission.")
+            raise RuntimeError("Account permissions or account mode changed before submission.")
         latest_balance = float(getattr(latest_account, "balance", 0.0) or 0.0)
         latest_equity = float(getattr(latest_account, "equity", 0.0) or 0.0)
         if (not all(math.isfinite(x) and x > 0 for x in (latest_balance, latest_equity))
@@ -445,7 +445,7 @@ class TradeExecutionOrchestrator:
                 return ExecutionResult(
                     plan.symbol, None, plan.direction, float(plan.order["volume"]),
                     float(plan.order["entry"]), "disabled",
-                    "Execution is disabled by default. Explicit DEMO-only enablement is required.",
+                    "Execution is disabled by default. Explicit account-mode authorization is required.",
                 )
 
             try:
