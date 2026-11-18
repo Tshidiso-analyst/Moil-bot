@@ -41,3 +41,16 @@ def test_invalid_ohlc_fails_closed():
                                    h1_bars=valid, m15_bars=valid)
     assert outcome["stage"] == "data"
     assert outcome["execution_ready"] is False
+
+
+def test_neutral_timeframes_explain_next_checks_and_reference_levels():
+    values = [10, 12, 15, 12, 9, 12, 16, 12, 9, 12, 15, 12, 9, 12, 14]
+    bars = bars_from_closes(values)
+    result = inspect_gold_topdown(d1_bars=bars, h4_bars=bars,
+                                  h1_bars=bars, m15_bars=bars)
+    assert result["status"] == "WAIT"
+    assert result["execution_ready"] is False
+    assert any("D1:" in line for line in result["next_checks"])
+    assert any("H4" in line for line in result["next_checks"])
+    assert result["timeframes"]["D1"]["last_confirmed_swing_high"] is not None
+    assert result["timeframes"]["H4"]["last_confirmed_swing_low"] is not None
