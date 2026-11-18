@@ -163,3 +163,24 @@ def test_direct_entry_requires_validated_strategy_assessment():
     with pytest.raises(RuntimeError, match="Validated strategy assessment"):
         service.place_market_order("XAUUSD", "buy", 0.02, stop_loss=2490.0, take_profit=2520.0)
     assert fake.sent == []
+
+def test_direct_entry_rejects_unconfirmed_strategy():
+    fake = FakeMT5()
+    service = MT5ExecutionService(fake, enabled=True)
+    service.connected = True
+    assessment = valid_assessment()
+    assessment.confirmation = False
+    with pytest.raises(RuntimeError, match="confirmation or safety checks"):
+        execute(service, assessment=assessment)
+    assert fake.sent == []
+
+
+def test_direct_entry_rejects_high_impact_news():
+    fake = FakeMT5()
+    service = MT5ExecutionService(fake, enabled=True)
+    service.connected = True
+    assessment = valid_assessment()
+    assessment.high_impact_news = True
+    with pytest.raises(RuntimeError, match="high-impact news"):
+        execute(service, assessment=assessment)
+    assert fake.sent == []
