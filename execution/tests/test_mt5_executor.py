@@ -27,7 +27,7 @@ class FakeMT5:
     def __init__(self, trade_mode=0):
         self.account = SimpleNamespace(
             trade_mode=trade_mode, trade_allowed=True, trade_expert=True,
-            balance=10_000.0, margin_free=5_000.0,
+            balance=10_000.0, equity=10_000.0, margin_free=5_000.0,
         )
         self.info = SimpleNamespace(
             visible=True, point=0.01, trade_stops_level=10,
