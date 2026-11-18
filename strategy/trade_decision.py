@@ -128,8 +128,27 @@ class TradeDecisionEngine:
                 reasons.append("Liquidity sweep is aligned with the intended directional move.")
 
         confirmation = confirmation_score >= self.min_confirmation_score and direction != "neutral"
-        structure_valid = direction != "neutral" and context.trend == direction and not context.distribution and not context.consolidation
-        liquidity_valid = bool(context.liquidity)
+        def event_direction(event):
+            if isinstance(event, dict):
+                return str(event.get("direction", "")).lower()
+            return str(getattr(event, "direction", "")).lower()
+
+        expected_sweep = "sell_side" if direction == "bullish" else "buy_side"
+        structure_valid = (
+            direction != "neutral"
+            and context.trend == direction
+            and not context.distribution
+            and not context.consolidation
+            and bool(context.bos)
+            and bool(context.choch)
+            and event_direction(context.bos[-1]) == direction
+            and event_direction(context.choch[-1]) == direction
+        )
+        liquidity_valid = (
+            direction != "neutral"
+            and bool(context.liquidity)
+            and event_direction(context.liquidity[-1]) == expected_sweep
+        )
         macro_bias_valid = fundamental_bias == "neutral" or fundamental_bias == direction
 
         if direction == "neutral":
