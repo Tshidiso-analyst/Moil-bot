@@ -51,8 +51,10 @@ class MT5ExecutionService:
 
     def __init__(self, mt5_module: Any | None = None, *, enabled: bool = False, magic: int = 731111):
         self.mt5 = mt5_module if mt5_module is not None else _mt5
-        self.enabled = bool(enabled)
-        self.magic = int(magic)
+        self.enabled = enabled is True
+        if isinstance(magic, bool) or not isinstance(magic, int) or magic <= 0:
+            raise ValueError("magic must be a positive integer.")
+        self.magic = magic
 
     def is_connected(self) -> bool:
         try:
@@ -219,7 +221,7 @@ class TradeExecutionOrchestrator:
         allow_execution: bool = False,
     ):
         self.mt5_service = mt5_service
-        self.allow_execution = bool(allow_execution)
+        self.allow_execution = allow_execution is True
         mt5_module = getattr(mt5_service, "mt5", mt5_service)
         self.executor = executor or MT5ExecutionService(mt5_module=mt5_module, enabled=self.allow_execution)
         self.trade_guard = trade_guard or TradeGuard()
