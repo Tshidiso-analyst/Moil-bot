@@ -158,6 +158,7 @@ class TradeDecisionEngine:
             structure_valid=True,
             liquidity_valid=True,
             macro_bias_valid=direction != "neutral",
+            current_daily_entries=current_daily_entries,
         )
 
         if not guard_decision.allowed:
