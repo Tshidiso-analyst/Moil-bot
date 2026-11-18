@@ -27,7 +27,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--spread", type=float, default=0.0, help="Full spread in symbol price units")
     parser.add_argument("--slippage", type=float, default=0.0, help="Adverse slippage per side in price units")
     parser.add_argument("--commission-per-unit-per-side", type=float, default=0.0)
-    parser.add_argument("--position-size", type=float, default=1.0)
+    parser.add_argument("--position-size", type=float, default=0.02)
     parser.add_argument("--initial-equity", type=float, default=10_000.0)
     parser.add_argument("--train-fraction", type=float, default=0.7)
     parser.add_argument("--mt5-path", default=None)
