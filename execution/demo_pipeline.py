@@ -10,9 +10,9 @@ from datetime import datetime
 from decimal import Decimal, ROUND_FLOOR
 import math
 from typing import Any
-import re
 
 from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snapshot
+from risk.symbols import canonicalize_symbol
 
 
 @dataclass(frozen=True)
@@ -67,8 +67,10 @@ class DemoExecutionPipeline:
         if not self.enabled:
             raise DemoExecutionError("DEMO execution is disabled by default; explicitly enable it for a controlled DEMO test.")
         symbol = str(symbol or "").strip()
-        if not re.fullmatch(r"XAUUSD(?:[._-][A-Z0-9]+|[A-Z])?", symbol.upper()):
-            raise DemoExecutionError("Moil-bot currently supports XAUUSD only.")
+        try:
+            canonicalize_symbol(symbol)
+        except ValueError as exc:
+            raise DemoExecutionError(str(exc)) from exc
         direction = str(direction or "").strip().lower()
         if not confirmation:
             raise DemoExecutionError("Explicit demo-order confirmation is required.")
