@@ -6,6 +6,7 @@ from typing import Any
 import math
 
 from execution.authorization import require_strategy_authorization
+from execution.quote_safety import require_fresh_tick
 from risk.mt5_portfolio import build_mt5_portfolio_snapshot
 from risk.symbols import canonicalize_symbol
 
@@ -136,6 +137,7 @@ class MT5ExecutionService:
         tick = self.mt5.symbol_info_tick(symbol)
         if tick is None:
             raise RuntimeError(f"No live tick available for {symbol}.")
+        require_fresh_tick(tick)
 
         price = float(tick.ask if mt5_direction == self.mt5.ORDER_TYPE_BUY else tick.bid)
         if not math.isfinite(price) or price <= 0:
