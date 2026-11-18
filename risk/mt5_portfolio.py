@@ -90,6 +90,25 @@ def build_mt5_portfolio_snapshot(
         inout_code = getattr(mt5, "DEAL_ENTRY_INOUT", None)
         if inout_code is not None:
             entry_codes.add(inout_code)
+        out_codes = {
+            value for value in (
+                getattr(mt5, "DEAL_ENTRY_OUT", None),
+                getattr(mt5, "DEAL_ENTRY_OUT_BY", None),
+            ) if value is not None
+        }
+        todays_position_ids = {
+            int(getattr(deal, "position_id", 0) or 0)
+            for deal in deals
+            if getattr(deal, "entry", None) in entry_codes
+            and int(getattr(deal, "position_id", 0) or 0) > 0
+        }
+        for deal in deals:
+            if getattr(deal, "entry", None) in out_codes:
+                position_id = int(getattr(deal, "position_id", 0) or 0)
+                if position_id <= 0 or position_id not in todays_position_ids:
+                    raise PortfolioSnapshotError(
+                        "A position opened before the New York trading day was closed today; starting equity cannot be reconstructed safely."
+                    )
         entry_order_ids: set[int] = set()
         for deal in deals:
             if int(getattr(deal, "magic", -1)) != magic or getattr(deal, "entry", None) not in entry_codes:
