@@ -103,6 +103,8 @@ class MT5ExecutionService:
         if not self.enabled:
             raise RuntimeError("MT5 order execution is disabled by default.")
 
+        if isinstance(magic, bool) or not isinstance(magic, int) or magic <= 0:
+            raise ValueError("magic must be a positive integer.")
         symbol = str(symbol).strip()
         canonicalize_symbol(symbol)
         symbol = symbol.upper()
