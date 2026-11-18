@@ -235,6 +235,7 @@ class TradeExecutionOrchestrator:
         symbol: str,
         dataframe: pd.DataFrame,
         fundamental_bias: str,
+        assessment: Any | None = None,
         proposed_risk_percent: float,
         daily_loss_percent: float,
         current_exposure_percent: float,
@@ -250,26 +251,33 @@ class TradeExecutionOrchestrator:
         except (ValueError, PortfolioSnapshotError) as exc:
             return self._blocked(symbol, str(exc))
 
-        if not isinstance(dataframe, pd.DataFrame) or dataframe.empty:
-            return self._blocked(symbol, "No market data available for execution.")
-        required = {"close", "low", "high"}
-        if not required.issubset(dataframe.columns):
-            return self._blocked(symbol, "Market data is missing required OHLC columns.")
-        if len(dataframe) < 2:
-            return self._blocked(symbol, "At least two completed candles are required.")
-
+        if assessment is None:
+            return self._blocked(symbol, "A validated TradeAssessment is required; candle direction alone cannot authorize a trade.")
         try:
+            assessment_symbol = canonical_xauusd_symbol(getattr(assessment, "symbol", ""))
+            direction = str(getattr(assessment, "direction", "")).strip().lower()
+            if assessment_symbol != "XAUUSD" or direction not in {"bullish", "bearish"}:
+                return self._blocked(symbol, "Trade assessment symbol or direction is invalid.")
+            if not bool(getattr(assessment, "setup_valid", False)) or not bool(getattr(assessment, "confirmation", False)):
+                return self._blocked(symbol, "Strategy assessment is not confirmed.", direction)
+            structure_valid = bool(getattr(assessment, "structure_valid", False))
+            liquidity_valid = bool(getattr(assessment, "liquidity_valid", False))
+            high_impact_news = bool(getattr(assessment, "high_impact_news", True))
+            assessment_macro_valid = bool(getattr(assessment, "macro_bias_valid", False))
+            macro_input = str(fundamental_bias or "").strip().lower()
+            macro_bias_valid = assessment_macro_valid and macro_input in {"neutral", direction}
+
+            if not isinstance(dataframe, pd.DataFrame) or dataframe.empty:
+                return self._blocked(symbol, "No market data available for execution.", direction)
+            required = {"close", "low", "high"}
+            if not required.issubset(dataframe.columns):
+                return self._blocked(symbol, "Market data is missing required OHLC columns.", direction)
             latest = dataframe.iloc[-1]
-            previous = dataframe.iloc[-2]
+            previous = dataframe.iloc[-2] if len(dataframe) > 1 else latest
             values = [float(latest[name]) for name in ("close", "low", "high")]
             values += [float(previous[name]) for name in ("close", "low", "high")]
             if not all(math.isfinite(value) and value > 0 for value in values):
-                return self._blocked(symbol, "Market data contains invalid prices.")
-            bullish = float(latest["close"]) > float(previous["close"])
-            bearish = float(latest["close"]) < float(previous["close"])
-            direction = "bullish" if bullish else "bearish" if bearish else "neutral"
-            if direction == "neutral":
-                return self._blocked(symbol, "Market direction is neutral; no trade executed.")
+                return self._blocked(symbol, "Market data contains invalid prices.", direction)
 
             risk_pct = float(proposed_risk_percent)
             sizing_pct = float(risk_percent)
@@ -287,10 +295,10 @@ class TradeExecutionOrchestrator:
                 open_trades=snapshot.open_positions,
                 current_daily_entries=snapshot.daily_entries,
                 confirmation=True,
-                high_impact_news=False,
-                structure_valid=True,
-                liquidity_valid=True,
-                macro_bias_valid=(str(fundamental_bias).lower() == direction),
+                high_impact_news=high_impact_news,
+                structure_valid=structure_valid,
+                liquidity_valid=liquidity_valid,
+                macro_bias_valid=macro_bias_valid,
                 current_exposure_percent=snapshot.exposure_percent,
             )
             if not guard.allowed:
@@ -304,7 +312,7 @@ class TradeExecutionOrchestrator:
                 return self._blocked(symbol, f"Broker metadata or quote unavailable for {symbol}.", direction)
 
             entry = float(tick.ask if direction == "bullish" else tick.bid)
-            stop_loss = float(min(latest["low"], previous["low"])) if direction == "bullish" else float(max(latest["high"], previous["high"]))
+            stop_loss = float(getattr(assessment, "stop_loss", 0.0) or 0.0)
             if not all(math.isfinite(x) and x > 0 for x in (entry, stop_loss)):
                 return self._blocked(symbol, "Broker quote or stop level is invalid.", direction)
             take_profit = entry + (entry - stop_loss) * 2.0 if direction == "bullish" else entry - (stop_loss - entry) * 2.0
@@ -344,6 +352,7 @@ class TradeExecutionOrchestrator:
         symbol: str,
         dataframe: pd.DataFrame,
         fundamental_bias: str,
+        assessment: Any | None = None,
         proposed_risk_percent: float,
         daily_loss_percent: float,
         current_exposure_percent: float,
@@ -357,6 +366,7 @@ class TradeExecutionOrchestrator:
                 symbol=symbol,
                 dataframe=dataframe,
                 fundamental_bias=fundamental_bias,
+                assessment=assessment,
                 proposed_risk_percent=proposed_risk_percent,
                 daily_loss_percent=daily_loss_percent,
                 current_exposure_percent=current_exposure_percent,
