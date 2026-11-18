@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import time
 from types import SimpleNamespace
 
 import pytest
@@ -50,7 +51,7 @@ class FakeMT5:
             volume_min=0.01,
             volume_max=100.0,
         )
-        self.tick = SimpleNamespace(bid=2500.00, ask=2500.20)
+        self.tick = SimpleNamespace(bid=2500.00, ask=2500.20, time=time.time())
 
     def account_info(self):
         return self.account
@@ -261,4 +262,20 @@ def test_demo_pipeline_requires_validated_strategy_assessment():
             take_profit=2502.2, confirmation=True, session_confirmed=True,
             no_high_impact_news_confirmed=True,
         )
+    assert fake.sent == []
+
+
+def test_demo_entry_rejects_stale_quote():
+    fake = FakeMT5()
+    fake.tick.time = time.time() - 120
+    with pytest.raises(DemoExecutionError, match="quote is stale"):
+        execute(fake)
+    assert fake.sent == []
+
+
+def test_demo_entry_rejects_future_quote():
+    fake = FakeMT5()
+    fake.tick.time = time.time() + 120
+    with pytest.raises(DemoExecutionError, match="in the future"):
+        execute(fake)
     assert fake.sent == []
