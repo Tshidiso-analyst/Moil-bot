@@ -10,7 +10,7 @@ from analysis.smc_patterns import analyze_market_context
 from market_data.live_data import load_live_market_datasets, resolve_mt5_symbol
 from qualification.engine import SetupQualifier
 from risk.account import calculate_account_risk
-from risk.trade_guard import TradeGuard
+from risk.symbols import canonicalize_symbol
 from strategy.engine import StrategyEngine
 
 
@@ -86,9 +86,20 @@ class RealtimeTradingPipeline:
 
     def evaluate(self, symbol: str, balance: float, risk_percent: float = 1.0) -> RealTimePipelineResult:
         requested_symbol = str(symbol or "").strip().upper()
-        if not requested_symbol:
-            raise ValueError("Symbol must not be empty.")
-        if requested_symbol != "XAUUSD":
+        try:
+            requested_symbol = canonicalize_symbol(requested_symbol)
+        except ValueError as exc:
+            return RealTimePipelineResult(
+                symbol=requested_symbol,
+                status="data_unavailable",
+                direction="neutral",
+                qualified=False,
+                score=0,
+                risk_percent=risk_percent,
+                risk_amount=0.0,
+                reasons=[str(exc)],
+            )
+        if not 0 < float(risk_percent) <= 1.0:
             return RealTimePipelineResult(
                 symbol=requested_symbol,
                 status="data_unavailable",
@@ -97,7 +108,7 @@ class RealtimeTradingPipeline:
                 score=0,
                 risk_percent=risk_percent,
                 risk_amount=float(balance) * float(risk_percent) / 100.0 if balance else 0.0,
-                reasons=["Moil-bot currently supports XAUUSD (gold) analysis only."],
+                reasons=["Risk must be greater than 0% and no more than 1%."],
             )
 
         try:
@@ -121,30 +132,17 @@ class RealtimeTradingPipeline:
             qualified = strategy.status in {"research_candidate", "needs_source_evidence"} and qualifier.qualified
             risk = calculate_account_risk(balance=balance, risk_percent=risk_percent)
             entry, stop_loss, take_profit = self._calculate_levels(execution_frame, direction)
-            guard = TradeGuard(
-                max_risk_per_trade=1.0,
-                max_open_trades=3,
-                max_total_exposure_percent=3.0,
-                max_daily_loss=5.0,
-            )
-            guard_decision = guard.evaluate(
-                proposed_risk_percent=risk_percent,
-                daily_loss_percent=0.0,
-                open_trades=0,
-                confirmation=qualified,
-                high_impact_news=False,
-                structure_valid=structure.trend in {"bullish", "bearish"},
-                liquidity_valid=bool(market_context.liquidity),
-                macro_bias_valid=True,
-                current_exposure_percent=0.0,
-            )
             reasons = list(strategy.reasons) + list(qualifier.reasons)
+            reasons.append(
+                "Research-only result: live portfolio positions, daily entries, exposure and daily loss "
+                "have not been checked. This is not execution approval."
+            )
             reasons.append(f"Risk guard: {guard_decision.reason}")
             return RealTimePipelineResult(
                 symbol="XAUUSD",
-                status="accepted" if guard_decision.allowed and qualified else ("rejected" if not guard_decision.allowed else "watch"),
+                status="research_candidate" if qualified else "watch",
                 direction=direction,
-                qualified=bool(guard_decision.allowed and qualified),
+                qualified=bool(qualified),
                 score=max(strategy.score, qualifier.score),
                 entry=entry,
                 stop_loss=stop_loss,
