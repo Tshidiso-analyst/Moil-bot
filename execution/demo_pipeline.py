@@ -167,6 +167,8 @@ class DemoExecutionPipeline:
         one_lot_result = self.mt5.order_calc_profit(order_type, symbol, 1.0, entry, stop_loss)
         if one_lot_result is None:
             raise DemoExecutionError(f"Broker could not calculate stop-loss value: {self.mt5.last_error()}")
+        if not math.isfinite(float(one_lot_result)) or float(one_lot_result) >= 0:
+            raise DemoExecutionError("Broker returned a non-loss result for the proposed stop loss.")
         loss_per_lot = abs(float(one_lot_result))
         if not math.isfinite(loss_per_lot) or loss_per_lot <= 0:
             raise DemoExecutionError("Broker returned an invalid loss estimate for one lot.")
