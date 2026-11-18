@@ -69,7 +69,7 @@ class MT5ExecutionService:
         price: float,
         stop_loss: float,
         take_profit: float,
-        magic: int = 0,
+        magic: int | None = None,
         comment: str = "Moil-bot",
     ) -> dict[str, Any]:
         if not self.enabled:
@@ -85,6 +85,7 @@ class MT5ExecutionService:
             raise ValueError("Order prices must be finite and greater than zero.")
         if not math.isfinite(float(volume)) or not 0 < float(volume) <= 0.02:
             raise ValueError("Order volume must be greater than zero and no more than 0.02 lots.")
+        magic_value = self.magic if magic is None else int(magic)
         account = self.mt5.account_info()
         demo_mode = getattr(self.mt5, "ACCOUNT_TRADE_MODE_DEMO", None)
         if account is None or demo_mode is None or getattr(account, "trade_mode", None) != demo_mode:
@@ -96,6 +97,16 @@ class MT5ExecutionService:
         if info is None or tick is None:
             raise RuntimeError(f"Broker symbol metadata or quote is unavailable for {symbol}.")
         point = float(getattr(info, "point", 0.0) or 0.0)
+        volume_min = float(getattr(info, "volume_min", 0.0) or 0.0)
+        volume_max = float(getattr(info, "volume_max", 0.0) or 0.0)
+        volume_step = float(getattr(info, "volume_step", 0.0) or 0.0)
+        if not all(math.isfinite(value) and value > 0 for value in (volume_min, volume_max, volume_step)):
+            raise RuntimeError("Broker volume specifications are invalid.")
+        if float(volume) < volume_min or float(volume) > min(volume_max, 0.02):
+            raise ValueError("Order volume is outside the broker limits or 0.02-lot ceiling.")
+        step_units = float(volume) / volume_step
+        if not math.isclose(step_units, round(step_units), rel_tol=0.0, abs_tol=1e-8):
+            raise ValueError("Order volume does not match the broker volume step.")
         stop_gap = float(getattr(info, "trade_stops_level", 0) or 0) * point
         if not math.isfinite(point) or point <= 0:
             raise RuntimeError("Broker returned an invalid point size.")
@@ -129,7 +140,7 @@ class MT5ExecutionService:
         risk_percent = abs(float(order_loss)) / balance * 100.0
         if not math.isfinite(risk_percent) or risk_percent > 1.0 + 1e-9:
             raise RuntimeError("Broker-calculated order risk exceeds the 1% per-trade limit.")
-        portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=int(magic))
+        portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=magic_value)
         if portfolio.daily_entries >= 10:
             raise RuntimeError(f"Daily entry limit reached: {portfolio.daily_entries}/10.")
         if portfolio.open_positions >= 3:
@@ -156,7 +167,7 @@ class MT5ExecutionService:
             "sl": float(stop_loss),
             "tp": float(take_profit),
             "deviation": 20,
-            "magic": int(magic),
+            "magic": magic_value,
             "comment": str(comment)[:31],
             "type_time": self.mt5.ORDER_TIME_GTC,
             "type_filling": filling,
