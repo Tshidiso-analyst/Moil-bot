@@ -184,7 +184,9 @@ def build_mt5_portfolio_snapshot(
                 raise PortfolioSnapshotError(
                     f"Broker could not calculate stop-loss exposure for {symbol}: {mt5.last_error()}"
                 )
-            loss = _number(abs(float(pnl_at_stop)), f"{symbol} stop-loss exposure", allow_zero=True)
+            if not math.isfinite(float(pnl_at_stop)) or float(pnl_at_stop) >= 0:
+                raise PortfolioSnapshotError(f"Broker returned an invalid stop-loss result for {symbol}.")
+            loss = _number(abs(float(pnl_at_stop)), f"{symbol} stop-loss exposure")
             exposure_amount += loss
             floating_pnl += _signed_number(getattr(position, "profit", None), f"{symbol} floating profit")
             floating_pnl += _signed_number(getattr(position, "swap", None), f"{symbol} swap")
