@@ -3,6 +3,7 @@ import pytest
 from risk.account import calculate_account_risk
 from risk.models import InstrumentRisk
 from risk.position_sizing import calculate_position_size
+from risk.trade_guard import TradeGuard
 
 
 def forex_instrument():
