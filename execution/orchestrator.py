@@ -189,10 +189,10 @@ class TradeExecutionOrchestrator:
         allow_execution: bool = False,
     ):
         self.mt5_service = mt5_service
+        self.allow_execution = bool(allow_execution)
         mt5_module = getattr(mt5_service, "mt5", mt5_service)
         self.executor = executor or MT5ExecutionService(mt5_module=mt5_module, enabled=self.allow_execution)
         self.trade_guard = trade_guard or TradeGuard()
-        self.allow_execution = bool(allow_execution)
         self._execution_lock = threading.RLock()
 
     def _mt5_module(self) -> Any:
