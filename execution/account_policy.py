@@ -1,4 +1,4 @@
-"""Explicit MT5 account-mode policy. REAL routing is not enabled by this module."""
+"""Fail-closed MT5 DEMO/REAL account policy for XAUUSD execution."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -7,7 +7,7 @@ from typing import Any
 
 @dataclass(frozen=True)
 class AccountPolicy:
-    """Account-mode configuration, deliberately fail-closed for real money."""
+    """REAL requires two independent explicit flags; execution defaults off."""
 
     mode: str = "demo"
     execution_enabled: bool = False
@@ -26,11 +26,12 @@ class AccountPolicy:
         if self.mode == "real":
             if not self.real_trading_approved:
                 raise RuntimeError("REAL trading requires separate explicit authorization.")
-            # Intentionally not yet routable: broker integration and real-mode
-            # acceptance tests must be completed before removing this block.
-            raise RuntimeError("REAL order routing is pending broker acceptance testing.")
-        demo = getattr(mt5, "ACCOUNT_TRADE_MODE_DEMO", None)
-        if demo is None or getattr(account, "trade_mode", None) != demo:
-            raise RuntimeError("DEMO policy refuses a non-DEMO account.")
+            expected = getattr(mt5, "ACCOUNT_TRADE_MODE_REAL", None)
+            if expected is None or getattr(account, "trade_mode", None) != expected:
+                raise RuntimeError("REAL policy refuses an unverified REAL account.")
+        else:
+            expected = getattr(mt5, "ACCOUNT_TRADE_MODE_DEMO", None)
+            if expected is None or getattr(account, "trade_mode", None) != expected:
+                raise RuntimeError("DEMO policy refuses a non-DEMO account.")
         if not bool(getattr(account, "trade_allowed", False)) or not bool(getattr(account, "trade_expert", False)):
             raise RuntimeError("MT5 account or expert trading permission is disabled.")
