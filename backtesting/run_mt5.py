@@ -14,6 +14,7 @@ import pandas as pd
 
 from backtesting.smc_runner import run_smc_backtest
 from market_data.live_data import resolve_mt5_symbol
+from risk.symbols import canonicalize_symbol
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -37,8 +38,10 @@ def main() -> int:
     args = _parser().parse_args()
     if args.bars < 100:
         raise SystemExit("--bars must be at least 100.")
-    if str(args.symbol or "").strip().upper() != "XAUUSD":
-        raise SystemExit("Moil-bot currently supports XAUUSD (gold) backtesting only.")
+    try:
+        canonicalize_symbol(args.symbol)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
     try:
         import MetaTrader5 as mt5
     except ImportError as exc:
@@ -56,7 +59,7 @@ def main() -> int:
         if not initialized:
             raise SystemExit(f"Could not initialize local MT5 terminal: {mt5.last_error()}")
 
-        actual_symbol = resolve_mt5_symbol("XAUUSD", mt5)
+        actual_symbol = resolve_mt5_symbol(canonicalize_symbol(args.symbol), mt5)
         if not mt5.symbol_select(actual_symbol, True):
             raise SystemExit(f"Could not select {actual_symbol}: {mt5.last_error()}")
         timeframe = getattr(mt5, f"TIMEFRAME_{args.timeframe}")
