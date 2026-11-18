@@ -137,7 +137,6 @@ class RealtimeTradingPipeline:
                 "Research-only result: live portfolio positions, daily entries, exposure and daily loss "
                 "have not been checked. This is not execution approval."
             )
-            reasons.append(f"Risk guard: {guard_decision.reason}")
             return RealTimePipelineResult(
                 symbol="XAUUSD",
                 status="research_candidate" if qualified else "watch",
