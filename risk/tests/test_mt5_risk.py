@@ -92,3 +92,25 @@ def test_broker_position_sizing_refuses_configuration_above_002_lots():
             entry=2500.0, stop_loss=2490.0, risk_amount=100.0,
             max_volume=0.03,
         )
+
+def test_broker_final_risk_must_not_exceed_budget_even_by_one_cent():
+    fake = FakeMT5()
+    original = fake.order_calc_profit
+    def slightly_higher_final_loss(order_type, symbol, volume, entry, stop):
+        value = original(order_type, symbol, volume, entry, stop)
+        return -5.01 if volume == 0.01 else value
+    fake.order_calc_profit = slightly_higher_final_loss
+    with pytest.raises(ValueError, match="exceeds the configured risk budget"):
+        calculate_mt5_position_size(
+            fake, symbol="XAUUSDm", direction="bullish",
+            entry=2500.0, stop_loss=2495.0, risk_amount=5.0,
+        )
+
+
+def test_r500_equity_rejects_minimum_lot_when_stop_risks_more_than_r5():
+    fake = FakeMT5()
+    with pytest.raises(ValueError, match="below broker minimum"):
+        calculate_mt5_position_size(
+            fake, symbol="XAUUSDm", direction="bullish",
+            entry=2500.0, stop_loss=2490.0, risk_amount=5.0,
+        )
