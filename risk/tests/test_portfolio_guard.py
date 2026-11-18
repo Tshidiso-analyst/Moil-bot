@@ -67,12 +67,11 @@ def test_daily_limit_must_be_positive_integer(limit):
 
 
 def test_daily_guard_rejects_limit_above_ten():
-    allowed, reason = portfolio_daily_trade_guard(
-        [], candidate_timestamp="2026-06-10T13:00:00Z",
-        max_trades_per_day=11,
-    )
-    assert allowed is False
-    assert "invalid" in reason.lower()
+    with pytest.raises(ValueError, match="positive integer"):
+        portfolio_daily_trade_guard(
+            [], candidate_timestamp="2026-06-10T13:00:00Z",
+            max_trades_per_day=11,
+        )
 
 
 def test_daily_guard_requires_new_york_calendar():
