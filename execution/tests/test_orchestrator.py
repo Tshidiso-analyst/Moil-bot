@@ -142,9 +142,9 @@ def test_non_gold_symbol_is_rejected():
 def test_ten_daily_entries_block_new_execution_plan():
     fake = FakeMT5()
     fake.deals = [
-        SimpleNamespace(magic=731111, entry=FakeMT5.DEAL_ENTRY_IN,
+        SimpleNamespace(magic=731111, entry=FakeMT5.DEAL_ENTRY_IN, order=1000 + i,
                         type=FakeMT5.DEAL_TYPE_BUY, profit=0, commission=0, swap=0, fee=0)
-        for _ in range(10)
+        for i in range(10)
     ]
     orchestrator, _ = make_orchestrator(mt5=fake)
     result = plan(orchestrator)
