@@ -1,13 +1,9 @@
-"""Fail-closed MT5 portfolio snapshot for execution risk checks.
-
-The snapshot uses broker deal history and open positions. It deliberately
-raises when account, history, position, stop-loss, or broker P/L data cannot
-be verified; callers must not interpret missing data as zero risk.
-"""
+"""Fail-closed MT5 portfolio snapshot for execution risk checks."""
 from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, time, timezone
+import math
 from typing import Any
 from zoneinfo import ZoneInfo
 
@@ -25,15 +21,16 @@ class MT5PortfolioSnapshot:
     daily_entries: int
     open_positions: int
     exposure_percent: float
+    daily_loss_percent: float
+    daily_net_pnl: float
     balance: float
 
 
-def _required_number(value: Any, label: str, *, allow_zero: bool = False) -> float:
+def _number(value: Any, label: str, *, allow_zero: bool = False) -> float:
     try:
         number = float(value)
     except (TypeError, ValueError, OverflowError):
         raise PortfolioSnapshotError(f"Invalid {label} in MT5 response.") from None
-    import math
     if not math.isfinite(number) or (number < 0 if allow_zero else number <= 0):
         raise PortfolioSnapshotError(f"Invalid {label} in MT5 response.")
     return number
@@ -45,11 +42,10 @@ def build_mt5_portfolio_snapshot(
     magic: int,
     now: datetime | None = None,
 ) -> MT5PortfolioSnapshot:
-    """Read current account positions and this NY calendar day's bot entries.
+    """Read account-wide positions/P&L and this NY-day's Moil-bot entries.
 
-    Daily entries are counted across every broker symbol for the supplied
-    magic number. Open-position count and stop-risk exposure include the
-    entire account, so manual/other-EA positions cannot bypass portfolio caps.
+    Entry count is filtered by the bot magic number but spans every broker
+    symbol. Open positions and daily loss/exposure are account-wide.
     """
     if mt5 is None:
         raise PortfolioSnapshotError("MT5 module is unavailable.")
@@ -68,12 +64,11 @@ def build_mt5_portfolio_snapshot(
         account = mt5.account_info()
         if account is None:
             raise PortfolioSnapshotError(f"MT5 account information unavailable: {mt5.last_error()}")
-        balance = _required_number(getattr(account, "balance", None), "account balance")
+        balance = _number(getattr(account, "balance", None), "account balance")
 
         positions = mt5.positions_get()
         if positions is None:
             raise PortfolioSnapshotError(f"MT5 open positions unavailable: {mt5.last_error()}")
-
         deals = mt5.history_deals_get(start_utc, as_of)
         if deals is None:
             raise PortfolioSnapshotError(f"MT5 deal history unavailable: {mt5.last_error()}")
@@ -88,42 +83,72 @@ def build_mt5_portfolio_snapshot(
             and getattr(deal, "entry", None) in entry_codes
         )
 
+        trade_types = {
+            value for value in (
+                getattr(mt5, "DEAL_TYPE_BUY", None),
+                getattr(mt5, "DEAL_TYPE_SELL", None),
+            ) if value is not None
+        }
+        daily_realized = 0.0
+        for deal in deals:
+            if trade_types and getattr(deal, "type", None) not in trade_types:
+                continue
+            daily_realized += sum(
+                float(getattr(deal, field, 0.0) or 0.0)
+                for field in ("profit", "commission", "swap", "fee")
+            )
+        if not math.isfinite(daily_realized):
+            raise PortfolioSnapshotError("MT5 returned invalid daily realized P&L.")
+
+        floating_pnl = 0.0
         exposure_amount = 0.0
         for position in positions:
             symbol = str(getattr(position, "symbol", "") or "").strip()
-            volume = _required_number(getattr(position, "volume", None), "position volume")
-            entry_price = _required_number(getattr(position, "price_open", None), "position entry price")
-            stop_loss = _required_number(getattr(position, "sl", None), "position stop loss")
+            volume = _number(getattr(position, "volume", None), "position volume")
+            entry_price = _number(getattr(position, "price_open", None), "position entry price")
+            stop_loss = _number(getattr(position, "sl", None), "position stop loss")
             if not symbol:
                 raise PortfolioSnapshotError("An open position has no symbol.")
             position_type = getattr(position, "type", None)
             if position_type == getattr(mt5, "POSITION_TYPE_BUY", object()):
                 order_type = getattr(mt5, "ORDER_TYPE_BUY", None)
+                if stop_loss >= entry_price:
+                    raise PortfolioSnapshotError(f"Open position {symbol} has an invalid stop loss.")
             elif position_type == getattr(mt5, "POSITION_TYPE_SELL", object()):
                 order_type = getattr(mt5, "ORDER_TYPE_SELL", None)
+                if stop_loss <= entry_price:
+                    raise PortfolioSnapshotError(f"Open position {symbol} has an invalid stop loss.")
             else:
                 raise PortfolioSnapshotError(f"Unsupported position type for {symbol}.")
             if order_type is None:
                 raise PortfolioSnapshotError("MT5 order type constants are unavailable.")
-            if (position_type == getattr(mt5, "POSITION_TYPE_BUY") and stop_loss >= entry_price) or (
-                position_type == getattr(mt5, "POSITION_TYPE_SELL") and stop_loss <= entry_price
-            ):
-                raise PortfolioSnapshotError(f"Open position {symbol} has an invalid stop loss.")
             pnl_at_stop = mt5.order_calc_profit(order_type, symbol, volume, entry_price, stop_loss)
             if pnl_at_stop is None:
                 raise PortfolioSnapshotError(
                     f"Broker could not calculate stop-loss exposure for {symbol}: {mt5.last_error()}"
                 )
-            loss = _required_number(abs(float(pnl_at_stop)), f"{symbol} stop-loss exposure", allow_zero=True)
+            loss = _number(abs(float(pnl_at_stop)), f"{symbol} stop-loss exposure", allow_zero=True)
             exposure_amount += loss
+            floating_pnl += float(getattr(position, "profit", 0.0) or 0.0)
+            floating_pnl += float(getattr(position, "swap", 0.0) or 0.0)
 
+        if not math.isfinite(floating_pnl) or not math.isfinite(exposure_amount):
+            raise PortfolioSnapshotError("MT5 returned invalid open-position P&L or exposure.")
+        starting_balance = balance - daily_realized
+        if not math.isfinite(starting_balance) or starting_balance <= 0:
+            raise PortfolioSnapshotError("Could not establish a valid New York day starting balance.")
+        daily_net_pnl = daily_realized + floating_pnl
+        daily_loss_percent = max(0.0, -daily_net_pnl / starting_balance * 100.0)
         exposure_percent = exposure_amount / balance * 100.0
+
         return MT5PortfolioSnapshot(
             as_of_utc=as_of,
             ny_trade_date=local_now.date().isoformat(),
             daily_entries=daily_entries,
             open_positions=len(positions),
             exposure_percent=exposure_percent,
+            daily_loss_percent=daily_loss_percent,
+            daily_net_pnl=daily_net_pnl,
             balance=balance,
         )
     except PortfolioSnapshotError:
