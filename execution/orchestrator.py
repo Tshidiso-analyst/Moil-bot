@@ -17,6 +17,7 @@ try:  # MetaTrader5 is optional outside the Windows trading workstation.
 except ImportError:  # pragma: no cover - platform dependent
     _mt5 = None
 
+from execution.quote_safety import require_fresh_tick
 from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snapshot
 from risk.mt5_risk import calculate_mt5_position_size
 from risk.trade_guard import TradeGuard
@@ -100,6 +101,7 @@ class MT5ExecutionService:
         tick = self.mt5.symbol_info_tick(symbol)
         if info is None or tick is None:
             raise RuntimeError(f"Broker symbol metadata or quote is unavailable for {symbol}.")
+        require_fresh_tick(tick)
         point = float(getattr(info, "point", 0.0) or 0.0)
         volume_min = float(getattr(info, "volume_min", 0.0) or 0.0)
         volume_max = float(getattr(info, "volume_max", 0.0) or 0.0)
@@ -194,6 +196,27 @@ class MT5ExecutionService:
                 f"MT5 order_check rejected request: {getattr(checked, 'retcode', None)} "
                 f"{getattr(checked, 'comment', '')}"
             )
+        latest = self.mt5.symbol_info_tick(symbol)
+        require_fresh_tick(latest)
+        latest_price = float(latest.ask if direction == "bullish" else latest.bid)
+        if not math.isfinite(latest_price) or abs(latest_price - float(price)) > 20.0 * point:
+            raise RuntimeError("Execution quote changed; rebuild the plan before sending.")
+        latest_account = self.mt5.account_info()
+        if (latest_account is None
+                or getattr(latest_account, "trade_mode", None) != demo_mode
+                or not bool(getattr(latest_account, "trade_allowed", False))
+                or not bool(getattr(latest_account, "trade_expert", False))):
+            raise RuntimeError("Account permissions or DEMO mode changed before submission.")
+        latest_balance = float(getattr(latest_account, "balance", 0.0) or 0.0)
+        latest_equity = float(getattr(latest_account, "equity", 0.0) or 0.0)
+        if (not all(math.isfinite(x) and x > 0 for x in (latest_balance, latest_equity))
+                or abs(float(order_loss)) > min(latest_balance, latest_equity) * 0.01):
+            raise RuntimeError("Account equity or order risk changed before submission.")
+        latest_portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=magic_value)
+        if (latest_portfolio.daily_entries >= 10 or latest_portfolio.open_positions >= 3
+                or latest_portfolio.daily_loss_percent >= 5.0
+                or latest_portfolio.exposure_percent + abs(float(order_loss)) / min(latest_balance, latest_equity) * 100.0 > 3.0):
+            raise RuntimeError("Portfolio limits changed before order submission.")
         result = self.mt5.order_send(request)
         accepted = {
             getattr(self.mt5, "TRADE_RETCODE_DONE", 10009),
@@ -335,6 +358,7 @@ class TradeExecutionOrchestrator:
             tick = module.symbol_info_tick(symbol)
             if info is None or tick is None:
                 return self._blocked(symbol, f"Broker metadata or quote unavailable for {symbol}.", direction)
+            require_fresh_tick(tick)
 
             entry = float(tick.ask if direction == "bullish" else tick.bid)
             stop_loss = float(getattr(assessment, "stop_loss", 0.0) or 0.0)
