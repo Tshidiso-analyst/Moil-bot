@@ -42,7 +42,7 @@ def test_resolves_gold_m_suffix():
     assert resolve_mt5_symbol("XAUUSD", mt5) == "XAUUSDm"
 
 
-@pytest.mark.parametrize("requested", ["EURUSD", "GBPUSD", "BTCUSD", "XAUUSD.a"])
+@pytest.mark.parametrize("requested", ["EURUSD", "GBPUSD", "BTCUSD"])
 def test_rejects_noncanonical_requests(requested):
     mt5 = FakeMT5([symbol("XAUUSD.a")])
     with pytest.raises(ValueError, match="XAUUSD"):
@@ -77,3 +77,9 @@ def test_rejects_empty_symbol():
     mt5 = FakeMT5([])
     with pytest.raises(ValueError, match="must not be empty"):
         resolve_mt5_symbol("", mt5)
+
+
+
+def test_resolves_alias_input_to_verified_broker_gold_symbol():
+    mt5 = FakeMT5([symbol("XAUUSD.a")])
+    assert resolve_mt5_symbol("XAUUSD.a", mt5) == "XAUUSD.a"
