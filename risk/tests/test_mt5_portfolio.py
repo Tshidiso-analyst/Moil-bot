@@ -63,7 +63,7 @@ def test_snapshot_uses_new_york_midnight_for_history_window():
     now = datetime(2026, 6, 10, 3, 0, tzinfo=timezone.utc)
     build_mt5_portfolio_snapshot(mt5, magic=731111, now=now)
     start, end = mt5.history_range
-    assert start == datetime(2026, 6, 10, 4, 0, tzinfo=timezone.utc)
+    assert start == datetime(2026, 6, 9, 4, 0, tzinfo=timezone.utc)
     assert end == now
 
 
