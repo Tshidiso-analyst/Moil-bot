@@ -38,7 +38,7 @@ def run_mt5_backtest(
     spread: float,
     slippage: float,
     commission_per_unit_per_side: float,
-    position_size: float = 1.0,
+    position_size: float = 0.02,
     initial_equity: float = 10_000.0,
     train_fraction: float = 0.70,
     save_directory: Optional[str] = None,
