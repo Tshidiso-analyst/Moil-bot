@@ -56,6 +56,8 @@ def calculate_mt5_position_size(
         raise ValueError("Entry, stop loss, risk amount and max volume must be finite.")
     if entry <= 0 or stop_loss <= 0 or risk_amount <= 0 or max_volume <= 0:
         raise ValueError("Entry, stop loss, risk amount and max volume must be greater than zero.")
+    if max_volume > 0.02:
+        raise ValueError("XAUUSD position volume cannot exceed 0.02 lots.")
     if direction == "bullish" and stop_loss >= entry:
         raise ValueError("Bullish stop loss must be below entry.")
     if direction == "bearish" and stop_loss <= entry:
