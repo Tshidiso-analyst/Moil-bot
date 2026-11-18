@@ -18,6 +18,8 @@ def validate_risk_limits(limits: RiskLimits) -> RiskLimits:
         raise ValueError("max_trades_per_day must be an integer from 1 to 10.")
     if isinstance(limits.max_position_volume, bool) or not math.isfinite(float(limits.max_position_volume)) or not 0 < limits.max_position_volume <= 0.02:
         raise ValueError("max_position_volume must be finite, greater than zero and no more than 0.02 lots.")
+    if limits.trading_timezone != "America/New_York":
+        raise ValueError("trading_timezone must be America/New_York.")
     try:
         ZoneInfo(limits.trading_timezone)
     except (ZoneInfoNotFoundError, TypeError):
