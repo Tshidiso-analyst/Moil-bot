@@ -11,8 +11,8 @@ Hard safeguards in `execution/demo_pipeline.py`:
 - Caps requested risk at 1% of balance and uses the broker's `order_calc_profit` to calculate the lot size.
 - Rounds volume down to the broker's lot step; rejects a trade if the minimum lot would exceed the risk budget.
 - Checks stop distance, free margin, broker order validation, and the final MT5 order result.
-- Allows only one open position and blocks another Moil-bot entry during the following 24 hours.
-- Uses a dedicated magic number so the daily entry check can identify Moil-bot demo deals.
+- Allows up to three concurrent open positions, blocks the eleventh Moil-bot entry in a New York calendar day, enforces the 3% portfolio exposure and 5% daily-loss limits, and caps volume at 0.02 lots.
+- Uses a dedicated magic number to count Moil-bot entries across broker symbol aliases. Daily history and open-position risk are read in the America/New_York trading-day context; unavailable broker data blocks the order.
 
 The smoke test does not retrieve or verify an economic calendar. The operator must check the calendar and confirm the session. Never use the confirmation flags as a shortcut.
 
@@ -27,14 +27,14 @@ The smoke test does not retrieve or verify an economic calendar. The operator mu
    python -m pip install -r requirements.txt
    ```
 
-4. First inspect the symbol and prices in MT5 Market Watch. Use the exact broker symbol (for example, a broker may use `EURUSDm` rather than `EURUSD`).
+4. First inspect XAUUSD and its prices in MT5 Market Watch. Use the exact broker symbol (for example, `XAUUSD.a` or another broker suffix). Other instruments are rejected.
 5. Only after checking the entry, stop, target, session and economic calendar, run an explicitly confirmed demo test:
 
    ```powershell
-   python -m execution.demo_smoke_test --symbol EURUSD --direction bullish --stop-loss 1.09500 --take-profit 1.10500 --risk-percent 1.0 --confirm-demo-order --confirm-session --confirm-no-high-impact-news
+   python -m execution.demo_smoke_test --symbol XAUUSD --direction bullish --stop-loss 2490.00 --take-profit 2520.00 --risk-percent 1.0 --confirm-demo-order --confirm-session --confirm-no-high-impact-news
    ```
 
-   Replace the sample prices with valid levels for the live quote and exact broker symbol. The example is not a trade recommendation.
+   Replace the sample prices with valid levels for the live XAUUSD quote and exact broker symbol. The example is not a trade recommendation. The command requires all explicit confirmation flags and the pipeline must be deliberately enabled by the command wrapper.
 
 If any safeguard fails, the command exits with a clear block reason and does not call `order_send`. A successful result means MT5 accepted that DEMO order; it does not establish strategy profitability. Close the test position manually in MT5 after confirming the ticket and attached SL/TP.
 
@@ -49,13 +49,13 @@ npm run demo:test -- --symbol EURUSD --direction bullish --stop-loss 1.09500 --t
 The backtest reads completed candles from the locally logged-in MT5 terminal. It submits no orders.
 
 ```powershell
-python -m backtesting.run_mt5 --symbol EURUSD --timeframe M15 --bars 3000 --stop-distance 0.00100 --reward-multiple 2 --spread 0.00010 --slippage 0.00002 --initial-equity 10000 --train-fraction 0.7
+python -m backtesting.run_mt5 --symbol XAUUSD --timeframe M15 --bars 3000 --stop-distance 10.00 --reward-multiple 2 --spread 0.10 --slippage 0.02 --initial-equity 10000 --train-fraction 0.7
 ```
 
 - `--stop-distance`, `--spread` and `--slippage` are price units, not pips. Set them for the selected instrument and broker.
 - The report separates the chronological in-sample train period from the out-of-sample holdout.
 - Signals are evaluated only on the candle history available at that time; entries occur at the next candle open.
-- The backtest only considers signals during the first NYSE hour (09:30–10:15 New York time, allowing a next-candle entry by 10:30) and caps entries at one per New York calendar day. If no setup appears in that opening hour, it takes no trade.
+- The backtest only considers signals during the first NYSE hour (09:30–10:15 New York time, allowing a next-candle entry by 10:30) and caps entries at ten per New York calendar day. If no setup appears in that opening hour, it takes no trade.
 - Costs are deducted from net results; when a candle touches both stop and target, the stop is assumed first.
 - Historical high-impact news days are **not** automatically filtered. Add a verified historical calendar filter before using results to judge the strategy.
 - The SMC decision logic remains exploratory. This report does not approve a source-linked strategy rule or enable automated execution.
