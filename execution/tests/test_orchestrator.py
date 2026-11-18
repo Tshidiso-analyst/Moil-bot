@@ -186,7 +186,7 @@ def test_execution_is_disabled_by_default_even_when_plan_passes():
 def test_enabled_execution_still_requires_demo_and_uses_injected_mt5():
     orchestrator, fake = make_orchestrator(allow_execution=True)
     result = orchestrator.execute(
-        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish",
+        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish", assessment=assessment(),
         proposed_risk_percent=1.0, daily_loss_percent=0.0,
         current_exposure_percent=0.0, account_balance=10_000.0,
         risk_percent=1.0, magic=731111,
