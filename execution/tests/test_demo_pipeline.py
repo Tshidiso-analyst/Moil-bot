@@ -132,6 +132,8 @@ def test_real_account_is_hard_blocked_before_order_send():
     "overrides, message",
     [
         ({"confirmation": False}, "Explicit demo-order confirmation"),
+        ({"confirmation": "true"}, "Explicit demo-order confirmation"),
+        ({"risk_percent": float("nan")}, "no more than 1%"),
         ({"session_confirmed": False}, "permitted trading session"),
         ({"no_high_impact_news_confirmed": False}, "high-impact news"),
         ({"risk_percent": 1.01}, "no more than 1%"),
