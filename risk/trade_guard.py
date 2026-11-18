@@ -27,10 +27,10 @@ class TradeGuard:
         trading_timezone: str = "America/New_York",
     ):
         self.max_risk_per_trade = float(max_risk_per_trade)
-        self.max_open_trades = int(max_open_trades)
+        self.max_open_trades = max_open_trades
         self.max_total_exposure_percent = float(max_total_exposure_percent)
         self.max_daily_loss = float(max_daily_loss)
-        self.max_trades_per_day = int(max_trades_per_day)
+        self.max_trades_per_day = max_trades_per_day
         self.max_position_volume = float(max_position_volume)
         self.limits = RiskLimits(
             max_risk_per_trade_percent=self.max_risk_per_trade,
