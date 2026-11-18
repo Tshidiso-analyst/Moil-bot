@@ -25,7 +25,7 @@ class FakeMT5:
     def __init__(self):
         self.account = SimpleNamespace(
             trade_mode=0, trade_allowed=True, trade_expert=True,
-            balance=10_000.0, equity=10_000.0,
+            balance=10_000.0, equity=10_000.0, margin_free=5_000.0,
         )
         self.info = SimpleNamespace(
             name="XAUUSD.a", point=0.01, trade_tick_size=0.01,
@@ -51,6 +51,9 @@ class FakeMT5:
         if order_type == self.ORDER_TYPE_BUY:
             return (stop - entry) * 100 * volume
         return (entry - stop) * 100 * volume
+
+    def order_calc_margin(self, order_type, symbol, volume, price):
+        return 100.0 * volume
 
     def symbol_select(self, symbol, enabled):
         return True
