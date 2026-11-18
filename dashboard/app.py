@@ -462,7 +462,7 @@ def analysis_page(query: dict[str, list[str]]) -> str:
     <div class="card">
         <h3>Execution Mode</h3>
         {mode_html}
-        <p class="muted">Operate enables the live execution gate. Standby keeps monitoring only.</p>
+        <p class="muted">Operate enables active monitoring and analysis; it does not enable MT5 order execution. Standby keeps monitoring only.</p>
     </div>
 
     {tradingview_chart(symbol)}
