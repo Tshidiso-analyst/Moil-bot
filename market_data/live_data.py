@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 import pandas as pd
 
 from market_data.validation import validate_market_data
+from risk.symbols import canonicalize_symbol
 
 
 def _is_verified_gold_symbol(info, fallback_name: str = "") -> bool:
@@ -40,15 +41,7 @@ def resolve_mt5_symbol(symbol: str, mt5_module=None) -> str:
     The returned broker name is for MT5 data retrieval only. Strategy,
     backtesting and reporting code must continue using canonical XAUUSD.
     """
-    requested = str(symbol or "").strip().upper()
-    if not requested:
-        raise ValueError("Symbol must not be empty.")
-
-    if requested != "XAUUSD":
-        raise ValueError(
-            "Moil-bot currently supports XAUUSD (gold) only. "
-            "Pass canonical XAUUSD and let the resolver find the broker symbol."
-        )
+    requested = canonicalize_symbol(symbol)
 
     if mt5_module is None:
         import MetaTrader5 as mt5_module
@@ -89,9 +82,7 @@ def fetch_live_candle_data(
     mt5_path: str | None = None,
 ) -> pd.DataFrame:
     """Fetch validated OHLCV data, reusing an existing local MT5 session."""
-    symbol = str(symbol or "").strip().upper()
-    if not symbol:
-        raise ValueError("Symbol must not be empty.")
+    symbol = canonicalize_symbol(symbol)
     timeframe = str(timeframe).upper()
     try:
         import MetaTrader5 as mt5
