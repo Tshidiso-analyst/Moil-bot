@@ -3,14 +3,20 @@
 from __future__ import annotations
 
 from typing import Any
+import math
+
+from risk.mt5_portfolio import build_mt5_portfolio_snapshot
+from risk.symbols import canonicalize_symbol
 
 
 class MT5ExecutionService:
     """Execute market orders through MetaTrader 5 after validation."""
 
-    def __init__(self, mt5_module: Any | None = None):
+    def __init__(self, mt5_module: Any | None = None, *, enabled: bool = False, magic: int = 731111):
         self.mt5 = mt5_module
         self.connected = False
+        self.enabled = bool(enabled)
+        self.magic = int(magic)
 
     def connect(
         self,
@@ -29,7 +35,9 @@ class MT5ExecutionService:
                 "error": str(exc),
             }
 
-        self.mt5 = mt5
+        if self.mt5 is None:
+            self.mt5 = mt5
+        mt5 = self.mt5
 
         try:
             mt5.shutdown()
@@ -91,8 +99,12 @@ class MT5ExecutionService:
         magic: int = 0,
     ) -> dict[str, Any]:
         self._require_connection()
+        if not self.enabled:
+            raise RuntimeError("MT5 order execution is disabled by default.")
 
         symbol = str(symbol).strip()
+        canonicalize_symbol(symbol)
+        symbol = symbol.upper()
         if not symbol:
             raise ValueError("symbol must not be empty.")
 
@@ -100,19 +112,49 @@ class MT5ExecutionService:
         if direction not in {"buy", "sell", "bullish", "bearish"}:
             raise ValueError("direction must be bullish/bearish or buy/sell.")
 
-        if volume <= 0:
-            raise ValueError("volume must be greater than zero.")
+        if not math.isfinite(float(volume)) or not 0 < float(volume) <= 0.02:
+            raise ValueError("volume must be greater than zero and no more than 0.02 lots.")
+        if stop_loss is None or take_profit is None:
+            raise ValueError("A protective stop loss and take profit are required.")
+        account = self.mt5.account_info()
+        demo_mode = getattr(self.mt5, "ACCOUNT_TRADE_MODE_DEMO", None)
+        if account is None or demo_mode is None or getattr(account, "trade_mode", None) != demo_mode:
+            raise RuntimeError("Hard safety block: orders are permitted only on a verified DEMO account.")
+        if not bool(getattr(account, "trade_allowed", False)) or not bool(getattr(account, "trade_expert", False)):
+            raise RuntimeError("MT5 account or expert trading permission is disabled.")
 
         if not self._symbol_ready(symbol):
             raise RuntimeError(f"Symbol {symbol} is not available in MT5.")
 
-        mt5_direction = self.mt5.OP_BUY if direction in {"buy", "bullish"} else self.mt5.OP_SELL
+        mt5_direction = self.mt5.ORDER_TYPE_BUY if direction in {"buy", "bullish"} else self.mt5.ORDER_TYPE_SELL
 
         tick = self.mt5.symbol_info_tick(symbol)
         if tick is None:
             raise RuntimeError(f"No live tick available for {symbol}.")
 
-        price = float(tick.ask if mt5_direction == self.mt5.OP_BUY else tick.bid)
+        price = float(tick.ask if mt5_direction == self.mt5.ORDER_TYPE_BUY else tick.bid)
+        if not math.isfinite(price) or price <= 0:
+            raise RuntimeError(f"Invalid broker quote for {symbol}.")
+        stop_loss = float(stop_loss)
+        take_profit = float(take_profit)
+        if not all(math.isfinite(value) and value > 0 for value in (stop_loss, take_profit)):
+            raise ValueError("Stop loss and take profit must be finite positive prices.")
+        if direction in {"buy", "bullish"} and not stop_loss < price < take_profit:
+            raise ValueError("BUY stop loss/entry/take profit levels are invalid.")
+        if direction in {"sell", "bearish"} and not take_profit < price < stop_loss:
+            raise ValueError("SELL stop loss/entry/take profit levels are invalid.")
+        order_loss = self.mt5.order_calc_profit(mt5_direction, symbol, float(volume), price, stop_loss)
+        balance = float(getattr(account, "balance", 0.0) or 0.0)
+        if order_loss is None or not math.isfinite(balance) or balance <= 0:
+            raise RuntimeError("Broker could not verify account balance or proposed order risk.")
+        risk_percent = abs(float(order_loss)) / balance * 100.0
+        if not math.isfinite(risk_percent) or risk_percent > 1.0 + 1e-9:
+            raise RuntimeError("Broker-calculated order risk exceeds the 1% per-trade limit.")
+        portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=self.magic)
+        if portfolio.daily_entries >= 10 or portfolio.open_positions >= 3:
+            raise RuntimeError("Portfolio daily-entry or open-position limit has been reached.")
+        if portfolio.daily_loss_percent >= 5.0 or portfolio.exposure_percent + risk_percent > 3.0:
+            raise RuntimeError("Portfolio daily-loss or total-exposure limit blocks this order.")
 
         request = {
             "action": self.mt5.TRADE_ACTION_DEAL,
@@ -120,14 +162,18 @@ class MT5ExecutionService:
             "volume": float(volume),
             "type": mt5_direction,
             "price": price,
-            "sl": float(stop_loss) if stop_loss is not None else 0.0,
-            "tp": float(take_profit) if take_profit is not None else 0.0,
+            "sl": stop_loss,
+            "tp": take_profit,
             "deviation": 20,
             "magic": int(magic),
             "comment": str(comment),
             "type_time": self.mt5.ORDER_TIME_GTC,
             "type_filling": self.mt5.ORDER_FILLING_RETURN,
         }
+
+        checked = self.mt5.order_check(request)
+        if checked is None or getattr(checked, "retcode", None) not in {0, getattr(self.mt5, "TRADE_RETCODE_DONE", 10009)}:
+            raise RuntimeError("MT5 order_check rejected the order request.")
 
         result = self.mt5.order_send(request)
 
@@ -151,19 +197,26 @@ class MT5ExecutionService:
 
     def close_position(self, ticket: int, *, volume: float | None = None) -> dict[str, Any]:
         self._require_connection()
+        if not self.enabled:
+            raise RuntimeError("MT5 order execution is disabled by default.")
+        account = self.mt5.account_info()
+        demo_mode = getattr(self.mt5, "ACCOUNT_TRADE_MODE_DEMO", None)
+        if account is None or demo_mode is None or getattr(account, "trade_mode", None) != demo_mode:
+            raise RuntimeError("Hard safety block: position closing is enabled only on a verified DEMO account.")
 
         positions = self.mt5.positions_get(ticket=ticket)
         if not positions:
             raise RuntimeError(f"No open position found for ticket {ticket}.")
 
         position = positions[0]
+        canonicalize_symbol(position.symbol)
         close_volume = float(volume) if volume is not None else float(position.volume)
 
         request = {
             "action": self.mt5.TRADE_ACTION_DEAL,
             "symbol": position.symbol,
             "volume": close_volume,
-            "type": self.mt5.OP_SELL if position.type == self.mt5.POSITION_TYPE_BUY else self.mt5.OP_BUY,
+            "type": self.mt5.ORDER_TYPE_SELL if position.type == self.mt5.POSITION_TYPE_BUY else self.mt5.ORDER_TYPE_BUY,
             "position": int(ticket),
             "price": 0.0,
             "deviation": 20,
