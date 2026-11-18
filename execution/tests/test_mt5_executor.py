@@ -128,3 +128,22 @@ def test_direct_mt5_order_service_rejects_risk_above_one_percent():
             "XAUUSD", "buy", 0.02, stop_loss=2000.0, take_profit=2600.0,
         )
     assert fake.sent == []
+
+def test_direct_executor_rejects_risk_based_on_equity_not_balance():
+    fake = FakeMT5()
+    fake.account.equity = 500.0
+    service = MT5ExecutionService(fake, enabled=True)
+    service.connected = True
+    with pytest.raises(RuntimeError, match="1% per-trade"):
+        execute(service)
+    assert fake.sent == []
+
+
+def test_direct_executor_fails_closed_without_equity():
+    fake = FakeMT5()
+    del fake.account.equity
+    service = MT5ExecutionService(fake, enabled=True)
+    service.connected = True
+    with pytest.raises(RuntimeError, match="account balance or proposed order risk"):
+        execute(service)
+    assert fake.sent == []
