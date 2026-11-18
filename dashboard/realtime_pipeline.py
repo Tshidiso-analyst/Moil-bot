@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+import math
+
 import pandas as pd
 
 from analysis.market_structure import analyse_structure
@@ -99,7 +101,13 @@ class RealtimeTradingPipeline:
                 risk_amount=0.0,
                 reasons=[str(exc)],
             )
-        if not 0 < float(risk_percent) <= 1.0:
+        try:
+            risk_percent = float(risk_percent)
+            balance = float(balance)
+        except (TypeError, ValueError, OverflowError):
+            risk_percent = 0.0
+            balance = 0.0
+        if not math.isfinite(risk_percent) or not 0 < risk_percent <= 1.0 or not math.isfinite(balance) or balance <= 0:
             return RealTimePipelineResult(
                 symbol=requested_symbol,
                 status="data_unavailable",
@@ -107,7 +115,7 @@ class RealtimeTradingPipeline:
                 qualified=False,
                 score=0,
                 risk_percent=risk_percent,
-                risk_amount=float(balance) * float(risk_percent) / 100.0 if balance else 0.0,
+                risk_amount=0.0,
                 reasons=["Risk must be greater than 0% and no more than 1%."],
             )
 
