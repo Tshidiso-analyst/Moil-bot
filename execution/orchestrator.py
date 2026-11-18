@@ -219,6 +219,16 @@ class MT5ExecutionService:
         if (not all(math.isfinite(x) and x > 0 for x in (latest_balance, latest_equity))
                 or abs(float(order_loss)) > min(latest_balance, latest_equity) * 0.01):
             raise RuntimeError("Account equity or order risk changed before submission.")
+        latest_free_margin = float(getattr(latest_account, "margin_free", 0.0) or 0.0)
+        latest_margin = self.mt5.order_calc_margin(
+            order_type, symbol, float(volume), float(latest_price)
+        )
+        if (not math.isfinite(latest_free_margin) or latest_free_margin <= 0
+                or latest_margin is None
+                or not math.isfinite(float(latest_margin))
+                or float(latest_margin) <= 0
+                or float(latest_margin) > latest_free_margin):
+            raise RuntimeError("Available margin changed before order submission.")
         latest_portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=magic_value)
         if (latest_portfolio.daily_entries >= 10 or latest_portfolio.open_positions >= 3
                 or latest_portfolio.daily_loss_percent >= 5.0
