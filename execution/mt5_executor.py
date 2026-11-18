@@ -172,6 +172,12 @@ class MT5ExecutionService:
         risk_percent = abs(float(order_loss)) / balance * 100.0
         if not math.isfinite(risk_percent) or risk_percent > 1.0 + 1e-9:
             raise RuntimeError("Broker-calculated order risk exceeds the 1% per-trade limit.")
+        margin = self.mt5.order_calc_margin(mt5_direction, symbol, float(volume), price)
+        free_margin = float(getattr(account, "margin_free", 0.0) or 0.0)
+        if margin is None or not math.isfinite(float(margin)) or float(margin) <= 0:
+            raise RuntimeError("Broker could not calculate required order margin.")
+        if not math.isfinite(free_margin) or free_margin <= 0 or float(margin) > free_margin:
+            raise RuntimeError("Insufficient or unverifiable free margin for the proposed order.")
         portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=int(magic))
         if portfolio.daily_entries >= 10 or portfolio.open_positions >= 3:
             raise RuntimeError("Portfolio daily-entry or open-position limit has been reached.")
