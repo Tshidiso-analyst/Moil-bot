@@ -14,6 +14,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from execution.quote_safety import require_fresh_tick
 from risk.symbols import canonicalize_symbol
+from strategy.smc_research import inspect_smc
 
 SYMBOL = "XAUUSDm"
 LOT = 0.01
@@ -39,46 +40,20 @@ def paper_snapshot(mt5, symbol=SYMBOL):
                     "high": float(r["high"]), "low": float(r["low"]),
                     "close": float(r["close"])} for r in rates), key=lambda b: b["time"])
     closed = bars[:-1]
-    trades = []
-    active = None
-    for i in range(20, len(closed)):
-        bar = closed[i]
-        if active is not None:
-            # Conservative intrabar assumption: stop is hit first if both levels touched.
-            stop_hit = bar["low"] <= active["stop"] if active["side"] == "BUY" else bar["high"] >= active["stop"]
-            target_hit = bar["high"] >= active["target"] if active["side"] == "BUY" else bar["low"] <= active["target"]
-            if stop_hit or target_hit:
-                exit_price = active["stop"] if stop_hit else active["target"]
-                order_type = mt5.ORDER_TYPE_BUY if active["side"] == "BUY" else mt5.ORDER_TYPE_SELL
-                pnl = mt5.order_calc_profit(order_type, symbol, LOT, active["entry"], exit_price)
-                active.update(exit=exit_price, exit_time=bar["time"], pnl=round(float(pnl), 2) if pnl is not None and math.isfinite(float(pnl)) else None,
-                              status="STOP" if stop_hit else "TARGET")
-                trades.append(active)
-                active = None
-        if active is not None:
-            continue
-        previous = closed[i-20:i]
-        upper = max(b["high"] for b in previous)
-        lower = min(b["low"] for b in previous)
-        side = "BUY" if bar["close"] > upper else "SELL" if bar["close"] < lower else None
-        if side:
-            # Illustrative next-bar open, never enter at a previously known close.
-            if i + 1 >= len(closed):
-                continue
-            entry_bar = closed[i+1]
-            entry = entry_bar["open"]
-            stop = entry - STOP_DISTANCE if side == "BUY" else entry + STOP_DISTANCE
-            target = entry + STOP_DISTANCE * REWARD_MULTIPLE if side == "BUY" else entry - STOP_DISTANCE * REWARD_MULTIPLE
-            active = dict(side=side, entry=entry, stop=stop, target=target,
-                          entry_time=entry_bar["time"], status="OPEN (PAPER)")
-    if active:
-        trades.append(active)
+    h1_rates = mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_H1, 0, 40)
+    h1_closed = []
+    if h1_rates is not None and len(h1_rates) >= 6:
+        h1_sorted = sorted(({"time": int(r["time"]), "open": float(r["open"]),
+                            "high": float(r["high"]), "low": float(r["low"]),
+                            "close": float(r["close"])} for r in h1_rates), key=lambda b: b["time"])
+        h1_closed = h1_sorted[:-1]
+    smc = inspect_smc(closed, htf_bars=h1_closed)
+    trades = []  # No fabricated fills from unvalidated research rules.
     risk_budget = min(float(account.balance), float(account.equity)) * .01
     return dict(symbol=symbol, currency=str(getattr(account, "currency", "")),
                 bid=float(tick.bid), ask=float(tick.ask), risk_budget=round(risk_budget, 2),
-                trades=trades[-30:], candles=closed[-80:], execution="DISABLED",
-                note="Illustrative M15 breakout replay; not validated ICT/SMC, not a live strategy or executable signal. "
-                     "Historical replay omits spread, slippage and commission. No broker orders.")
+                trades=trades, candles=closed[-80:], smc=smc, execution="DISABLED",
+                note="Closed-candle M15/H1 SMC research only. No validated entry signals, simulated fills, or broker orders.")
 
 
 def page(snapshot, error=None):
@@ -86,6 +61,11 @@ def page(snapshot, error=None):
     if error:
         body = f"<h2>Read-only data unavailable</h2><p>{esc(str(error))}</p>"
     else:
+        smc = snapshot["smc"]
+        smc_html = ("<h3>SMC research: " + esc(smc["status"]) + "</h3><p>H1 bias: "
+                    + esc(smc["direction"]) + " | Stage: " + esc(smc["stage"]) + "</p>"
+                    + "".join("<p>" + esc(reason) + "</p>" for reason in smc["reasons"])
+                    + "<p>Research only. Order authorization: NO.</p>")
         rows = "".join(
             "<tr>" + "".join(f"<td>{esc(str(t.get(k, '-')))}</td>" for k in
             ("side", "entry_time", "entry", "stop", "target", "status", "pnl")) + "</tr>"
@@ -98,7 +78,7 @@ def page(snapshot, error=None):
                 f"<p>{esc(snapshot['note'])}</p>"
                 "<table><tr><th>Side</th><th>Entry UTC</th><th>Entry</th><th>Stop</th>"
                 "<th>Target</th><th>Status</th><th>Gross P/L</th></tr>"
-                + rows + "</table>"
+                + smc_html + rows + "</table>"
                 "<p>Times are Unix UTC seconds. Refresh to read the latest closed candles.</p>")
     return ("""<!doctype html><html><head><meta charset="utf-8">
 <meta http-equiv="refresh" content="30"><meta name="viewport" content="width=device-width,initial-scale=1">
