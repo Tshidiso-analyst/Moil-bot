@@ -9,8 +9,6 @@ import os
 
 import pandas as pd
 
-import MetaTrader5 as mt5
-
 from dashboard.mt5_live import MT5LiveService
 from execution.orchestrator import TradeExecutionOrchestrator
 from market_data.live_data import resolve_mt5_symbol
@@ -18,6 +16,10 @@ from strategy.trade_decision import TradeDecisionEngine
 
 
 def main() -> None:
+    try:
+        import MetaTrader5 as mt5
+    except ImportError as exc:
+        raise RuntimeError("MetaTrader5 is available only on the Windows trading workstation.") from exc
     path = os.getenv("MT5_PATH")
     initialized = bool(mt5.initialize(path=path) if path else mt5.initialize())
     if not initialized:
