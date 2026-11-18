@@ -82,3 +82,13 @@ def test_broker_position_sizing_rejects_non_gold_symbol():
             FakeMT5(), symbol="GBPUSD", direction="bullish",
             entry=1.2, stop_loss=1.1, risk_amount=100.0,
         )
+
+
+
+def test_broker_position_sizing_refuses_configuration_above_002_lots():
+    with pytest.raises(ValueError, match="cannot exceed 0.02"):
+        calculate_mt5_position_size(
+            FakeMT5(), symbol="XAUUSD", direction="bullish",
+            entry=2500.0, stop_loss=2490.0, risk_amount=100.0,
+            max_volume=0.03,
+        )
