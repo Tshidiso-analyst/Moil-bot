@@ -91,3 +91,26 @@ def test_assessment_accepts_broker_alias_but_returns_canonical_symbol(monkeypatc
     install_context(monkeypatch)
     result = TradeDecisionEngine().assess("XAUUSD.a", market_data(), high_impact_news=False)
     assert result.symbol == "XAUUSD"
+
+
+
+def test_assessment_rejects_wrong_side_liquidity_sweep(monkeypatch):
+    context = valid_context()
+    context.liquidity = [SimpleNamespace(direction="buy_side")]
+    install_context(monkeypatch, context)
+    result = TradeDecisionEngine().assess(
+        "XAUUSD", market_data(), high_impact_news=False,
+    )
+    assert result.liquidity_valid is False
+    assert result.setup_valid is False
+
+
+def test_assessment_requires_direction_aligned_bos_and_choch(monkeypatch):
+    context = valid_context()
+    context.choch = [{"direction": "bearish"}]
+    install_context(monkeypatch, context)
+    result = TradeDecisionEngine().assess(
+        "XAUUSD", market_data(), high_impact_news=False,
+    )
+    assert result.structure_valid is False
+    assert result.setup_valid is False
