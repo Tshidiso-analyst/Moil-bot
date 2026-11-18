@@ -56,6 +56,8 @@ def test_read_only_snapshot_and_html():
     assert data["topdown"]["execution_ready"] is False
     assert data["topdown"]["status"] == "WAIT"
     assert b"Top-down research" in page(data)
+    assert b"<svg" in page(data)
+    assert b"Gold M15" in page(data)
     assert data["trades"] == []
     assert b"MT5 ORDERS: DISABLED" in page(data)
     assert fake.sent == []
