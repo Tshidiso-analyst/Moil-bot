@@ -41,7 +41,7 @@ If any safeguard fails, the command exits with a clear block reason and does not
 Optional npm wrapper:
 
 ```powershell
-npm run demo:test -- --symbol XAUUSD --direction bullish --stop-loss 1.09500 --take-profit 1.10500 --risk-percent 1.0 --confirm-demo-order --confirm-session --confirm-no-high-impact-news
+npm run demo:test -- --symbol XAUUSD.a --direction bullish --stop-loss 2490.00 --take-profit 2520.00 --risk-percent 1.0 --confirm-demo-order --confirm-session --confirm-no-high-impact-news
 ```
 
 ## Run the historical SMC backtest
@@ -63,7 +63,7 @@ python -m backtesting.run_mt5 --symbol XAUUSD --timeframe M15 --bars 3000 --stop
 Optional npm wrapper:
 
 ```powershell
-npm run backtest:mt5 -- --symbol EURUSD --timeframe M15 --bars 3000 --stop-distance 0.00100 --spread 0.00010 --slippage 0.00002
+npm run backtest:mt5 -- --symbol XAUUSD --timeframe M15 --bars 3000 --stop-distance 10.00 --spread 0.10 --slippage 0.02
 ```
 
 ## Run the isolated tests
