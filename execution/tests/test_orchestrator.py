@@ -385,3 +385,22 @@ def test_orchestrator_blocks_duplicate_order_within_one_minute():
     assert second.status == "blocked"
     assert "Duplicate" in second.reason
     assert len(fake.sent) == 1
+
+def test_orchestrator_rechecks_available_margin_after_order_check():
+    orchestrator, fake = make_orchestrator(allow_execution=True)
+    original = fake.order_check
+
+    def margin_removed(request):
+        fake.account.margin_free = 0.0
+        return original(request)
+
+    fake.order_check = margin_removed
+    result = orchestrator.execute(
+        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish",
+        assessment=assessment(), proposed_risk_percent=1.0,
+        daily_loss_percent=0.0, current_exposure_percent=0.0,
+        account_balance=10_000.0, risk_percent=1.0, magic=731111,
+    )
+    assert result.status == "rejected"
+    assert "margin changed" in result.reason
+    assert fake.sent == []
