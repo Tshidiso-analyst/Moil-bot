@@ -17,9 +17,8 @@ try:  # MetaTrader5 is optional outside the Windows trading workstation.
 except ImportError:  # pragma: no cover - platform dependent
     _mt5 = None
 
-from risk.models import InstrumentRisk
 from risk.mt5_portfolio import PortfolioSnapshotError, build_mt5_portfolio_snapshot
-from risk.position_sizing import calculate_position_size
+from risk.mt5_risk import calculate_mt5_position_size
 from risk.trade_guard import TradeGuard
 from risk.symbols import canonicalize_symbol as canonical_xauusd_symbol
 
@@ -266,19 +265,10 @@ class TradeExecutionOrchestrator:
                 return self._blocked(symbol, "Broker quote or stop level is invalid.", direction)
             take_profit = entry + (entry - stop_loss) * 2.0 if direction == "bullish" else entry - (stop_loss - entry) * 2.0
 
-            instrument = InstrumentRisk(
-                symbol=str(getattr(info, "name", symbol)),
-                point=float(getattr(info, "point", 0.0) or 0.0),
-                tick_size=float(getattr(info, "trade_tick_size", 0.0) or getattr(info, "point", 0.0) or 0.0),
-                tick_value=float(getattr(info, "trade_tick_value", 0.0) or getattr(info, "trade_tick_value_profit", 0.0) or 0.0),
-                contract_size=float(getattr(info, "trade_contract_size", 0.0) or 0.0),
-                volume_min=float(getattr(info, "volume_min", 0.0) or 0.0),
-                volume_max=float(getattr(info, "volume_max", 0.0) or 0.0),
-                volume_step=float(getattr(info, "volume_step", 0.0) or 0.0),
-            )
             risk_amount = snapshot.balance * min(risk_pct, sizing_pct) / 100.0
-            position = calculate_position_size(
-                instrument=instrument,
+            position = calculate_mt5_position_size(
+                module,
+                symbol=symbol,
                 direction=direction,
                 entry=entry,
                 stop_loss=stop_loss,
