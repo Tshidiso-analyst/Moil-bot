@@ -16,6 +16,7 @@ from execution.quote_safety import require_fresh_tick
 from risk.symbols import canonicalize_symbol
 from strategy.smc_research import inspect_smc
 from strategy.gold_topdown import inspect_gold_topdown
+from dashboard.gold_chart import render_gold_chart
 
 SYMBOL = "XAUUSDm"
 LOT = 0.01
@@ -113,6 +114,8 @@ def page(snapshot, error=None):
                 f"1% risk budget: {snapshot['risk_budget']:.2f} {esc(snapshot['currency'])}</p>"
                 f"<p><strong>MT5 ORDERS: DISABLED</strong></p>"
                 f"<p>{esc(snapshot['note'])}</p>"
+                + "<h3>Gold M15 — live-refreshing closed-candle chart</h3>"
+                + render_gold_chart(snapshot.get("candles", []))
                 + topdown_html + level_html + next_html + smc_html +
                 "<table><tr><th>Side</th><th>Entry UTC</th><th>Entry</th><th>Stop</th>"
                 "<th>Target</th><th>Status</th><th>Gross P/L</th></tr>"
