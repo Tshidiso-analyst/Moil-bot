@@ -75,7 +75,7 @@ def run_smc_backtest(
     spread: float = 0.0,
     slippage: float = 0.0,
     commission_per_unit_per_side: float = 0.0,
-    position_size: float = 1.0,
+    position_size: float = 0.02,
     initial_equity: float = 10_000.0,
     train_fraction: float = 0.7,
     decision_engine: Any | None = None,
