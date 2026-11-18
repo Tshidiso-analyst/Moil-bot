@@ -197,11 +197,13 @@ class MT5LiveService:
 
     def positions(self) -> list[dict[str, Any]]:
         if self.mt5 is None or not self.connected:
-            return []
+            self.last_error = "MT5 service is not connected; open positions cannot be verified."
+            raise RuntimeError(self.last_error)
         try:
             raw_positions = self.mt5.positions_get()
             if raw_positions is None:
-                return []
+                self.last_error = f"MT5 positions lookup failed: {self.mt5.last_error()}"
+                raise RuntimeError(self.last_error)
             return [
                 {
                     "ticket": int(getattr(p, "ticket", 0) or 0),
@@ -213,19 +215,28 @@ class MT5LiveService:
                     "type": getattr(p, "type", 0),
                     "price_open": float(getattr(p, "price_open", 0.0) or 0.0),
                     "price_current": float(getattr(p, "price_current", 0.0) or 0.0),
+                    "stop_loss": float(getattr(p, "sl", 0.0) or 0.0),
+                    "take_profit": float(getattr(p, "tp", 0.0) or 0.0),
                 }
                 for p in raw_positions
             ]
+        except RuntimeError:
+            raise
         except Exception as exc:
             self.last_error = f"MT5 positions lookup failed: {exc}"
-            return []
+            raise RuntimeError(self.last_error) from exc
 
     def open_trade_count(self) -> int:
-        return len(self.positions()) if self.connected and self.mt5 is not None else 0
+        return len(self.positions())
 
     def open_trade_summary(self) -> dict[str, float | int]:
-        positions = self.positions() if self.connected and self.mt5 is not None else []
-        return {"count": len(positions), "volume": sum(float(p.get("volume", 0.0)) for p in positions), "profit": sum(float(p.get("profit", 0.0)) for p in positions)}
+        positions = self.positions()
+        return {
+            "count": len(positions),
+            "volume": sum(float(p.get("volume", 0.0)) for p in positions),
+            "profit": sum(float(p.get("profit", 0.0)) for p in positions),
+        }
+
 
 
 __all__ = ["MT5ConnectionResult", "MT5LiveService"]
