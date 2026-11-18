@@ -48,3 +48,16 @@ def test_kill_switch_blocks_all_modes():
 def test_missing_account_fails_closed():
     with pytest.raises(RuntimeError, match="unavailable"):
         AccountPolicy(mode="demo", execution_enabled=True).verify(FakeMT5(), None)
+
+def test_real_policy_blocks_disabled_expert_permission():
+    policy = AccountPolicy(mode="real", execution_enabled=True, real_trading_approved=True)
+    candidate = account(2)
+    candidate.trade_expert = False
+    with pytest.raises(RuntimeError, match="permission"):
+        policy.verify(FakeMT5(), candidate)
+
+
+def test_real_policy_rejects_missing_real_mode_constant():
+    policy = AccountPolicy(mode="real", execution_enabled=True, real_trading_approved=True)
+    with pytest.raises(RuntimeError, match="unverified REAL"):
+        policy.verify(SimpleNamespace(ACCOUNT_TRADE_MODE_DEMO=0), account(2))
