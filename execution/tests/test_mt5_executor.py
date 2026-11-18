@@ -74,10 +74,16 @@ class FakeMT5:
         return (0, "ok")
 
 
+def valid_assessment():
+    return SimpleNamespace(symbol="XAUUSD", direction="bullish", setup_valid=True,
+                           confirmation=True, structure_valid=True, liquidity_valid=True,
+                           macro_bias_valid=True, high_impact_news=False)
+
+
 def execute(service, **kwargs):
     return service.place_market_order(
         "XAUUSD.a", "bullish", 0.02,
-        stop_loss=2490.0, take_profit=2520.0, **kwargs,
+        stop_loss=2490.0, take_profit=2520.0, **({"assessment": valid_assessment(), **kwargs}),
     )
 
 
@@ -126,6 +132,7 @@ def test_direct_mt5_order_service_rejects_risk_above_one_percent():
     with pytest.raises(RuntimeError, match="1% per-trade"):
         service.place_market_order(
             "XAUUSD", "buy", 0.02, stop_loss=2000.0, take_profit=2600.0,
+            assessment=valid_assessment(),
         )
     assert fake.sent == []
 
@@ -146,4 +153,13 @@ def test_direct_executor_fails_closed_without_equity():
     service.connected = True
     with pytest.raises(RuntimeError, match="account balance or proposed order risk"):
         execute(service)
+    assert fake.sent == []
+
+
+def test_direct_entry_requires_validated_strategy_assessment():
+    fake = FakeMT5()
+    service = MT5ExecutionService(fake, enabled=True)
+    service.connected = True
+    with pytest.raises(RuntimeError, match="Validated strategy assessment"):
+        service.place_market_order("XAUUSD", "buy", 0.02, stop_loss=2490.0, take_profit=2520.0)
     assert fake.sent == []
