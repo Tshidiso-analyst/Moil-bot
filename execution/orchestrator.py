@@ -77,8 +77,12 @@ class MT5ExecutionService:
         if not self.is_connected():
             raise RuntimeError("MT5 is not connected.")
         canonical_xauusd_symbol(symbol)
+        symbol = str(symbol).strip().upper()
         if direction not in {"bullish", "bearish"}:
             raise ValueError(f"Unsupported direction: {direction}")
+        numeric_prices = (price, stop_loss, take_profit)
+        if not all(math.isfinite(float(value)) and float(value) > 0 for value in numeric_prices):
+            raise ValueError("Order prices must be finite and greater than zero.")
         if not math.isfinite(float(volume)) or not 0 < float(volume) <= 0.02:
             raise ValueError("Order volume must be greater than zero and no more than 0.02 lots.")
         account = self.mt5.account_info()
@@ -93,8 +97,16 @@ class MT5ExecutionService:
             raise RuntimeError(f"Broker symbol metadata or quote is unavailable for {symbol}.")
         point = float(getattr(info, "point", 0.0) or 0.0)
         stop_gap = float(getattr(info, "trade_stops_level", 0) or 0) * point
-        if point <= 0:
+        if not math.isfinite(point) or point <= 0:
             raise RuntimeError("Broker returned an invalid point size.")
+        current_price = float(tick.ask if direction == "bullish" else tick.bid)
+        if not math.isfinite(current_price) or current_price <= 0:
+            raise RuntimeError("Broker returned an invalid executable quote.")
+        if abs(current_price - float(price)) > max(20.0 * point, 0.0):
+            raise RuntimeError("Execution quote is stale; rebuild the plan using the latest broker price.")
+        disabled_mode = getattr(self.mt5, "SYMBOL_TRADE_MODE_DISABLED", None)
+        if disabled_mode is not None and getattr(info, "trade_mode", None) == disabled_mode:
+            raise RuntimeError(f"Broker has disabled trading for {symbol}.")
         if direction == "bullish":
             if not stop_loss < price < take_profit:
                 raise ValueError("BUY stop loss/entry/take profit levels are invalid.")
@@ -117,7 +129,7 @@ class MT5ExecutionService:
         risk_percent = abs(float(order_loss)) / balance * 100.0
         if not math.isfinite(risk_percent) or risk_percent > 1.0 + 1e-9:
             raise RuntimeError("Broker-calculated order risk exceeds the 1% per-trade limit.")
-        portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=self.magic)
+        portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=int(magic))
         if portfolio.daily_entries >= 10:
             raise RuntimeError(f"Daily entry limit reached: {portfolio.daily_entries}/10.")
         if portfolio.open_positions >= 3:
@@ -167,8 +179,11 @@ class MT5ExecutionService:
             raise RuntimeError(
                 f"MT5 order rejected: {self.mt5.last_error() if result is None else getattr(result, 'comment', '')}"
             )
+        ticket = int(getattr(result, "order", 0) or getattr(result, "deal", 0))
+        if ticket <= 0:
+            raise RuntimeError("MT5 reported order completion without a valid ticket.")
         return {
-            "ticket": int(getattr(result, "order", 0) or getattr(result, "deal", 0)),
+            "ticket": ticket,
             "retcode": int(result.retcode),
             "symbol": symbol,
             "direction": direction,
