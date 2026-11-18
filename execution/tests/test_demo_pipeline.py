@@ -169,11 +169,11 @@ def test_ten_bot_entries_in_new_york_day_block_an_eleventh():
     fake = FakeMT5()
     fake.history_deals_get = lambda start, end: [
         SimpleNamespace(
-            magic=731111, entry=FakeMT5.DEAL_ENTRY_IN,
+            magic=731111, entry=FakeMT5.DEAL_ENTRY_IN, order=1000 + i,
             type=FakeMT5.DEAL_TYPE_BUY, profit=0.0, commission=0.0,
             swap=0.0, fee=0.0,
         )
-        for _ in range(10)
+        for i in range(10)
     ]
     with pytest.raises(DemoExecutionError, match="Daily entry limit reached"):
         execute(fake)
