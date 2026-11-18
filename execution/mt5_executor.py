@@ -139,6 +139,18 @@ class MT5ExecutionService:
         info = self.mt5.symbol_info(symbol)
         if info is None:
             raise RuntimeError(f"Broker metadata unavailable for {symbol}.")
+        disabled_mode = getattr(self.mt5, "SYMBOL_TRADE_MODE_DISABLED", None)
+        if disabled_mode is not None and getattr(info, "trade_mode", None) == disabled_mode:
+            raise RuntimeError(f"Broker has disabled trading for {symbol}.")
+        volume_min = float(getattr(info, "volume_min", 0.0) or 0.0)
+        volume_max = float(getattr(info, "volume_max", 0.0) or 0.0)
+        volume_step = float(getattr(info, "volume_step", 0.0) or 0.0)
+        if not all(math.isfinite(value) and value > 0 for value in (volume_min, volume_max, volume_step)):
+            raise RuntimeError("Broker volume specifications are invalid.")
+        if float(volume) < volume_min or float(volume) > min(volume_max, 0.02):
+            raise ValueError("Volume is outside broker limits or the 0.02-lot ceiling.")
+        if not math.isclose(float(volume) / volume_step, round(float(volume) / volume_step), rel_tol=0.0, abs_tol=1e-8):
+            raise ValueError("Volume does not match the broker volume step.")
         point = float(getattr(info, "point", 0.0) or 0.0)
         if not math.isfinite(point) or point <= 0:
             raise RuntimeError("Broker point size is invalid.")
@@ -196,7 +208,7 @@ class MT5ExecutionService:
             )
 
         return {
-            "ticket": int(result.order),
+            "ticket": int(getattr(result, "order", 0) or getattr(result, "deal", 0)),
             "symbol": symbol,
             "direction": direction,
             "volume": float(volume),
