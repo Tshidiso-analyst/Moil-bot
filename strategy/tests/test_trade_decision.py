@@ -38,7 +38,7 @@ def install_context(monkeypatch, context=None):
 
 def test_assessment_exposes_confirmed_structure_liquidity_and_macro_checks(monkeypatch):
     install_context(monkeypatch)
-    result = TradeDecisionEngine().assess("XAUUSD", market_data())
+    result = TradeDecisionEngine().assess("XAUUSD", market_data(), high_impact_news=False)
     assert result.symbol == "XAUUSD"
     assert result.setup_valid is True
     assert result.confirmation is True
@@ -64,7 +64,7 @@ def test_assessment_blocks_high_impact_news(monkeypatch):
 def test_assessment_blocks_at_ten_daily_entries(monkeypatch):
     install_context(monkeypatch)
     result = TradeDecisionEngine().assess(
-        "XAUUSD", market_data(), current_daily_entries=10,
+        "XAUUSD", market_data(), current_daily_entries=10, high_impact_news=False,
     )
     assert result.setup_valid is False
     assert any("Daily entry limit reached" in reason for reason in result.reasons)
@@ -74,7 +74,7 @@ def test_assessment_requires_liquidity_confirmation(monkeypatch):
     context = valid_context()
     context.liquidity = []
     install_context(monkeypatch, context)
-    result = TradeDecisionEngine().assess("XAUUSD", market_data())
+    result = TradeDecisionEngine().assess("XAUUSD", market_data(), high_impact_news=False)
     assert result.liquidity_valid is False
     assert result.setup_valid is False
 
@@ -89,5 +89,5 @@ def test_assessment_rejects_invalid_fundamental_bias(monkeypatch):
 
 def test_assessment_accepts_broker_alias_but_returns_canonical_symbol(monkeypatch):
     install_context(monkeypatch)
-    result = TradeDecisionEngine().assess("XAUUSD.a", market_data())
+    result = TradeDecisionEngine().assess("XAUUSD.a", market_data(), high_impact_news=False)
     assert result.symbol == "XAUUSD"
