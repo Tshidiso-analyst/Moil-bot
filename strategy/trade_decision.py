@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+import math
 
 import pandas as pd
 
@@ -28,6 +28,10 @@ class TradeAssessment:
     max_open_trades: int = 3
     max_trades_per_day: int = 10
     max_position_volume: float = 0.02
+    structure_valid: bool = False
+    liquidity_valid: bool = False
+    macro_bias_valid: bool = False
+    high_impact_news: bool = False
 
 
 class TradeDecisionEngine:
@@ -54,6 +58,14 @@ class TradeDecisionEngine:
         high_impact_news: bool = False,
     ) -> TradeAssessment:
         symbol = canonicalize_symbol(symbol)
+        if fundamental_bias not in {"bullish", "bearish", "neutral"}:
+            raise ValueError("fundamental_bias must be bullish, bearish or neutral.")
+        try:
+            proposed_risk_percent = float(proposed_risk_percent)
+        except (TypeError, ValueError, OverflowError):
+            raise ValueError("proposed_risk_percent must be numeric.") from None
+        if not math.isfinite(proposed_risk_percent) or not 0 < proposed_risk_percent <= 1.0:
+            raise ValueError("proposed_risk_percent must be greater than 0 and no more than 1%.")
         if dataframe.empty:
             raise ValueError("dataframe must not be empty")
 
@@ -114,6 +126,9 @@ class TradeDecisionEngine:
                 reasons.append("Liquidity sweep is aligned with the intended directional move.")
 
         confirmation = confirmation_score >= self.min_confirmation_score and direction != "neutral"
+        structure_valid = direction != "neutral" and context.trend == direction and not context.distribution and not context.consolidation
+        liquidity_valid = bool(context.liquidity)
+        macro_bias_valid = fundamental_bias == "neutral" or fundamental_bias == direction
 
         if direction == "neutral":
             reasons.append("Direction is neutral after full market context analysis.")
@@ -134,6 +149,10 @@ class TradeDecisionEngine:
                 max_open_trades=self.risk_guard.max_open_trades,
                 max_trades_per_day=self.risk_guard.max_trades_per_day,
                 max_position_volume=self.risk_guard.max_position_volume,
+                structure_valid=False,
+                liquidity_valid=False,
+                macro_bias_valid=False,
+                high_impact_news=high_impact_news,
             )
 
         last_close = float(dataframe["close"].iloc[-1])
@@ -155,9 +174,9 @@ class TradeDecisionEngine:
             open_trades=open_trades,
             confirmation=confirmation,
             high_impact_news=high_impact_news,
-            structure_valid=True,
-            liquidity_valid=True,
-            macro_bias_valid=direction != "neutral",
+            structure_valid=structure_valid,
+            liquidity_valid=liquidity_valid,
+            macro_bias_valid=macro_bias_valid,
             current_daily_entries=current_daily_entries,
         )
 
@@ -182,6 +201,10 @@ class TradeDecisionEngine:
             max_open_trades=self.risk_guard.max_open_trades,
             max_trades_per_day=self.risk_guard.max_trades_per_day,
             max_position_volume=self.risk_guard.max_position_volume,
+            structure_valid=structure_valid,
+            liquidity_valid=liquidity_valid,
+            macro_bias_valid=macro_bias_valid,
+            high_impact_news=high_impact_news,
         )
 
 
