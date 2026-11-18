@@ -86,11 +86,11 @@ class DemoExecutionPipeline:
         except ValueError as exc:
             raise DemoExecutionError(str(exc)) from exc
         direction = str(direction or "").strip().lower()
-        if not confirmation:
+        if confirmation is not True:
             raise DemoExecutionError("Explicit demo-order confirmation is required.")
-        if not session_confirmed:
+        if session_confirmed is not True:
             raise DemoExecutionError("Confirm that this is within your permitted trading session.")
-        if not no_high_impact_news_confirmed:
+        if no_high_impact_news_confirmed is not True:
             raise DemoExecutionError("Confirm that no prohibited high-impact news event is active.")
         if not symbol:
             raise DemoExecutionError("A symbol is required.")
