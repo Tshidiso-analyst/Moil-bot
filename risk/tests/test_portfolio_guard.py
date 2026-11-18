@@ -63,3 +63,22 @@ def test_daily_limit_must_be_positive_integer(limit):
             [], candidate_timestamp="2026-06-10T14:00:00Z",
             max_trades_per_day=limit,
         )
+
+
+
+def test_daily_guard_rejects_limit_above_ten():
+    allowed, reason = portfolio_daily_trade_guard(
+        [], candidate_timestamp="2026-06-10T13:00:00Z",
+        max_trades_per_day=11,
+    )
+    assert allowed is False
+    assert "invalid" in reason.lower()
+
+
+def test_daily_guard_requires_new_york_calendar():
+    allowed, reason = portfolio_daily_trade_guard(
+        [], candidate_timestamp="2026-06-10T13:00:00Z",
+        timezone_name="UTC",
+    )
+    assert allowed is False
+    assert "America/New_York" in reason
