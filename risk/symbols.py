@@ -14,6 +14,8 @@ def canonicalize_symbol(symbol: str) -> str:
     Other instruments and ambiguous multi-symbol strings are rejected.
     """
     value = str(symbol or "").strip().upper()
+    if not value:
+        raise ValueError("Symbol must not be empty.")
     if not _XAUUSD_ALIAS.fullmatch(value):
         raise ValueError("Moil-bot currently supports XAUUSD only.")
     return "XAUUSD"
