@@ -97,8 +97,7 @@ def calculate_mt5_position_size(
     if not math.isfinite(float(final_pnl)) or float(final_pnl) >= 0:
         raise ValueError("Broker returned an invalid final stop-loss result.")
     estimated_loss = abs(float(final_pnl))
-    tolerance = max(0.01, float(risk_amount) * 0.001)
-    if not math.isfinite(estimated_loss) or estimated_loss > float(risk_amount) + tolerance:
+    if not math.isfinite(estimated_loss) or estimated_loss > float(risk_amount):
         raise ValueError("Broker-calculated position risk exceeds the configured risk budget.")
 
     return PositionSize(
