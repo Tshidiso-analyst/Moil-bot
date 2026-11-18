@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 import math
 
+from execution.authorization import require_strategy_authorization
 from risk.mt5_portfolio import build_mt5_portfolio_snapshot
 from risk.symbols import canonicalize_symbol
 
@@ -98,10 +99,12 @@ class MT5ExecutionService:
         take_profit: float | None = None,
         comment: str = "Moil-bot",
         magic: int = 731111,
+        assessment: Any | None = None,
     ) -> dict[str, Any]:
         self._require_connection()
         if not self.enabled:
             raise RuntimeError("MT5 order execution is disabled by default.")
+        require_strategy_authorization(assessment, symbol=symbol, direction=str(direction).lower())
 
         if isinstance(magic, bool) or not isinstance(magic, int) or magic <= 0:
             raise ValueError("magic must be a positive integer.")
