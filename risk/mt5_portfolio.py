@@ -36,6 +36,16 @@ def _number(value: Any, label: str, *, allow_zero: bool = False) -> float:
     return number
 
 
+def _signed_number(value: Any, label: str) -> float:
+    try:
+        number = float(value)
+    except (TypeError, ValueError, OverflowError):
+        raise PortfolioSnapshotError(f"Invalid {label} in MT5 response.") from None
+    if not math.isfinite(number):
+        raise PortfolioSnapshotError(f"Invalid {label} in MT5 response.")
+    return number
+
+
 def build_mt5_portfolio_snapshot(
     mt5: Any,
     *,
@@ -73,7 +83,10 @@ def build_mt5_portfolio_snapshot(
         if deals is None:
             raise PortfolioSnapshotError(f"MT5 deal history unavailable: {mt5.last_error()}")
 
-        entry_codes = {getattr(mt5, "DEAL_ENTRY_IN", 0)}
+        deal_entry_in = getattr(mt5, "DEAL_ENTRY_IN", None)
+        if deal_entry_in is None:
+            raise PortfolioSnapshotError("MT5 deal-entry constants are unavailable.")
+        entry_codes = {deal_entry_in}
         inout_code = getattr(mt5, "DEAL_ENTRY_INOUT", None)
         if inout_code is not None:
             entry_codes.add(inout_code)
@@ -148,8 +161,8 @@ def build_mt5_portfolio_snapshot(
                 )
             loss = _number(abs(float(pnl_at_stop)), f"{symbol} stop-loss exposure", allow_zero=True)
             exposure_amount += loss
-            floating_pnl += float(getattr(position, "profit", 0.0) or 0.0)
-            floating_pnl += float(getattr(position, "swap", 0.0) or 0.0)
+            floating_pnl += _signed_number(getattr(position, "profit", None), f"{symbol} floating profit")
+            floating_pnl += _signed_number(getattr(position, "swap", None), f"{symbol} swap")
 
         if not math.isfinite(floating_pnl) or not math.isfinite(exposure_amount):
             raise PortfolioSnapshotError("MT5 returned invalid open-position P&L or exposure.")
