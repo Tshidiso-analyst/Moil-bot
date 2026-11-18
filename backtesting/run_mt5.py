@@ -1,7 +1,7 @@
 """Run an exploratory SMC holdout backtest on completed candles from local MT5.
 
 Example (PowerShell):
-    python -m backtesting.run_mt5 --symbol XAUUSD --timeframe M15 --bars 3000 --stop-distance 0.0010 --spread 0.00010 --slippage 0.00002
+    python -m backtesting.run_mt5 --symbol XAUUSD --timeframe M15 --bars 3000 --stop-distance 10.0 --spread 0.10 --slippage 0.02
 
 No orders are submitted by this module.
 """
