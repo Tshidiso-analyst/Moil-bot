@@ -118,8 +118,9 @@ class DemoExecutionPipeline:
         if not bool(getattr(account, "trade_expert", False)):
             raise DemoExecutionError("Expert/automated trading is disabled in the MT5 account.")
         balance = float(getattr(account, "balance", 0.0) or 0.0)
+        equity = float(getattr(account, "equity", 0.0) or 0.0)
         free_margin = float(getattr(account, "margin_free", 0.0) or 0.0)
-        if not math.isfinite(balance) or balance <= 0 or not math.isfinite(free_margin) or free_margin <= 0:
+        if not all(math.isfinite(x) and x > 0 for x in (balance, equity, free_margin)):
             raise DemoExecutionError("Account balance or free margin is invalid.")
 
         try:
@@ -163,7 +164,7 @@ class DemoExecutionPipeline:
             if stop_loss - entry < stop_gap or entry - take_profit < stop_gap:
                 raise DemoExecutionError("Stop loss or take profit is inside the broker's minimum stop distance.")
 
-        risk_amount = balance * risk_percent / 100.0
+        risk_amount = min(balance, equity) * risk_percent / 100.0
         one_lot_result = self.mt5.order_calc_profit(order_type, symbol, 1.0, entry, stop_loss)
         if one_lot_result is None:
             raise DemoExecutionError(f"Broker could not calculate stop-loss value: {self.mt5.last_error()}")
@@ -190,7 +191,7 @@ class DemoExecutionPipeline:
         if actual_loss_result is None:
             raise DemoExecutionError("Broker could not verify the final position risk.")
         estimated_loss = abs(float(actual_loss_result))
-        if not math.isfinite(estimated_loss) or estimated_loss > risk_amount + max(0.01, risk_amount * 0.001):
+        if not math.isfinite(estimated_loss) or estimated_loss > risk_amount:
             raise DemoExecutionError("Final position size exceeds the configured risk budget.")
 
         margin = self.mt5.order_calc_margin(order_type, symbol, volume_float, entry)
