@@ -10,6 +10,7 @@ from dashboard.paper_trading import paper_snapshot, page
 class FakeMT5:
     ACCOUNT_TRADE_MODE_DEMO = 0
     TIMEFRAME_M15 = 15
+    TIMEFRAME_H1 = 60
     ORDER_TYPE_BUY = 0
     ORDER_TYPE_SELL = 1
 
@@ -49,6 +50,8 @@ def test_read_only_snapshot_and_html():
     data = paper_snapshot(fake)
     assert data["execution"] == "DISABLED"
     assert data["risk_budget"] == 5
+    assert data["smc"]["execution_ready"] is False
+    assert data["trades"] == []
     assert b"MT5 ORDERS: DISABLED" in page(data)
     assert fake.sent == []
 
