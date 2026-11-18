@@ -91,6 +91,18 @@ def page(snapshot, error=None):
                         + "".join("<p>" + esc(tf) + ": " + esc(details.get("bias", "unknown")) + "</p>"
                                   for tf, details in topdown.get("timeframes", {}).items())
                         + "".join("<p>" + esc(reason) + "</p>" for reason in topdown.get("reasons", [])))
+        next_html = ("<h3>What Moil-bot is waiting for</h3>"
+                     + "".join("<p>" + esc(message) + "</p>"
+                               for message in topdown.get("next_checks", [])))
+        level_html = "<h3>Confirmed reference levels (not trade signals)</h3>"
+        for tf, details in topdown.get("timeframes", {}).items():
+            high = details.get("last_confirmed_swing_high")
+            low = details.get("last_confirmed_swing_low")
+            if high is not None and low is not None:
+                level_html += ("<p>" + esc(tf) + " high: " + f"{high:.3f}"
+                               + " | low: " + f"{low:.3f}" + "</p>")
+        if not topdown.get("next_checks"):
+            next_html += "<p>Waiting for enough valid closed candles to evaluate the setup.</p>"
         rows = "".join(
             "<tr>" + "".join(f"<td>{esc(str(t.get(k, '-')))}</td>" for k in
             ("side", "entry_time", "entry", "stop", "target", "status", "pnl")) + "</tr>"
@@ -101,7 +113,7 @@ def page(snapshot, error=None):
                 f"1% risk budget: {snapshot['risk_budget']:.2f} {esc(snapshot['currency'])}</p>"
                 f"<p><strong>MT5 ORDERS: DISABLED</strong></p>"
                 f"<p>{esc(snapshot['note'])}</p>"
-                + topdown_html + smc_html +
+                + topdown_html + level_html + next_html + smc_html +
                 "<table><tr><th>Side</th><th>Entry UTC</th><th>Entry</th><th>Stop</th>"
                 "<th>Target</th><th>Status</th><th>Gross P/L</th></tr>"
                 + rows + "</table>"
