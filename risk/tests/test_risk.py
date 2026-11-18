@@ -437,3 +437,19 @@ def test_risk_limits_cannot_exceed_user_defined_platform_caps(field, value):
 
     with pytest.raises(ValueError):
         validate_risk_limits(replace(default_limits(), **{field: value}))
+
+
+
+def test_trade_guard_rejects_non_boolean_confirmation_flags():
+    guard = TradeGuard()
+    with pytest.raises(ValueError, match="confirmation must be a boolean"):
+        guard.evaluate(
+            proposed_risk_percent=1.0,
+            daily_loss_percent=0.0,
+            open_trades=0,
+            confirmation="true",
+            high_impact_news=False,
+            structure_valid=True,
+            liquidity_valid=True,
+            macro_bias_valid=True,
+        )
