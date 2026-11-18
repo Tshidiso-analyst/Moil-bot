@@ -478,7 +478,17 @@ def analysis_page(query: dict[str, list[str]]) -> str:
 def trades_page() -> str:
     if not SESSION.get("connected"):
         return nav_layout("Trades", connection_form("Connect an MT5 account to view live positions."), "Trades")
-    positions = mt5_service.positions()
+    try:
+        positions = mt5_service.positions()
+    except RuntimeError as exc:
+        content = f"""
+        <div class="card">
+            <h3>Live MT5 Positions Unavailable</h3>
+            <p>{esc(exc)}</p>
+            <p class="muted">The dashboard will not report an unverified position count as zero.</p>
+        </div>
+        """
+        return nav_layout("Trades", content, "Trades")
     rows = "".join(
         f"""
         <tr>
