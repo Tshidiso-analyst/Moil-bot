@@ -1,4 +1,5 @@
 from types import SimpleNamespace
+import time
 
 import pytest
 
@@ -33,7 +34,7 @@ class FakeMT5:
             visible=True, point=0.01, trade_stops_level=10,
             trade_mode=4, volume_min=0.01, volume_max=100.0, volume_step=0.01,
         )
-        self.tick = SimpleNamespace(bid=2500.0, ask=2500.2)
+        self.tick = SimpleNamespace(bid=2500.0, ask=2500.2, time=time.time())
         self.sent = []
 
     def account_info(self):
@@ -183,4 +184,24 @@ def test_direct_entry_rejects_high_impact_news():
     assessment.high_impact_news = True
     with pytest.raises(RuntimeError, match="high-impact news"):
         execute(service, assessment=assessment)
+    assert fake.sent == []
+
+
+def test_direct_entry_rejects_stale_quote():
+    fake = FakeMT5()
+    fake.tick.time = time.time() - 120
+    service = MT5ExecutionService(fake, enabled=True)
+    service.connected = True
+    with pytest.raises(RuntimeError, match="quote is stale"):
+        execute(service)
+    assert fake.sent == []
+
+
+def test_direct_entry_rejects_missing_tick_time():
+    fake = FakeMT5()
+    del fake.tick.time
+    service = MT5ExecutionService(fake, enabled=True)
+    service.connected = True
+    with pytest.raises(RuntimeError, match="timestamp is unavailable"):
+        execute(service)
     assert fake.sent == []
