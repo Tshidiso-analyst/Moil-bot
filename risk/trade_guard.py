@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from risk.limits import can_open_trade
+from risk.limits import can_open_trade, validate_risk_limits
 from risk.models import RiskLimits
 
 
@@ -22,17 +22,26 @@ class TradeGuard:
         max_open_trades: int = 3,
         max_total_exposure_percent: float = 3.0,
         max_daily_loss: float = 5.0,
+        max_trades_per_day: int = 10,
+        max_position_volume: float = 0.02,
+        trading_timezone: str = "America/New_York",
     ):
         self.max_risk_per_trade = float(max_risk_per_trade)
         self.max_open_trades = int(max_open_trades)
         self.max_total_exposure_percent = float(max_total_exposure_percent)
         self.max_daily_loss = float(max_daily_loss)
+        self.max_trades_per_day = int(max_trades_per_day)
+        self.max_position_volume = float(max_position_volume)
         self.limits = RiskLimits(
             max_risk_per_trade_percent=self.max_risk_per_trade,
             max_open_trades=self.max_open_trades,
             max_total_exposure_percent=self.max_total_exposure_percent,
             max_daily_loss_percent=self.max_daily_loss,
+            max_trades_per_day=self.max_trades_per_day,
+            max_position_volume=self.max_position_volume,
+            trading_timezone=trading_timezone,
         )
+        validate_risk_limits(self.limits)
 
     def evaluate(
         self,
@@ -46,19 +55,16 @@ class TradeGuard:
         liquidity_valid: bool,
         macro_bias_valid: bool,
         current_exposure_percent: float = 0.0,
+        current_daily_entries: int = 0,
     ) -> GuardDecision:
         if not confirmation:
             return GuardDecision(False, "Trade setup is not confirmed.")
-
         if not structure_valid:
             return GuardDecision(False, "Market structure check failed.")
-
         if not liquidity_valid:
             return GuardDecision(False, "Liquidity context is not valid.")
-
         if not macro_bias_valid:
             return GuardDecision(False, "Macro bias is not aligned with the trade idea.")
-
         if high_impact_news:
             return GuardDecision(False, "High-impact news is active; no new execution is allowed.")
 
@@ -68,29 +74,20 @@ class TradeGuard:
             current_exposure_percent=current_exposure_percent,
             proposed_risk_percent=proposed_risk_percent,
             daily_loss_percent=daily_loss_percent,
+            current_daily_entries=current_daily_entries,
         ):
-            reason = "Risk guard rejected the trade."
-
             if open_trades >= self.max_open_trades:
-                reason = (
-                    f"Open trade limit reached: {open_trades}/{self.max_open_trades}."
-                )
-            elif (
-                current_exposure_percent + proposed_risk_percent
-                > self.max_total_exposure_percent
-            ):
-                reason = (
-                    "Total exposure would exceed the maximum allowed exposure percent."
-                )
+                reason = f"Open trade limit reached: {open_trades}/{self.max_open_trades}."
+            elif current_daily_entries >= self.max_trades_per_day:
+                reason = f"Daily entry limit reached: {current_daily_entries}/{self.max_trades_per_day} New York trading-day entries."
+            elif current_exposure_percent + proposed_risk_percent > self.max_total_exposure_percent:
+                reason = "Total exposure would exceed the maximum allowed exposure percent."
             elif daily_loss_percent >= self.max_daily_loss:
-                reason = (
-                    "Daily loss threshold is already at or above the allowed limit."
-                )
+                reason = "Daily loss threshold is already at or above the allowed limit."
             elif proposed_risk_percent > self.max_risk_per_trade:
-                reason = (
-                    "Proposed trade risk exceeds the maximum allowed risk per trade."
-                )
-
+                reason = "Proposed trade risk exceeds the maximum allowed risk per trade."
+            else:
+                reason = "Risk guard rejected the trade."
             return GuardDecision(False, reason)
 
         return GuardDecision(True, "Risk checks passed.")
