@@ -4,7 +4,8 @@ from types import SimpleNamespace
 
 import pandas as pd
 
-from execution.orchestrator import TradeExecutionOrchestrator
+from execution.orchestrator import TradeExecutionOrchestrator, MT5ExecutionService
+import pytest
 
 
 class FakeMT5:
@@ -313,4 +314,26 @@ def test_orchestrator_rechecks_demo_account_after_order_check():
     )
     assert result.status == "rejected"
     assert "DEMO mode changed" in result.reason
+    assert fake.sent == []
+
+def test_broker_adapter_rejects_direct_order_without_assessment():
+    fake = FakeMT5()
+    adapter = MT5ExecutionService(mt5_module=fake, enabled=True)
+    with pytest.raises(RuntimeError, match="Validated strategy assessment"):
+        adapter.open_market_order(
+            symbol="XAUUSD.a", direction="bullish", volume=0.02,
+            price=2500.2, stop_loss=2485.0, take_profit=2530.6,
+        )
+    assert fake.sent == []
+
+
+def test_broker_adapter_rejects_direct_order_with_unconfirmed_assessment():
+    fake = FakeMT5()
+    adapter = MT5ExecutionService(mt5_module=fake, enabled=True)
+    with pytest.raises(RuntimeError, match="confirmation or safety checks"):
+        adapter.open_market_order(
+            symbol="XAUUSD.a", direction="bullish", volume=0.02,
+            price=2500.2, stop_loss=2485.0, take_profit=2530.6,
+            assessment=assessment(confirmation=False),
+        )
     assert fake.sent == []
