@@ -34,6 +34,7 @@ class FakeMT5:
             trade_allowed=True,
             trade_expert=True,
             balance=10_000.0,
+            equity=10_000.0,
             margin_free=5_000.0,
         )
         self.info = SimpleNamespace(
