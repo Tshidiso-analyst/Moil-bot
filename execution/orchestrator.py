@@ -179,9 +179,7 @@ class MT5ExecutionService:
             raise RuntimeError(
                 f"MT5 order rejected: {self.mt5.last_error() if result is None else getattr(result, 'comment', '')}"
             )
-        ticket = int(getattr(result, "order", 0) or getattr(result, "deal", 0))
-        if ticket <= 0:
-            raise RuntimeError("MT5 reported order completion without a valid ticket.")
+        ticket = int(getattr(result, "order", 0) or getattr(result, "deal", 0)) or None
         return {
             "ticket": ticket,
             "retcode": int(result.retcode),
@@ -402,9 +400,9 @@ class TradeExecutionOrchestrator:
                     comment=comment,
                 )
                 return ExecutionResult(
-                    plan.symbol, int(result["ticket"]), plan.direction,
+                    plan.symbol, result.get("ticket"), plan.direction,
                     float(plan.order["volume"]), float(plan.order["entry"]),
-                    "accepted", "DEMO order accepted by MT5.", result.get("request"),
+                    "accepted", ("DEMO order accepted by MT5." if result.get("ticket") else "MT5 accepted the DEMO order but returned no ticket; reconcile the account history before any retry."), result.get("request"),
                 )
             except Exception as exc:
                 return ExecutionResult(
