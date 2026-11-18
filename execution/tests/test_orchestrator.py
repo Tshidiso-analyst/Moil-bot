@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import time
 from types import SimpleNamespace
 
 import pandas as pd
@@ -35,7 +36,7 @@ class FakeMT5:
             volume_min=0.01, volume_max=100.0, volume_step=0.01,
             trade_stops_level=10,
         )
-        self.tick = SimpleNamespace(bid=2500.0, ask=2500.2)
+        self.tick = SimpleNamespace(bid=2500.0, ask=2500.2, time=time.time())
         self.positions = []
         self.deals = []
         self.sent = []
@@ -255,3 +256,61 @@ def test_plan_fails_closed_when_equity_unavailable():
     result = plan(orchestrator)
     assert result.allowed is False
     assert "equity is invalid" in result.reason
+
+def test_orchestrator_blocks_stale_tick_before_order_send():
+    orchestrator, fake = make_orchestrator(allow_execution=True)
+    fake.tick.time = time.time() - 120
+    result = orchestrator.execute(
+        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish",
+        assessment=assessment(), proposed_risk_percent=1.0,
+        daily_loss_percent=0.0, current_exposure_percent=0.0,
+        account_balance=10_000.0, risk_percent=1.0, magic=731111,
+    )
+    assert result.status == "blocked"
+    assert "stale" in result.reason
+    assert fake.sent == []
+
+
+def test_orchestrator_rechecks_portfolio_after_order_check():
+    orchestrator, fake = make_orchestrator(allow_execution=True)
+    original = fake.order_check
+
+    def changed_portfolio(request):
+        fake.deals = [
+            SimpleNamespace(magic=731111, entry=FakeMT5.DEAL_ENTRY_IN,
+                            order=1000 + i, type=FakeMT5.DEAL_TYPE_BUY,
+                            profit=0, commission=0, swap=0, fee=0)
+            for i in range(10)
+        ]
+        return original(request)
+
+    fake.order_check = changed_portfolio
+    result = orchestrator.execute(
+        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish",
+        assessment=assessment(), proposed_risk_percent=1.0,
+        daily_loss_percent=0.0, current_exposure_percent=0.0,
+        account_balance=10_000.0, risk_percent=1.0, magic=731111,
+    )
+    assert result.status == "rejected"
+    assert "Portfolio limits changed" in result.reason
+    assert fake.sent == []
+
+
+def test_orchestrator_rechecks_demo_account_after_order_check():
+    orchestrator, fake = make_orchestrator(allow_execution=True)
+    original = fake.order_check
+
+    def changed_account(request):
+        fake.account.trade_mode = 2
+        return original(request)
+
+    fake.order_check = changed_account
+    result = orchestrator.execute(
+        symbol="XAUUSD.a", dataframe=market_data(), fundamental_bias="bullish",
+        assessment=assessment(), proposed_risk_percent=1.0,
+        daily_loss_percent=0.0, current_exposure_percent=0.0,
+        account_balance=10_000.0, risk_percent=1.0, magic=731111,
+    )
+    assert result.status == "rejected"
+    assert "DEMO mode changed" in result.reason
+    assert fake.sent == []
