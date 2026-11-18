@@ -205,3 +205,34 @@ def test_direct_entry_rejects_missing_tick_time():
     with pytest.raises(RuntimeError, match="timestamp is unavailable"):
         execute(service)
     assert fake.sent == []
+
+
+def test_direct_order_rechecks_account_after_order_check():
+    fake = FakeMT5()
+    service = MT5ExecutionService(fake, enabled=True)
+    service.connected = True
+    def change_account(request):
+        fake.account.trade_mode = fake.ACCOUNT_TRADE_MODE_REAL
+        return SimpleNamespace(retcode=0)
+    fake.order_check = change_account
+    with pytest.raises(RuntimeError, match="changed before submission"):
+        execute(service)
+    assert fake.sent == []
+
+
+def test_direct_order_rechecks_portfolio_after_order_check():
+    fake = FakeMT5()
+    service = MT5ExecutionService(fake, enabled=True)
+    service.connected = True
+    def change_history(request):
+        fake.history_deals_get = lambda start, end: [SimpleNamespace(
+            time=int(time.time()), entry=fake.DEAL_ENTRY_IN,
+            type=fake.DEAL_TYPE_BUY, symbol="XAUUSD.a", magic=731111,
+            profit=0.0, commission=0.0, swap=0.0, fee=0.0,
+            order=i + 1, ticket=i + 1,
+        ) for i in range(10)]
+        return SimpleNamespace(retcode=0)
+    fake.order_check = change_history
+    with pytest.raises(RuntimeError, match="Portfolio risk limits changed"):
+        execute(service)
+    assert fake.sent == []
