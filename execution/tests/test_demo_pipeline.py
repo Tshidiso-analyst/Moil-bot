@@ -11,6 +11,8 @@ class FakeMT5:
     SYMBOL_TRADE_MODE_DISABLED = 0
     ORDER_TYPE_BUY = 0
     ORDER_TYPE_SELL = 1
+    POSITION_TYPE_BUY = 0
+    POSITION_TYPE_SELL = 1
     TRADE_ACTION_DEAL = 1
     ORDER_TIME_GTC = 0
     ORDER_FILLING_RETURN = 2
@@ -20,8 +22,6 @@ class FakeMT5:
     DEAL_ENTRY_INOUT = 2
     DEAL_TYPE_BUY = 0
     DEAL_TYPE_SELL = 1
-    POSITION_TYPE_BUY = 0
-    POSITION_TYPE_SELL = 1
 
     def __init__(self, *, trade_mode=0, check_code=0):
         self.sent = []
@@ -34,6 +34,7 @@ class FakeMT5:
             margin_free=5_000.0,
         )
         self.info = SimpleNamespace(
+            name="XAUUSD",
             trade_mode=4,
             point=0.01,
             digits=2,
@@ -69,7 +70,9 @@ class FakeMT5:
         return self.tick
 
     def order_calc_profit(self, order_type, symbol, volume, entry, stop):
-        return (stop - entry) * 100 * volume if order_type == self.ORDER_TYPE_BUY else (entry - stop) * 100 * volume
+        if order_type == self.ORDER_TYPE_BUY:
+            return (stop - entry) * 100 * volume
+        return (entry - stop) * 100 * volume
 
     def order_calc_margin(self, order_type, symbol, volume, entry):
         return 100.0 * volume
@@ -79,7 +82,13 @@ class FakeMT5:
 
     def order_send(self, request):
         self.sent.append(request)
-        return SimpleNamespace(retcode=self.TRADE_RETCODE_DONE, order=12345, deal=12345, price=request["price"], comment="filled")
+        return SimpleNamespace(
+            retcode=self.TRADE_RETCODE_DONE,
+            order=12345,
+            deal=12345,
+            price=request["price"],
+            comment="filled",
+        )
 
 
 def execute(fake, **overrides):
@@ -100,10 +109,9 @@ def execute(fake, **overrides):
 def test_demo_order_is_sized_from_broker_profit_calculation_and_sent():
     fake = FakeMT5()
     result = execute(fake)
-
     assert result.status == "accepted"
     assert result.ticket == 12345
-    assert result.volume == pytest.approx(0.02)  # conservative floor avoids exceeding the 1% cap
+    assert result.volume == pytest.approx(0.02)
     assert result.estimated_loss <= result.risk_amount
     assert result.request["sl"] == 2499.2
     assert result.request["tp"] == 2502.2
@@ -112,10 +120,8 @@ def test_demo_order_is_sized_from_broker_profit_calculation_and_sent():
 
 def test_real_account_is_hard_blocked_before_order_send():
     fake = FakeMT5(trade_mode=FakeMT5.ACCOUNT_TRADE_MODE_REAL)
-
     with pytest.raises(DemoExecutionError, match="only on an MT5 DEMO"):
         execute(fake)
-
     assert fake.sent == []
 
 
@@ -131,61 +137,60 @@ def test_real_account_is_hard_blocked_before_order_send():
 )
 def test_required_safety_confirmations_and_levels_are_enforced(overrides, message):
     fake = FakeMT5()
-
     with pytest.raises(DemoExecutionError, match=message):
         execute(fake, **overrides)
-
     assert fake.sent == []
 
 
 def test_order_check_rejection_prevents_order_send():
     fake = FakeMT5(check_code=10016)
-
     with pytest.raises(DemoExecutionError, match="order_check rejected"):
         execute(fake)
-
     assert fake.sent == []
 
 
-def test_existing_position_blocks_second_trade():
+def test_three_existing_positions_block_a_fourth_trade():
     fake = FakeMT5()
-    fake.positions_get = lambda: [\n        SimpleNamespace(ticket=i, symbol="XAUUSD", volume=0.01, price_open=2500.0, sl=2499.0, type=FakeMT5.POSITION_TYPE_BUY)\n        for i in range(3)\n    ]
-
+    fake.positions_get = lambda: [
+        SimpleNamespace(
+            ticket=i, symbol="XAUUSD", volume=0.01, price_open=2500.0,
+            sl=2499.0, type=FakeMT5.POSITION_TYPE_BUY, profit=0.0, swap=0.0,
+        )
+        for i in range(3)
+    ]
     with pytest.raises(DemoExecutionError, match="Maximum open positions"):
         execute(fake)
-
     assert fake.sent == []
 
 
-def test_tenth_bot_entry_in_new_york_day_blocks_an_eleventh():
+def test_ten_bot_entries_in_new_york_day_block_an_eleventh():
     fake = FakeMT5()
     fake.history_deals_get = lambda start, end: [
-        SimpleNamespace(magic=731111, entry=FakeMT5.DEAL_ENTRY_IN)
+        SimpleNamespace(
+            magic=731111, entry=FakeMT5.DEAL_ENTRY_IN,
+            type=FakeMT5.DEAL_TYPE_BUY, profit=0.0, commission=0.0,
+            swap=0.0, fee=0.0,
+        )
+        for _ in range(10)
     ]
-
     with pytest.raises(DemoExecutionError, match="Daily entry limit reached"):
         execute(fake)
-
     assert fake.sent == []
 
 
 def test_minimum_lot_is_not_forced_when_it_would_exceed_risk_budget():
     fake = FakeMT5()
     fake.order_calc_profit = lambda order_type, symbol, volume, entry, stop: -100_000_000.0 * volume
-
     with pytest.raises(DemoExecutionError, match="below broker minimum"):
         execute(fake)
-
     assert fake.sent == []
 
 
 def test_insufficient_margin_blocks_order_before_send():
     fake = FakeMT5()
     fake.order_calc_margin = lambda order_type, symbol, volume, entry: 6_000.0
-
     with pytest.raises(DemoExecutionError, match="Insufficient free margin"):
         execute(fake)
-
     assert fake.sent == []
 
 
@@ -196,9 +201,7 @@ def test_broker_filling_flags_select_supported_order_type():
     fake.ORDER_FILLING_FOK = 0
     fake.ORDER_FILLING_IOC = 1
     fake.info.filling_mode = fake.SYMBOL_FILLING_IOC
-
     result = execute(fake)
-
     assert result.request["type_filling"] == fake.ORDER_FILLING_IOC
 
 
