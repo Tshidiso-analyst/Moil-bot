@@ -56,7 +56,15 @@ def can_open_trade(
     if isinstance(current_daily_entries, bool) or not isinstance(current_daily_entries, Integral) or current_daily_entries < 0:
         raise ValueError("current_daily_entries must be a non-negative integer.")
     metrics = (current_exposure_percent, proposed_risk_percent, daily_loss_percent)
-    if any(isinstance(value, bool) for value in metrics) or not all(math.isfinite(float(value)) for value in metrics):
+    if any(isinstance(value, bool) for value in metrics):
+        raise ValueError("Risk percentages must be finite numbers.")
+    try:
+        current_exposure_percent, proposed_risk_percent, daily_loss_percent = (
+            float(value) for value in metrics
+        )
+    except (TypeError, ValueError, OverflowError):
+        raise ValueError("Risk percentages must be finite numbers.") from None
+    if not all(math.isfinite(value) for value in (current_exposure_percent, proposed_risk_percent, daily_loss_percent)):
         raise ValueError("Risk percentages must be finite numbers.")
     if current_exposure_percent < 0:
         raise ValueError("current_exposure_percent cannot be negative.")
