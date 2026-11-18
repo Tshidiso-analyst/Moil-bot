@@ -248,6 +248,40 @@ class DemoExecutionPipeline:
                 f"comment={getattr(checked, 'comment', '')}"
             )
 
+        # A successful order_check is not permission to ignore later account changes.
+        latest_account = self.mt5.account_info()
+        if (latest_account is None
+                or getattr(latest_account, "trade_mode", None) != demo_mode
+                or not bool(getattr(latest_account, "trade_allowed", False))
+                or not bool(getattr(latest_account, "trade_expert", False))):
+            raise DemoExecutionError("DEMO account mode or permissions changed before submission.")
+        latest_tick = self.mt5.symbol_info_tick(symbol)
+        try:
+            require_fresh_tick(latest_tick)
+        except RuntimeError as exc:
+            raise DemoExecutionError(str(exc)) from exc
+        latest_entry = float(latest_tick.ask if direction == "bullish" else latest_tick.bid)
+        point = float(getattr(info, "point", 0.0) or 0.0)
+        if not math.isfinite(latest_entry) or latest_entry <= 0 or not math.isfinite(point) or point <= 0:
+            raise DemoExecutionError("Broker quote or point size became invalid.")
+        if abs(latest_entry - entry) > 20 * point:
+            raise DemoExecutionError("Broker quote moved before submission.")
+        latest_balance = float(getattr(latest_account, "balance", 0.0) or 0.0)
+        latest_equity = float(getattr(latest_account, "equity", 0.0) or 0.0)
+        latest_free_margin = float(getattr(latest_account, "margin_free", 0.0) or 0.0)
+        if (not all(math.isfinite(x) and x > 0 for x in (latest_balance, latest_equity, latest_free_margin))
+                or abs(float(estimated_loss)) > min(latest_balance, latest_equity) * 0.01
+                or margin_required > latest_free_margin):
+            raise DemoExecutionError("Risk budget or margin changed before submission.")
+        try:
+            latest_portfolio = build_mt5_portfolio_snapshot(self.mt5, magic=self.magic)
+        except (PortfolioSnapshotError, ValueError) as exc:
+            raise DemoExecutionError(f"Cannot verify portfolio before submission: {exc}") from exc
+        latest_risk_pct = abs(float(estimated_loss)) / min(latest_balance, latest_equity) * 100.0
+        if (latest_portfolio.daily_entries >= 10 or latest_portfolio.open_positions >= 3
+                or latest_portfolio.daily_loss_percent >= 5.0
+                or latest_portfolio.exposure_percent + latest_risk_pct > 3.0):
+            raise DemoExecutionError("Portfolio limits changed before submission.")
         result = self.mt5.order_send(request)
         if result is None:
             raise DemoExecutionError(f"MT5 order_send returned no result: {self.mt5.last_error()}")
