@@ -170,12 +170,13 @@ class MT5ExecutionService:
             raise ValueError("Order levels violate the broker minimum stop distance.")
         order_loss = self.mt5.order_calc_profit(mt5_direction, symbol, float(volume), price, stop_loss)
         balance = float(getattr(account, "balance", 0.0) or 0.0)
-        if order_loss is None or not math.isfinite(balance) or balance <= 0:
+        equity = float(getattr(account, "equity", 0.0) or 0.0)
+        if order_loss is None or not all(math.isfinite(x) and x > 0 for x in (balance, equity)):
             raise RuntimeError("Broker could not verify account balance or proposed order risk.")
         if not math.isfinite(float(order_loss)) or float(order_loss) >= 0:
             raise RuntimeError("Broker returned a non-loss result for the proposed stop loss.")
-        risk_percent = abs(float(order_loss)) / balance * 100.0
-        if not math.isfinite(risk_percent) or risk_percent > 1.0 + 1e-9:
+        risk_percent = abs(float(order_loss)) / min(balance, equity) * 100.0
+        if not math.isfinite(risk_percent) or risk_percent > 1.0:
             raise RuntimeError("Broker-calculated order risk exceeds the 1% per-trade limit.")
         margin = self.mt5.order_calc_margin(mt5_direction, symbol, float(volume), price)
         free_margin = float(getattr(account, "margin_free", 0.0) or 0.0)
