@@ -7,6 +7,7 @@ import pandas as pd
 
 from analysis.smc_patterns import analyze_market_context
 from risk.trade_guard import TradeGuard
+from risk.symbols import canonicalize_symbol
 
 
 @dataclass(frozen=True)
@@ -24,7 +25,9 @@ class TradeAssessment:
     risk_percent: float
     max_risk_per_trade: float = 1.0
     max_daily_loss: float = 5.0
-    max_open_trades: int = 10
+    max_open_trades: int = 3
+    max_trades_per_day: int = 10
+    max_position_volume: float = 0.02
 
 
 class TradeDecisionEngine:
@@ -47,8 +50,10 @@ class TradeDecisionEngine:
         proposed_risk_percent: float = 0.5,
         daily_loss_percent: float = 0.0,
         open_trades: int = 0,
+        current_daily_entries: int = 0,
         high_impact_news: bool = False,
     ) -> TradeAssessment:
+        symbol = canonicalize_symbol(symbol)
         if dataframe.empty:
             raise ValueError("dataframe must not be empty")
 
@@ -127,6 +132,8 @@ class TradeDecisionEngine:
                 max_risk_per_trade=self.risk_guard.max_risk_per_trade,
                 max_daily_loss=self.risk_guard.max_daily_loss,
                 max_open_trades=self.risk_guard.max_open_trades,
+                max_trades_per_day=self.risk_guard.max_trades_per_day,
+                max_position_volume=self.risk_guard.max_position_volume,
             )
 
         last_close = float(dataframe["close"].iloc[-1])
@@ -172,6 +179,8 @@ class TradeDecisionEngine:
             max_risk_per_trade=self.risk_guard.max_risk_per_trade,
             max_daily_loss=self.risk_guard.max_daily_loss,
             max_open_trades=self.risk_guard.max_open_trades,
+            max_trades_per_day=self.risk_guard.max_trades_per_day,
+            max_position_volume=self.risk_guard.max_position_volume,
         )
 
 
