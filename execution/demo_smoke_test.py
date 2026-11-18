@@ -11,7 +11,7 @@ import os
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Moil-bot DEMO order smoke test")
-    parser.add_argument("--symbol", required=True, help="Exact broker symbol, including any suffix")
+    parser.add_argument("--symbol", required=True, help="XAUUSD broker symbol, including any suffix")
     parser.add_argument("--direction", required=True, choices=("bullish", "bearish"))
     parser.add_argument("--stop-loss", required=True, type=float)
     parser.add_argument("--take-profit", required=True, type=float)
@@ -54,7 +54,7 @@ def main() -> int:
             f"Server: {getattr(account, 'server', 'unknown')} | "
             f"Trade mode: {getattr(account, 'trade_mode', 'unknown')}"
         )
-        result = DemoExecutionPipeline(mt5).execute_market_order(
+        result = DemoExecutionPipeline(mt5, enabled=True).execute_market_order(
             symbol=args.symbol,
             direction=args.direction,
             stop_loss=args.stop_loss,
