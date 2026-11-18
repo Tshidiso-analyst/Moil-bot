@@ -9,7 +9,7 @@ def main() -> int:
         print("MetaTrader5 is not installed. Run this diagnostic on the Windows trading workstation.")
         return 2
 
-    mt5_path = r"C:\\Program Files\\MetaTrader 5\\terminal64.exe"
+    mt5_path = r"C:\Program Files\MetaTrader 5\terminal64.exe"
     if not mt5.initialize(path=mt5_path):
         print("MT5 connection failed:", mt5.last_error())
         return 1
