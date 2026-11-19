@@ -57,3 +57,10 @@ E. Only then consider persistent paper-trading simulation.
 5. Run reproducible January-2026-onward historical backtest with verified broker data, training/validation/holdout split, 1%-vs-2% comparison and clear limitations.
 6. **Only after tests pass**, fast-forward the local Windows checkout using `git pull --ff-only origin codex/xauusd-market-data-safety` and run focused and full regression suites. Do not treat a GitHub commit as proof the local VS Code checkout is updated.
 7. No real or demo MT5 broker orders from historical replay; any future demo order-execution feature requires separate design, tests and explicit authorization.
+
+## User-defined R500 to R20,000 research challenge
+- Historical replay initial virtual account **ZAR 500** and aspirational target **ZAR 20,000** (40x initial capital; +3,900% cumulative return). This is a measurement target, not a promised result, minimum performance requirement, or justification for higher risk.
+- Start historical replay at 2026-01-01, with earlier candles as warmup where available. Record the first timestamp the simulated **net liquidation equity** reaches or exceeds ZAR 20,000, if ever; otherwise report not reached. Do not confuse unrealized peak equity with withdrawable realized balance.
+- Report target progress, net return, time to target, peak-to-trough drawdown, number of trades, risk of ruin and sensitivity to broker costs. Compare 1% vs proposed 2% per-trade risk with combined POI budget and all existing portfolio constraints.
+- No doubling down, martingale, revenge trading, forced signals, or risk-limit relaxation to reach target. If minimum broker volume would exceed the R10 2%-risk allowance on ZAR 500, reject that trade and show the reason.
+- Replay remains simulated and does not submit MT5 broker orders. Performance from historical data does not establish future profitability.
