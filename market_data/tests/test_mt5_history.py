@@ -78,7 +78,7 @@ def test_history_fetch_resolves_broker_alias_but_uses_gold_data():
     assert mt5.requested[0][0:2] == ("XAUUSD.a", mt5.TIMEFRAME_M15)
 
 
-@pytest.mark.parametrize("symbol", ["EURUSD", "GBPUSD", "BTCUSD"])
+@pytest.mark.parametrize("symbol", ["GBPUSD", "BTCUSD"])
 def test_history_rejects_noncanonical_symbol(symbol):
     mt5 = FakeMT5([gold_symbol()])
     history = MT5History(mt5_module=mt5)
@@ -117,3 +117,29 @@ def test_history_accepts_broker_alias_input_and_keeps_canonical_data_symbol():
     )
     assert result.empty
     assert mt5.selected == [("XAUUSD.a", True)]
+
+def test_eurusd_history_requires_verified_currency_metadata():
+    rates = [{
+        "time": 1_800_000_000, "open": 1.10, "high": 1.11,
+        "low": 1.09, "close": 1.105, "tick_volume": 20,
+    }]
+    euro = SimpleNamespace(name="EURUSDm", currency_base="EUR", currency_profit="USD")
+    mt5 = FakeMT5([gold_symbol(), euro], rates=rates)
+    frame = MT5History(mt5_module=mt5).fetch(
+        "EURUSD", "M15",
+        datetime(2026, 1, 1, tzinfo=timezone.utc),
+        datetime(2026, 1, 2, tzinfo=timezone.utc),
+    )
+    assert len(frame) == 1
+    assert mt5.selected == [("EURUSDm", True)]
+
+
+def test_eurusd_rejects_unverified_broker_alias():
+    fake = SimpleNamespace(name="EURUSDm", currency_base="GBP", currency_profit="USD")
+    mt5 = FakeMT5([fake])
+    with pytest.raises(ValueError, match="No verified EURUSD"):
+        MT5History(mt5_module=mt5).fetch(
+            "EURUSD", "M15",
+            datetime(2026, 1, 1, tzinfo=timezone.utc),
+            datetime(2026, 1, 2, tzinfo=timezone.utc),
+        )
