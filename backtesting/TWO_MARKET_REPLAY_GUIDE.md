@@ -43,3 +43,25 @@ The CLI prints a summary and writes an auditable event JSON. It does **not** gua
 - No external MT5 orders are submitted. Test and audit before any attempt to connect order execution.
 - Broker min-lot and account-size constraints may reject all trades. Do not override safety limits to manufacture results.
 - Tests are committed but have not been run on the user's local machine. Provide test output and actual historical data/specifications for the next integration stage.
+
+## New integration: multi-timeframe candidate and browser replay
+After exporting actual broker history and completing verified `broker_specs.json`:
+
+```powershell
+python -m backtesting.export_mt5_history --start 2025-10-01 --end 2026-11-20
+python -m backtesting.run_two_market_replay --eurusd market_data/storage/EURUSD_M15.csv --gold market_data/storage/XAUUSD_M15.csv --specs broker_specs.json --data-dir market_data/storage --strategy multitimeframe --start 2026-01-01T00:00:00Z --balance 500 --out two_market_replay.json
+python -m backtesting.replay_viewer --eurusd market_data/storage/EURUSD_M15.csv --gold market_data/storage/XAUUSD_M15.csv --ledger two_market_replay.json --out two_market_replay.html
+start .\\two_market_replay.html
+```
+
+The multi-timeframe candidate uses existing research-only D1/H4/H1/M15 structure and M15 sweep/MSS/FVG-retest scanners. It **does not yet validate** all proposed ICT rules, macro calendar, session, margin, or news exclusions. It may produce zero entries. It is **not authorized for MT5 orders**.
+
+The HTML viewer is a standalone **offline historical chart** with market selector, candle stepping, play/pause/speed and simulated trade markers. It reads the generated ledger; it does not compute new signals or fetch market data. Its displayed balance is last realized closed-trade balance, not live mark-to-market equity. The simulation's current timestamp/fill assumptions, partial position management, cross-symbol ordering, day-loss and cost model still need deeper audit before using results to judge profitability.
+
+For initial integration tests:
+```powershell
+python -m pytest market_data/tests/test_mt5_history.py backtesting/tests/test_export_mt5_history.py backtesting/tests/test_two_market_replay.py backtesting/tests/test_run_two_market_replay.py backtesting/tests/test_multitimeframe_viewer.py -q
+```
+
+### Walk-forward research
+`backtesting/walk_forward_research.py` adds a *fixed-rule sweep baseline* lookback comparison on chronological validation/test segments. It is not AI learning and does not fit the proposed ICT strategy. It is not connected to the main CLI yet; it requires independent testing and calibration before relying on it.
