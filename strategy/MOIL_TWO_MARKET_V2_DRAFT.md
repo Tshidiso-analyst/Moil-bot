@@ -71,3 +71,12 @@ E. Only then consider persistent paper-trading simulation.
 - The simulator requires an explicit ZAR-per-price-unit-per-lot conversion for each symbol, spread, slippage, broker lot limits and commission. Do not run with invented broker specs and call the results realistic.
 - Next required integration: source-reviewed causal signal_fn, MT5 history importer, actual contract/currency conversion, shared portfolio risk checks including POI budgets and daily mark-to-market loss, reproducible January data replay, browser visualization and walk-forward holdout tests.
 - Windows checkout: `git status --short`, then (only if safe) `git pull --ff-only origin codex/xauusd-market-data-safety`, then `python -m pytest backtesting/tests/test_two_market_replay.py -q`. Fix any failures before using results.
+
+## Integration checkpoint — additional code, not a validated full strategy
+- `market_data/mt5_history.py` and `backtesting/export_mt5_history.py`: read-only MT5 EURUSD/XAUUSD D1/H4/H1/M15 history export, with broker symbol metadata verification.
+- `backtesting/multitimeframe_candidate.py`: closed-bar research-only multi-timeframe adapter using existing top-down and sweep/MSS/FVG scanners; connected via `--strategy multitimeframe --data-dir ...`. This is **not** the full source-approved strategy and has no validated news/session/margin gates.
+- `backtesting/replay_viewer.py`: offline browser candle replay with event markers; not a live MT5 trading board.
+- `backtesting/walk_forward_research.py`: fixed-rule sweep lookback selection on validation and subsequent test; not autonomous learning, and not yet connected to main replay CLI.
+- Added integration tests, **not executed on local Windows or by this GitHub editing environment**.
+- Blocking gaps before calling the backtest complete: verified broker historical datasets and cost/contract/FX specs; reliable news exclusions; broker margin validation; realistic open-equity mark-to-market and target milestone; fully chronological multi-symbol event timing; partial exits and POI risk aggregation; independent source validation; full regression test suite; out-of-sample performance reports.
+- Do not activate demo/live MT5 orders. Do not represent a replay or simulated R500-to-R20,000 goal as achieved.
