@@ -64,3 +64,10 @@ E. Only then consider persistent paper-trading simulation.
 - Report target progress, net return, time to target, peak-to-trough drawdown, number of trades, risk of ruin and sensitivity to broker costs. Compare 1% vs proposed 2% per-trade risk with combined POI budget and all existing portfolio constraints.
 - No doubling down, martingale, revenge trading, forced signals, or risk-limit relaxation to reach target. If minimum broker volume would exceed the R10 2%-risk allowance on ZAR 500, reject that trade and show the reason.
 - Replay remains simulated and does not submit MT5 broker orders. Performance from historical data does not establish future profitability.
+
+## Implementation checkpoint (2026-11-19)
+- Added `backtesting/two_market_replay.py` as an **offline, caller-supplied signal** historical trade/event simulator. It does not yet generate ICT/SMC signals, download MT5 history, compute account margin, display chart playback, mark open-position equity to market, or train parameters. Its current target flag checks ending realized balance only. No demo/live broker order submission.
+- Added `backtesting/tests/test_two_market_replay.py` for basic fill chronology, ambiguous stop-first candles, minimum-lot rejection, symbol scope and combined position cap. Tests have been committed but **not executed in this environment**.
+- The simulator requires an explicit ZAR-per-price-unit-per-lot conversion for each symbol, spread, slippage, broker lot limits and commission. Do not run with invented broker specs and call the results realistic.
+- Next required integration: source-reviewed causal signal_fn, MT5 history importer, actual contract/currency conversion, shared portfolio risk checks including POI budgets and daily mark-to-market loss, reproducible January data replay, browser visualization and walk-forward holdout tests.
+- Windows checkout: `git status --short`, then (only if safe) `git pull --ff-only origin codex/xauusd-market-data-safety`, then `python -m pytest backtesting/tests/test_two_market_replay.py -q`. Fix any failures before using results.
