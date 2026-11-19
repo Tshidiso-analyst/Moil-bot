@@ -17,6 +17,7 @@ from pathlib import Path
 import pandas as pd
 
 from backtesting.two_market_replay import Instrument, replay, save_replay
+from backtesting.multitimeframe_candidate import make_multitimeframe_signal
 
 
 def sweep_reclaim_candidate(symbol, history):
@@ -54,17 +55,32 @@ def main(argv=None):
     parser.add_argument("--out", default="two_market_replay.json")
     parser.add_argument("--start", default="2026-01-01T00:00:00Z")
     parser.add_argument("--balance", type=float, default=500.0)
+    parser.add_argument("--strategy", choices=["baseline", "multitimeframe"], default="baseline")
+    parser.add_argument("--data-dir", help="Directory with SYMBOL_D1/H4/H1/M15.csv for multitimeframe mode")
     args = parser.parse_args(argv)
     raw = json.loads(Path(args.specs).read_text(encoding="utf-8"))
     if set(raw) != {"EURUSD", "XAUUSD"}:
         parser.error("Specs must contain exactly EURUSD and XAUUSD")
     instruments = {s: Instrument(symbol=s, **raw[s]) for s in raw}
     candles = {"EURUSD": pd.read_csv(args.eurusd), "XAUUSD": pd.read_csv(args.gold)}
-    result = replay(candles, instruments, sweep_reclaim_candidate,
+    signal = sweep_reclaim_candidate
+    if args.strategy == "multitimeframe":
+        if not args.data_dir:
+            parser.error("--data-dir is required for multitimeframe strategy")
+        datasets = {}
+        for symbol in ("EURUSD", "XAUUSD"):
+            datasets[symbol] = {}
+            for tf in ("D1", "H4", "H1", "M15"):
+                file = Path(args.data_dir) / f"{symbol}_{tf}.csv"
+                if not file.is_file():
+                    parser.error(f"Missing historical dataset: {file}")
+                datasets[symbol][tf] = pd.read_csv(file)
+        signal = make_multitimeframe_signal(datasets)
+    result = replay(candles, instruments, signal,
                     starting_zar=args.balance, start=args.start)
     save_replay(result, args.out)
     print(json.dumps({
-        "mode": "UNVALIDATED SWEEP/RECLAIM BASELINE; HISTORICAL SIMULATION ONLY",
+        "mode": f"UNVALIDATED {args.strategy.upper()} RESEARCH; HISTORICAL SIMULATION ONLY",
         "start": args.start, "starting_zar": result["starting_zar"],
         "ending_balance_zar": result["ending_balance_zar"],
         "closed_trades": len(result["closed_trades"]),
