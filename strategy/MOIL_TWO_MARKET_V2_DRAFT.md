@@ -14,7 +14,9 @@ Audit actual PDF text with page references and actual video transcripts with tim
 - For EURUSD, evaluate USD/EUR economic calendar (ECB, Fed, CPI, employment, PMI, rate decisions), and USD/EUR macro context only if verified. Do not reuse gold-specific point values, pip sizes, session statistics or macro-direction heuristics.
 
 ## Portfolio-wide risk
-- Maximum 1% of min(balance,equity) risk per trade across both symbols; never increase volume to meet a preferred lot size.
+- **Proposed for backtesting only:** maximum 2% of min(balance,equity) risk per trade across both symbols; never increase volume to meet a preferred lot size. This is not a change to the existing execution-engine 1% hard limit.
+- For two entries at the same POI, test a combined 2% risk budget (e.g. 1% each), rather than assuming two independent 2% entries. Liquidity sweeps do not justify widening stops or increasing exposure after a loss.
+- Compare 1% and 2% sizing in backtests, including stop-outs caused by liquidity sweeps and portfolio drawdown.
 - At most 10 new entries per America/New_York day **combined across EURUSD and XAUUSD**; max 3 simultaneous positions combined; max 3% aggregate risk exposure; 5% daily loss halt.
 - 0.02 lots is a preference, not an override of broker min/step, margin or risk cap. Reject orders when minimum volume breaches budget.
 - No live/demo MT5 order execution is authorized.
