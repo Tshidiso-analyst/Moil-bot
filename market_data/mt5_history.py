@@ -42,6 +42,26 @@ class MT5History:
     def shutdown(self) -> None:
         self.mt5.shutdown()
 
+    def _resolve_eurusd(self) -> str:
+        """Choose a broker EUR/USD symbol using explicit currency metadata.
+
+        No fallback to similarly named symbols without EUR and USD metadata.
+        """
+        candidates = []
+        for item in self.mt5.symbols_get() or ():
+            name = str(getattr(item, "name", "") or "").strip()
+            upper = name.upper()
+            if not upper.startswith("EURUSD"):
+                continue
+            if str(getattr(item, "currency_base", "")).upper() != "EUR":
+                continue
+            if str(getattr(item, "currency_profit", "")).upper() != "USD":
+                continue
+            candidates.append(name)
+        if not candidates:
+            raise ValueError("No verified EURUSD symbol in MT5 Market Watch.")
+        return sorted(candidates, key=lambda x: (x.upper() != "EURUSD", len(x), x.upper()))[0]
+
     def fetch(
         self,
         symbol: str,
@@ -49,7 +69,7 @@ class MT5History:
         start: datetime,
         end: datetime,
     ) -> pd.DataFrame:
-        requested = canonicalize_symbol(symbol)
+        requested = "EURUSD" if str(symbol).strip().upper() == "EURUSD" else canonicalize_symbol(symbol)
 
         timeframe = str(timeframe).upper()
         if timeframe not in TIMEFRAME_NAMES:
@@ -58,10 +78,10 @@ class MT5History:
         if start >= end:
             raise ValueError("start must be before end.")
 
-        actual_symbol = resolve_mt5_symbol("XAUUSD", self.mt5)
+        actual_symbol = resolve_mt5_symbol("XAUUSD", self.mt5) if requested == "XAUUSD" else self._resolve_eurusd()
         if not self.mt5.symbol_select(actual_symbol, True):
             raise RuntimeError(
-                f"Unable to select verified XAUUSD broker symbol: {actual_symbol}"
+                f"Unable to select verified {requested} broker symbol: {actual_symbol}"
             )
 
         timeframe_value = getattr(self.mt5, f"TIMEFRAME_{timeframe}", None)
@@ -77,7 +97,7 @@ class MT5History:
 
         if rates is None:
             raise RuntimeError(
-                f"Unable to retrieve XAUUSD rates: {self.mt5.last_error()}"
+                f"Unable to retrieve {requested} rates: {self.mt5.last_error()}"
             )
 
         dataframe = pd.DataFrame(rates)
@@ -114,12 +134,12 @@ def save_history(
     timeframe: str,
     directory: str = "market_data/storage",
 ) -> Path:
-    canonical_symbol = canonicalize_symbol(symbol)
+    canonical_symbol = "EURUSD" if str(symbol).strip().upper() == "EURUSD" else canonicalize_symbol(symbol)
 
     path = Path(directory)
     path.mkdir(parents=True, exist_ok=True)
 
-    filename = f"XAUUSD_{timeframe}.csv"
+    filename = f"{canonical_symbol}_{timeframe}.csv"
     output = path / filename
 
     dataframe.to_csv(output, index=False)
