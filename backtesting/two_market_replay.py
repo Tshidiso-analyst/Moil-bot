@@ -94,7 +94,9 @@ def replay(
         raise ValueError("Invalid portfolio risk or reward")
     if max_open < 1 or max_daily_entries < 1:
         raise ValueError("Invalid position limits")
-    if not candles or set(candles) != set(instruments) or not set(candles) <= SYMBOLS:
+    if not candles or not set(candles) <= SYMBOLS or not set(instruments) <= SYMBOLS:
+        raise ValueError("Only EURUSD and XAUUSD are supported")
+    if set(candles) != set(instruments):
         raise ValueError("Supply matching EURUSD/XAUUSD data and instruments")
     if not callable(signal_fn):
         raise ValueError("signal_fn must be callable")
